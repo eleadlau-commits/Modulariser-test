@@ -1,0 +1,16 @@
+{
+ "id": "x45-seq-install",
+ "domain": "sequence",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "To install: download the zip, extract it, open a terminal in the folder, run ./configure, then make, then sudo make install, and finally run the binary with --version to check it worked.",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

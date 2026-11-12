@@ -1,0 +1,219 @@
+{
+ "id": "x47-airbnb",
+ "domain": "holiday let host",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "running our two holiday lets. bookings come from two listing sites, a channel manager syncs both calendars so we don't double book. guest messages: welcome message with door code sent automatically 2 days before arrival, door codes set in the smart lock app. cleaner gets the changeover schedule from the channel manager calendar. laundry service picks up linen after each changeover. reviews: we review guests after checkout. income from both sites goes into the spreadsheet for tax. maintenance jobs noted by the cleaner in the shared notes.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "listing sites"
+  },
+  {
+   "id": "g2",
+   "text": "channel manager"
+  },
+  {
+   "id": "g3",
+   "text": "welcome message"
+  },
+  {
+   "id": "g4",
+   "text": "smart lock app"
+  },
+  {
+   "id": "g5",
+   "text": "changeover schedule"
+  },
+  {
+   "id": "g6",
+   "text": "clean the property"
+  },
+  {
+   "id": "g7",
+   "text": "laundry pickup"
+  },
+  {
+   "id": "g8",
+   "text": "review guests"
+  },
+  {
+   "id": "g9",
+   "text": "income spreadsheet"
+  },
+  {
+   "id": "g10",
+   "text": "maintenance notes"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How is double booking avoided?",
+   "a": "the channel manager syncs calendars",
+   "needs": [
+    "g2",
+    "g1"
+   ]
+  },
+  {
+   "q": "What does the welcome message contain?",
+   "a": "the door code from the smart lock app",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "Where does the cleaner's schedule come from?",
+   "a": "the channel manager calendar",
+   "needs": [
+    "g5",
+    "g2"
+   ]
+  },
+  {
+   "q": "What happens after cleaning?",
+   "a": "laundry pickup",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "Where is income tracked?",
+   "a": "the income spreadsheet",
+   "needs": [
+    "g9"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "add a third listing site",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "name": "new lock brand",
+   "touches": [
+    "g4",
+    "g3"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g8"
+     ]
+    },
+    {
+     "name": "Guest access",
+     "owns": [
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Changeovers",
+     "owns": [
+      "g5",
+      "g6",
+      "g7",
+      "g10"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g9"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Guest access",
+     "owns": [
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Changeovers",
+     "owns": [
+      "g5",
+      "g6",
+      "g7",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

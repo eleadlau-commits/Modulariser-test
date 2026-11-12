@@ -1,0 +1,217 @@
+{
+ "id": "x42-laundry",
+ "domain": "laundromat with service washes",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "laundrette. self service machines take coins and the card reader, card payments go to the merchant account. service washes: customer drops a bag, we weigh it and write a ticket with price per kg from the price board, wash and dry it, fold, bag with the ticket. collected and paid at the counter. machines break, so faults go in the fault book and the engineer visits weekly. detergent and softener reordered from the supplier when the cupboard is half empty.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "coin and card machines"
+  },
+  {
+   "id": "g2",
+   "text": "merchant account"
+  },
+  {
+   "id": "g3",
+   "text": "weigh the bag"
+  },
+  {
+   "id": "g4",
+   "text": "service wash ticket"
+  },
+  {
+   "id": "g5",
+   "text": "price board"
+  },
+  {
+   "id": "g6",
+   "text": "wash and dry"
+  },
+  {
+   "id": "g7",
+   "text": "fold and bag"
+  },
+  {
+   "id": "g8",
+   "text": "collect and pay"
+  },
+  {
+   "id": "g9",
+   "text": "fault book"
+  },
+  {
+   "id": "g10",
+   "text": "engineer visit"
+  },
+  {
+   "id": "g11",
+   "text": "reorder detergent"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How is a service wash priced?",
+   "a": "weight times price per kg from the price board",
+   "needs": [
+    "g4",
+    "g3",
+    "g5"
+   ]
+  },
+  {
+   "q": "Where do card payments go?",
+   "a": "the merchant account",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "How are broken machines handled?",
+   "a": "logged in the fault book, engineer weekly",
+   "needs": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "When is detergent reordered?",
+   "a": "when the cupboard is half empty",
+   "needs": [
+    "g11"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "price rise",
+   "touches": [
+    "g5"
+   ]
+  },
+  {
+   "name": "new card provider",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Self service",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Service wash",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Maintenance",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Supplies",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Payments",
+     "owns": [
+      "g1",
+      "g2",
+      "g8"
+     ]
+    },
+    {
+     "name": "Service wash",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Upkeep",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

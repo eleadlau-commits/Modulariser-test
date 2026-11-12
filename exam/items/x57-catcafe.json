@@ -1,0 +1,248 @@
+{
+ "id": "x57-catcafe",
+ "domain": "cat café",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "cat café. visits are booked in 1-hour slots online, slot limit is set by the cat welfare rules (max visitors per cat). house rules briefing at the door. café side: menu, food hygiene stuff, the kitchen. cat side: the resident cats come from the rescue partner and can be adopted, adoption enquiries forwarded to the rescue. vet visits monthly, health log per cat. cat room cleaning twice a day with the cleaning rota. the welfare lead can close the cat room if cats are stressed, which cancels slots.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "book slots"
+  },
+  {
+   "id": "g2",
+   "text": "slot limit"
+  },
+  {
+   "id": "g3",
+   "text": "cat welfare rules"
+  },
+  {
+   "id": "g4",
+   "text": "house rules briefing"
+  },
+  {
+   "id": "g5",
+   "text": "café menu"
+  },
+  {
+   "id": "g6",
+   "text": "kitchen"
+  },
+  {
+   "id": "g7",
+   "text": "rescue partner"
+  },
+  {
+   "id": "g8",
+   "text": "forward adoption enquiries"
+  },
+  {
+   "id": "g9",
+   "text": "monthly vet visits"
+  },
+  {
+   "id": "g10",
+   "text": "health log"
+  },
+  {
+   "id": "g11",
+   "text": "clean the cat room"
+  },
+  {
+   "id": "g12",
+   "text": "cleaning rota"
+  },
+  {
+   "id": "g13",
+   "text": "close the cat room"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g1",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g1",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What sets the slot limit?",
+   "a": "the cat welfare rules",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "Where do adoption enquiries go?",
+   "a": "the rescue partner",
+   "needs": [
+    "g8",
+    "g7"
+   ]
+  },
+  {
+   "q": "What happens when the cat room closes?",
+   "a": "slots are cancelled",
+   "needs": [
+    "g13",
+    "g1"
+   ]
+  },
+  {
+   "q": "Where is cat health recorded?",
+   "a": "the health log, from vet visits",
+   "needs": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "How is the cat room kept clean?",
+   "a": "twice daily from the cleaning rota",
+   "needs": [
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change welfare rules",
+   "touches": [
+    "g3",
+    "g2"
+   ]
+  },
+  {
+   "name": "new rescue partner",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g4"
+     ]
+    },
+    {
+     "name": "Café",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Cat welfare",
+     "owns": [
+      "g3",
+      "g9",
+      "g10",
+      "g13"
+     ]
+    },
+    {
+     "name": "Adoption",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Cleaning",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g4"
+     ]
+    },
+    {
+     "name": "Café",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Cats",
+     "owns": [
+      "g3",
+      "g9",
+      "g10",
+      "g13",
+      "g7",
+      "g8",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}

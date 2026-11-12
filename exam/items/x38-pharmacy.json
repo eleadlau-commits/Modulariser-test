@@ -1,0 +1,280 @@
+{
+ "id": "x38-pharmacy",
+ "domain": "community pharmacy",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "pharmacy flow. prescriptions arrive electronically from GPs into the PMR system (or paper). dispenser labels and picks from the dispensary shelves, pharmacist does the clinical and accuracy check before bagging. controlled drugs are logged in the CD register and kept in the CD cabinet. stock is ordered twice daily from the wholesaler via the PMR's ordering screen based on what was dispensed. owings slips given when we're out of stock. NHS claims submitted monthly from the PMR. delivery driver takes bagged scripts to housebound patients with a signature sheet.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "receive prescriptions"
+  },
+  {
+   "id": "g2",
+   "text": "PMR system"
+  },
+  {
+   "id": "g3",
+   "text": "label and pick"
+  },
+  {
+   "id": "g4",
+   "text": "dispensary shelves"
+  },
+  {
+   "id": "g5",
+   "text": "pharmacist check"
+  },
+  {
+   "id": "g6",
+   "text": "bag the prescription"
+  },
+  {
+   "id": "g7",
+   "text": "CD register"
+  },
+  {
+   "id": "g8",
+   "text": "CD cabinet"
+  },
+  {
+   "id": "g9",
+   "text": "order stock"
+  },
+  {
+   "id": "g10",
+   "text": "owings slips"
+  },
+  {
+   "id": "g11",
+   "text": "NHS claims"
+  },
+  {
+   "id": "g12",
+   "text": "home delivery"
+  },
+  {
+   "id": "g13",
+   "text": "signature sheet"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What happens before bagging?",
+   "a": "the pharmacist's clinical and accuracy check",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "Where are controlled drugs recorded?",
+   "a": "the CD register",
+   "needs": [
+    "g7"
+   ]
+  },
+  {
+   "q": "What drives stock orders?",
+   "a": "what was dispensed, via the PMR",
+   "needs": [
+    "g9",
+    "g2"
+   ]
+  },
+  {
+   "q": "How are NHS claims made?",
+   "a": "monthly from the PMR",
+   "needs": [
+    "g11",
+    "g2"
+   ]
+  },
+  {
+   "q": "How is home delivery recorded?",
+   "a": "a signature sheet",
+   "needs": [
+    "g12",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new PMR system",
+   "touches": [
+    "g2",
+    "g1",
+    "g9",
+    "g11"
+   ]
+  },
+  {
+   "name": "change wholesaler",
+   "touches": [
+    "g9"
+   ]
+  },
+  {
+   "name": "new CD rules",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Dispensing",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Controlled drugs",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Stock",
+     "owns": [
+      "g9"
+     ]
+    },
+    {
+     "name": "Claims",
+     "owns": [
+      "g11"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2",
+      "g11"
+     ]
+    },
+    {
+     "name": "Dispensing",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g10",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Stock",
+     "owns": [
+      "g9"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

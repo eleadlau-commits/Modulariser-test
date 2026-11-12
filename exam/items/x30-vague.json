@@ -1,0 +1,16 @@
+{
+ "id": "x30-vague",
+ "domain": "vague",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "our onboarding is broken. people join and stuff doesn't get done. can you split it into proper pieces?",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

@@ -1,0 +1,267 @@
+=== x51-council-bins | council waste collection | real | https://www.gov.uk/rubbish-collection-day | OGL v3 (paraphrased) | ok
+how bin collections work at the council (from the ops team). rounds are planned in the routing software using the property gazetteer (every address with its bin types). crews get their round on the in-cab tablet, which also records missed bins and contaminated recycling (they tag the bin and photo it). residents report missed bins online, reports go into the CRM and cross-check against the tablet records before a return visit is booked. garden waste is a paid subscription, subscriber list comes from the payments system into the gazetteer flags. trucks are maintained at the depot workshop, vehicle checks done daily by drivers on the tablet. tonnages from the weighbridge go to the recycling performance return each quarter.
+---
+el plan: plan rounds
+el routing: routing software
+el gaz: property gazetteer
+el tablet: in-cab tablet
+el contam: tag contaminated recycling
+el report: report a missed bin
+el crm: CRM
+el return: book a return visit
+el garden: garden waste subscriptions
+el payments: payments system
+el workshop: depot workshop
+el vcheck: daily vehicle checks
+el weigh: weighbridge tonnages
+el perf: performance return
+edges: plan>routing, plan>gaz, tablet>routing, contam>tablet, report>crm, return>crm, return>tablet, garden>payments, gaz>garden, vcheck>tablet, workshop>vcheck, perf>weigh
+q: What are rounds planned from? | the property gazetteer in the routing software | plan,routing,gaz
+q: How are missed-bin reports checked? | against tablet records before a return visit | return,crm,tablet
+q: How does the gazetteer know who has garden waste? | the subscriber list from payments | gaz,garden,payments
+q: How is contaminated recycling recorded? | tagged and photographed on the tablet | contam,tablet
+q: What feeds the performance return? | weighbridge tonnages | perf,weigh
+ch: new routing software | routing,plan,tablet
+ch: garden waste price change | garden,payments
+ch: new CRM | crm,report,return
+cut: five parts: Planning=plan,routing,gaz; Crews=tablet,contam; Customer service=report,crm,return; Subscriptions=garden,payments; Fleet=workshop,vcheck; Reporting=weigh,perf
+cut: four parts: Planning=plan,routing,gaz,garden,payments; Crews=tablet,contam,vcheck,workshop; Customer service=report,crm,return; Reporting=weigh,perf
+
+=== x52-carrental | car rental branch | synthetic | hand-written | CC0 | ok
+Hi team,
+Writing down how the branch runs because we keep getting it wrong. Reservations come from the central booking system; the branch pulls tomorrow's list every afternoon. Fleet controller assigns a car from the fleet list (by group and mileage). Prep team valets and fuels it and does the damage check on the check-out sheet with photos. At the counter, agent checks licence (DVLA check code) and takes the deposit hold on the card. On return, damage check again against the check-out sheet, any new damage goes to the damage claims team who bill the customer's deposit. Mileage and fuel recorded back into the fleet list. Cars due service are flagged by mileage in the fleet list and booked into the dealer.
+Cheers, Ines
+---
+el central: central booking system
+el list: tomorrow's reservation list
+el assign: assign a car
+el fleet: fleet list
+el prep: valet and fuel
+el checkout: check-out sheet
+el licence: licence check
+el deposit: deposit hold
+el returncheck: return damage check
+el claims: damage claims
+el record: record mileage and fuel
+el service: book services
+edges: list>central, assign>fleet, assign>list, prep>assign, prep>checkout, licence>>deposit, returncheck>checkout, claims>returncheck, claims>deposit, record>fleet, service>fleet, prep>>licence
+q: How is a car chosen? | the fleet controller assigns from the fleet list | assign,fleet
+q: What is return damage compared against? | the check-out sheet | returncheck,checkout
+q: How is new damage charged? | the claims team bills the deposit | claims,deposit
+q: How are services triggered? | mileage flags in the fleet list | service,fleet
+q: What is checked at the counter? | licence and deposit hold | licence,deposit
+ch: new booking system | central,list
+ch: digital damage checks | checkout,returncheck,prep
+ch: change deposit policy | deposit,claims
+cut: five parts: Reservations=central,list; Fleet=assign,fleet,record,service; Prep=prep,checkout; Counter=licence,deposit; Damage=returncheck,claims
+cut: four parts: Reservations=central,list; Fleet=assign,fleet,record,service; Prep and damage=prep,checkout,returncheck,claims; Counter=licence,deposit
+
+=== x53-tattoo | tattoo studio | synthetic | hand-written | CC0 | partial
+tattoo studio run-down. clients DM on instagram, artist replies and does a consultation (design idea, placement, size). booking goes in the studio diary with a non-refundable deposit. artist draws the design before the day. on the day: consent form and ID check (18+), aftercare sheet given at the end. sterilisation: single-use needles, autoclave for grips, autoclave log kept. council licence inspection yearly, they look at the autoclave log and consent forms. the deposit money is argued over: the artists say deposits are theirs (they did the drawing), the studio owner says deposits go to the studio till. not resolved.
+---
+el dm: Instagram DMs
+el consult: consultation
+el diary: studio diary
+el deposit: deposits
+el draw: draw the design
+el consent: consent form
+el id: ID check
+el aftercare: aftercare sheet
+el autoclave: autoclave grips
+el log: autoclave log
+el inspect: council inspection
+edges: dm>>consult, consult>>draw, deposit>diary, draw>consult, consent>>aftercare, id>>consent, autoclave>log, inspect>log, inspect>consent
+q: What happens before the design is drawn? | a consultation | consult,draw
+q: What is checked on the day? | ID and consent form | id,consent
+q: What does the council inspect? | the autoclave log and consent forms | inspect,log,consent
+q: Who owns deposits? | disputed between artists and the studio | deposit
+q: Where are bookings recorded? | the studio diary | diary
+ch: new booking app | diary,dm
+ch: new licence conditions | inspect,consent,log
+cut: four parts: Artist=dm,consult,draw; Front desk=diary,deposit,consent,id,aftercare; Hygiene=autoclave,log; Compliance=inspect
+cut: four parts alt: Artist=dm,consult,draw,deposit; Front desk=diary,consent,id,aftercare; Hygiene=autoclave,log; Compliance=inspect
+
+=== x54-mobilesupport | mobile app customer support | synthetic | hand-written | CC0 | ok
+support for our app. users contact us from the in-app help button, which creates a ticket in the helpdesk with device info attached. tier 1 answers from the help centre articles (macros). if it's a bug, tier 1 reproduces it and files an issue in the engineering tracker with the ticket link. engineering fixes go out in the next app release; release notes list fixed issues. when an issue is closed the helpdesk integration reopens linked tickets so tier 1 can tell the user. refunds are via the app stores, we only send the user the link. CSAT survey after a ticket closes, scores go to the support dashboard.
+---
+el button: in-app help button
+el helpdesk: helpdesk tickets
+el articles: help centre articles
+el answer: tier 1 answers
+el repro: reproduce the bug
+el tracker: engineering tracker
+el fix: fix the bug
+el release: app release
+el notes: release notes
+el reopen: reopen linked tickets
+el refund: send refund link
+el csat: CSAT survey
+el dash: support dashboard
+edges: button>helpdesk, answer>articles, answer>helpdesk, repro>helpdesk, repro>>fix, fix>tracker, release>fix, notes>tracker, reopen>tracker, reopen>helpdesk, csat>helpdesk, dash>csat, repro>tracker
+q: What creates a ticket? | the in-app help button | button,helpdesk
+q: How does a bug reach engineering? | tier 1 reproduces it and files it in the tracker | repro,tracker
+q: How is the user told about a fix? | closing the issue reopens linked tickets | reopen,tracker,helpdesk
+q: What do release notes list? | fixed issues from the tracker | notes,tracker
+q: Where do CSAT scores go? | the support dashboard | csat,dash
+ch: new helpdesk tool | helpdesk,button,reopen,csat
+ch: weekly releases | release,notes
+cut: four parts: Intake=button,helpdesk; Tier 1=articles,answer,repro,refund; Engineering=tracker,fix,release,notes; Integration=reopen; Quality=csat,dash
+cut: three parts: Support=button,helpdesk,articles,answer,repro,refund,reopen; Engineering=tracker,fix,release,notes; Quality=csat,dash
+
+=== x55-beekeeping | beekeeping association apiary | synthetic | hand-written | CC0 | ok
+association apiary. members inspect hives weekly in season, inspection notes go on the hive record cards (queen seen, brood, disease signs). swarm calls from the public go to the swarm coordinator who sends a member and logs it. varroa treatment in autumn, timing from mite counts on the record cards, treatment recorded for the vet medicine log (legal requirement). honey harvest in August, extracted in the shared extraction room booked on the room calendar, jars labelled with the association label. honey sales money to the treasurer. beginners course each spring uses the apiary hives.
+---
+el inspect: inspect hives
+el cards: hive record cards
+el swarm: swarm calls
+el swarmlog: swarm log
+el treat: varroa treatment
+el mites: mite counts
+el medlog: vet medicine log
+el harvest: harvest honey
+el room: extraction room calendar
+el label: label jars
+el sales: honey sales
+el course: beginners course
+edges: inspect>cards, swarm>swarmlog, treat>mites, mites>cards, treat>medlog, harvest>room, harvest>>label, sales>label, course>inspect
+q: What decides varroa treatment timing? | mite counts on the record cards | treat,mites,cards
+q: Where is treatment recorded? | the vet medicine log | treat,medlog
+q: How is extraction booked? | the extraction room calendar | harvest,room
+q: Who handles swarm calls? | the swarm coordinator, logged | swarm,swarmlog
+q: Where do sales go? | to the treasurer | sales
+ch: new treatment rules | treat,medlog
+ch: new label design | label
+cut: four parts: Hive care=inspect,cards,treat,mites,medlog; Swarms=swarm,swarmlog; Honey=harvest,room,label,sales; Education=course
+cut: three parts: Hive care=inspect,cards,treat,mites,medlog,course; Swarms=swarm,swarmlog; Honey=harvest,room,label,sales
+
+=== x56-print | print shop | synthetic | hand-written | CC0 | ok
+print shop workflow. customer uploads artwork on the web-to-print site or emails it. prepress checks it (bleed, resolution, colour mode) and sends a digital proof. once the proof is approved, job goes on the production schedule. litho jobs need plates made, digital jobs go straight to the press. finishing: cutting, folding, binding per the job ticket. dispatch packs and books the courier. paper stock is checked against the schedule weekly and ordered from the merchant.
+---
+el upload: upload artwork
+el prepress: prepress checks
+el proof: digital proof
+el schedule: production schedule
+el plates: make plates
+el press: print the job
+el ticket: job ticket
+el finish: finishing
+el dispatch: pack and dispatch
+el paper: order paper stock
+edges: prepress>upload, prepress>>proof, proof>>schedule, plates>schedule, press>schedule, plates>>press, finish>ticket, press>>finish, finish>>dispatch, paper>schedule, press>ticket
+q: What does prepress check? | bleed, resolution and colour mode | prepress
+q: What must happen before scheduling? | proof approval | proof,schedule
+q: Which jobs need plates? | litho jobs | plates,press
+q: What guides finishing? | the job ticket | finish,ticket
+q: How is paper ordered? | checked against the schedule weekly | paper,schedule
+ch: new web-to-print site | upload
+ch: new press | press,plates
+cut: four parts: Prepress=upload,prepress,proof; Production=schedule,plates,press,ticket; Finishing=finish,dispatch; Stock=paper
+cut: three parts: Prepress=upload,prepress,proof; Production=schedule,plates,press,ticket,paper; Finishing=finish,dispatch
+
+=== x57-catcafe | cat café | synthetic | hand-written | CC0 | ok
+cat café. visits are booked in 1-hour slots online, slot limit is set by the cat welfare rules (max visitors per cat). house rules briefing at the door. café side: menu, food hygiene stuff, the kitchen. cat side: the resident cats come from the rescue partner and can be adopted, adoption enquiries forwarded to the rescue. vet visits monthly, health log per cat. cat room cleaning twice a day with the cleaning rota. the welfare lead can close the cat room if cats are stressed, which cancels slots.
+---
+el book: book slots
+el slots: slot limit
+el welfare: cat welfare rules
+el brief: house rules briefing
+el menu: café menu
+el kitchen: kitchen
+el rescue: rescue partner
+el adopt: forward adoption enquiries
+el vet: monthly vet visits
+el health: health log
+el clean: clean the cat room
+el rota: cleaning rota
+el close: close the cat room
+edges: book>slots, slots>welfare, brief>>book, menu>kitchen, adopt>rescue, vet>health, clean>rota, close>welfare, close>book
+q: What sets the slot limit? | the cat welfare rules | slots,welfare
+q: Where do adoption enquiries go? | the rescue partner | adopt,rescue
+q: What happens when the cat room closes? | slots are cancelled | close,book
+q: Where is cat health recorded? | the health log, from vet visits | vet,health
+q: How is the cat room kept clean? | twice daily from the cleaning rota | clean,rota
+ch: change welfare rules | welfare,slots
+ch: new rescue partner | rescue,adopt
+cut: four parts: Bookings=book,slots,brief; Café=menu,kitchen; Cat welfare=welfare,vet,health,close; Adoption=rescue,adopt; Cleaning=clean,rota
+cut: three parts: Bookings=book,slots,brief; Café=menu,kitchen; Cats=welfare,vet,health,close,rescue,adopt,clean,rota
+
+=== x58-apprentice | engineering apprenticeship scheme | synthetic | hand-written | CC0 | partial
+apprentice scheme at the factory. HR advertises and runs assessment days, offers made with the training provider agreeing. each apprentice has a training plan agreed with the college, off-the-job hours logged in the e-portfolio. workplace mentor signs off competencies in the e-portfolio. levy funding drawn down monthly by finance from the apprenticeship service account. end-point assessment booked by the training provider when the mentor and college say ready. the e-portfolio itself is a problem, HR say they own it because it's about staff, the college say it's their learning record. nobody's settled it.
+---
+el advertise: advertise apprenticeships
+el assess: assessment days
+el offer: make offers
+el plan: training plan
+el college: college sessions
+el portfolio: e-portfolio
+el mentor: mentor sign-off
+el levy: levy drawdown
+el account: apprenticeship service account
+el epa: end-point assessment
+edges: advertise>>assess, assess>>offer, plan>college, college>portfolio, mentor>portfolio, levy>account, epa>mentor, epa>college, levy>offer
+q: Where are off-the-job hours logged? | the e-portfolio | college,portfolio
+q: How is levy funding drawn? | monthly by finance from the service account | levy,account
+q: When is end-point assessment booked? | when mentor and college say ready | epa,mentor,college
+q: Who owns the e-portfolio? | disputed between HR and the college | portfolio
+q: What precedes offers? | advertising and assessment days | advertise,assess,offer
+ch: new college | college,plan,epa
+ch: levy rule change | levy,account
+cut: four parts: Recruitment=advertise,assess,offer; Training=plan,college,portfolio,epa; Workplace=mentor; Funding=levy,account
+cut: four parts alt: Recruitment=advertise,assess,offer,portfolio; Training=plan,college,epa; Workplace=mentor; Funding=levy,account
+
+=== x59-hackathon | company hackathon | synthetic | hand-written | CC0 | ok
+hackathon planning. organisers pick a theme and dates, get exec sign-off for budget. sign-ups on the internal form, teams formed from the sign-up sheet (people can also come with a team). facilities books rooms and food from the budget. judges chosen by organisers, they use the judging rubric. demo day: teams present, judges score in the scoring sheet, winners announced on the intranet. prizes bought from the budget. follow-up: best projects go to the product council for possible funding.
+---
+el theme: pick theme and dates
+el signoff: exec budget sign-off
+el budget: budget
+el signup: sign-up form
+el teams: form teams
+el rooms: book rooms and food
+el judges: choose judges
+el rubric: judging rubric
+el demo: demo day
+el score: scoring sheet
+el announce: announce winners
+el prizes: buy prizes
+el council: product council review
+edges: theme>>signoff, signoff>budget, teams>signup, rooms>budget, score>rubric, demo>>score, announce>score, prizes>budget, council>announce, judges>rubric
+q: Where does the money come from? | the budget signed off by execs | budget,signoff
+q: How are teams formed? | from the sign-up sheet | teams,signup
+q: How do judges score? | the rubric, in the scoring sheet | score,rubric
+q: What happens to the best projects? | product council review | council,announce
+q: What is booked from the budget? | rooms, food and prizes | rooms,prizes,budget
+ch: new judging criteria | rubric,score
+ch: remote hackathon | rooms
+cut: five parts: Planning=theme,signoff,budget; Participants=signup,teams; Logistics=rooms,prizes; Judging=judges,rubric,demo,score,announce; Follow-up=council
+cut: four parts: Planning=theme,signoff,budget,rooms,prizes; Participants=signup,teams; Judging=judges,rubric,demo,score,announce; Follow-up=council
+
+=== x60-clinicaltrial | clinical trial site | real | https://www.hra.nhs.uk/ | paraphrased general practice | ok
+trial site ops at the hospital (research nurse view). study gets HRA approval and local capacity confirmation before we can open. screening: potential participants found from clinic lists, checked against the eligibility criteria in the protocol. informed consent taken by a delegated doctor or nurse (delegation log says who can do what). randomisation through the sponsor's online system. study visits follow the visit schedule in the protocol, data entered into the eCRF. adverse events reported to the sponsor within set times, serious ones within 24h. investigational drug from pharmacy, accountability log kept. monitor from the sponsor visits to check eCRF against source notes.
+---
+el approval: HRA approval
+el capacity: local capacity confirmation
+el screen: screen participants
+el protocol: protocol
+el consent: informed consent
+el delegation: delegation log
+el random: randomisation
+el visits: study visits
+el ecrf: eCRF
+el ae: report adverse events
+el drug: dispense the trial drug
+el account: drug accountability log
+el monitor: monitoring visits
+el source: source notes
+edges: approval>>capacity, capacity>>screen, screen>protocol, consent>delegation, screen>>consent, consent>>random, visits>protocol, visits>ecrf, ae>ecrf, drug>account, drug>random, monitor>ecrf, monitor>source
+q: What must happen before the site opens? | HRA approval and local capacity confirmation | approval,capacity
+q: Who can take consent? | delegated staff on the delegation log | consent,delegation
+q: How are participants allocated? | the sponsor's randomisation system | random
+q: What does the monitor compare? | the eCRF against source notes | monitor,ecrf,source
+q: What is screening checked against? | eligibility criteria in the protocol | screen,protocol
+q: How is trial drug tracked? | the accountability log | drug,account
+ch: protocol amendment | protocol,screen,visits
+ch: new eCRF system | ecrf,visits,ae,monitor
+ch: new pharmacy process | drug,account
+cut: five parts: Set-up=approval,capacity; Recruitment=screen,consent,delegation,random; Study conduct=protocol,visits,ecrf,ae; Pharmacy=drug,account; Monitoring=monitor,source
+cut: four parts: Set-up=approval,capacity,delegation; Recruitment=screen,consent,random; Study conduct=protocol,visits,ecrf,ae,monitor,source; Pharmacy=drug,account

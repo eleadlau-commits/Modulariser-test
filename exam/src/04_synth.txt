@@ -1,0 +1,236 @@
+=== x31-nursery | childcare nursery | synthetic | hand-written | CC0 | ok
+Priya: so parents register on the waiting list form and we offer places by date order when a room has space.
+Jon: and the room ratios decide space, the manager keeps the ratio sheet.
+Priya: yes. once they accept, they sign the contract and we collect the funding forms for the free hours, those go to the council for the funding claim each term.
+Jon: daily stuff: key workers write the daily diary in the parent app, nappies and meals and naps.
+Priya: allergies are on the child profile and the cook checks them against the menu every day.
+Jon: invoices go monthly, minus funded hours from the funding claim.
+Priya: oh and learning journals, key workers log observations against the EYFS goals.
+---
+el wait: waiting list
+el offer: offer places
+el ratio: ratio sheet
+el contract: sign the contract
+el forms: funding forms
+el claim: council funding claim
+el diary: daily diary
+el app: parent app
+el profile: child profile
+el menu: menu
+el cook: cook checks allergies
+el invoice: monthly invoices
+el journal: learning journal
+el eyfs: EYFS goals
+edges: offer>wait, offer>ratio, offer>>contract, claim>forms, diary>app, cook>profile, cook>menu, invoice>claim, journal>eyfs, journal>app, contract>>forms
+q: How are places offered? | by waiting list date when ratios allow | offer,wait,ratio
+q: What does the cook check? | allergies on the child profile against the menu | cook,profile,menu
+q: How are funded hours reflected in invoices? | deducted using the funding claim | invoice,claim
+q: Where is the daily diary written? | the parent app | diary,app
+q: What are observations logged against? | EYFS goals | journal,eyfs
+ch: new parent app | app,diary,journal
+ch: change ratio rules | ratio,offer
+ch: funding rate change | claim,invoice
+cut: five parts: Admissions=wait,offer,ratio,contract; Funding=forms,claim; Care=diary,app,journal,eyfs; Kitchen=profile,menu,cook; Billing=invoice
+cut: four parts: Admissions=wait,offer,ratio,contract; Finance=forms,claim,invoice; Care=diary,app,journal,eyfs; Kitchen=profile,menu,cook
+
+=== x32-codebase | web app codebase outline | synthetic | hand-written | CC0 | ok
+quick tour of the repo for the new dev. http handlers in api/ call the services, never the db directly. services/orders.py does order logic and uses the repo layer (repo/orders_repo.py) for SQL. payments go through services/payments.py which wraps the Stripe client, and orders calls payments.charge(). auth middleware checks the JWT on every request using the keys in config. emails are sent by a background worker reading the job queue; orders service puts "order_confirmed" jobs on the queue. config/ loads env vars. migrations/ holds the schema changes, repo layer depends on that schema. there's a CLI for admin tasks that also calls services.
+---
+el handlers: HTTP handlers
+el orders: orders service
+el repo: orders repository
+el payments: payments service
+el stripe: Stripe client
+el auth: auth middleware
+el config: config loader
+el worker: email worker
+el queue: job queue
+el schema: database schema migrations
+el cli: admin CLI
+edges: handlers>orders, orders>repo, orders>payments, payments>stripe, auth>config, worker>queue, orders>queue, repo>schema, cli>orders, handlers>auth, payments>config
+q: How do handlers reach the database? | only through services, which use the repo layer | handlers,orders,repo
+q: How is a card charged? | orders calls payments, which wraps the Stripe client | orders,payments,stripe
+q: How are confirmation emails sent? | orders puts jobs on the queue, the worker sends them | orders,queue,worker
+q: What does auth need? | JWT keys from config | auth,config
+q: What does the repo layer depend on? | the schema from migrations | repo,schema
+ch: switch payment provider | payments,stripe
+ch: move to a new database | repo,schema
+ch: change token format | auth
+cut: five parts: API=handlers,auth,cli; Domain=orders; Payments=payments,stripe; Persistence=repo,schema; Messaging=worker,queue; Config=config
+cut: four parts: API=handlers,auth,cli; Domain=orders,payments,stripe; Persistence=repo,schema; Infrastructure=worker,queue,config
+
+=== x33-florist | florist shop | synthetic | hand-written | CC0 | ok
+flower shop. wholesaler order goes in Monday and Thursday from the stock list, flowers arrive next morning and get conditioned (cut stems, buckets, cold room). orders come by phone, website and walk-in, all written in the order book with delivery date. florist makes up arrangements from the order book using what's in the cold room. weddings are separate: consultation, quote, then a wedding spec sheet the florist works from on the day. delivery driver plans the route from the order book each morning. wastage noted daily on the stock list so ordering learns.
+---
+el wholesale: place the wholesaler order
+el stocklist: stock list
+el condition: condition flowers
+el cold: cold room
+el orderbook: order book
+el make: make up arrangements
+el consult: wedding consultation
+el quote: wedding quote
+el spec: wedding spec sheet
+el route: plan the delivery route
+el waste: note wastage
+edges: wholesale>stocklist, wholesale>>condition, condition>cold, make>orderbook, make>cold, consult>>quote, quote>>spec, make>spec, route>orderbook, waste>stocklist
+q: What is the wholesaler order based on? | the stock list | wholesale,stocklist
+q: What does the florist work from? | the order book and wedding spec sheets, using cold room stock | make,orderbook,spec,cold
+q: How is the route planned? | from the order book each morning | route,orderbook
+q: How does ordering learn? | wastage noted on the stock list | waste,stocklist
+q: What comes before a wedding spec sheet? | consultation and quote | consult,quote,spec
+ch: new wholesaler | wholesale
+ch: online-only orders | orderbook
+ch: stop doing weddings | consult,quote,spec
+cut: five parts: Buying=wholesale,stocklist,waste; Stock care=condition,cold; Orders=orderbook; Workroom=make; Weddings=consult,quote,spec; Delivery=route
+cut: four parts: Buying=wholesale,stocklist,waste,condition,cold; Orders=orderbook,route; Workroom=make; Weddings=consult,quote,spec
+
+=== x34-cowork | coworking space | synthetic | hand-written | CC0 | partial
+coworking ops. members sign up on the membership platform, plan gives them a door fob, fobs are programmed in the access system. meeting rooms booked in the platform too, credits per plan. community manager runs events and the newsletter. cleaning contractor comes nightly with a checklist. invoices from the platform monthly, failed payments disable the fob automatically. the front desk vs facilities thing: lost-and-found and parcel handling, front desk says facilities should own parcels because of the storage room, facilities says it's a member service so front desk. still undecided, parcels just pile up.
+---
+el signup: sign up members
+el platform: membership platform
+el fob: issue door fobs
+el access: access system
+el rooms: book meeting rooms
+el credits: room credits
+el events: run events
+el newsletter: newsletter
+el clean: nightly cleaning
+el checklist: cleaning checklist
+el invoice: monthly invoices
+el disable: disable fob on failed payment
+el parcels: parcel handling
+edges: signup>platform, fob>access, rooms>platform, rooms>credits, clean>checklist, invoice>platform, disable>invoice, disable>access, fob>>disable, signup>>fob
+q: How do members get in? | door fobs programmed in the access system | fob,access
+q: What happens on a failed payment? | the fob is disabled | disable,invoice,access
+q: How are rooms booked? | in the membership platform using plan credits | rooms,platform,credits
+q: Who owns parcel handling? | disputed between front desk and facilities | parcels
+q: What does the cleaner follow? | the cleaning checklist | clean,checklist
+ch: new access system | access,fob,disable
+ch: change plan credits | credits
+ch: new cleaning contractor | clean,checklist
+cut: four parts: Membership=signup,platform,rooms,credits,invoice; Access=fob,access,disable; Community=events,newsletter; Facilities=clean,checklist,parcels
+cut: four parts alt: Membership=signup,platform,rooms,credits,invoice,parcels; Access=fob,access,disable; Community=events,newsletter; Facilities=clean,checklist
+
+=== x35-seq-tyre | sequence | synthetic | hand-written | CC0 | refuse
+1. Turn the bike over. 2. Open the brake quick release. 3. Undo the wheel nut. 4. Lever the tyre off with tyre levers. 5. Pull out the tube. 6. Find the hole and patch it. 7. Put the tube back in. 8. Seat the tyre. 9. Pump to pressure. 10. Refit the wheel.
+---
+
+=== x36-bus | bus depot | synthetic | hand-written | CC0 | ok
+depot notes. timetable from the council contract sets the services. scheduler builds the duty board (which driver on which run) from the timetable and the driver availability sheet. drivers sign on at the depot window, do a walkround check on their bus and report defects on the defect sheet. engineers fix defects from the sheet overnight; a bus with a dangerous defect is VOR (off road) on the fleet board and the allocator swaps in a spare from the fleet board. ticket machine data is uploaded at sign-off and revenue reconciled next day against the waybills. fuel is logged at the pumps each night by the shunters.
+---
+el contract: council contract
+el timetable: timetable
+el duty: duty board
+el avail: driver availability sheet
+el signon: driver sign-on
+el walk: walkround check
+el defects: defect sheet
+el fix: fix defects overnight
+el fleet: fleet board
+el allocate: allocate buses
+el tickets: upload ticket machine data
+el recon: reconcile revenue
+el waybills: waybills
+el fuel: log fuel
+edges: timetable>contract, duty>timetable, duty>avail, signon>duty, signon>>walk, walk>defects, fix>defects, fix>fleet, allocate>fleet, allocate>duty, recon>tickets, recon>waybills, tickets>signon
+q: What is the duty board built from? | the timetable and driver availability | duty,timetable,avail
+q: Where are defects reported? | the defect sheet | walk,defects
+q: How is a spare bus chosen? | the allocator uses the fleet board | allocate,fleet
+q: What is revenue reconciled against? | waybills, using ticket machine data | recon,tickets,waybills
+q: Who logs fuel? | the shunters, nightly | fuel
+ch: new timetable | timetable,duty
+ch: digital defect reporting | defects,walk,fix
+ch: contactless only | tickets,recon
+cut: five parts: Planning=contract,timetable,duty,avail; Operations=signon,walk,allocate; Engineering=defects,fix,fleet,fuel; Revenue=tickets,recon,waybills
+cut: four parts: Planning=contract,timetable,duty,avail; Operations=signon,walk,allocate,fleet; Engineering=defects,fix,fuel; Revenue=tickets,recon,waybills
+
+=== x37-garden | community garden | synthetic | hand-written | CC0 | ok
+community garden committee notes. plots allocated from the waiting list at the AGM, plot holders pay rent which the treasurer records in the accounts. shared tools in the shed, borrowed using the sign-out book. watering rota on the noticeboard in summer, water butts filled from the mains tap (metered, bill goes to treasurer). seed swap in spring. compost bays managed by volunteers, compost rules on the noticeboard. grants applied for by the secretary, grant spend tracked in the accounts. landlord is the council, lease renewal every 5 years by the secretary.
+---
+el wait: plot waiting list
+el allocate: allocate plots
+el rent: collect plot rent
+el accounts: accounts
+el shed: tool shed
+el signout: sign-out book
+el rota: watering rota
+el board: noticeboard
+el water: water bill
+el seeds: seed swap
+el compost: compost bays
+el grants: apply for grants
+el lease: lease renewal
+edges: allocate>wait, rent>accounts, signout>shed, rota>board, water>accounts, compost>board, grants>accounts, rent>allocate
+q: How are plots allocated? | from the waiting list at the AGM | allocate,wait
+q: Where is rent recorded? | in the accounts, by the treasurer | rent,accounts
+q: How are tools borrowed? | the sign-out book | signout,shed
+q: Where is the watering rota? | on the noticeboard | rota,board
+q: Who renews the lease? | the secretary, every five years | lease
+ch: online plot waiting list | wait,allocate
+ch: new grant | grants,accounts
+ch: new compost rules | compost,board
+cut: five parts: Plots=wait,allocate,rent; Finance=accounts,water,grants; Shared resources=shed,signout,seeds; Site=rota,board,compost; Governance=lease
+cut: four parts: Plots=wait,allocate,rent; Finance=accounts,water,grants,lease; Shared resources=shed,signout,seeds; Site=rota,board,compost
+
+=== x38-pharmacy | community pharmacy | synthetic | hand-written | CC0 | ok
+pharmacy flow. prescriptions arrive electronically from GPs into the PMR system (or paper). dispenser labels and picks from the dispensary shelves, pharmacist does the clinical and accuracy check before bagging. controlled drugs are logged in the CD register and kept in the CD cabinet. stock is ordered twice daily from the wholesaler via the PMR's ordering screen based on what was dispensed. owings slips given when we're out of stock. NHS claims submitted monthly from the PMR. delivery driver takes bagged scripts to housebound patients with a signature sheet.
+---
+el arrive: receive prescriptions
+el pmr: PMR system
+el label: label and pick
+el shelves: dispensary shelves
+el check: pharmacist check
+el bag: bag the prescription
+el cdreg: CD register
+el cdcab: CD cabinet
+el order: order stock
+el owings: owings slips
+el claim: NHS claims
+el deliver: home delivery
+el sig: signature sheet
+edges: arrive>pmr, label>pmr, label>shelves, label>>check, check>>bag, cdreg>label, cdcab>shelves, order>pmr, owings>shelves, claim>pmr, deliver>bag, deliver>sig
+q: What happens before bagging? | the pharmacist's clinical and accuracy check | check,bag
+q: Where are controlled drugs recorded? | the CD register | cdreg
+q: What drives stock orders? | what was dispensed, via the PMR | order,pmr
+q: How are NHS claims made? | monthly from the PMR | claim,pmr
+q: How is home delivery recorded? | a signature sheet | deliver,sig
+ch: new PMR system | pmr,arrive,order,claim
+ch: change wholesaler | order
+ch: new CD rules | cdreg,cdcab
+cut: five parts: Intake=arrive,pmr; Dispensing=label,shelves,check,bag,owings; Controlled drugs=cdreg,cdcab; Stock=order; Claims=claim; Delivery=deliver,sig
+cut: four parts: Intake=arrive,pmr,claim; Dispensing=label,shelves,check,bag,owings,cdreg,cdcab; Stock=order; Delivery=deliver,sig
+
+=== x39-offtopic-maths | off-topic | synthetic | hand-written | CC0 | refuse
+If a train leaves London at 9am travelling at 120 km/h and another leaves Edinburgh at 10am travelling at 150 km/h, and the distance is 650 km, when do they meet?
+---
+
+=== x40-funeral | funeral directors | synthetic | hand-written | CC0 | ok
+how we arrange a funeral. family call, we collect the deceased (24/7 on-call team) and log them in the mortuary register. arrangement meeting with the family: date, burial or cremation, service details, all on the arrangement form. doctor's certificate and the registrar's green form needed before cremation paperwork goes to the crematorium. book the crematorium or cemetery and the celebrant around the family's date. hearse and limousines allocated from the fleet diary. order of service printed from the arrangement form. invoice the family; disbursements (crematorium fee, celebrant) paid by us first.
+---
+el collect: collect the deceased
+el oncall: on-call team
+el register: mortuary register
+el arrange: arrangement meeting
+el form: arrangement form
+el cert: doctor's certificate
+el green: registrar's green form
+el cremation: cremation paperwork
+el bookvenue: book crematorium or cemetery
+el celebrant: book the celebrant
+el fleet: fleet diary
+el oos: order of service
+el invoice: invoice the family
+el disb: pay disbursements
+edges: collect>oncall, collect>register, arrange>form, cremation>cert, cremation>green, bookvenue>form, celebrant>form, fleet>form, oos>form, invoice>disb, disb>bookvenue, disb>celebrant, cremation>>bookvenue
+q: What is needed before cremation paperwork? | the doctor's certificate and the green form | cremation,cert,green
+q: Where are service details recorded? | the arrangement form | arrange,form
+q: How are vehicles allocated? | from the fleet diary | fleet
+q: What are disbursements? | crematorium and celebrant fees paid first by the firm | disb,bookvenue,celebrant
+q: Who collects the deceased? | the on-call team | collect,oncall
+ch: new crematorium paperwork rules | cremation,cert,green
+ch: new printer for orders of service | oos
+ch: change fleet | fleet
+cut: five parts: Collection=collect,oncall,register; Arrangement=arrange,form,oos; Paperwork=cert,green,cremation; Bookings=bookvenue,celebrant,fleet; Accounts=invoice,disb
+cut: four parts: Collection=collect,oncall,register; Arrangement=arrange,form,oos,bookvenue,celebrant,fleet; Paperwork=cert,green,cremation; Accounts=invoice,disb

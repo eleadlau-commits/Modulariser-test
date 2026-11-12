@@ -1,0 +1,261 @@
+{
+ "id": "x25-translation",
+ "domain": "translation agency",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "agency workflow as it stands. client sends files via the portal, project manager does a word count and quotes from the rate card. on approval PM picks a translator from the freelancer database by language pair and subject. translator works in the CAT tool using the client's translation memory and glossary. a second linguist reviews. delivery back through the portal. invoicing monthly from the job list. the terminology glossaries are a sore point: the PMs think they own them because they talk to clients, the senior linguists think glossaries are a linguistic asset and should be theirs. it's not been decided.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "client uploads files"
+  },
+  {
+   "id": "g2",
+   "text": "client portal"
+  },
+  {
+   "id": "g3",
+   "text": "word count and quote"
+  },
+  {
+   "id": "g4",
+   "text": "rate card"
+  },
+  {
+   "id": "g5",
+   "text": "pick a translator"
+  },
+  {
+   "id": "g6",
+   "text": "freelancer database"
+  },
+  {
+   "id": "g7",
+   "text": "translate in the CAT tool"
+  },
+  {
+   "id": "g8",
+   "text": "translation memory"
+  },
+  {
+   "id": "g9",
+   "text": "terminology glossary"
+  },
+  {
+   "id": "g10",
+   "text": "second linguist review"
+  },
+  {
+   "id": "g11",
+   "text": "deliver through the portal"
+  },
+  {
+   "id": "g12",
+   "text": "monthly invoicing"
+  },
+  {
+   "id": "g13",
+   "text": "job list"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g13",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How is a translator chosen?",
+   "a": "from the freelancer database by language pair and subject",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "What does the translator work with?",
+   "a": "the CAT tool, translation memory and glossary",
+   "needs": [
+    "g7",
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "What are quotes based on?",
+   "a": "word count and the rate card",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "Who owns the glossaries?",
+   "a": "disputed between PMs and senior linguists",
+   "needs": [
+    "g9"
+   ]
+  },
+  {
+   "q": "How are clients invoiced?",
+   "a": "monthly from the job list",
+   "needs": [
+    "g12",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new CAT tool",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "name": "rate rise",
+   "touches": [
+    "g4",
+    "g3"
+   ]
+  },
+  {
+   "name": "new portal",
+   "touches": [
+    "g1",
+    "g11",
+    "g2"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Client",
+     "owns": [
+      "g1",
+      "g2",
+      "g11"
+     ]
+    },
+    {
+     "name": "Project management",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g13",
+      "g12"
+     ]
+    },
+    {
+     "name": "Linguistic",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts alt",
+   "parts": [
+    {
+     "name": "Client",
+     "owns": [
+      "g1",
+      "g2",
+      "g11",
+      "g9"
+     ]
+    },
+    {
+     "name": "Project management",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g13",
+      "g12"
+     ]
+    },
+    {
+     "name": "Linguistic",
+     "owns": [
+      "g7",
+      "g8",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

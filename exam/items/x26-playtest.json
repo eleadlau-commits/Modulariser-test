@@ -1,0 +1,275 @@
+{
+ "id": "x26-playtest",
+ "domain": "game studio playtesting",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "playtest pipeline, for the new producer. build team makes a playtest build each Thursday from the stable branch. QA smoke tests it before anyone outside sees it. community manager recruits testers from the Discord and sends the NDA. testers play, the game sends telemetry to the analytics dashboard, and they fill a survey after. designers read the survey results and the dashboard and write up findings in the playtest report. findings become tickets in the backlog, the producer prioritises them for the next sprint. bugs found by testers go into the bug tracker, QA triages them.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "make the playtest build"
+  },
+  {
+   "id": "g2",
+   "text": "stable branch"
+  },
+  {
+   "id": "g3",
+   "text": "smoke test"
+  },
+  {
+   "id": "g4",
+   "text": "recruit testers"
+  },
+  {
+   "id": "g5",
+   "text": "Discord community"
+  },
+  {
+   "id": "g6",
+   "text": "send the NDA"
+  },
+  {
+   "id": "g7",
+   "text": "telemetry"
+  },
+  {
+   "id": "g8",
+   "text": "analytics dashboard"
+  },
+  {
+   "id": "g9",
+   "text": "tester survey"
+  },
+  {
+   "id": "g10",
+   "text": "playtest report"
+  },
+  {
+   "id": "g11",
+   "text": "backlog tickets"
+  },
+  {
+   "id": "g12",
+   "text": "prioritise for next sprint"
+  },
+  {
+   "id": "g13",
+   "text": "bug tracker"
+  },
+  {
+   "id": "g14",
+   "text": "triage bugs"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g13",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is the build made from?",
+   "a": "the stable branch",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "What happens before testers see a build?",
+   "a": "QA smoke test",
+   "needs": [
+    "g3"
+   ]
+  },
+  {
+   "q": "What does the report draw on?",
+   "a": "survey results and the analytics dashboard",
+   "needs": [
+    "g10",
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "Where do testers come from?",
+   "a": "the Discord community",
+   "needs": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "Who triages bugs from testers?",
+   "a": "QA",
+   "needs": [
+    "g14",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new analytics provider",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "name": "switch from Discord to a forum",
+   "touches": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "name": "daily builds",
+   "touches": [
+    "g1"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Build",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "QA",
+     "owns": [
+      "g3",
+      "g13",
+      "g14"
+     ]
+    },
+    {
+     "name": "Community",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g9"
+     ]
+    },
+    {
+     "name": "Analytics",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Design",
+     "owns": [
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Build",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "QA",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    },
+    {
+     "name": "Community",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g9"
+     ]
+    },
+    {
+     "name": "Insights",
+     "owns": [
+      "g7",
+      "g8",
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,265 @@
+{
+ "id": "x32-codebase",
+ "domain": "web app codebase outline",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "quick tour of the repo for the new dev. http handlers in api/ call the services, never the db directly. services/orders.py does order logic and uses the repo layer (repo/orders_repo.py) for SQL. payments go through services/payments.py which wraps the Stripe client, and orders calls payments.charge(). auth middleware checks the JWT on every request using the keys in config. emails are sent by a background worker reading the job queue; orders service puts \"order_confirmed\" jobs on the queue. config/ loads env vars. migrations/ holds the schema changes, repo layer depends on that schema. there's a CLI for admin tasks that also calls services.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "HTTP handlers"
+  },
+  {
+   "id": "g2",
+   "text": "orders service"
+  },
+  {
+   "id": "g3",
+   "text": "orders repository"
+  },
+  {
+   "id": "g4",
+   "text": "payments service"
+  },
+  {
+   "id": "g5",
+   "text": "Stripe client"
+  },
+  {
+   "id": "g6",
+   "text": "auth middleware"
+  },
+  {
+   "id": "g7",
+   "text": "config loader"
+  },
+  {
+   "id": "g8",
+   "text": "email worker"
+  },
+  {
+   "id": "g9",
+   "text": "job queue"
+  },
+  {
+   "id": "g10",
+   "text": "database schema migrations"
+  },
+  {
+   "id": "g11",
+   "text": "admin CLI"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g7",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How do handlers reach the database?",
+   "a": "only through services, which use the repo layer",
+   "needs": [
+    "g1",
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "How is a card charged?",
+   "a": "orders calls payments, which wraps the Stripe client",
+   "needs": [
+    "g2",
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "How are confirmation emails sent?",
+   "a": "orders puts jobs on the queue, the worker sends them",
+   "needs": [
+    "g2",
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "What does auth need?",
+   "a": "JWT keys from config",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "What does the repo layer depend on?",
+   "a": "the schema from migrations",
+   "needs": [
+    "g3",
+    "g10"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "switch payment provider",
+   "touches": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "name": "move to a new database",
+   "touches": [
+    "g3",
+    "g10"
+   ]
+  },
+  {
+   "name": "change token format",
+   "touches": [
+    "g6"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "API",
+     "owns": [
+      "g1",
+      "g6",
+      "g11"
+     ]
+    },
+    {
+     "name": "Domain",
+     "owns": [
+      "g2"
+     ]
+    },
+    {
+     "name": "Payments",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Persistence",
+     "owns": [
+      "g3",
+      "g10"
+     ]
+    },
+    {
+     "name": "Messaging",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Config",
+     "owns": [
+      "g7"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "API",
+     "owns": [
+      "g1",
+      "g6",
+      "g11"
+     ]
+    },
+    {
+     "name": "Domain",
+     "owns": [
+      "g2",
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Persistence",
+     "owns": [
+      "g3",
+      "g10"
+     ]
+    },
+    {
+     "name": "Infrastructure",
+     "owns": [
+      "g8",
+      "g9",
+      "g7"
+     ]
+    }
+   ]
+  }
+ ]
+}

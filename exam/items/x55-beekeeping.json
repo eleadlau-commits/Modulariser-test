@@ -1,0 +1,236 @@
+{
+ "id": "x55-beekeeping",
+ "domain": "beekeeping association apiary",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "association apiary. members inspect hives weekly in season, inspection notes go on the hive record cards (queen seen, brood, disease signs). swarm calls from the public go to the swarm coordinator who sends a member and logs it. varroa treatment in autumn, timing from mite counts on the record cards, treatment recorded for the vet medicine log (legal requirement). honey harvest in August, extracted in the shared extraction room booked on the room calendar, jars labelled with the association label. honey sales money to the treasurer. beginners course each spring uses the apiary hives.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "inspect hives"
+  },
+  {
+   "id": "g2",
+   "text": "hive record cards"
+  },
+  {
+   "id": "g3",
+   "text": "swarm calls"
+  },
+  {
+   "id": "g4",
+   "text": "swarm log"
+  },
+  {
+   "id": "g5",
+   "text": "varroa treatment"
+  },
+  {
+   "id": "g6",
+   "text": "mite counts"
+  },
+  {
+   "id": "g7",
+   "text": "vet medicine log"
+  },
+  {
+   "id": "g8",
+   "text": "harvest honey"
+  },
+  {
+   "id": "g9",
+   "text": "extraction room calendar"
+  },
+  {
+   "id": "g10",
+   "text": "label jars"
+  },
+  {
+   "id": "g11",
+   "text": "honey sales"
+  },
+  {
+   "id": "g12",
+   "text": "beginners course"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g1",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What decides varroa treatment timing?",
+   "a": "mite counts on the record cards",
+   "needs": [
+    "g5",
+    "g6",
+    "g2"
+   ]
+  },
+  {
+   "q": "Where is treatment recorded?",
+   "a": "the vet medicine log",
+   "needs": [
+    "g5",
+    "g7"
+   ]
+  },
+  {
+   "q": "How is extraction booked?",
+   "a": "the extraction room calendar",
+   "needs": [
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "Who handles swarm calls?",
+   "a": "the swarm coordinator, logged",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "Where do sales go?",
+   "a": "to the treasurer",
+   "needs": [
+    "g11"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new treatment rules",
+   "touches": [
+    "g5",
+    "g7"
+   ]
+  },
+  {
+   "name": "new label design",
+   "touches": [
+    "g10"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Hive care",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Swarms",
+     "owns": [
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Honey",
+     "owns": [
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Education",
+     "owns": [
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Hive care",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g6",
+      "g7",
+      "g12"
+     ]
+    },
+    {
+     "name": "Swarms",
+     "owns": [
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Honey",
+     "owns": [
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

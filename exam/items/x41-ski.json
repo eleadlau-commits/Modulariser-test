@@ -1,0 +1,207 @@
+{
+ "id": "x41-ski",
+ "domain": "ski school",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "ski school, quick version. lessons booked online, the booking system groups kids by level from the level test results. instructors' availability goes in the rota spreadsheet and the head of school assigns groups to instructors from it. equipment hire is next door but we send them the booking list each evening so boots and skis are ready. lift passes bought by parents, we just check them at the meeting point. end of week the instructor fills in the progress card and the level gets updated in the booking system.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "book lessons online"
+  },
+  {
+   "id": "g2",
+   "text": "booking system"
+  },
+  {
+   "id": "g3",
+   "text": "level test results"
+  },
+  {
+   "id": "g4",
+   "text": "instructor rota"
+  },
+  {
+   "id": "g5",
+   "text": "assign groups to instructors"
+  },
+  {
+   "id": "g6",
+   "text": "send the booking list to hire"
+  },
+  {
+   "id": "g7",
+   "text": "ready hire equipment"
+  },
+  {
+   "id": "g8",
+   "text": "check lift passes"
+  },
+  {
+   "id": "g9",
+   "text": "progress card"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g9",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How are kids grouped?",
+   "a": "by level from the level test results",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "How are groups assigned?",
+   "a": "from the instructor rota",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "How does the hire shop know what to prepare?",
+   "a": "the booking list sent each evening",
+   "needs": [
+    "g7",
+    "g6"
+   ]
+  },
+  {
+   "q": "How is a child's level updated?",
+   "a": "from the progress card",
+   "needs": [
+    "g9",
+    "g3"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new booking system",
+   "touches": [
+    "g2",
+    "g1",
+    "g6"
+   ]
+  },
+  {
+   "name": "change level test",
+   "touches": [
+    "g3",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g6"
+     ]
+    },
+    {
+     "name": "Levels",
+     "owns": [
+      "g3",
+      "g9"
+     ]
+    },
+    {
+     "name": "Instructors",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Partners",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g6",
+      "g3",
+      "g9"
+     ]
+    },
+    {
+     "name": "Instructors",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Partners",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    }
+   ]
+  }
+ ]
+}

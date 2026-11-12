@@ -1,0 +1,233 @@
+{
+ "id": "x56-print",
+ "domain": "print shop",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "print shop workflow. customer uploads artwork on the web-to-print site or emails it. prepress checks it (bleed, resolution, colour mode) and sends a digital proof. once the proof is approved, job goes on the production schedule. litho jobs need plates made, digital jobs go straight to the press. finishing: cutting, folding, binding per the job ticket. dispatch packs and books the courier. paper stock is checked against the schedule weekly and ordered from the merchant.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "upload artwork"
+  },
+  {
+   "id": "g2",
+   "text": "prepress checks"
+  },
+  {
+   "id": "g3",
+   "text": "digital proof"
+  },
+  {
+   "id": "g4",
+   "text": "production schedule"
+  },
+  {
+   "id": "g5",
+   "text": "make plates"
+  },
+  {
+   "id": "g6",
+   "text": "print the job"
+  },
+  {
+   "id": "g7",
+   "text": "job ticket"
+  },
+  {
+   "id": "g8",
+   "text": "finishing"
+  },
+  {
+   "id": "g9",
+   "text": "pack and dispatch"
+  },
+  {
+   "id": "g10",
+   "text": "order paper stock"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g10",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does prepress check?",
+   "a": "bleed, resolution and colour mode",
+   "needs": [
+    "g2"
+   ]
+  },
+  {
+   "q": "What must happen before scheduling?",
+   "a": "proof approval",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "Which jobs need plates?",
+   "a": "litho jobs",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "What guides finishing?",
+   "a": "the job ticket",
+   "needs": [
+    "g8",
+    "g7"
+   ]
+  },
+  {
+   "q": "How is paper ordered?",
+   "a": "checked against the schedule weekly",
+   "needs": [
+    "g10",
+    "g4"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new web-to-print site",
+   "touches": [
+    "g1"
+   ]
+  },
+  {
+   "name": "new press",
+   "touches": [
+    "g6",
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Prepress",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Finishing",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Stock",
+     "owns": [
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Prepress",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g7",
+      "g10"
+     ]
+    },
+    {
+     "name": "Finishing",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

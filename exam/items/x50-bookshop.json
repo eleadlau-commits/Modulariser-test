@@ -1,0 +1,250 @@
+{
+ "id": "x50-bookshop",
+ "domain": "independent bookshop",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "bookshop. stock ordered from the main wholesaler daily via the EPOS, which reorders sellers automatically; publisher reps visit for frontlist and we place pre-orders. customer special orders logged in the EPOS against their phone number, they get a text when it lands. author events: we book the author via the publicist, sell tickets on the ticketing site, and order event stock. returns of unsold stock to publishers every quarter from the EPOS ageing report. book club runs monthly with a discount code on the EPOS.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "EPOS system"
+  },
+  {
+   "id": "g2",
+   "text": "daily wholesaler order"
+  },
+  {
+   "id": "g3",
+   "text": "publisher rep visits"
+  },
+  {
+   "id": "g4",
+   "text": "pre-orders"
+  },
+  {
+   "id": "g5",
+   "text": "special orders"
+  },
+  {
+   "id": "g6",
+   "text": "text the customer"
+  },
+  {
+   "id": "g7",
+   "text": "book the author"
+  },
+  {
+   "id": "g8",
+   "text": "sell event tickets"
+  },
+  {
+   "id": "g9",
+   "text": "order event stock"
+  },
+  {
+   "id": "g10",
+   "text": "quarterly returns"
+  },
+  {
+   "id": "g11",
+   "text": "ageing report"
+  },
+  {
+   "id": "g12",
+   "text": "book club"
+  },
+  {
+   "id": "g13",
+   "text": "discount code"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g1",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How are best-sellers reordered?",
+   "a": "automatically by the EPOS to the wholesaler",
+   "needs": [
+    "g2",
+    "g1"
+   ]
+  },
+  {
+   "q": "How are customers told a special order has arrived?",
+   "a": "a text, from the order logged in the EPOS",
+   "needs": [
+    "g6",
+    "g5"
+   ]
+  },
+  {
+   "q": "What drives returns?",
+   "a": "the EPOS ageing report",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What comes before selling event tickets?",
+   "a": "booking the author",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "q": "How do book club members get a discount?",
+   "a": "a discount code on the EPOS",
+   "needs": [
+    "g12",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "switch EPOS",
+   "touches": [
+    "g1",
+    "g2",
+    "g5",
+    "g11",
+    "g13"
+   ]
+  },
+  {
+   "name": "new ticketing site",
+   "touches": [
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Stock",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Customers",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Events",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Book club",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Stock",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Customers",
+     "owns": [
+      "g5",
+      "g6",
+      "g12",
+      "g13"
+     ]
+    },
+    {
+     "name": "Events",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

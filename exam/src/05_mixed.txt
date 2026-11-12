@@ -1,0 +1,204 @@
+=== x41-ski | ski school | synthetic | hand-written | CC0 | ok
+ski school, quick version. lessons booked online, the booking system groups kids by level from the level test results. instructors' availability goes in the rota spreadsheet and the head of school assigns groups to instructors from it. equipment hire is next door but we send them the booking list each evening so boots and skis are ready. lift passes bought by parents, we just check them at the meeting point. end of week the instructor fills in the progress card and the level gets updated in the booking system.
+---
+el book: book lessons online
+el sys: booking system
+el level: level test results
+el rota: instructor rota
+el assign: assign groups to instructors
+el hirelist: send the booking list to hire
+el hire: ready hire equipment
+el pass: check lift passes
+el card: progress card
+edges: book>sys, sys>level, assign>rota, assign>sys, hirelist>sys, hire>hirelist, card>>level, level>card
+q: How are kids grouped? | by level from the level test results | sys,level
+q: How are groups assigned? | from the instructor rota | assign,rota
+q: How does the hire shop know what to prepare? | the booking list sent each evening | hire,hirelist
+q: How is a child's level updated? | from the progress card | card,level
+ch: new booking system | sys,book,hirelist
+ch: change level test | level,card
+cut: four parts: Bookings=book,sys,hirelist; Levels=level,card; Instructors=rota,assign; Partners=hire,pass
+cut: three parts: Bookings=book,sys,hirelist,level,card; Instructors=rota,assign; Partners=hire,pass
+
+=== x42-laundry | laundromat with service washes | synthetic | hand-written | CC0 | ok
+laundrette. self service machines take coins and the card reader, card payments go to the merchant account. service washes: customer drops a bag, we weigh it and write a ticket with price per kg from the price board, wash and dry it, fold, bag with the ticket. collected and paid at the counter. machines break, so faults go in the fault book and the engineer visits weekly. detergent and softener reordered from the supplier when the cupboard is half empty.
+---
+el coins: coin and card machines
+el merchant: merchant account
+el weigh: weigh the bag
+el ticket: service wash ticket
+el prices: price board
+el wash: wash and dry
+el fold: fold and bag
+el collect: collect and pay
+el faults: fault book
+el engineer: engineer visit
+el reorder: reorder detergent
+edges: coins>merchant, ticket>weigh, ticket>prices, weigh>>wash, wash>>fold, fold>ticket, collect>ticket, engineer>faults
+q: How is a service wash priced? | weight times price per kg from the price board | ticket,weigh,prices
+q: Where do card payments go? | the merchant account | coins,merchant
+q: How are broken machines handled? | logged in the fault book, engineer weekly | faults,engineer
+q: When is detergent reordered? | when the cupboard is half empty | reorder
+ch: price rise | prices
+ch: new card provider | coins,merchant
+cut: four parts: Self service=coins,merchant; Service wash=weigh,ticket,prices,wash,fold,collect; Maintenance=faults,engineer; Supplies=reorder
+cut: three parts: Payments=coins,merchant,collect; Service wash=weigh,ticket,prices,wash,fold; Upkeep=faults,engineer,reorder
+
+=== x43-festival | music festival stage | synthetic | hand-written | CC0 | partial
+stage notes for the festival. booker confirms acts and their tech riders go to the production manager. stage manager builds the running order with changeover times. sound and lights crews prep from the riders. artist liaison handles arrivals, dressing rooms, and the hospitality rider. security does the pit and backstage passes, accreditation office prints the passes from the artist guest list. the curfew is 11pm, licence conditions from the council, stage manager enforces it. the guest list itself is a fight: artist liaison says it's theirs because artists send it to them, accreditation says they must own it because they print from it. nobody's decided.
+---
+el confirm: confirm acts
+el rider: tech riders
+el running: running order
+el prep: prep sound and lights
+el arrivals: artist arrivals
+el hosp: hospitality rider
+el pit: pit security
+el passes: print passes
+el guest: artist guest list
+el curfew: enforce the curfew
+el licence: licence conditions
+edges: confirm>>rider, running>confirm, prep>rider, hosp>arrivals, passes>guest, pit>passes, curfew>licence, curfew>running
+q: What do the crews prep from? | the tech riders | prep,rider
+q: Who enforces the curfew and why? | the stage manager, from licence conditions | curfew,licence
+q: Where are passes printed from? | the artist guest list | passes,guest
+q: Who owns the guest list? | disputed between artist liaison and accreditation | guest
+q: What does the running order include? | acts and changeover times | running,confirm
+ch: new curfew | curfew,licence,running
+ch: new pass system | passes,pit
+cut: five parts: Booking=confirm; Stage=running,curfew,licence; Production=rider,prep; Artists=arrivals,hosp,guest; Security=pit,passes
+cut: five parts alt: Booking=confirm; Stage=running,curfew,licence; Production=rider,prep; Artists=arrivals,hosp; Security=pit,passes,guest
+
+=== x44-locksmith | locksmith business | synthetic | hand-written | CC0 | ok
+I'm a one-man locksmith. emergency calls come to my mobile, non-urgent jobs through the website form into my job calendar. for lockouts I check ID and proof of address before opening (log it in the ID log for insurance). key cutting at the van with blanks from the blanks box, I reorder blanks from the wholesaler monthly. invoices made on my phone app, card reader linked to it. quarterly I do VAT from the app records.
+---
+el calls: emergency calls
+el form: website form
+el calendar: job calendar
+el idcheck: check ID before opening
+el idlog: ID log
+el cut: cut keys
+el blanks: blanks box
+el reorder: reorder blanks
+el invoice: invoice in the app
+el reader: card reader
+el vat: quarterly VAT
+edges: form>calendar, idcheck>idlog, cut>blanks, reorder>blanks, invoice>reader, vat>invoice, calls>calendar
+q: What is checked before a lockout? | ID and proof of address, logged | idcheck,idlog
+q: Where do non-urgent jobs go? | the job calendar | form,calendar
+q: What is VAT worked out from? | the invoicing app records | vat,invoice
+q: Where do key blanks come from? | the blanks box, reordered monthly | cut,blanks,reorder
+ch: new invoicing app | invoice,reader,vat
+ch: new insurer rules | idcheck,idlog
+cut: four parts: Jobs=calls,form,calendar; Security=idcheck,idlog; Keys=cut,blanks,reorder; Money=invoice,reader,vat
+cut: three parts: Jobs=calls,form,calendar,idcheck,idlog; Keys=cut,blanks,reorder; Money=invoice,reader,vat
+
+=== x45-seq-install | sequence | synthetic | hand-written | CC0 | refuse
+To install: download the zip, extract it, open a terminal in the folder, run ./configure, then make, then sudo make install, and finally run the binary with --version to check it worked.
+---
+
+=== x46-carwash | hand car wash | synthetic | hand-written | CC0 | ok
+car wash. customer picks a package from the menu board, cashier takes payment and gives a coloured tag for the package. washer team works by tag colour: pre-rinse, snow foam, hand wash, dry. valet packages go to the valet bay after. chemicals mixed from the dilution chart, stock in the chemical store, reordered by the supervisor. pressure washers serviced monthly per the service log. staff rota done by the supervisor weekly.
+---
+el menu: menu board
+el pay: take payment
+el tag: package tag
+el wash: wash the car
+el valet: valet bay
+el mix: mix chemicals
+el chart: dilution chart
+el store: chemical store
+el reorder: reorder chemicals
+el service: service pressure washers
+el log: service log
+el rota: staff rota
+edges: pay>menu, pay>tag, wash>tag, valet>tag, wash>>valet, mix>chart, mix>store, reorder>store, service>log, wash>mix
+q: How do washers know which package? | the coloured tag | wash,tag
+q: How are chemicals mixed? | using the dilution chart, from the store | mix,chart,store
+q: When does a car go to the valet bay? | for valet packages, after washing | valet,wash
+q: How often are washers serviced? | monthly, per the service log | service,log
+ch: new packages | menu,tag
+ch: new chemicals | chart,store,mix
+cut: four parts: Sales=menu,pay,tag; Washing=wash,valet; Chemicals=mix,chart,store,reorder; Equipment=service,log; Staffing=rota
+cut: three parts: Sales=menu,pay,tag; Washing=wash,valet,mix,chart; Supervisor=store,reorder,service,log,rota
+
+=== x47-airbnb | holiday let host | synthetic | hand-written | CC0 | ok
+running our two holiday lets. bookings come from two listing sites, a channel manager syncs both calendars so we don't double book. guest messages: welcome message with door code sent automatically 2 days before arrival, door codes set in the smart lock app. cleaner gets the changeover schedule from the channel manager calendar. laundry service picks up linen after each changeover. reviews: we review guests after checkout. income from both sites goes into the spreadsheet for tax. maintenance jobs noted by the cleaner in the shared notes.
+---
+el sites: listing sites
+el channel: channel manager
+el welcome: welcome message
+el lock: smart lock app
+el schedule: changeover schedule
+el clean: clean the property
+el laundry: laundry pickup
+el reviews: review guests
+el income: income spreadsheet
+el notes: maintenance notes
+edges: channel>sites, welcome>lock, welcome>channel, schedule>channel, clean>schedule, clean>>laundry, income>sites, notes>clean
+q: How is double booking avoided? | the channel manager syncs calendars | channel,sites
+q: What does the welcome message contain? | the door code from the smart lock app | welcome,lock
+q: Where does the cleaner's schedule come from? | the channel manager calendar | schedule,channel
+q: What happens after cleaning? | laundry pickup | clean,laundry
+q: Where is income tracked? | the income spreadsheet | income
+ch: add a third listing site | sites,channel
+ch: new lock brand | lock,welcome
+cut: four parts: Bookings=sites,channel,reviews; Guest access=welcome,lock; Changeovers=schedule,clean,laundry,notes; Finance=income
+cut: three parts: Bookings=sites,channel,reviews,income; Guest access=welcome,lock; Changeovers=schedule,clean,laundry,notes
+
+=== x48-vague2 | vague | synthetic | hand-written | CC0 | refuse
+basically we do the normal things a company does and want it organised better. thoughts?
+---
+
+=== x49-tutoring | tutoring agency | synthetic | hand-written | CC0 | ok
+tutoring agency. parents enquire through the website, we do a call to find out subject, level, goals and put it on the enquiry sheet. tutors are on the tutor database with subjects, DBS check date, and availability. we match from the database and send the parent a tutor profile. first lesson is a trial. lessons logged by tutors in the lesson log, which drives both the parent invoice and the tutor payout. DBS checks renewed every 3 years, office reminds tutors from the database dates. progress reports termly from tutors' lesson notes.
+---
+el enquire: website enquiry
+el call: discovery call
+el sheet: enquiry sheet
+el db: tutor database
+el dbs: DBS checks
+el match: match a tutor
+el profile: send tutor profile
+el trial: trial lesson
+el log: lesson log
+el invoice: parent invoice
+el payout: tutor payout
+el report: termly progress report
+edges: enquire>>call, call>sheet, match>sheet, match>db, profile>db, match>>profile, profile>>trial, invoice>log, payout>log, dbs>db, report>log
+q: What drives invoices and payouts? | the lesson log | invoice,payout,log
+q: How is a tutor matched? | from the enquiry sheet and tutor database | match,sheet,db
+q: How are DBS renewals tracked? | dates in the tutor database | dbs,db
+q: What comes before regular lessons? | a trial lesson | trial
+q: What are progress reports based on? | lesson notes in the log | report,log
+ch: new tutor database | db,match,dbs,profile
+ch: change payout rates | payout
+cut: four parts: Enquiries=enquire,call,sheet; Tutors=db,dbs; Matching=match,profile,trial; Lessons=log,report; Finance=invoice,payout
+cut: three parts: Enquiries=enquire,call,sheet,match,profile,trial; Tutors=db,dbs; Lessons=log,report,invoice,payout
+
+=== x50-bookshop | independent bookshop | synthetic | hand-written | CC0 | ok
+bookshop. stock ordered from the main wholesaler daily via the EPOS, which reorders sellers automatically; publisher reps visit for frontlist and we place pre-orders. customer special orders logged in the EPOS against their phone number, they get a text when it lands. author events: we book the author via the publicist, sell tickets on the ticketing site, and order event stock. returns of unsold stock to publishers every quarter from the EPOS ageing report. book club runs monthly with a discount code on the EPOS.
+---
+el epos: EPOS system
+el wholesale: daily wholesaler order
+el reps: publisher rep visits
+el preorder: pre-orders
+el special: special orders
+el text: text the customer
+el author: book the author
+el tickets: sell event tickets
+el eventstock: order event stock
+el returns: quarterly returns
+el ageing: ageing report
+el club: book club
+el discount: discount code
+edges: wholesale>epos, reps>>preorder, special>epos, text>special, author>>tickets, eventstock>author, returns>ageing, ageing>epos, club>discount, discount>epos
+q: How are best-sellers reordered? | automatically by the EPOS to the wholesaler | wholesale,epos
+q: How are customers told a special order has arrived? | a text, from the order logged in the EPOS | text,special
+q: What drives returns? | the EPOS ageing report | returns,ageing
+q: What comes before selling event tickets? | booking the author | author,tickets
+q: How do book club members get a discount? | a discount code on the EPOS | club,discount
+ch: switch EPOS | epos,wholesale,special,ageing,discount
+ch: new ticketing site | tickets
+cut: five parts: Stock=epos,wholesale,reps,preorder,returns,ageing; Customers=special,text; Events=author,tickets,eventstock; Book club=club,discount
+cut: three parts: Stock=epos,wholesale,reps,preorder,returns,ageing; Customers=special,text,club,discount; Events=author,tickets,eventstock

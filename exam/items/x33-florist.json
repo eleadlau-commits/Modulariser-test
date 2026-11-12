@@ -1,0 +1,260 @@
+{
+ "id": "x33-florist",
+ "domain": "florist shop",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "flower shop. wholesaler order goes in Monday and Thursday from the stock list, flowers arrive next morning and get conditioned (cut stems, buckets, cold room). orders come by phone, website and walk-in, all written in the order book with delivery date. florist makes up arrangements from the order book using what's in the cold room. weddings are separate: consultation, quote, then a wedding spec sheet the florist works from on the day. delivery driver plans the route from the order book each morning. wastage noted daily on the stock list so ordering learns.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "place the wholesaler order"
+  },
+  {
+   "id": "g2",
+   "text": "stock list"
+  },
+  {
+   "id": "g3",
+   "text": "condition flowers"
+  },
+  {
+   "id": "g4",
+   "text": "cold room"
+  },
+  {
+   "id": "g5",
+   "text": "order book"
+  },
+  {
+   "id": "g6",
+   "text": "make up arrangements"
+  },
+  {
+   "id": "g7",
+   "text": "wedding consultation"
+  },
+  {
+   "id": "g8",
+   "text": "wedding quote"
+  },
+  {
+   "id": "g9",
+   "text": "wedding spec sheet"
+  },
+  {
+   "id": "g10",
+   "text": "plan the delivery route"
+  },
+  {
+   "id": "g11",
+   "text": "note wastage"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g2",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is the wholesaler order based on?",
+   "a": "the stock list",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "What does the florist work from?",
+   "a": "the order book and wedding spec sheets, using cold room stock",
+   "needs": [
+    "g6",
+    "g5",
+    "g9",
+    "g4"
+   ]
+  },
+  {
+   "q": "How is the route planned?",
+   "a": "from the order book each morning",
+   "needs": [
+    "g10",
+    "g5"
+   ]
+  },
+  {
+   "q": "How does ordering learn?",
+   "a": "wastage noted on the stock list",
+   "needs": [
+    "g11",
+    "g2"
+   ]
+  },
+  {
+   "q": "What comes before a wedding spec sheet?",
+   "a": "consultation and quote",
+   "needs": [
+    "g7",
+    "g8",
+    "g9"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new wholesaler",
+   "touches": [
+    "g1"
+   ]
+  },
+  {
+   "name": "online-only orders",
+   "touches": [
+    "g5"
+   ]
+  },
+  {
+   "name": "stop doing weddings",
+   "touches": [
+    "g7",
+    "g8",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Buying",
+     "owns": [
+      "g1",
+      "g2",
+      "g11"
+     ]
+    },
+    {
+     "name": "Stock care",
+     "owns": [
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Orders",
+     "owns": [
+      "g5"
+     ]
+    },
+    {
+     "name": "Workroom",
+     "owns": [
+      "g6"
+     ]
+    },
+    {
+     "name": "Weddings",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "owns": [
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Buying",
+     "owns": [
+      "g1",
+      "g2",
+      "g11",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Orders",
+     "owns": [
+      "g5",
+      "g10"
+     ]
+    },
+    {
+     "name": "Workroom",
+     "owns": [
+      "g6"
+     ]
+    },
+    {
+     "name": "Weddings",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

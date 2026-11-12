@@ -1,0 +1,16 @@
+{
+ "id": "x28-seq-pancakes",
+ "domain": "sequence",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "how I make pancakes: sift 100g flour into a bowl, make a well, crack in 2 eggs, whisk while slowly adding 300ml milk, rest the batter 30 minutes, heat a pan with a little oil, pour a ladle in, cook a minute each side, serve with lemon and sugar.",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

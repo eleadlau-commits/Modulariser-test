@@ -1,0 +1,16 @@
+{
+ "id": "x35-seq-tyre",
+ "domain": "sequence",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "1. Turn the bike over. 2. Open the brake quick release. 3. Undo the wheel nut. 4. Lever the tyre off with tyre levers. 5. Pull out the tube. 6. Find the hole and patch it. 7. Put the tube back in. 8. Seat the tyre. 9. Pump to pressure. 10. Refit the wheel.",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

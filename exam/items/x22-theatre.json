@@ -1,0 +1,292 @@
+{
+ "id": "x22-theatre",
+ "domain": "amateur theatre production",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "Hi all, notes from the production meeting. Director picks the play and holds auditions, cast list goes on the noticeboard. Rehearsal schedule is built from cast availability forms. Stage manager runs the prompt book (all blocking and cues live there). Set team builds from the designer's drawings, and they need the theatre's get-in times. Lighting and sound cues are plotted in the tech rehearsal, using the prompt book cues. Front of house sells tickets through the box office system and sorts ushers. Programme needs the cast list and goes to the printer two weeks before. Treasurer pays the rights fee before we can advertise.\nThanks, Mo",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "pick the play"
+  },
+  {
+   "id": "g2",
+   "text": "hold auditions"
+  },
+  {
+   "id": "g3",
+   "text": "cast list"
+  },
+  {
+   "id": "g4",
+   "text": "availability forms"
+  },
+  {
+   "id": "g5",
+   "text": "rehearsal schedule"
+  },
+  {
+   "id": "g6",
+   "text": "prompt book"
+  },
+  {
+   "id": "g7",
+   "text": "build the set"
+  },
+  {
+   "id": "g8",
+   "text": "set drawings"
+  },
+  {
+   "id": "g9",
+   "text": "get-in times"
+  },
+  {
+   "id": "g10",
+   "text": "tech rehearsal"
+  },
+  {
+   "id": "g11",
+   "text": "box office system"
+  },
+  {
+   "id": "g12",
+   "text": "sort ushers"
+  },
+  {
+   "id": "g13",
+   "text": "programme"
+  },
+  {
+   "id": "g14",
+   "text": "pay the rights fee"
+  },
+  {
+   "id": "g15",
+   "text": "advertise the show"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g15",
+   "kind": "order"
+  },
+  {
+   "from": "g14",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g14",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is the rehearsal schedule built from?",
+   "a": "cast availability forms",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "Where do lighting and sound cues come from?",
+   "a": "the prompt book, in the tech rehearsal",
+   "needs": [
+    "g10",
+    "g6"
+   ]
+  },
+  {
+   "q": "What does the programme need?",
+   "a": "the cast list",
+   "needs": [
+    "g13",
+    "g3"
+   ]
+  },
+  {
+   "q": "What must happen before advertising?",
+   "a": "the rights fee is paid",
+   "needs": [
+    "g14",
+    "g15"
+   ]
+  },
+  {
+   "q": "What does the set team need?",
+   "a": "designer drawings and get-in times",
+   "needs": [
+    "g7",
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "How are tickets sold?",
+   "a": "the box office system",
+   "needs": [
+    "g11"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "recast a role",
+   "touches": [
+    "g3",
+    "g13",
+    "g5"
+   ]
+  },
+  {
+   "name": "new venue",
+   "touches": [
+    "g9",
+    "g7",
+    "g11"
+   ]
+  },
+  {
+   "name": "change the play",
+   "touches": [
+    "g1",
+    "g14"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Casting",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Rehearsals",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Set",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Front of house",
+     "owns": [
+      "g11",
+      "g12",
+      "g13",
+      "g15"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Casting",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g14"
+     ]
+    },
+    {
+     "name": "Rehearsals",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Set",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Front of house",
+     "owns": [
+      "g11",
+      "g12",
+      "g13",
+      "g15"
+     ]
+    }
+   ]
+  }
+ ]
+}

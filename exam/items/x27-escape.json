@@ -1,0 +1,249 @@
+{
+ "id": "x27-escape",
+ "domain": "escape room business",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "Title: escape room ops doc\nContext:\nBookings come in through the website booking widget, the widget checks the room calendar. Game host briefs the group with the safety talk and rules. Host watches on the CCTV monitors and gives hints over the speaker from the hint script. After each game the host resets the room following the reset checklist, broken props go in the maintenance log. Owner fixes props on Mondays from the log. Group photo taken at the end and emailed using the booking email. Reviews come in on Google, owner replies.\nAcceptance: new host can run a shift.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "booking widget"
+  },
+  {
+   "id": "g2",
+   "text": "room calendar"
+  },
+  {
+   "id": "g3",
+   "text": "brief the group"
+  },
+  {
+   "id": "g4",
+   "text": "watch on CCTV"
+  },
+  {
+   "id": "g5",
+   "text": "give hints"
+  },
+  {
+   "id": "g6",
+   "text": "hint script"
+  },
+  {
+   "id": "g7",
+   "text": "reset the room"
+  },
+  {
+   "id": "g8",
+   "text": "reset checklist"
+  },
+  {
+   "id": "g9",
+   "text": "maintenance log"
+  },
+  {
+   "id": "g10",
+   "text": "fix props"
+  },
+  {
+   "id": "g11",
+   "text": "email the group photo"
+  },
+  {
+   "id": "g12",
+   "text": "reply to reviews"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g3",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How does the widget know what's free?",
+   "a": "the room calendar",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "Where do hints come from?",
+   "a": "the hint script",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How are broken props handled?",
+   "a": "logged in the maintenance log, fixed Mondays by the owner",
+   "needs": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "What guides a reset?",
+   "a": "the reset checklist",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "q": "How is the photo sent?",
+   "a": "emailed to the booking email",
+   "needs": [
+    "g11",
+    "g1"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new booking platform",
+   "touches": [
+    "g1",
+    "g2",
+    "g11"
+   ]
+  },
+  {
+   "name": "new room theme",
+   "touches": [
+    "g6",
+    "g8"
+   ]
+  },
+  {
+   "name": "hire a technician",
+   "touches": [
+    "g10"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g11"
+     ]
+    },
+    {
+     "name": "Game",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Reset",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Maintenance",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Reputation",
+     "owns": [
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Game",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Maintenance",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

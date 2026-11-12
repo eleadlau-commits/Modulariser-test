@@ -1,0 +1,270 @@
+{
+ "id": "x52-carrental",
+ "domain": "car rental branch",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "Hi team,\nWriting down how the branch runs because we keep getting it wrong. Reservations come from the central booking system; the branch pulls tomorrow's list every afternoon. Fleet controller assigns a car from the fleet list (by group and mileage). Prep team valets and fuels it and does the damage check on the check-out sheet with photos. At the counter, agent checks licence (DVLA check code) and takes the deposit hold on the card. On return, damage check again against the check-out sheet, any new damage goes to the damage claims team who bill the customer's deposit. Mileage and fuel recorded back into the fleet list. Cars due service are flagged by mileage in the fleet list and booked into the dealer.\nCheers, Ines",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "central booking system"
+  },
+  {
+   "id": "g2",
+   "text": "tomorrow's reservation list"
+  },
+  {
+   "id": "g3",
+   "text": "assign a car"
+  },
+  {
+   "id": "g4",
+   "text": "fleet list"
+  },
+  {
+   "id": "g5",
+   "text": "valet and fuel"
+  },
+  {
+   "id": "g6",
+   "text": "check-out sheet"
+  },
+  {
+   "id": "g7",
+   "text": "licence check"
+  },
+  {
+   "id": "g8",
+   "text": "deposit hold"
+  },
+  {
+   "id": "g9",
+   "text": "return damage check"
+  },
+  {
+   "id": "g10",
+   "text": "damage claims"
+  },
+  {
+   "id": "g11",
+   "text": "record mileage and fuel"
+  },
+  {
+   "id": "g12",
+   "text": "book services"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g7",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How is a car chosen?",
+   "a": "the fleet controller assigns from the fleet list",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "What is return damage compared against?",
+   "a": "the check-out sheet",
+   "needs": [
+    "g9",
+    "g6"
+   ]
+  },
+  {
+   "q": "How is new damage charged?",
+   "a": "the claims team bills the deposit",
+   "needs": [
+    "g10",
+    "g8"
+   ]
+  },
+  {
+   "q": "How are services triggered?",
+   "a": "mileage flags in the fleet list",
+   "needs": [
+    "g12",
+    "g4"
+   ]
+  },
+  {
+   "q": "What is checked at the counter?",
+   "a": "licence and deposit hold",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new booking system",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "name": "digital damage checks",
+   "touches": [
+    "g6",
+    "g9",
+    "g5"
+   ]
+  },
+  {
+   "name": "change deposit policy",
+   "touches": [
+    "g8",
+    "g10"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Reservations",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Fleet",
+     "owns": [
+      "g3",
+      "g4",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Prep",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Counter",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Damage",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Reservations",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Fleet",
+     "owns": [
+      "g3",
+      "g4",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Prep and damage",
+     "owns": [
+      "g5",
+      "g6",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Counter",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    }
+   ]
+  }
+ ]
+}

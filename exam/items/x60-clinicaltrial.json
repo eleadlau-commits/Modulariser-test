@@ -1,0 +1,297 @@
+{
+ "id": "x60-clinicaltrial",
+ "domain": "clinical trial site",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.hra.nhs.uk/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "trial site ops at the hospital (research nurse view). study gets HRA approval and local capacity confirmation before we can open. screening: potential participants found from clinic lists, checked against the eligibility criteria in the protocol. informed consent taken by a delegated doctor or nurse (delegation log says who can do what). randomisation through the sponsor's online system. study visits follow the visit schedule in the protocol, data entered into the eCRF. adverse events reported to the sponsor within set times, serious ones within 24h. investigational drug from pharmacy, accountability log kept. monitor from the sponsor visits to check eCRF against source notes.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "HRA approval"
+  },
+  {
+   "id": "g2",
+   "text": "local capacity confirmation"
+  },
+  {
+   "id": "g3",
+   "text": "screen participants"
+  },
+  {
+   "id": "g4",
+   "text": "protocol"
+  },
+  {
+   "id": "g5",
+   "text": "informed consent"
+  },
+  {
+   "id": "g6",
+   "text": "delegation log"
+  },
+  {
+   "id": "g7",
+   "text": "randomisation"
+  },
+  {
+   "id": "g8",
+   "text": "study visits"
+  },
+  {
+   "id": "g9",
+   "text": "eCRF"
+  },
+  {
+   "id": "g10",
+   "text": "report adverse events"
+  },
+  {
+   "id": "g11",
+   "text": "dispense the trial drug"
+  },
+  {
+   "id": "g12",
+   "text": "drug accountability log"
+  },
+  {
+   "id": "g13",
+   "text": "monitoring visits"
+  },
+  {
+   "id": "g14",
+   "text": "source notes"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g14",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What must happen before the site opens?",
+   "a": "HRA approval and local capacity confirmation",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "Who can take consent?",
+   "a": "delegated staff on the delegation log",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How are participants allocated?",
+   "a": "the sponsor's randomisation system",
+   "needs": [
+    "g7"
+   ]
+  },
+  {
+   "q": "What does the monitor compare?",
+   "a": "the eCRF against source notes",
+   "needs": [
+    "g13",
+    "g9",
+    "g14"
+   ]
+  },
+  {
+   "q": "What is screening checked against?",
+   "a": "eligibility criteria in the protocol",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "How is trial drug tracked?",
+   "a": "the accountability log",
+   "needs": [
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "protocol amendment",
+   "touches": [
+    "g4",
+    "g3",
+    "g8"
+   ]
+  },
+  {
+   "name": "new eCRF system",
+   "touches": [
+    "g9",
+    "g8",
+    "g10",
+    "g13"
+   ]
+  },
+  {
+   "name": "new pharmacy process",
+   "touches": [
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Set-up",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Recruitment",
+     "owns": [
+      "g3",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Study conduct",
+     "owns": [
+      "g4",
+      "g8",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Pharmacy",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Monitoring",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Set-up",
+     "owns": [
+      "g1",
+      "g2",
+      "g6"
+     ]
+    },
+    {
+     "name": "Recruitment",
+     "owns": [
+      "g3",
+      "g5",
+      "g7"
+     ]
+    },
+    {
+     "name": "Study conduct",
+     "owns": [
+      "g4",
+      "g8",
+      "g9",
+      "g10",
+      "g13",
+      "g14"
+     ]
+    },
+    {
+     "name": "Pharmacy",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}

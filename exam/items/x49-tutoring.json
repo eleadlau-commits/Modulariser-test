@@ -1,0 +1,254 @@
+{
+ "id": "x49-tutoring",
+ "domain": "tutoring agency",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "tutoring agency. parents enquire through the website, we do a call to find out subject, level, goals and put it on the enquiry sheet. tutors are on the tutor database with subjects, DBS check date, and availability. we match from the database and send the parent a tutor profile. first lesson is a trial. lessons logged by tutors in the lesson log, which drives both the parent invoice and the tutor payout. DBS checks renewed every 3 years, office reminds tutors from the database dates. progress reports termly from tutors' lesson notes.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "website enquiry"
+  },
+  {
+   "id": "g2",
+   "text": "discovery call"
+  },
+  {
+   "id": "g3",
+   "text": "enquiry sheet"
+  },
+  {
+   "id": "g4",
+   "text": "tutor database"
+  },
+  {
+   "id": "g5",
+   "text": "DBS checks"
+  },
+  {
+   "id": "g6",
+   "text": "match a tutor"
+  },
+  {
+   "id": "g7",
+   "text": "send tutor profile"
+  },
+  {
+   "id": "g8",
+   "text": "trial lesson"
+  },
+  {
+   "id": "g9",
+   "text": "lesson log"
+  },
+  {
+   "id": "g10",
+   "text": "parent invoice"
+  },
+  {
+   "id": "g11",
+   "text": "tutor payout"
+  },
+  {
+   "id": "g12",
+   "text": "termly progress report"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g9",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What drives invoices and payouts?",
+   "a": "the lesson log",
+   "needs": [
+    "g10",
+    "g11",
+    "g9"
+   ]
+  },
+  {
+   "q": "How is a tutor matched?",
+   "a": "from the enquiry sheet and tutor database",
+   "needs": [
+    "g6",
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "How are DBS renewals tracked?",
+   "a": "dates in the tutor database",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "What comes before regular lessons?",
+   "a": "a trial lesson",
+   "needs": [
+    "g8"
+   ]
+  },
+  {
+   "q": "What are progress reports based on?",
+   "a": "lesson notes in the log",
+   "needs": [
+    "g12",
+    "g9"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new tutor database",
+   "touches": [
+    "g4",
+    "g6",
+    "g5",
+    "g7"
+   ]
+  },
+  {
+   "name": "change payout rates",
+   "touches": [
+    "g11"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Enquiries",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Tutors",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Matching",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Lessons",
+     "owns": [
+      "g9",
+      "g12"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Enquiries",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Tutors",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Lessons",
+     "owns": [
+      "g9",
+      "g12",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

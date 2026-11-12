@@ -1,0 +1,258 @@
+{
+ "id": "x59-hackathon",
+ "domain": "company hackathon",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "hackathon planning. organisers pick a theme and dates, get exec sign-off for budget. sign-ups on the internal form, teams formed from the sign-up sheet (people can also come with a team). facilities books rooms and food from the budget. judges chosen by organisers, they use the judging rubric. demo day: teams present, judges score in the scoring sheet, winners announced on the intranet. prizes bought from the budget. follow-up: best projects go to the product council for possible funding.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "pick theme and dates"
+  },
+  {
+   "id": "g2",
+   "text": "exec budget sign-off"
+  },
+  {
+   "id": "g3",
+   "text": "budget"
+  },
+  {
+   "id": "g4",
+   "text": "sign-up form"
+  },
+  {
+   "id": "g5",
+   "text": "form teams"
+  },
+  {
+   "id": "g6",
+   "text": "book rooms and food"
+  },
+  {
+   "id": "g7",
+   "text": "choose judges"
+  },
+  {
+   "id": "g8",
+   "text": "judging rubric"
+  },
+  {
+   "id": "g9",
+   "text": "demo day"
+  },
+  {
+   "id": "g10",
+   "text": "scoring sheet"
+  },
+  {
+   "id": "g11",
+   "text": "announce winners"
+  },
+  {
+   "id": "g12",
+   "text": "buy prizes"
+  },
+  {
+   "id": "g13",
+   "text": "product council review"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Where does the money come from?",
+   "a": "the budget signed off by execs",
+   "needs": [
+    "g3",
+    "g2"
+   ]
+  },
+  {
+   "q": "How are teams formed?",
+   "a": "from the sign-up sheet",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "How do judges score?",
+   "a": "the rubric, in the scoring sheet",
+   "needs": [
+    "g10",
+    "g8"
+   ]
+  },
+  {
+   "q": "What happens to the best projects?",
+   "a": "product council review",
+   "needs": [
+    "g13",
+    "g11"
+   ]
+  },
+  {
+   "q": "What is booked from the budget?",
+   "a": "rooms, food and prizes",
+   "needs": [
+    "g6",
+    "g12",
+    "g3"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new judging criteria",
+   "touches": [
+    "g8",
+    "g10"
+   ]
+  },
+  {
+   "name": "remote hackathon",
+   "touches": [
+    "g6"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Participants",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Logistics",
+     "owns": [
+      "g6",
+      "g12"
+     ]
+    },
+    {
+     "name": "Judging",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Follow-up",
+     "owns": [
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g6",
+      "g12"
+     ]
+    },
+    {
+     "name": "Participants",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Judging",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Follow-up",
+     "owns": [
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,318 @@
+{
+ "id": "x24-brewery",
+ "domain": "microbrewery",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "right so the brewery. brew days come off the production plan which Sam does monthly from sales forecasts. recipe sheets say malt, hops, yeast amounts. brewer weighs out from the ingredient store and logs batch numbers on the brew sheet (needed for traceability). fermentation in the FVs, daily gravity readings go on the brew sheet. when done it's either kegged or canned, both get the batch number on the label. duty is calculated from the brew sheet volumes and abv, sent to HMRC monthly. ingredient store reorders when the store spreadsheet says low. taproom and wholesale both take from the cold store, wholesale orders come through the order inbox.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "production plan"
+  },
+  {
+   "id": "g2",
+   "text": "sales forecasts"
+  },
+  {
+   "id": "g3",
+   "text": "recipe sheets"
+  },
+  {
+   "id": "g4",
+   "text": "weigh out ingredients"
+  },
+  {
+   "id": "g5",
+   "text": "ingredient store"
+  },
+  {
+   "id": "g6",
+   "text": "brew sheet"
+  },
+  {
+   "id": "g7",
+   "text": "ferment in the FVs"
+  },
+  {
+   "id": "g8",
+   "text": "daily gravity readings"
+  },
+  {
+   "id": "g9",
+   "text": "keg or can"
+  },
+  {
+   "id": "g10",
+   "text": "batch labels"
+  },
+  {
+   "id": "g11",
+   "text": "calculate duty"
+  },
+  {
+   "id": "g12",
+   "text": "reorder ingredients"
+  },
+  {
+   "id": "g13",
+   "text": "store spreadsheet"
+  },
+  {
+   "id": "g14",
+   "text": "cold store"
+  },
+  {
+   "id": "g15",
+   "text": "taproom sales"
+  },
+  {
+   "id": "g16",
+   "text": "wholesale orders"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g14",
+   "kind": "uses"
+  },
+  {
+   "from": "g15",
+   "to": "g14",
+   "kind": "uses"
+  },
+  {
+   "from": "g16",
+   "to": "g14",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g4",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What drives the production plan?",
+   "a": "sales forecasts",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "Why are batch numbers logged?",
+   "a": "traceability, they go on the labels",
+   "needs": [
+    "g6",
+    "g10"
+   ]
+  },
+  {
+   "q": "What is duty calculated from?",
+   "a": "brew sheet volumes and abv",
+   "needs": [
+    "g11",
+    "g6"
+   ]
+  },
+  {
+   "q": "When are ingredients reordered?",
+   "a": "when the store spreadsheet says low",
+   "needs": [
+    "g12",
+    "g13"
+   ]
+  },
+  {
+   "q": "Where do the taproom and wholesale take beer from?",
+   "a": "the cold store",
+   "needs": [
+    "g15",
+    "g16",
+    "g14"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new duty rules",
+   "touches": [
+    "g11"
+   ]
+  },
+  {
+   "name": "start bottling",
+   "touches": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "name": "new supplier",
+   "touches": [
+    "g12",
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Brewing",
+     "owns": [
+      "g4",
+      "g6",
+      "g7",
+      "g8",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Stores",
+     "owns": [
+      "g5",
+      "g12",
+      "g13"
+     ]
+    },
+    {
+     "name": "Compliance",
+     "owns": [
+      "g11"
+     ]
+    },
+    {
+     "name": "Sales",
+     "owns": [
+      "g14",
+      "g15",
+      "g16"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Brewing",
+     "owns": [
+      "g4",
+      "g6",
+      "g7",
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Stores",
+     "owns": [
+      "g5",
+      "g12",
+      "g13"
+     ]
+    },
+    {
+     "name": "Sales",
+     "owns": [
+      "g14",
+      "g15",
+      "g16"
+     ]
+    }
+   ]
+  }
+ ]
+}

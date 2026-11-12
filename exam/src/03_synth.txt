@@ -1,0 +1,223 @@
+=== x21-bikeshop | bike repair shop | synthetic | hand-written | CC0 | ok
+bike shop, how things flow. customers drop bikes off at the counter, we fill a job ticket (bike, fault, phone number) and hang it on the bike. mechanic picks the next ticket off the rail in order of promised date. if parts are needed they check the parts drawer first then order from the distributor portal, which shows when stuff arrives. once fixed, mechanic does the safety check (brakes, bolts, tyres) and signs the ticket. counter staff text the customer from the ticket, take payment on the till when they collect. Ellie does the distributor orders on Fridays for stock, mechanics only order urgent bits. sales floor is separate, new bikes are assembled by mechanics when there's no repair queue.
+---
+el drop: drop-off at the counter
+el ticket: job ticket
+el rail: ticket rail
+el repair: repair the bike
+el drawer: parts drawer
+el portal: distributor portal
+el stock: weekly stock order
+el safety: safety check
+el text: text the customer
+el till: take payment
+el assemble: assemble new bikes
+edges: drop>ticket, rail>ticket, repair>rail, repair>drawer, repair>portal, stock>portal, safety>>text, safety>ticket, text>ticket, till>ticket, text>>till, assemble>rail, repair>>safety
+q: How does a mechanic pick the next job? | the ticket rail, by promised date | repair,rail
+q: Where do parts come from? | the parts drawer, else the distributor portal | repair,drawer,portal
+q: When is the customer contacted? | after the safety check, by text from the ticket | safety,text,ticket
+q: Who orders stock? | Ellie, weekly on Fridays | stock
+q: When are new bikes assembled? | when there is no repair queue | assemble,rail
+ch: new distributor | portal,stock
+ch: online booking | drop,ticket
+ch: stricter safety check | safety
+cut: four parts: Counter=drop,ticket,text,till; Workshop=rail,repair,safety,assemble; Parts=drawer,portal,stock
+cut: four parts b: Counter=drop,text,till; Jobs=ticket,rail; Workshop=repair,safety,assemble; Parts=drawer,portal,stock
+
+=== x22-theatre | amateur theatre production | synthetic | hand-written | CC0 | ok
+Hi all, notes from the production meeting. Director picks the play and holds auditions, cast list goes on the noticeboard. Rehearsal schedule is built from cast availability forms. Stage manager runs the prompt book (all blocking and cues live there). Set team builds from the designer's drawings, and they need the theatre's get-in times. Lighting and sound cues are plotted in the tech rehearsal, using the prompt book cues. Front of house sells tickets through the box office system and sorts ushers. Programme needs the cast list and goes to the printer two weeks before. Treasurer pays the rights fee before we can advertise.
+Thanks, Mo
+---
+el pick: pick the play
+el audition: hold auditions
+el cast: cast list
+el avail: availability forms
+el sched: rehearsal schedule
+el prompt: prompt book
+el build: build the set
+el drawings: set drawings
+el getin: get-in times
+el tech: tech rehearsal
+el box: box office system
+el ushers: sort ushers
+el programme: programme
+el rights: pay the rights fee
+el advertise: advertise the show
+edges: pick>>audition, audition>cast, sched>avail, sched>cast, build>drawings, build>getin, tech>prompt, programme>cast, rights>>advertise, rights>pick, pick>>rights
+q: What is the rehearsal schedule built from? | cast availability forms | sched,avail
+q: Where do lighting and sound cues come from? | the prompt book, in the tech rehearsal | tech,prompt
+q: What does the programme need? | the cast list | programme,cast
+q: What must happen before advertising? | the rights fee is paid | rights,advertise
+q: What does the set team need? | designer drawings and get-in times | build,drawings,getin
+q: How are tickets sold? | the box office system | box
+ch: recast a role | cast,programme,sched
+ch: new venue | getin,build,box
+ch: change the play | pick,rights
+cut: five parts: Casting=pick,audition,cast; Rehearsals=avail,sched,prompt,tech; Set=build,drawings,getin; Front of house=box,ushers,programme,advertise; Finance=rights
+cut: four parts: Casting=pick,audition,cast,rights; Rehearsals=avail,sched,prompt,tech; Set=build,drawings,getin; Front of house=box,ushers,programme,advertise
+
+=== x23-studio | recording studio | synthetic | hand-written | CC0 | ok
+- bands book sessions through the booking calendar, deposit taken at booking
+- engineer preps the live room from the session sheet (instruments, mic list)
+- tracking day: record to the DAW project, engineer keeps the take log
+- comping and edits after, from the take log
+- mixing uses the DAW project too, mix notes from the band come by email
+- mastering is outsourced, we send the final mix files
+- invoice balance before files are released, Kim does invoicing
+- backups of every DAW project to the NAS nightly
+---
+el book: book sessions
+el cal: booking calendar
+el deposit: take the deposit
+el prep: prep the live room
+el sheet: session sheet
+el track: record the tracks
+el daw: DAW project
+el log: take log
+el comp: comp and edit
+el mix: mix the song
+el notes: mix notes
+el master: send for mastering
+el invoice: invoice the balance
+el backup: nightly backups
+edges: book>cal, deposit>book, prep>sheet, track>daw, track>log, comp>log, comp>daw, mix>daw, mix>notes, master>mix, invoice>>master, backup>daw, prep>>track
+q: What does the engineer prep the room from? | the session sheet | prep,sheet
+q: What are edits based on? | the take log | comp,log
+q: When are files released? | after the balance is invoiced and paid | invoice,master
+q: Where do mix notes come from? | the band, by email | mix,notes
+q: What is backed up? | DAW projects, nightly to the NAS | backup,daw
+ch: move to a new DAW | daw,track,comp,mix,backup
+ch: change deposit policy | deposit,invoice
+ch: bring mastering in-house | master
+cut: four parts: Bookings=book,cal,deposit,invoice; Recording=prep,sheet,track,log; Production=daw,comp,mix,notes,master; IT=backup
+cut: three parts: Bookings=book,cal,deposit,invoice; Recording=prep,sheet,track,log,comp; Production=daw,mix,notes,master,backup
+
+=== x24-brewery | microbrewery | synthetic | hand-written | CC0 | ok
+right so the brewery. brew days come off the production plan which Sam does monthly from sales forecasts. recipe sheets say malt, hops, yeast amounts. brewer weighs out from the ingredient store and logs batch numbers on the brew sheet (needed for traceability). fermentation in the FVs, daily gravity readings go on the brew sheet. when done it's either kegged or canned, both get the batch number on the label. duty is calculated from the brew sheet volumes and abv, sent to HMRC monthly. ingredient store reorders when the store spreadsheet says low. taproom and wholesale both take from the cold store, wholesale orders come through the order inbox.
+---
+el plan: production plan
+el forecast: sales forecasts
+el recipe: recipe sheets
+el weigh: weigh out ingredients
+el store: ingredient store
+el brewsheet: brew sheet
+el ferment: ferment in the FVs
+el gravity: daily gravity readings
+el package: keg or can
+el label: batch labels
+el duty: calculate duty
+el reorder: reorder ingredients
+el storesheet: store spreadsheet
+el cold: cold store
+el taproom: taproom sales
+el wholesale: wholesale orders
+edges: plan>forecast, weigh>recipe, weigh>store, weigh>brewsheet, gravity>brewsheet, ferment>>package, package>label, label>brewsheet, duty>brewsheet, reorder>storesheet, storesheet>store, package>cold, taproom>cold, wholesale>cold, weigh>>ferment, ferment>gravity, plan>>weigh
+q: What drives the production plan? | sales forecasts | plan,forecast
+q: Why are batch numbers logged? | traceability, they go on the labels | brewsheet,label
+q: What is duty calculated from? | brew sheet volumes and abv | duty,brewsheet
+q: When are ingredients reordered? | when the store spreadsheet says low | reorder,storesheet
+q: Where do the taproom and wholesale take beer from? | the cold store | taproom,wholesale,cold
+ch: new duty rules | duty
+ch: start bottling | package,label
+ch: new supplier | reorder,store
+cut: five parts: Planning=plan,forecast,recipe; Brewing=weigh,brewsheet,ferment,gravity,package,label; Stores=store,reorder,storesheet; Compliance=duty; Sales=cold,taproom,wholesale
+cut: four parts: Planning=plan,forecast,recipe; Brewing=weigh,brewsheet,ferment,gravity,package,label,duty; Stores=store,reorder,storesheet; Sales=cold,taproom,wholesale
+
+=== x25-translation | translation agency | synthetic | hand-written | CC0 | partial
+agency workflow as it stands. client sends files via the portal, project manager does a word count and quotes from the rate card. on approval PM picks a translator from the freelancer database by language pair and subject. translator works in the CAT tool using the client's translation memory and glossary. a second linguist reviews. delivery back through the portal. invoicing monthly from the job list. the terminology glossaries are a sore point: the PMs think they own them because they talk to clients, the senior linguists think glossaries are a linguistic asset and should be theirs. it's not been decided.
+---
+el upload: client uploads files
+el portal: client portal
+el quote: word count and quote
+el rates: rate card
+el pick: pick a translator
+el freelancers: freelancer database
+el cat: translate in the CAT tool
+el tm: translation memory
+el glossary: terminology glossary
+el review: second linguist review
+el deliver: deliver through the portal
+el invoice: monthly invoicing
+el jobs: job list
+edges: upload>portal, quote>rates, quote>>pick, pick>freelancers, cat>tm, cat>glossary, cat>>review, review>glossary, deliver>portal, review>>deliver, invoice>jobs, quote>jobs
+q: How is a translator chosen? | from the freelancer database by language pair and subject | pick,freelancers
+q: What does the translator work with? | the CAT tool, translation memory and glossary | cat,tm,glossary
+q: What are quotes based on? | word count and the rate card | quote,rates
+q: Who owns the glossaries? | disputed between PMs and senior linguists | glossary
+q: How are clients invoiced? | monthly from the job list | invoice,jobs
+ch: new CAT tool | cat,tm
+ch: rate rise | rates,quote
+ch: new portal | upload,deliver,portal
+cut: four parts: Client=upload,portal,deliver; Project management=quote,rates,pick,freelancers,jobs,invoice; Linguistic=cat,tm,glossary,review
+cut: four parts alt: Client=upload,portal,deliver,glossary; Project management=quote,rates,pick,freelancers,jobs,invoice; Linguistic=cat,tm,review
+
+=== x26-playtest | game studio playtesting | synthetic | hand-written | CC0 | ok
+playtest pipeline, for the new producer. build team makes a playtest build each Thursday from the stable branch. QA smoke tests it before anyone outside sees it. community manager recruits testers from the Discord and sends the NDA. testers play, the game sends telemetry to the analytics dashboard, and they fill a survey after. designers read the survey results and the dashboard and write up findings in the playtest report. findings become tickets in the backlog, the producer prioritises them for the next sprint. bugs found by testers go into the bug tracker, QA triages them.
+---
+el build: make the playtest build
+el branch: stable branch
+el smoke: smoke test
+el recruit: recruit testers
+el discord: Discord community
+el nda: send the NDA
+el telemetry: telemetry
+el dash: analytics dashboard
+el survey: tester survey
+el report: playtest report
+el backlog: backlog tickets
+el prio: prioritise for next sprint
+el bugs: bug tracker
+el triage: triage bugs
+edges: build>branch, build>>smoke, recruit>discord, recruit>>nda, telemetry>dash, report>survey, report>dash, backlog>report, prio>backlog, triage>bugs, smoke>>recruit
+q: What is the build made from? | the stable branch | build,branch
+q: What happens before testers see a build? | QA smoke test | smoke
+q: What does the report draw on? | survey results and the analytics dashboard | report,survey,dash
+q: Where do testers come from? | the Discord community | recruit,discord
+q: Who triages bugs from testers? | QA | triage,bugs
+ch: new analytics provider | telemetry,dash
+ch: switch from Discord to a forum | discord,recruit
+ch: daily builds | build
+cut: five parts: Build=build,branch; QA=smoke,bugs,triage; Community=recruit,discord,nda,survey; Analytics=telemetry,dash; Design=report,backlog,prio
+cut: four parts: Build=build,branch,smoke; QA=bugs,triage; Community=recruit,discord,nda,survey; Insights=telemetry,dash,report,backlog,prio
+
+=== x27-escape | escape room business | synthetic | hand-written | CC0 | ok
+Title: escape room ops doc
+Context:
+Bookings come in through the website booking widget, the widget checks the room calendar. Game host briefs the group with the safety talk and rules. Host watches on the CCTV monitors and gives hints over the speaker from the hint script. After each game the host resets the room following the reset checklist, broken props go in the maintenance log. Owner fixes props on Mondays from the log. Group photo taken at the end and emailed using the booking email. Reviews come in on Google, owner replies.
+Acceptance: new host can run a shift.
+---
+el widget: booking widget
+el cal: room calendar
+el brief: brief the group
+el cctv: watch on CCTV
+el hints: give hints
+el script: hint script
+el reset: reset the room
+el checklist: reset checklist
+el mlog: maintenance log
+el fix: fix props
+el photo: email the group photo
+el reviews: reply to reviews
+edges: widget>cal, brief>>cctv, hints>script, hints>cctv, reset>checklist, reset>mlog, fix>mlog, photo>widget, reset>>brief
+q: How does the widget know what's free? | the room calendar | widget,cal
+q: Where do hints come from? | the hint script | hints,script
+q: How are broken props handled? | logged in the maintenance log, fixed Mondays by the owner | mlog,fix
+q: What guides a reset? | the reset checklist | reset,checklist
+q: How is the photo sent? | emailed to the booking email | photo,widget
+ch: new booking platform | widget,cal,photo
+ch: new room theme | script,checklist
+ch: hire a technician | fix
+cut: five parts: Bookings=widget,cal,photo; Game=brief,cctv,hints,script; Reset=reset,checklist; Maintenance=mlog,fix; Reputation=reviews
+cut: three parts: Bookings=widget,cal,photo,reviews; Game=brief,cctv,hints,script,reset,checklist; Maintenance=mlog,fix
+
+=== x28-seq-pancakes | sequence | synthetic | hand-written | CC0 | refuse
+how I make pancakes: sift 100g flour into a bowl, make a well, crack in 2 eggs, whisk while slowly adding 300ml milk, rest the batter 30 minutes, heat a pan with a little oil, pour a ladle in, cook a minute each side, serve with lemon and sugar.
+---
+
+=== x29-offtopic-review | off-topic | synthetic | hand-written | CC0 | refuse
+Just finished the new season. The writing was sharper than last year and the lead actor was brilliant, though the finale dragged a bit. Seven out of ten, would watch again.
+---
+
+=== x30-vague | vague | synthetic | hand-written | CC0 | refuse
+our onboarding is broken. people join and stuff doesn't get done. can you split it into proper pieces?
+---
