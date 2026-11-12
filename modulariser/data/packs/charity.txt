@@ -1,0 +1,33 @@
+# charity fundraising
+people: Bea, Oscar, Leila, Dan
+## Donors | Keeps donor details and history. | why: donations need a donor record
+t crm: donor database
+a thank: send thank-you letters
+thank > crm
+## Campaigns | Plans appeals and events.
+a plan: plan the appeal
+t calendar: campaign calendar
+a mailout: send the appeal mailing
+plan > calendar
+plan >> mailout
+## Giving | Takes donations in.
+a online: take online donations
+a giftaid: claim Gift Aid
+t ledger: donations ledger
+online > ledger
+giftaid > ledger
+## Volunteers | Recruits and rosters volunteers.
+t rota: volunteer rota
+a recruit: recruit volunteers
+recruit >> rota
+## Reporting | Reports to trustees.
+a report: write the trustee report
+t kpis: fundraising dashboard
+report > kpis
+## cross
+campaigns.mailout > donors.crm
+giving.online > donors.crm
+donors.thank > giving.ledger
+campaigns.plan > volunteers.rota
+reporting.kpis > giving.ledger
+reporting.report > campaigns.calendar

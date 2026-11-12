@@ -1,0 +1,32 @@
+# home renovation
+people: Gemma, Tariq, the builder, Paul
+## Design | Decides what the finished room looks like. | why: work needs a plan
+a sketch: sketch the layout
+t drawings: plans and drawings
+a choose: choose tiles and fittings
+sketch > drawings
+## Permits | Gets the paperwork approved.
+a apply: apply for building control
+t approval: building control approval
+
+## Trades | Books and coordinates the trades.
+a electrician: book the electrician
+a plumber: book the plumber
+t schedule: works schedule
+electrician > schedule
+plumber > schedule
+## Materials | Orders and receives materials.
+a ordermat: order materials
+t delivery: delivery dates
+ordermat > delivery
+## Finances | Pays for it all.
+t spend: spend tracker
+a stage: pay stage payments
+stage > spend
+## cross
+permits.apply > design.drawings
+trades.schedule > materials.delivery
+materials.ordermat > design.choose
+trades.electrician > permits.approval
+finances.stage > trades.schedule
+materials.ordermat > finances.spend

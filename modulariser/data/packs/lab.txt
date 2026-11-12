@@ -1,0 +1,36 @@
+# research lab
+people: Prof Ito, Sara, Kemal, Bianca
+## Grants | Wins and manages funding. | why: research needs money
+t grant: grant budget
+a apply: write grant applications
+a report: report to the funder
+report > grant
+## Experiments | Designs and runs experiments.
+t protocol: experiment protocol
+a run: run experiments
+t notebook: lab notebook
+run > protocol
+run > notebook
+## Samples | Stores and tracks samples.
+t freezer: freezer inventory
+a label: label samples
+label > freezer
+## Analysis | Analyses the data.
+a analyse: analyse results
+t pipeline: analysis scripts
+analyse > pipeline
+## Publishing | Writes up and publishes.
+a write: write the paper
+a submit: submit to a journal
+write >> submit
+## Safety | Keeps the lab safe.
+t risk: risk assessments
+a induct: induct new staff
+induct > risk
+## cross
+experiments.run > samples.freezer
+experiments.protocol > safety.risk
+analysis.analyse > experiments.notebook
+publishing.write > analysis.analyse
+grants.report > publishing.submit
+experiments.run > grants.grant

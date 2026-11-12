@@ -1,0 +1,29 @@
+# podcast
+people: Jas, Theo, Mina, Rob
+## Booking | Finds and books guests. | why: shows need guests
+a outreach: email guests
+t guestlist: guest list
+outreach > guestlist
+## Prep | Researches each episode.
+a research: research the guest
+t outline: episode outline
+research > outline
+## Recording | Records the episode.
+a record: record the episode
+t kit: mic and recorder
+record > kit
+## Editing | Cuts and mixes audio.
+a edit: edit the audio
+a shownotes: write show notes
+edit >> shownotes
+## Publishing | Releases and promotes.
+a upload: upload to the host
+t feed: RSS feed
+a clips: post social clips
+upload > feed
+## cross
+prep.research > booking.guestlist
+recording.record > prep.outline
+recording.record >> editing.edit
+editing.shownotes > prep.outline
+publishing.upload > editing.shownotes

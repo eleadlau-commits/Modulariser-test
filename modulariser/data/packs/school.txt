@@ -1,0 +1,30 @@
+# school admissions
+people: Mrs Begum, Mr Foster, Lola, Ade
+## Applications | Receives and checks applications. | why: families need to apply
+a receive: receive applications
+t forms: application forms
+a verify: verify addresses
+receive > forms
+verify > forms
+## Places | Allocates places.
+t criteria: admissions criteria
+a rank: rank applicants
+a allocate: allocate places
+rank > criteria
+rank >> allocate
+## Offers | Tells families.
+a letters: send offer letters
+t waitlist: waiting list
+## Appeals | Hears appeals.
+a hear: hear appeals
+t panel: appeals panel
+hear > panel
+## Induction | Welcomes new pupils.
+a visits: run new-parent evenings
+t classlists: class lists
+## cross
+places.rank > applications.forms
+offers.letters > places.allocate
+offers.waitlist > places.criteria
+appeals.hear > places.criteria
+induction.classlists > places.allocate

@@ -1,0 +1,34 @@
+# car repair garage
+people: Mick, Sandra, Ravi, Jo
+## Bookings | Takes customer bookings and car details. | why: work has to come in
+t diary: workshop diary
+a book: book cars in
+a quote: give quotes
+book > diary
+## Diagnosis | Finds what is wrong.
+a inspect: inspect the car
+a diag: run diagnostics
+t jobcard: job card
+inspect > jobcard
+diag > jobcard
+## Parts | Orders and stores parts.
+a orderparts: order parts
+t partsbin: parts shelf
+t partslist: parts price list
+orderparts > partslist
+## Repair | Fixes the car.
+a repair: carry out repairs
+a testdrive: road test the car
+repair >> testdrive
+## Invoicing | Bills the customer.
+a invoice: write the invoice
+a collect: take payment on collection
+invoice >> collect
+## cross
+bookings.book >> diagnosis.inspect
+bookings.quote > parts.partslist
+parts.orderparts > diagnosis.jobcard
+repair.repair > diagnosis.jobcard
+repair.repair > parts.partsbin
+invoicing.invoice > diagnosis.jobcard
+invoicing.invoice > parts.partslist

@@ -1,0 +1,29 @@
+# dairy farm
+people: Gareth, Nia, Huw, Siân
+## Herd | Looks after the cows' health and breeding. | why: the herd needs managing
+t records: herd records
+a vet: arrange vet visits
+a breed: plan breeding
+vet > records
+breed > records
+## Milking | Milks twice a day.
+a milk: milk the cows
+a cleanparlour: clean the parlour
+t yield: milk yield log
+milk > yield
+milk >> cleanparlour
+## Feed | Grows and buys feed.
+a silage: make silage
+a buyfeed: buy concentrate feed
+t ration: feed ration plan
+buyfeed > ration
+## Sales | Sells milk to the dairy.
+t contract: milk contract
+a collection: book tanker collection
+collection > contract
+## cross
+milking.milk > herd.records
+feed.ration > herd.records
+feed.ration > milking.yield
+sales.collection > milking.yield
+herd.breed > milking.yield

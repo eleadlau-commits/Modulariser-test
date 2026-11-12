@@ -1,0 +1,38 @@
+# software release
+people: Priya, Ben, Chen, Alex, Sofia
+## Planning | Decides what goes into the release. | why: someone has to decide scope
+t roadmap: roadmap
+a triage: triage incoming issues
+t milestone: release milestone
+triage > roadmap
+triage > milestone
+## Development | Writes and reviews the code.
+a code: write the code
+a review: review pull requests
+t branch: main branch
+code >> review
+review > branch
+## Testing | Runs automated and manual tests.
+a ci: run the CI suite
+a qa: do manual QA
+t testplan: test plan
+qa > testplan
+ci >> qa
+## Packaging | Builds and signs the artefacts.
+a build: build release artefacts
+a sign: sign the artefacts
+t changelog: changelog
+build >> sign
+## Deployment | Ships to users and watches for problems.
+a deploy: deploy to production
+a monitor: monitor error rates
+t runbook: rollback runbook
+deploy >> monitor
+monitor > runbook
+## cross
+development.code > planning.milestone
+testing.ci > development.branch
+packaging.build > development.branch
+packaging.changelog > planning.milestone
+testing.qa >> packaging.build
+packaging.sign >> deployment.deploy

@@ -1,0 +1,34 @@
+# amateur football club
+people: Coach Dave, Mel, Tunde, Rosie
+## Membership | Signs up players and collects subs. | why: players must be registered
+t register: player register
+a subs: collect subs
+a signup: sign up new players
+subs > register
+signup > register
+## Coaching | Runs training and picks teams.
+a training: run training sessions
+a selection: pick the team
+t plan: training plan
+training > plan
+## Fixtures | Arranges matches.
+t calendar: fixture list
+a referee: book referees
+a pitch: book the pitch
+referee > calendar
+pitch > calendar
+## Kit | Buys and washes kit.
+t kitlist: kit inventory
+a wash: wash the kit
+wash > kitlist
+## Treasury | Keeps the accounts.
+t accounts: club accounts
+a fees: pay league fees
+fees > accounts
+## cross
+coaching.selection > membership.register
+coaching.selection > fixtures.calendar
+membership.subs > treasury.accounts
+fixtures.pitch > treasury.accounts
+kit.kitlist > membership.register
+fixtures.referee > treasury.accounts

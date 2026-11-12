@@ -1,0 +1,36 @@
+# recruitment
+people: Nadia, Sam, Yusuf, Clara
+## Requisition | Agrees the role and the budget for it. | why: a role must be approved before hiring
+a approve: get headcount approval
+t jd: job description
+approve >> jd
+## Sourcing | Finds candidates.
+a advertise: advertise the role
+a referrals: collect referrals
+t pipeline: candidate tracker
+advertise > pipeline
+referrals > pipeline
+## Interviewing | Screens and interviews candidates.
+a screen: phone screen candidates
+a panel: run panel interviews
+t scorecard: interview scorecard
+screen >> panel
+panel > scorecard
+## Offer | Makes and negotiates the offer.
+a offer: make the offer
+t salary: salary bands
+a references: check references
+offer > salary
+references >> offer
+## Onboarding | Gets the new hire started.
+a laptop: order a laptop
+a induction: run induction
+t checklist: onboarding checklist
+induction > checklist
+## cross
+sourcing.advertise > requisition.jd
+interviewing.screen > sourcing.pipeline
+interviewing.scorecard > requisition.jd
+offer.offer > interviewing.scorecard
+offer.offer >> onboarding.laptop
+requisition.approve > offer.salary

@@ -1,0 +1,30 @@
+# vet clinic
+people: Dr Lowe, Penny, Sanjay, Erin
+## Reception | Books and checks in pets. | why: owners need appointments
+t diary: appointment book
+a book: book appointments
+book > diary
+## Consults | Examines animals.
+a consult: run consultations
+t history: pet history
+consult > history
+## Surgery | Operates on animals.
+a operate: perform surgery
+t theatre: theatre list
+a recover: monitor recovery
+operate > theatre
+operate >> recover
+## Dispensary | Supplies medicines.
+a dispense: dispense medicines
+t drugs: drug stock
+dispense > drugs
+## Billing | Charges owners.
+a bill: bill the owner
+t plans: pet health plans
+bill > plans
+## cross
+consults.consult >> surgery.operate
+surgery.theatre > reception.diary
+dispensary.dispense > consults.history
+billing.bill > consults.history
+billing.bill > dispensary.drugs

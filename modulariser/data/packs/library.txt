@@ -1,0 +1,30 @@
+# public library
+people: Mrs Okafor, Pete, Jun, Ella
+## Acquisitions | Chooses and buys new books. | why: the collection needs new stock
+a select: select new titles
+a buy: order books from the vendor
+t budget: book budget
+select >> buy
+buy > budget
+## Cataloguing | Records and labels items.
+a catalogue: catalogue new items
+t catalogue_db: library catalogue
+a label: label and cover books
+catalogue > catalogue_db
+catalogue >> label
+## Circulation | Lends and takes back items.
+a lend: lend items
+a returns: process returns
+t members: member records
+lend > members
+returns > members
+## Events | Runs reading groups and children's events.
+t calendar: events calendar
+a storytime: run storytime
+storytime > calendar
+## cross
+acquisitions.buy >> cataloguing.catalogue
+circulation.lend > cataloguing.catalogue_db
+circulation.returns > cataloguing.catalogue_db
+acquisitions.select > circulation.members
+events.storytime > cataloguing.catalogue_db

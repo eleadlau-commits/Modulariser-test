@@ -1,0 +1,35 @@
+# warehouse fulfilment
+people: Dev, Marta, Kofi, Lena
+## Inbound | Receives goods from suppliers and puts them away. | why: stock has to arrive
+a unload: unload trucks
+a putaway: put stock away
+t asn: advance shipping notice
+unload > asn
+unload >> putaway
+## Inventory | Knows where everything is and how much.
+t wms: inventory system
+a cycle: run cycle counts
+t bins: bin locations
+cycle > wms
+## Picking | Picks customer orders off the shelves.
+a wave: plan pick waves
+a pick: pick items
+t picklist: pick list
+wave > picklist
+pick > picklist
+## Packing | Packs and labels parcels.
+a pack: pack parcels
+a label: print shipping labels
+pack >> label
+## Dispatch | Hands parcels to carriers.
+t manifest: carrier manifest
+a handover: hand over to the carrier
+handover > manifest
+## cross
+inbound.putaway > inventory.bins
+inbound.putaway > inventory.wms
+picking.wave > inventory.wms
+picking.pick > inventory.bins
+picking.pick >> packing.pack
+packing.label >> dispatch.handover
+dispatch.manifest > packing.label

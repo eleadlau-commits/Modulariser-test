@@ -1,0 +1,34 @@
+# hotel
+people: Marco, Aisha, Stefan, Yuki
+## Reservations | Takes and changes bookings. | why: rooms have to be sold
+t pms: booking system
+a reserve: take reservations
+a rates: set room rates
+reserve > pms
+reserve > rates
+## Front desk | Checks guests in and out.
+a checkin: check guests in
+a checkout: check guests out
+t keys: key cards
+checkin > keys
+checkin >> checkout
+## Housekeeping | Cleans and readies rooms.
+t roomstatus: room status board
+a clean: clean rooms
+a laundry: send linen to laundry
+clean > roomstatus
+## Maintenance | Fixes faults.
+t faults: fault log
+a fix: fix reported faults
+fix > faults
+## Billing | Charges the guest.
+t folio: guest folio
+a settle: settle the bill
+settle > folio
+## cross
+front.checkin > reservations.pms
+front.checkin > housekeeping.roomstatus
+front.checkout >> billing.settle
+housekeeping.clean > maintenance.faults
+billing.folio > reservations.rates
+housekeeping.clean > reservations.pms
