@@ -1,0 +1,262 @@
+{
+ "id": "x20-marking",
+ "domain": "school exam marking",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.ofqual.gov.uk/",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "how the exam board marks papers. scripts are scanned after the exam and split into question items in the marking system. senior examiners write the mark scheme and pick seed scripts. examiners do standardisation: mark practice scripts and must be within tolerance before live marking. seed scripts are slipped into live marking to keep checking examiners, ones who drift get stopped. marks go into the results database. grade boundaries set by the awarding committee looking at statistics and scripts. results day, then schools can ask for reviews of marking, which re-mark against the same mark scheme.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "scan scripts"
+  },
+  {
+   "id": "g2",
+   "text": "marking system"
+  },
+  {
+   "id": "g3",
+   "text": "mark scheme"
+  },
+  {
+   "id": "g4",
+   "text": "seed scripts"
+  },
+  {
+   "id": "g5",
+   "text": "standardisation"
+  },
+  {
+   "id": "g6",
+   "text": "live marking"
+  },
+  {
+   "id": "g7",
+   "text": "monitor examiners"
+  },
+  {
+   "id": "g8",
+   "text": "results database"
+  },
+  {
+   "id": "g9",
+   "text": "set grade boundaries"
+  },
+  {
+   "id": "g10",
+   "text": "issue results"
+  },
+  {
+   "id": "g11",
+   "text": "reviews of marking"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What must examiners pass before live marking?",
+   "a": "standardisation",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How are examiners checked during marking?",
+   "a": "seed scripts",
+   "needs": [
+    "g7",
+    "g4"
+   ]
+  },
+  {
+   "q": "What are grade boundaries based on?",
+   "a": "statistics and scripts from the results database",
+   "needs": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "What is a review of marking judged against?",
+   "a": "the same mark scheme",
+   "needs": [
+    "g11",
+    "g3"
+   ]
+  },
+  {
+   "q": "How are scripts divided?",
+   "a": "scanned and split into items in the marking system",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new mark scheme format",
+   "touches": [
+    "g3",
+    "g5"
+   ]
+  },
+  {
+   "name": "change monitoring tolerance",
+   "touches": [
+    "g7"
+   ]
+  },
+  {
+   "name": "new results database",
+   "touches": [
+    "g8",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Scripts",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Quality",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g7"
+     ]
+    },
+    {
+     "name": "Marking",
+     "owns": [
+      "g6",
+      "g8"
+     ]
+    },
+    {
+     "name": "Awarding",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Scripts",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Marking",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g7",
+      "g6",
+      "g8"
+     ]
+    },
+    {
+     "name": "Awarding",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

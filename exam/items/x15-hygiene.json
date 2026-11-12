@@ -1,0 +1,263 @@
+{
+ "id": "x15-hygiene",
+ "domain": "food hygiene inspection",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.food.gov.uk/business-guidance/food-hygiene-ratings-for-businesses",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "council food inspection, from the officer side. businesses are on the premises register with a risk score that decides how often we visit. visits are unannounced. on the day: look at handling and storage, the building condition, and management records (they should have a food safety management system like Safer Food Better Business, with fridge temperature logs). score each area, the scores convert to the 0-5 rating. letter sent with the rating and what to improve. rating published on the FSA website. the business can appeal within 21 days or ask for a re-score visit after fixing things.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "premises register"
+  },
+  {
+   "id": "g2",
+   "text": "risk score"
+  },
+  {
+   "id": "g3",
+   "text": "unannounced visit"
+  },
+  {
+   "id": "g4",
+   "text": "check handling and storage"
+  },
+  {
+   "id": "g5",
+   "text": "check building condition"
+  },
+  {
+   "id": "g6",
+   "text": "check management records"
+  },
+  {
+   "id": "g7",
+   "text": "food safety management system"
+  },
+  {
+   "id": "g8",
+   "text": "fridge temperature logs"
+  },
+  {
+   "id": "g9",
+   "text": "score each area"
+  },
+  {
+   "id": "g10",
+   "text": "hygiene rating"
+  },
+  {
+   "id": "g11",
+   "text": "letter to the business"
+  },
+  {
+   "id": "g12",
+   "text": "publish on the FSA website"
+  },
+  {
+   "id": "g13",
+   "text": "appeal or re-score request"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g3",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What decides visit frequency?",
+   "a": "the risk score on the premises register",
+   "needs": [
+    "g2",
+    "g1",
+    "g3"
+   ]
+  },
+  {
+   "q": "What records should the business keep?",
+   "a": "a food safety management system with temperature logs",
+   "needs": [
+    "g7",
+    "g8",
+    "g6"
+   ]
+  },
+  {
+   "q": "How is the rating worked out?",
+   "a": "from scores for handling, building and records",
+   "needs": [
+    "g10",
+    "g9"
+   ]
+  },
+  {
+   "q": "Where is the rating shown?",
+   "a": "the FSA website",
+   "needs": [
+    "g12"
+   ]
+  },
+  {
+   "q": "What can a business do about a bad rating?",
+   "a": "appeal or request a re-score",
+   "needs": [
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new scoring scheme",
+   "touches": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "name": "change publication site",
+   "touches": [
+    "g12"
+   ]
+  },
+  {
+   "name": "digital temperature logging",
+   "touches": [
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Inspection",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g9"
+     ]
+    },
+    {
+     "name": "Business records",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Rating",
+     "owns": [
+      "g10",
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Inspection",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g9",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Rating",
+     "owns": [
+      "g10",
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

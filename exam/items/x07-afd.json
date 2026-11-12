@@ -1,0 +1,233 @@
+{
+ "id": "x07-afd",
+ "domain": "wiki article deletion discussion",
+ "source": {
+  "kind": "real",
+  "origin": "https://en.wikipedia.org/wiki/Wikipedia:Articles_for_deletion",
+  "licence": "CC BY-SA 4.0 (paraphrased)"
+ },
+ "input": "AfD in practice: editor thinks an article isn't notable. should do a search first (WP:BEFORE) to check for sources. then tag the article with the AfD template and create the discussion page, and it gets listed on the daily log. notify the article's creator on their talk page. other editors comment keep/delete citing policy (notability guidelines mainly). runs 7 days. then an uninvolved admin or experienced editor closes it, reading consensus not counting votes. if delete, admin deletes the article. people can go to deletion review if they think the close was wrong.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "search for sources first"
+  },
+  {
+   "id": "g2",
+   "text": "tag the article"
+  },
+  {
+   "id": "g3",
+   "text": "discussion page"
+  },
+  {
+   "id": "g4",
+   "text": "daily log"
+  },
+  {
+   "id": "g5",
+   "text": "notify the creator"
+  },
+  {
+   "id": "g6",
+   "text": "editors comment"
+  },
+  {
+   "id": "g7",
+   "text": "notability guidelines"
+  },
+  {
+   "id": "g8",
+   "text": "close the discussion"
+  },
+  {
+   "id": "g9",
+   "text": "delete the article"
+  },
+  {
+   "id": "g10",
+   "text": "deletion review"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What should happen before nominating?",
+   "a": "a search for sources",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "What do commenters cite?",
+   "a": "notability guidelines",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "Who closes and how?",
+   "a": "an uninvolved admin or experienced editor, by consensus",
+   "needs": [
+    "g8"
+   ]
+  },
+  {
+   "q": "What can you do about a bad close?",
+   "a": "deletion review",
+   "needs": [
+    "g10",
+    "g8"
+   ]
+  },
+  {
+   "q": "Who is notified?",
+   "a": "the article's creator",
+   "needs": [
+    "g5"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change notability rules",
+   "touches": [
+    "g7"
+   ]
+  },
+  {
+   "name": "shorten the discussion period",
+   "touches": [
+    "g3",
+    "g8"
+   ]
+  },
+  {
+   "name": "automatic notifications",
+   "touches": [
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Nomination",
+     "owns": [
+      "g1",
+      "g2",
+      "g5"
+     ]
+    },
+    {
+     "name": "Discussion",
+     "owns": [
+      "g3",
+      "g4",
+      "g6"
+     ]
+    },
+    {
+     "name": "Policy",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Outcome",
+     "owns": [
+      "g8",
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Nomination",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Discussion",
+     "owns": [
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Outcome",
+     "owns": [
+      "g8",
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

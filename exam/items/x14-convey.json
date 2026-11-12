@@ -1,0 +1,286 @@
+{
+ "id": "x14-convey",
+ "domain": "buying a house in England",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.gov.uk/buy-sell-your-home",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "buying a flat, what our solicitor said happens. offer accepted through the estate agent. solicitor sends client care letter, ID and source of funds checks (anti money laundering). seller's solicitor sends the draft contract and property info forms. our solicitor orders searches (local authority, water, environmental) and raises enquiries. mortgage lender does its valuation and issues the mortgage offer, solicitor also acts for the lender. survey is our job, separate. once searches back and enquiries answered, report on title, we sign the contract, pay deposit, exchange contracts, completion date fixed. on completion lender sends funds, solicitor pays stamp duty and registers us at Land Registry.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "offer accepted"
+  },
+  {
+   "id": "g2",
+   "text": "ID and source of funds checks"
+  },
+  {
+   "id": "g3",
+   "text": "draft contract"
+  },
+  {
+   "id": "g4",
+   "text": "property information forms"
+  },
+  {
+   "id": "g5",
+   "text": "order searches"
+  },
+  {
+   "id": "g6",
+   "text": "raise enquiries"
+  },
+  {
+   "id": "g7",
+   "text": "lender valuation"
+  },
+  {
+   "id": "g8",
+   "text": "mortgage offer"
+  },
+  {
+   "id": "g9",
+   "text": "survey"
+  },
+  {
+   "id": "g10",
+   "text": "report on title"
+  },
+  {
+   "id": "g11",
+   "text": "exchange contracts"
+  },
+  {
+   "id": "g12",
+   "text": "completion"
+  },
+  {
+   "id": "g13",
+   "text": "pay stamp duty"
+  },
+  {
+   "id": "g14",
+   "text": "register at Land Registry"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g12",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What must happen before exchange?",
+   "a": "report on title and a mortgage offer",
+   "needs": [
+    "g11",
+    "g10",
+    "g8"
+   ]
+  },
+  {
+   "q": "What are enquiries raised about?",
+   "a": "the draft contract and property forms",
+   "needs": [
+    "g6",
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "What follows completion?",
+   "a": "stamp duty paid and Land Registry registration",
+   "needs": [
+    "g12",
+    "g13",
+    "g14"
+   ]
+  },
+  {
+   "q": "What does the mortgage offer depend on?",
+   "a": "the lender valuation",
+   "needs": [
+    "g8",
+    "g7"
+   ]
+  },
+  {
+   "q": "Who arranges the survey?",
+   "a": "the buyer, separately",
+   "needs": [
+    "g9"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "switch lender",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "name": "new search provider",
+   "touches": [
+    "g5"
+   ]
+  },
+  {
+   "name": "stamp duty rate change",
+   "touches": [
+    "g13"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Client",
+     "owns": [
+      "g1",
+      "g2",
+      "g9"
+     ]
+    },
+    {
+     "name": "Contract",
+     "owns": [
+      "g3",
+      "g4",
+      "g6",
+      "g5",
+      "g10"
+     ]
+    },
+    {
+     "name": "Lender",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Exchange and completion",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Post-completion",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Client",
+     "owns": [
+      "g1",
+      "g2",
+      "g9"
+     ]
+    },
+    {
+     "name": "Contract",
+     "owns": [
+      "g3",
+      "g4",
+      "g6",
+      "g5",
+      "g10"
+     ]
+    },
+    {
+     "name": "Lender",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Completion",
+     "owns": [
+      "g11",
+      "g12",
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  }
+ ]
+}

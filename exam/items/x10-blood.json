@@ -1,0 +1,284 @@
+{
+ "id": "x10-blood",
+ "domain": "blood donation session",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.blood.co.uk/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "blood donation session at the church hall. donors book an appointment in the app. on arrival, reception checks them in and gives the health questionnaire. nurse does the private health screening chat and the finger prick haemoglobin test. if ok, donor goes to the chair and the donor carer does the donation, ~10 mins, bag labelled with the donation barcode. rest and snacks for 15 mins at the refreshment table. bags go in cool boxes and the driver takes them to the processing centre that evening, where they're tested and separated. donor records updated with the barcode so test results link back.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "book an appointment"
+  },
+  {
+   "id": "g2",
+   "text": "donor app"
+  },
+  {
+   "id": "g3",
+   "text": "check in donors"
+  },
+  {
+   "id": "g4",
+   "text": "health questionnaire"
+  },
+  {
+   "id": "g5",
+   "text": "health screening"
+  },
+  {
+   "id": "g6",
+   "text": "haemoglobin test"
+  },
+  {
+   "id": "g7",
+   "text": "take the donation"
+  },
+  {
+   "id": "g8",
+   "text": "donation barcode"
+  },
+  {
+   "id": "g9",
+   "text": "rest and refreshments"
+  },
+  {
+   "id": "g10",
+   "text": "pack bags in cool boxes"
+  },
+  {
+   "id": "g11",
+   "text": "drive to the processing centre"
+  },
+  {
+   "id": "g12",
+   "text": "test and separate"
+  },
+  {
+   "id": "g13",
+   "text": "donor records"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g12",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How does a donor book?",
+   "a": "in the donor app",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "What happens before donating?",
+   "a": "questionnaire, health screening and haemoglobin test",
+   "needs": [
+    "g4",
+    "g5",
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "How do test results link to the donor?",
+   "a": "via the donation barcode in donor records",
+   "needs": [
+    "g8",
+    "g13",
+    "g12"
+   ]
+  },
+  {
+   "q": "Where do bags go?",
+   "a": "in cool boxes to the processing centre",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What happens after donating?",
+   "a": "rest and refreshments",
+   "needs": [
+    "g7",
+    "g9"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new screening questions",
+   "touches": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "name": "change courier times",
+   "touches": [
+    "g11",
+    "g10"
+   ]
+  },
+  {
+   "name": "switch barcode format",
+   "touches": [
+    "g8",
+    "g13",
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Screening",
+     "owns": [
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Donation",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Transport",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Lab",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Screening",
+     "owns": [
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Donation",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Processing",
+     "owns": [
+      "g10",
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

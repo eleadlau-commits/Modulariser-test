@@ -1,0 +1,272 @@
+=== x11-asfrel | open source foundation release vote | real | https://www.apache.org/legal/release-policy.html | Apache-2.0 (paraphrased) | ok
+Apache release, the way our PMC does it. release manager creates the release candidate from the release branch, signs the source tarball with their GPG key (key has to be in the project KEYS file). artifacts uploaded to dist/dev staging area. RM sends the [VOTE] email to dev@ list, vote stays open at least 72 hours. needs 3 binding +1 from PMC members and more +1 than -1. voters check signatures, checksums, licence headers (RAT tool) and that it builds. if it passes, RM sends [RESULT] email, moves artifacts to dist/release, then announces on announce@ after mirrors sync. failed vote = fix and new RC.
+---
+el rc: create the release candidate
+el branch: release branch
+el sign: sign the tarball
+el keys: KEYS file
+el stage: dist/dev staging area
+el vote: vote email
+el list: dev mailing list
+el verify: verify signatures, checksums and licences
+el rat: RAT licence tool
+el result: result email
+el move: move to dist/release
+el announce: announce the release
+edges: rc>branch, rc>>sign, sign>keys, sign>>stage, vote>list, vote>stage, verify>stage, verify>keys, verify>rat, result>vote, result>list, result>>move, move>stage, move>>announce
+q: Where must the signing key be published? | the project KEYS file | sign,keys
+q: What do voters check? | signatures, checksums, licence headers and build | verify,rat,keys
+q: Where is the vote held? | the dev mailing list | vote,list
+q: What happens after a passing vote? | result email, move to dist/release, announce | result,move,announce
+q: What is the candidate made from? | the release branch | rc,branch
+ch: change voting rules | vote,result
+ch: switch signing tool | sign,keys,verify
+ch: new distribution host | stage,move
+cut: four parts: Release manager=rc,branch,sign,keys; Staging=stage,move,announce; Vote=vote,list,result; Verification=verify,rat
+cut: three parts: Release manager=rc,branch,sign,keys; Distribution=stage,move,announce; Vote=vote,list,result,verify,rat
+
+=== x12-sprint | scrum sprint | real | https://scrumguides.org/scrum-guide.html | CC BY-SA 4.0 (paraphrased) | ok
+how our team runs a sprint. product owner keeps the product backlog ordered, does refinement with the team midweek (estimates in story points). sprint planning on day 1: team picks items from the top of the backlog into the sprint backlog based on velocity from the last few sprints, and agrees a sprint goal. daily standup 15 min at the board. work is "done" when it meets the definition of done (tests, review, docs). sprint review at the end shows the increment to stakeholders, feedback goes back into the backlog. retro after that, actions go on the improvement list. scrum master facilitates all the meetings and tracks velocity.
+---
+el pbl: product backlog
+el refine: backlog refinement
+el plan: sprint planning
+el sbl: sprint backlog
+el velocity: velocity
+el goal: sprint goal
+el standup: daily standup
+el dod: definition of done
+el review: sprint review
+el retro: retrospective
+el actions: improvement list
+edges: refine>pbl, plan>pbl, plan>velocity, plan>sbl, plan>goal, standup>sbl, review>dod, review>pbl, retro>actions, review>>retro, plan>>standup
+q: What decides how much is pulled into a sprint? | velocity from recent sprints | plan,velocity
+q: Where does stakeholder feedback go? | back into the product backlog | review,pbl
+q: When is work done? | when it meets the definition of done | dod
+q: Where do retro actions go? | the improvement list | retro,actions
+q: What is agreed at planning? | sprint backlog and sprint goal | plan,sbl,goal
+ch: change estimation method | refine,velocity
+ch: stricter definition of done | dod
+ch: async standups | standup
+cut: four parts: Backlog=pbl,refine; Planning=plan,sbl,velocity,goal; Execution=standup,dod; Inspection=review,retro,actions
+cut: three parts: Backlog=pbl,refine; Sprint=plan,sbl,velocity,goal,standup,dod; Inspection=review,retro,actions
+
+=== x13-shelter | dog adoption from a rescue | real | https://www.dogstrust.org.uk/ | paraphrased general practice | ok
+rescue adoption process for volunteers. people browse dogs on the website, every dog has a profile written by the kennel team after their behaviour assessment. they fill the adoption application online. rehoming officer reviews it and calls them. home check by a volunteer (fence height, other pets etc). then meet the dog at the centre, maybe a few visits. vet check before leaving: microchip registered to the new owner, vaccinations, neutering. adoption fee paid and contract signed. aftercare team calls at 1 week and 6 weeks. dogs that come back go back into kennels and get reassessed.
+---
+el browse: browse dogs online
+el profile: dog profile
+el assess: behaviour assessment
+el app: adoption application
+el review: review the application
+el home: home check
+el meet: meet the dog
+el vet: vet check
+el chip: register the microchip
+el fee: pay the adoption fee
+el contract: adoption contract
+el after: aftercare calls
+el back: returned dogs
+edges: browse>profile, profile>assess, review>app, review>>home, home>>meet, meet>profile, vet>>chip, contract>fee, chip>contract, after>contract, back>assess, meet>>vet
+q: Who writes the dog profiles? | the kennel team after behaviour assessment | profile,assess
+q: What is checked at home? | fence height, other pets etc | home
+q: What happens before a dog leaves? | vet check, microchip registered, fee and contract | vet,chip,fee,contract
+q: What happens to returned dogs? | back into kennels and reassessed | back,assess
+q: When are aftercare calls made? | at 1 and 6 weeks | after
+ch: new application form | app,review
+ch: change microchip database | chip
+ch: add video home checks | home
+cut: five parts: Kennels=profile,assess,back; Applications=browse,app,review,home; Matching=meet; Vet=vet,chip; Adoption=fee,contract,after
+cut: four parts: Kennels=profile,assess,back; Applications=browse,app,review,home,meet; Vet=vet,chip; Adoption=fee,contract,after
+
+=== x14-convey | buying a house in England | real | https://www.gov.uk/buy-sell-your-home | OGL v3 (paraphrased) | ok
+buying a flat, what our solicitor said happens. offer accepted through the estate agent. solicitor sends client care letter, ID and source of funds checks (anti money laundering). seller's solicitor sends the draft contract and property info forms. our solicitor orders searches (local authority, water, environmental) and raises enquiries. mortgage lender does its valuation and issues the mortgage offer, solicitor also acts for the lender. survey is our job, separate. once searches back and enquiries answered, report on title, we sign the contract, pay deposit, exchange contracts, completion date fixed. on completion lender sends funds, solicitor pays stamp duty and registers us at Land Registry.
+---
+el offer: offer accepted
+el aml: ID and source of funds checks
+el draft: draft contract
+el forms: property information forms
+el searches: order searches
+el enq: raise enquiries
+el val: lender valuation
+el moffer: mortgage offer
+el survey: survey
+el title: report on title
+el exchange: exchange contracts
+el complete: completion
+el sdlt: pay stamp duty
+el lr: register at Land Registry
+edges: aml>>searches, enq>draft, enq>forms, title>searches, title>enq, moffer>val, exchange>title, exchange>moffer, exchange>>complete, complete>moffer, sdlt>complete, lr>complete, offer>>aml
+q: What must happen before exchange? | report on title and a mortgage offer | exchange,title,moffer
+q: What are enquiries raised about? | the draft contract and property forms | enq,draft,forms
+q: What follows completion? | stamp duty paid and Land Registry registration | complete,sdlt,lr
+q: What does the mortgage offer depend on? | the lender valuation | moffer,val
+q: Who arranges the survey? | the buyer, separately | survey
+ch: switch lender | val,moffer
+ch: new search provider | searches
+ch: stamp duty rate change | sdlt
+cut: five parts: Client=offer,aml,survey; Contract=draft,forms,enq,searches,title; Lender=val,moffer; Exchange and completion=exchange,complete; Post-completion=sdlt,lr
+cut: four parts: Client=offer,aml,survey; Contract=draft,forms,enq,searches,title; Lender=val,moffer; Completion=exchange,complete,sdlt,lr
+
+=== x15-hygiene | food hygiene inspection | real | https://www.food.gov.uk/business-guidance/food-hygiene-ratings-for-businesses | OGL v3 (paraphrased) | ok
+council food inspection, from the officer side. businesses are on the premises register with a risk score that decides how often we visit. visits are unannounced. on the day: look at handling and storage, the building condition, and management records (they should have a food safety management system like Safer Food Better Business, with fridge temperature logs). score each area, the scores convert to the 0-5 rating. letter sent with the rating and what to improve. rating published on the FSA website. the business can appeal within 21 days or ask for a re-score visit after fixing things.
+---
+el register: premises register
+el risk: risk score
+el visit: unannounced visit
+el handling: check handling and storage
+el building: check building condition
+el records: check management records
+el sfbb: food safety management system
+el temps: fridge temperature logs
+el score: score each area
+el rating: hygiene rating
+el letter: letter to the business
+el publish: publish on the FSA website
+el appeal: appeal or re-score request
+edges: visit>register, visit>risk, records>sfbb, sfbb>temps, score>handling, score>building, score>records, rating>score, letter>rating, publish>rating, appeal>rating, visit>>handling
+q: What decides visit frequency? | the risk score on the premises register | risk,register,visit
+q: What records should the business keep? | a food safety management system with temperature logs | sfbb,temps,records
+q: How is the rating worked out? | from scores for handling, building and records | rating,score
+q: Where is the rating shown? | the FSA website | publish
+q: What can a business do about a bad rating? | appeal or request a re-score | appeal
+ch: new scoring scheme | score,rating
+ch: change publication site | publish
+ch: digital temperature logging | temps
+cut: four parts: Planning=register,risk,visit; Inspection=handling,building,records,score; Business records=sfbb,temps; Rating=rating,letter,publish,appeal
+cut: three parts: Planning=register,risk,visit; Inspection=handling,building,records,score,sfbb,temps; Rating=rating,letter,publish,appeal
+
+=== x16-polling | running a polling station | real | https://www.electoralcommission.org.uk/ | OGL v3 (paraphrased) | ok
+presiding officer notes for polling day. collect the ballot box, ballot papers and the polling station register from the council the night before. open at 7am, show the empty box, seal it. voter gives name and address, poll clerk finds them on the register, checks photo ID, marks them off and writes their elector number on the corresponding number list (not on the ballot). hand ballot paper, voter goes to booth, puts paper in box. close at 10pm. complete the ballot paper account (issued, spoilt, unused), seal everything and take the box to the count. tendered ballots if someone already marked as voted.
+---
+el collect: collect materials from the council
+el box: ballot box
+el papers: ballot papers
+el reg: polling station register
+el seal: show and seal the box
+el find: find the voter on the register
+el id: check photo ID
+el cnl: corresponding number list
+el issue: issue the ballot paper
+el vote: vote in the booth
+el account: ballot paper account
+el count: take the box to the count
+el tendered: tendered ballots
+edges: collect>box, collect>papers, collect>reg, seal>box, find>reg, find>>id, id>>issue, issue>papers, issue>cnl, vote>box, account>papers, account>>count, count>box, tendered>reg, seal>>find
+q: What is checked before a ballot is issued? | the register entry and photo ID | find,id,issue
+q: Where is the elector number written? | on the corresponding number list | issue,cnl
+q: What is in the ballot paper account? | issued, spoilt and unused papers | account,papers
+q: What happens when someone is already marked as voted? | a tendered ballot | tendered,reg
+q: What is done at close? | complete the account, seal and take the box to the count | account,count
+ch: change ID rules | id
+ch: electronic register | reg,find,tendered
+ch: new count location | count
+cut: four parts: Materials=collect,box,papers,seal; Register=reg,find,id,tendered; Voting=issue,cnl,vote; Close=account,count
+cut: three parts: Materials=collect,box,papers,seal,account,count; Register=reg,find,id,tendered; Voting=issue,cnl,vote
+
+=== x17-marathon | city marathon organising | real | https://www.englandathletics.org/ | paraphrased general practice | partial
+city marathon planning notes (draft). entries open on the entry platform, runners get race numbers with timing chips. course has to be measured and certified, then council road closure order applied for. medical team plans first aid posts along the course. water stations every 5k staffed by volunteers. volunteer coordinator runs the volunteer rota and briefings. timing company reads the chips at start, finish and splits, results published on the website. there's an ongoing row about the baggage drop: the volunteer coordinator says it's theirs because volunteers staff it, but the logistics manager says it belongs with the start area setup. nobody's settled it.
+---
+el entries: entry platform
+el numbers: race numbers with chips
+el measure: certify the course
+el closure: road closure order
+el medical: first aid posts
+el water: water stations
+el rota: volunteer rota
+el brief: volunteer briefings
+el timing: read the chips
+el results: publish results
+el start: start area setup
+el bags: baggage drop
+edges: numbers>entries, measure>>closure, medical>measure, water>measure, water>rota, brief>rota, timing>numbers, results>timing, bags>rota, bags>start
+q: What does the timing company read? | the chips in race numbers | timing,numbers
+q: What must happen before the road closure? | course certification | measure,closure
+q: Who staffs water stations? | volunteers from the rota | water,rota
+q: Who owns the baggage drop? | disputed between volunteers and logistics | bags
+q: Where are results published? | the website | results
+ch: change timing company | timing,results
+ch: reroute the course | measure,closure,medical,water
+ch: new volunteer system | rota,brief
+cut: five parts: Entries=entries,numbers; Course=measure,closure,start; Medical=medical; Volunteers=rota,brief,water,bags; Timing=timing,results
+cut: five parts alt: Entries=entries,numbers; Course=measure,closure,start,bags; Medical=medical; Volunteers=rota,brief,water; Timing=timing,results
+
+=== x18-taxreturn | self-assessment tax return | real | https://www.gov.uk/self-assessment-tax-returns | OGL v3 (paraphrased) | ok
+how I do my self assessment as a freelancer. register for self assessment once, get the UTR. through the year keep invoices and receipts in the spreadsheet, the spreadsheet works out income and expenses. after April, download the P60 from my part-time job and interest figures from the bank. log into the HMRC online account, fill the return using the spreadsheet totals and the P60. HMRC calculates the bill. pay by 31 January (balancing payment plus first payment on account), payments on account are based on last year's bill. keep records 5 years in case of an enquiry.
+---
+el register: register for self assessment
+el utr: UTR number
+el sheet: income and expenses spreadsheet
+el receipts: invoices and receipts
+el p60: P60
+el interest: bank interest figures
+el account: HMRC online account
+el file: fill in the return
+el calc: tax calculation
+el pay: pay the bill
+el poa: payments on account
+el keep: keep records
+edges: register>>utr, sheet>receipts, file>account, file>sheet, file>p60, file>interest, account>utr, calc>file, pay>calc, poa>calc, keep>receipts
+q: What does the return draw on? | spreadsheet totals, P60 and interest figures | file,sheet,p60,interest
+q: How are payments on account set? | from last year's bill | poa,calc
+q: How long are records kept? | five years | keep
+q: What is needed to use the online account? | the UTR from registration | account,utr
+q: Where do income and expense totals come from? | the spreadsheet of invoices and receipts | sheet,receipts
+ch: switch to accounting software | sheet,receipts
+ch: new deadline | pay
+ch: stop the part-time job | p60
+cut: four parts: Registration=register,utr,account; Bookkeeping=sheet,receipts,keep; Filing=p60,interest,file,calc; Payment=pay,poa
+cut: three parts: Registration=register,utr,account; Bookkeeping=sheet,receipts,keep; Filing and payment=p60,interest,file,calc,pay,poa
+
+=== x19-claim | home insurance claim | real | https://www.financial-ombudsman.org.uk/ | paraphrased general practice | ok
+claims team process for home insurance. customer reports the claim by phone or the web form, we create a claim record against their policy. handler checks cover against the policy wording and excess. small claims get settled straight away, bigger ones get a loss adjuster who visits and writes a report. fraud screening runs on every new claim record automatically. settlement: cash payment or we send a repairer from our approved network. customer can complain, and if we don't resolve it in 8 weeks they can go to the ombudsman. reserves for open claims are set by the handler for finance.
+---
+el report: report the claim
+el record: claim record
+el policy: policy wording
+el cover: check cover and excess
+el adjuster: loss adjuster visit
+el adjreport: adjuster report
+el fraud: fraud screening
+el settle: settle the claim
+el network: approved repairer network
+el complain: handle complaints
+el ombud: ombudsman referral
+el reserve: set reserves
+edges: report>>record, record>policy, cover>policy, adjuster>record, adjuster>>adjreport, fraud>record, settle>cover, settle>adjreport, settle>network, complain>record, complain>>ombud, reserve>record
+q: What is cover checked against? | the policy wording and excess | cover,policy
+q: When is a loss adjuster used? | for bigger claims | adjuster
+q: When does fraud screening run? | automatically on every new claim record | fraud,record
+q: How can a claim be settled? | cash or an approved repairer | settle,network
+q: When can a customer go to the ombudsman? | if a complaint is unresolved after 8 weeks | complain,ombud
+ch: new fraud model | fraud
+ch: change repairer network | network,settle
+ch: new policy wording | policy,cover
+cut: five parts: Intake=report,record; Assessment=policy,cover,adjuster,adjreport; Fraud=fraud; Settlement=settle,network,reserve; Complaints=complain,ombud
+cut: four parts: Intake=report,record,fraud; Assessment=policy,cover,adjuster,adjreport; Settlement=settle,network,reserve; Complaints=complain,ombud
+
+=== x20-marking | school exam marking | real | https://www.ofqual.gov.uk/ | OGL v3 (paraphrased) | ok
+how the exam board marks papers. scripts are scanned after the exam and split into question items in the marking system. senior examiners write the mark scheme and pick seed scripts. examiners do standardisation: mark practice scripts and must be within tolerance before live marking. seed scripts are slipped into live marking to keep checking examiners, ones who drift get stopped. marks go into the results database. grade boundaries set by the awarding committee looking at statistics and scripts. results day, then schools can ask for reviews of marking, which re-mark against the same mark scheme.
+---
+el scan: scan scripts
+el system: marking system
+el scheme: mark scheme
+el seeds: seed scripts
+el standard: standardisation
+el live: live marking
+el monitor: monitor examiners
+el db: results database
+el boundaries: set grade boundaries
+el results: issue results
+el reviews: reviews of marking
+edges: scan>system, standard>scheme, standard>seeds, standard>>live, live>system, live>scheme, monitor>seeds, monitor>live, db>live, boundaries>db, results>boundaries, reviews>scheme, reviews>db, results>>reviews
+q: What must examiners pass before live marking? | standardisation | standard,live
+q: How are examiners checked during marking? | seed scripts | monitor,seeds
+q: What are grade boundaries based on? | statistics and scripts from the results database | boundaries,db
+q: What is a review of marking judged against? | the same mark scheme | reviews,scheme
+q: How are scripts divided? | scanned and split into items in the marking system | scan,system
+ch: new mark scheme format | scheme,standard
+ch: change monitoring tolerance | monitor
+ch: new results database | db,boundaries
+cut: four parts: Scripts=scan,system; Quality=scheme,seeds,standard,monitor; Marking=live,db; Awarding=boundaries,results,reviews
+cut: three parts: Scripts=scan,system; Marking=scheme,seeds,standard,monitor,live,db; Awarding=boundaries,results,reviews

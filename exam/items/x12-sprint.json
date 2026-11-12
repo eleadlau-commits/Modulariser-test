@@ -1,0 +1,246 @@
+{
+ "id": "x12-sprint",
+ "domain": "scrum sprint",
+ "source": {
+  "kind": "real",
+  "origin": "https://scrumguides.org/scrum-guide.html",
+  "licence": "CC BY-SA 4.0 (paraphrased)"
+ },
+ "input": "how our team runs a sprint. product owner keeps the product backlog ordered, does refinement with the team midweek (estimates in story points). sprint planning on day 1: team picks items from the top of the backlog into the sprint backlog based on velocity from the last few sprints, and agrees a sprint goal. daily standup 15 min at the board. work is \"done\" when it meets the definition of done (tests, review, docs). sprint review at the end shows the increment to stakeholders, feedback goes back into the backlog. retro after that, actions go on the improvement list. scrum master facilitates all the meetings and tracks velocity.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "product backlog"
+  },
+  {
+   "id": "g2",
+   "text": "backlog refinement"
+  },
+  {
+   "id": "g3",
+   "text": "sprint planning"
+  },
+  {
+   "id": "g4",
+   "text": "sprint backlog"
+  },
+  {
+   "id": "g5",
+   "text": "velocity"
+  },
+  {
+   "id": "g6",
+   "text": "sprint goal"
+  },
+  {
+   "id": "g7",
+   "text": "daily standup"
+  },
+  {
+   "id": "g8",
+   "text": "definition of done"
+  },
+  {
+   "id": "g9",
+   "text": "sprint review"
+  },
+  {
+   "id": "g10",
+   "text": "retrospective"
+  },
+  {
+   "id": "g11",
+   "text": "improvement list"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g7",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What decides how much is pulled into a sprint?",
+   "a": "velocity from recent sprints",
+   "needs": [
+    "g3",
+    "g5"
+   ]
+  },
+  {
+   "q": "Where does stakeholder feedback go?",
+   "a": "back into the product backlog",
+   "needs": [
+    "g9",
+    "g1"
+   ]
+  },
+  {
+   "q": "When is work done?",
+   "a": "when it meets the definition of done",
+   "needs": [
+    "g8"
+   ]
+  },
+  {
+   "q": "Where do retro actions go?",
+   "a": "the improvement list",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What is agreed at planning?",
+   "a": "sprint backlog and sprint goal",
+   "needs": [
+    "g3",
+    "g4",
+    "g6"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change estimation method",
+   "touches": [
+    "g2",
+    "g5"
+   ]
+  },
+  {
+   "name": "stricter definition of done",
+   "touches": [
+    "g8"
+   ]
+  },
+  {
+   "name": "async standups",
+   "touches": [
+    "g7"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Backlog",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Planning",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Execution",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Inspection",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Backlog",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Sprint",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Inspection",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

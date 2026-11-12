@@ -1,0 +1,272 @@
+{
+ "id": "x11-asfrel",
+ "domain": "open source foundation release vote",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.apache.org/legal/release-policy.html",
+  "licence": "Apache-2.0 (paraphrased)"
+ },
+ "input": "Apache release, the way our PMC does it. release manager creates the release candidate from the release branch, signs the source tarball with their GPG key (key has to be in the project KEYS file). artifacts uploaded to dist/dev staging area. RM sends the [VOTE] email to dev@ list, vote stays open at least 72 hours. needs 3 binding +1 from PMC members and more +1 than -1. voters check signatures, checksums, licence headers (RAT tool) and that it builds. if it passes, RM sends [RESULT] email, moves artifacts to dist/release, then announces on announce@ after mirrors sync. failed vote = fix and new RC.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "create the release candidate"
+  },
+  {
+   "id": "g2",
+   "text": "release branch"
+  },
+  {
+   "id": "g3",
+   "text": "sign the tarball"
+  },
+  {
+   "id": "g4",
+   "text": "KEYS file"
+  },
+  {
+   "id": "g5",
+   "text": "dist/dev staging area"
+  },
+  {
+   "id": "g6",
+   "text": "vote email"
+  },
+  {
+   "id": "g7",
+   "text": "dev mailing list"
+  },
+  {
+   "id": "g8",
+   "text": "verify signatures, checksums and licences"
+  },
+  {
+   "id": "g9",
+   "text": "RAT licence tool"
+  },
+  {
+   "id": "g10",
+   "text": "result email"
+  },
+  {
+   "id": "g11",
+   "text": "move to dist/release"
+  },
+  {
+   "id": "g12",
+   "text": "announce the release"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Where must the signing key be published?",
+   "a": "the project KEYS file",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "What do voters check?",
+   "a": "signatures, checksums, licence headers and build",
+   "needs": [
+    "g8",
+    "g9",
+    "g4"
+   ]
+  },
+  {
+   "q": "Where is the vote held?",
+   "a": "the dev mailing list",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "What happens after a passing vote?",
+   "a": "result email, move to dist/release, announce",
+   "needs": [
+    "g10",
+    "g11",
+    "g12"
+   ]
+  },
+  {
+   "q": "What is the candidate made from?",
+   "a": "the release branch",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change voting rules",
+   "touches": [
+    "g6",
+    "g10"
+   ]
+  },
+  {
+   "name": "switch signing tool",
+   "touches": [
+    "g3",
+    "g4",
+    "g8"
+   ]
+  },
+  {
+   "name": "new distribution host",
+   "touches": [
+    "g5",
+    "g11"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Release manager",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Staging",
+     "owns": [
+      "g5",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Vote",
+     "owns": [
+      "g6",
+      "g7",
+      "g10"
+     ]
+    },
+    {
+     "name": "Verification",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Release manager",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Distribution",
+     "owns": [
+      "g5",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Vote",
+     "owns": [
+      "g6",
+      "g7",
+      "g10",
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

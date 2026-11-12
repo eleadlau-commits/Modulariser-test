@@ -1,0 +1,270 @@
+{
+ "id": "x09-planning",
+ "domain": "householder planning permission",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.planningportal.co.uk/",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "extension planning application, what the council does. you submit on the planning portal with drawings, site plan and the fee. council validates it (checks the paperwork, can ask for missing bits). once valid, case officer gets it, neighbours are consulted by letter and a site notice goes up, 21 days for comments. officer does a site visit and checks it against the local plan policies. they write the officer report with a recommendation. most householder ones are decided under delegated powers, controversial ones go to planning committee. decision notice issued, if refused you can appeal to the planning inspectorate.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "submit on the planning portal"
+  },
+  {
+   "id": "g2",
+   "text": "drawings and site plan"
+  },
+  {
+   "id": "g3",
+   "text": "application fee"
+  },
+  {
+   "id": "g4",
+   "text": "validate the application"
+  },
+  {
+   "id": "g5",
+   "text": "consult neighbours"
+  },
+  {
+   "id": "g6",
+   "text": "site notice"
+  },
+  {
+   "id": "g7",
+   "text": "site visit"
+  },
+  {
+   "id": "g8",
+   "text": "local plan policies"
+  },
+  {
+   "id": "g9",
+   "text": "officer report"
+  },
+  {
+   "id": "g10",
+   "text": "delegated decision"
+  },
+  {
+   "id": "g11",
+   "text": "planning committee"
+  },
+  {
+   "id": "g12",
+   "text": "decision notice"
+  },
+  {
+   "id": "g13",
+   "text": "appeal to the inspectorate"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g12",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does validation check?",
+   "a": "that the submitted paperwork is complete",
+   "needs": [
+    "g4",
+    "g1"
+   ]
+  },
+  {
+   "q": "How are neighbours told?",
+   "a": "letters and a site notice",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "What is the officer report based on?",
+   "a": "site visit, local plan policies and consultation",
+   "needs": [
+    "g9",
+    "g7",
+    "g8",
+    "g5"
+   ]
+  },
+  {
+   "q": "Who decides controversial cases?",
+   "a": "the planning committee",
+   "needs": [
+    "g11"
+   ]
+  },
+  {
+   "q": "What if it is refused?",
+   "a": "appeal to the planning inspectorate",
+   "needs": [
+    "g13",
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new local plan",
+   "touches": [
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "name": "online-only consultation",
+   "touches": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "name": "fee rise",
+   "touches": [
+    "g3"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Application",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Validation",
+     "owns": [
+      "g4"
+     ]
+    },
+    {
+     "name": "Assessment",
+     "owns": [
+      "g5",
+      "g6",
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Decision",
+     "owns": [
+      "g10",
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Application",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Assessment",
+     "owns": [
+      "g5",
+      "g6",
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Decision",
+     "owns": [
+      "g10",
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

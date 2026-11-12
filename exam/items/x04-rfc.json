@@ -1,0 +1,265 @@
+{
+ "id": "x04-rfc",
+ "domain": "internet standards publication",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.ietf.org/process/rfcs/",
+  "licence": "IETF Trust (paraphrased)"
+ },
+ "input": "ietf, roughly: someone posts an Internet-Draft to the datatracker. drafts expire after 6 months unless updated. if a working group adopts it, wg chairs run the adoption call on the mailing list, then working group last call later. after that it goes to the area director who reviews and asks for IETF last call (whole community, on the main list). then the IESG ballots on it, ADs can DISCUSS (block) until issues are fixed. approved docs go to the RFC Editor queue, they copy-edit, authors do AUTH48 final check, then it's published with a number. the datatracker shows state through all of this.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "post an Internet-Draft"
+  },
+  {
+   "id": "g2",
+   "text": "datatracker"
+  },
+  {
+   "id": "g3",
+   "text": "working group adoption call"
+  },
+  {
+   "id": "g4",
+   "text": "working group mailing list"
+  },
+  {
+   "id": "g5",
+   "text": "working group last call"
+  },
+  {
+   "id": "g6",
+   "text": "area director review"
+  },
+  {
+   "id": "g7",
+   "text": "IETF last call"
+  },
+  {
+   "id": "g8",
+   "text": "IESG ballot"
+  },
+  {
+   "id": "g9",
+   "text": "RFC Editor queue"
+  },
+  {
+   "id": "g10",
+   "text": "copy-edit"
+  },
+  {
+   "id": "g11",
+   "text": "AUTH48 author check"
+  },
+  {
+   "id": "g12",
+   "text": "publish the RFC"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g2",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Where is the state of a draft shown?",
+   "a": "the datatracker",
+   "needs": [
+    "g2"
+   ]
+  },
+  {
+   "q": "Where are adoption and last calls run?",
+   "a": "the working group mailing list",
+   "needs": [
+    "g3",
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "Who can block a document in IESG ballot?",
+   "a": "an area director with a DISCUSS",
+   "needs": [
+    "g8"
+   ]
+  },
+  {
+   "q": "What comes after IESG approval?",
+   "a": "the RFC Editor queue, copy-edit, AUTH48, publication",
+   "needs": [
+    "g9",
+    "g10",
+    "g11",
+    "g12"
+   ]
+  },
+  {
+   "q": "What precedes IETF last call?",
+   "a": "area director review",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change ballot rules",
+   "touches": [
+    "g8"
+   ]
+  },
+  {
+   "name": "new editing style guide",
+   "touches": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "name": "move working group discussion to GitHub",
+   "touches": [
+    "g4",
+    "g3",
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Drafts",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Working group",
+     "owns": [
+      "g3",
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "IESG",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "RFC Editor",
+     "owns": [
+      "g9",
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Drafts",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Review",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "RFC Editor",
+     "owns": [
+      "g9",
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}
