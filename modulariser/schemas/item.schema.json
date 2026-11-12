@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "modulariser/item.schema.json",
+  "title": "Modulariser gold item (exam or training)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "domain", "source", "input", "expect_status", "elements", "edges", "questions", "changes", "cuts"],
+  "properties": {
+    "id": {"type": "string"},
+    "domain": {"type": "string", "description": "Used to split train and test by domain."},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "origin", "licence"],
+      "properties": {
+        "kind": {"enum": ["synthetic", "real"]},
+        "origin": {"type": "string", "description": "URL, or generator template name for synthetic items."},
+        "licence": {"type": "string"}
+      }
+    },
+    "input": {"type": "string", "minLength": 1, "description": "The messy text the model sees."},
+    "expect_status": {"enum": ["ok", "partial", "refuse"]},
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^g[0-9]+$"},
+          "text": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "kind"],
+        "properties": {
+          "from": {"type": "string", "pattern": "^g[0-9]+$"},
+          "to": {"type": "string", "pattern": "^g[0-9]+$"},
+          "kind": {"enum": ["uses", "order"]}
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "The question set Q. Written before any cut exists.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["q", "a", "needs"],
+        "properties": {
+          "q": {"type": "string", "minLength": 1},
+          "a": {"type": "string", "minLength": 1},
+          "needs": {"type": "array", "items": {"type": "string", "pattern": "^g[0-9]+$"}}
+        }
+      }
+    },
+    "changes": {
+      "type": "array",
+      "description": "Scripted change scenarios for change locality.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "touches"],
+        "properties": {
+          "name": {"type": "string"},
+          "touches": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^g[0-9]+$"}}
+        }
+      }
+    },
+    "cuts": {
+      "type": "array",
+      "description": "Two or three acceptable cuts. Each part lists the gold elements it owns.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "parts"],
+        "properties": {
+          "name": {"type": "string"},
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "owns"],
+              "properties": {
+                "name": {"type": "string"},
+                "owns": {"type": "array", "items": {"type": "string", "pattern": "^g[0-9]+$"}}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

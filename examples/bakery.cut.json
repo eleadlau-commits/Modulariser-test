@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "reason": null,
+  "elements": [
+    {"id": "e1", "text": "supplier list"},
+    {"id": "e2", "text": "order flour"},
+    {"id": "e3", "text": "check the delivery"},
+    {"id": "e4", "text": "stock book"},
+    {"id": "e5", "text": "bake schedule on whiteboard"},
+    {"id": "e6", "text": "bake bread"},
+    {"id": "e7", "text": "price list"},
+    {"id": "e8", "text": "sell at the counter"},
+    {"id": "e9", "text": "takings sheet"}
+  ],
+  "parts": [
+    {"id": "p1", "name": "Purchasing", "summary": "Chooses suppliers, orders flour and checks deliveries in.", "owns": ["e1", "e2", "e3"]},
+    {"id": "p2", "name": "Stock", "summary": "Keeps the stock book that says what is on hand.", "owns": ["e4"]},
+    {"id": "p3", "name": "Production", "summary": "Plans and bakes bread from what is in stock.", "owns": ["e5", "e6"]},
+    {"id": "p4", "name": "Sales", "summary": "Sells at the counter and records the day's takings.", "owns": ["e7", "e8", "e9"]}
+  ],
+  "links": [
+    {"from": "p1", "to": "p2", "uses": "e4", "kind": "uses"},
+    {"from": "p3", "to": "p2", "uses": "e4", "kind": "uses"}
+  ],
+  "missing": [{"name": "Waste tracking", "why": "Unsold bread is never mentioned, but it affects ordering."}],
+  "unsure": [{"part": "p2", "why": "Stock could sit inside Purchasing; it is a single book."}],
+  "unresolved": []
+}

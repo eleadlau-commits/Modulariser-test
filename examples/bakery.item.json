@@ -1,0 +1,54 @@
+{
+  "id": "example-bakery",
+  "domain": "small-business",
+  "source": {"kind": "synthetic", "origin": "hand-written example", "licence": "CC0"},
+  "input": "ok so flour comes from Hartley's mostly (list of suppliers is on the fridge). Sam orders flour when the stock book says we're low. bread gets baked off the schedule on the whiteboard, which depends on what's in stock. delivery usually Tuesday, whoever's in checks it and writes it in the stock book. counter uses the price list, Jo totals takings at night in the takings sheet. need to remember the order has to go in before the delivery obviously.",
+  "expect_status": "ok",
+  "elements": [
+    {"id": "g1", "text": "supplier list"},
+    {"id": "g2", "text": "place flour order"},
+    {"id": "g3", "text": "receive and check delivery"},
+    {"id": "g4", "text": "stock book"},
+    {"id": "g5", "text": "bake schedule"},
+    {"id": "g6", "text": "bake bread"},
+    {"id": "g7", "text": "price list"},
+    {"id": "g8", "text": "sell at counter"},
+    {"id": "g9", "text": "daily takings sheet"}
+  ],
+  "edges": [
+    {"from": "g2", "to": "g1", "kind": "uses"},
+    {"from": "g2", "to": "g4", "kind": "uses"},
+    {"from": "g2", "to": "g3", "kind": "order"},
+    {"from": "g3", "to": "g4", "kind": "uses"},
+    {"from": "g5", "to": "g4", "kind": "uses"},
+    {"from": "g6", "to": "g5", "kind": "uses"},
+    {"from": "g8", "to": "g7", "kind": "uses"},
+    {"from": "g9", "to": "g8", "kind": "uses"}
+  ],
+  "questions": [
+    {"q": "What tells Sam to reorder flour?", "a": "The stock book showing low stock.", "needs": ["g2", "g4"]},
+    {"q": "Who is flour bought from?", "a": "A supplier on the supplier list, mostly Hartley's.", "needs": ["g1"]},
+    {"q": "What does the bake schedule depend on?", "a": "What is in stock, from the stock book.", "needs": ["g5", "g4"]},
+    {"q": "What does the counter need in order to sell?", "a": "The price list.", "needs": ["g7", "g8"]},
+    {"q": "Where is the day's money recorded?", "a": "The daily takings sheet.", "needs": ["g9"]},
+    {"q": "What must happen before a delivery can be checked?", "a": "The flour order must be placed.", "needs": ["g2", "g3"]}
+  ],
+  "changes": [
+    {"name": "swap supplier", "touches": ["g1", "g2"]},
+    {"name": "change prices", "touches": ["g7"]},
+    {"name": "bake twice a day", "touches": ["g5", "g6"]}
+  ],
+  "cuts": [
+    {"name": "four parts", "parts": [
+      {"name": "Purchasing", "owns": ["g1", "g2", "g3"]},
+      {"name": "Stock", "owns": ["g4"]},
+      {"name": "Production", "owns": ["g5", "g6"]},
+      {"name": "Sales", "owns": ["g7", "g8", "g9"]}
+    ]},
+    {"name": "three parts", "parts": [
+      {"name": "Supply and stock", "owns": ["g1", "g2", "g3", "g4"]},
+      {"name": "Production", "owns": ["g5", "g6"]},
+      {"name": "Sales", "owns": ["g7", "g8", "g9"]}
+    ]}
+  ]
+}
