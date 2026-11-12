@@ -1,0 +1,273 @@
+{
+ "id": "x13-shelter",
+ "domain": "dog adoption from a rescue",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.dogstrust.org.uk/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "rescue adoption process for volunteers. people browse dogs on the website, every dog has a profile written by the kennel team after their behaviour assessment. they fill the adoption application online. rehoming officer reviews it and calls them. home check by a volunteer (fence height, other pets etc). then meet the dog at the centre, maybe a few visits. vet check before leaving: microchip registered to the new owner, vaccinations, neutering. adoption fee paid and contract signed. aftercare team calls at 1 week and 6 weeks. dogs that come back go back into kennels and get reassessed.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "browse dogs online"
+  },
+  {
+   "id": "g2",
+   "text": "dog profile"
+  },
+  {
+   "id": "g3",
+   "text": "behaviour assessment"
+  },
+  {
+   "id": "g4",
+   "text": "adoption application"
+  },
+  {
+   "id": "g5",
+   "text": "review the application"
+  },
+  {
+   "id": "g6",
+   "text": "home check"
+  },
+  {
+   "id": "g7",
+   "text": "meet the dog"
+  },
+  {
+   "id": "g8",
+   "text": "vet check"
+  },
+  {
+   "id": "g9",
+   "text": "register the microchip"
+  },
+  {
+   "id": "g10",
+   "text": "pay the adoption fee"
+  },
+  {
+   "id": "g11",
+   "text": "adoption contract"
+  },
+  {
+   "id": "g12",
+   "text": "aftercare calls"
+  },
+  {
+   "id": "g13",
+   "text": "returned dogs"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Who writes the dog profiles?",
+   "a": "the kennel team after behaviour assessment",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "What is checked at home?",
+   "a": "fence height, other pets etc",
+   "needs": [
+    "g6"
+   ]
+  },
+  {
+   "q": "What happens before a dog leaves?",
+   "a": "vet check, microchip registered, fee and contract",
+   "needs": [
+    "g8",
+    "g9",
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What happens to returned dogs?",
+   "a": "back into kennels and reassessed",
+   "needs": [
+    "g13",
+    "g3"
+   ]
+  },
+  {
+   "q": "When are aftercare calls made?",
+   "a": "at 1 and 6 weeks",
+   "needs": [
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new application form",
+   "touches": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "name": "change microchip database",
+   "touches": [
+    "g9"
+   ]
+  },
+  {
+   "name": "add video home checks",
+   "touches": [
+    "g6"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Kennels",
+     "owns": [
+      "g2",
+      "g3",
+      "g13"
+     ]
+    },
+    {
+     "name": "Applications",
+     "owns": [
+      "g1",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Matching",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Vet",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Adoption",
+     "owns": [
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Kennels",
+     "owns": [
+      "g2",
+      "g3",
+      "g13"
+     ]
+    },
+    {
+     "name": "Applications",
+     "owns": [
+      "g1",
+      "g4",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Vet",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Adoption",
+     "owns": [
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}

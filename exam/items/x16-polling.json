@@ -1,0 +1,280 @@
+{
+ "id": "x16-polling",
+ "domain": "running a polling station",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.electoralcommission.org.uk/",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "presiding officer notes for polling day. collect the ballot box, ballot papers and the polling station register from the council the night before. open at 7am, show the empty box, seal it. voter gives name and address, poll clerk finds them on the register, checks photo ID, marks them off and writes their elector number on the corresponding number list (not on the ballot). hand ballot paper, voter goes to booth, puts paper in box. close at 10pm. complete the ballot paper account (issued, spoilt, unused), seal everything and take the box to the count. tendered ballots if someone already marked as voted.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "collect materials from the council"
+  },
+  {
+   "id": "g2",
+   "text": "ballot box"
+  },
+  {
+   "id": "g3",
+   "text": "ballot papers"
+  },
+  {
+   "id": "g4",
+   "text": "polling station register"
+  },
+  {
+   "id": "g5",
+   "text": "show and seal the box"
+  },
+  {
+   "id": "g6",
+   "text": "find the voter on the register"
+  },
+  {
+   "id": "g7",
+   "text": "check photo ID"
+  },
+  {
+   "id": "g8",
+   "text": "corresponding number list"
+  },
+  {
+   "id": "g9",
+   "text": "issue the ballot paper"
+  },
+  {
+   "id": "g10",
+   "text": "vote in the booth"
+  },
+  {
+   "id": "g11",
+   "text": "ballot paper account"
+  },
+  {
+   "id": "g12",
+   "text": "take the box to the count"
+  },
+  {
+   "id": "g13",
+   "text": "tendered ballots"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g12",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is checked before a ballot is issued?",
+   "a": "the register entry and photo ID",
+   "needs": [
+    "g6",
+    "g7",
+    "g9"
+   ]
+  },
+  {
+   "q": "Where is the elector number written?",
+   "a": "on the corresponding number list",
+   "needs": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "What is in the ballot paper account?",
+   "a": "issued, spoilt and unused papers",
+   "needs": [
+    "g11",
+    "g3"
+   ]
+  },
+  {
+   "q": "What happens when someone is already marked as voted?",
+   "a": "a tendered ballot",
+   "needs": [
+    "g13",
+    "g4"
+   ]
+  },
+  {
+   "q": "What is done at close?",
+   "a": "complete the account, seal and take the box to the count",
+   "needs": [
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change ID rules",
+   "touches": [
+    "g7"
+   ]
+  },
+  {
+   "name": "electronic register",
+   "touches": [
+    "g4",
+    "g6",
+    "g13"
+   ]
+  },
+  {
+   "name": "new count location",
+   "touches": [
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Materials",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g5"
+     ]
+    },
+    {
+     "name": "Register",
+     "owns": [
+      "g4",
+      "g6",
+      "g7",
+      "g13"
+     ]
+    },
+    {
+     "name": "Voting",
+     "owns": [
+      "g9",
+      "g8",
+      "g10"
+     ]
+    },
+    {
+     "name": "Close",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Materials",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g5",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Register",
+     "owns": [
+      "g4",
+      "g6",
+      "g7",
+      "g13"
+     ]
+    },
+    {
+     "name": "Voting",
+     "owns": [
+      "g9",
+      "g8",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

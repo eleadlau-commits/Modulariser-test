@@ -1,0 +1,267 @@
+{
+ "id": "x19-claim",
+ "domain": "home insurance claim",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.financial-ombudsman.org.uk/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "claims team process for home insurance. customer reports the claim by phone or the web form, we create a claim record against their policy. handler checks cover against the policy wording and excess. small claims get settled straight away, bigger ones get a loss adjuster who visits and writes a report. fraud screening runs on every new claim record automatically. settlement: cash payment or we send a repairer from our approved network. customer can complain, and if we don't resolve it in 8 weeks they can go to the ombudsman. reserves for open claims are set by the handler for finance.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "report the claim"
+  },
+  {
+   "id": "g2",
+   "text": "claim record"
+  },
+  {
+   "id": "g3",
+   "text": "policy wording"
+  },
+  {
+   "id": "g4",
+   "text": "check cover and excess"
+  },
+  {
+   "id": "g5",
+   "text": "loss adjuster visit"
+  },
+  {
+   "id": "g6",
+   "text": "adjuster report"
+  },
+  {
+   "id": "g7",
+   "text": "fraud screening"
+  },
+  {
+   "id": "g8",
+   "text": "settle the claim"
+  },
+  {
+   "id": "g9",
+   "text": "approved repairer network"
+  },
+  {
+   "id": "g10",
+   "text": "handle complaints"
+  },
+  {
+   "id": "g11",
+   "text": "ombudsman referral"
+  },
+  {
+   "id": "g12",
+   "text": "set reserves"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g12",
+   "to": "g2",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is cover checked against?",
+   "a": "the policy wording and excess",
+   "needs": [
+    "g4",
+    "g3"
+   ]
+  },
+  {
+   "q": "When is a loss adjuster used?",
+   "a": "for bigger claims",
+   "needs": [
+    "g5"
+   ]
+  },
+  {
+   "q": "When does fraud screening run?",
+   "a": "automatically on every new claim record",
+   "needs": [
+    "g7",
+    "g2"
+   ]
+  },
+  {
+   "q": "How can a claim be settled?",
+   "a": "cash or an approved repairer",
+   "needs": [
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "When can a customer go to the ombudsman?",
+   "a": "if a complaint is unresolved after 8 weeks",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new fraud model",
+   "touches": [
+    "g7"
+   ]
+  },
+  {
+   "name": "change repairer network",
+   "touches": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "name": "new policy wording",
+   "touches": [
+    "g3",
+    "g4"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Assessment",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Fraud",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Settlement",
+     "owns": [
+      "g8",
+      "g9",
+      "g12"
+     ]
+    },
+    {
+     "name": "Complaints",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2",
+      "g7"
+     ]
+    },
+    {
+     "name": "Assessment",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Settlement",
+     "owns": [
+      "g8",
+      "g9",
+      "g12"
+     ]
+    },
+    {
+     "name": "Complaints",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

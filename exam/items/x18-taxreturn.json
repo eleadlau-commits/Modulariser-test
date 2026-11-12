@@ -1,0 +1,253 @@
+{
+ "id": "x18-taxreturn",
+ "domain": "self-assessment tax return",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.gov.uk/self-assessment-tax-returns",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "how I do my self assessment as a freelancer. register for self assessment once, get the UTR. through the year keep invoices and receipts in the spreadsheet, the spreadsheet works out income and expenses. after April, download the P60 from my part-time job and interest figures from the bank. log into the HMRC online account, fill the return using the spreadsheet totals and the P60. HMRC calculates the bill. pay by 31 January (balancing payment plus first payment on account), payments on account are based on last year's bill. keep records 5 years in case of an enquiry.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "register for self assessment"
+  },
+  {
+   "id": "g2",
+   "text": "UTR number"
+  },
+  {
+   "id": "g3",
+   "text": "income and expenses spreadsheet"
+  },
+  {
+   "id": "g4",
+   "text": "invoices and receipts"
+  },
+  {
+   "id": "g5",
+   "text": "P60"
+  },
+  {
+   "id": "g6",
+   "text": "bank interest figures"
+  },
+  {
+   "id": "g7",
+   "text": "HMRC online account"
+  },
+  {
+   "id": "g8",
+   "text": "fill in the return"
+  },
+  {
+   "id": "g9",
+   "text": "tax calculation"
+  },
+  {
+   "id": "g10",
+   "text": "pay the bill"
+  },
+  {
+   "id": "g11",
+   "text": "payments on account"
+  },
+  {
+   "id": "g12",
+   "text": "keep records"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g4",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does the return draw on?",
+   "a": "spreadsheet totals, P60 and interest figures",
+   "needs": [
+    "g8",
+    "g3",
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How are payments on account set?",
+   "a": "from last year's bill",
+   "needs": [
+    "g11",
+    "g9"
+   ]
+  },
+  {
+   "q": "How long are records kept?",
+   "a": "five years",
+   "needs": [
+    "g12"
+   ]
+  },
+  {
+   "q": "What is needed to use the online account?",
+   "a": "the UTR from registration",
+   "needs": [
+    "g7",
+    "g2"
+   ]
+  },
+  {
+   "q": "Where do income and expense totals come from?",
+   "a": "the spreadsheet of invoices and receipts",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "switch to accounting software",
+   "touches": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "name": "new deadline",
+   "touches": [
+    "g10"
+   ]
+  },
+  {
+   "name": "stop the part-time job",
+   "touches": [
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Registration",
+     "owns": [
+      "g1",
+      "g2",
+      "g7"
+     ]
+    },
+    {
+     "name": "Bookkeeping",
+     "owns": [
+      "g3",
+      "g4",
+      "g12"
+     ]
+    },
+    {
+     "name": "Filing",
+     "owns": [
+      "g5",
+      "g6",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Payment",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Registration",
+     "owns": [
+      "g1",
+      "g2",
+      "g7"
+     ]
+    },
+    {
+     "name": "Bookkeeping",
+     "owns": [
+      "g3",
+      "g4",
+      "g12"
+     ]
+    },
+    {
+     "name": "Filing and payment",
+     "owns": [
+      "g5",
+      "g6",
+      "g8",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

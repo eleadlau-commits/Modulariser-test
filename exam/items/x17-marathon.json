@@ -1,0 +1,264 @@
+{
+ "id": "x17-marathon",
+ "domain": "city marathon organising",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.englandathletics.org/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "city marathon planning notes (draft). entries open on the entry platform, runners get race numbers with timing chips. course has to be measured and certified, then council road closure order applied for. medical team plans first aid posts along the course. water stations every 5k staffed by volunteers. volunteer coordinator runs the volunteer rota and briefings. timing company reads the chips at start, finish and splits, results published on the website. there's an ongoing row about the baggage drop: the volunteer coordinator says it's theirs because volunteers staff it, but the logistics manager says it belongs with the start area setup. nobody's settled it.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "entry platform"
+  },
+  {
+   "id": "g2",
+   "text": "race numbers with chips"
+  },
+  {
+   "id": "g3",
+   "text": "certify the course"
+  },
+  {
+   "id": "g4",
+   "text": "road closure order"
+  },
+  {
+   "id": "g5",
+   "text": "first aid posts"
+  },
+  {
+   "id": "g6",
+   "text": "water stations"
+  },
+  {
+   "id": "g7",
+   "text": "volunteer rota"
+  },
+  {
+   "id": "g8",
+   "text": "volunteer briefings"
+  },
+  {
+   "id": "g9",
+   "text": "read the chips"
+  },
+  {
+   "id": "g10",
+   "text": "publish results"
+  },
+  {
+   "id": "g11",
+   "text": "start area setup"
+  },
+  {
+   "id": "g12",
+   "text": "baggage drop"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does the timing company read?",
+   "a": "the chips in race numbers",
+   "needs": [
+    "g9",
+    "g2"
+   ]
+  },
+  {
+   "q": "What must happen before the road closure?",
+   "a": "course certification",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "Who staffs water stations?",
+   "a": "volunteers from the rota",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "Who owns the baggage drop?",
+   "a": "disputed between volunteers and logistics",
+   "needs": [
+    "g12"
+   ]
+  },
+  {
+   "q": "Where are results published?",
+   "a": "the website",
+   "needs": [
+    "g10"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "change timing company",
+   "touches": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "name": "reroute the course",
+   "touches": [
+    "g3",
+    "g4",
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "name": "new volunteer system",
+   "touches": [
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Entries",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Course",
+     "owns": [
+      "g3",
+      "g4",
+      "g11"
+     ]
+    },
+    {
+     "name": "Medical",
+     "owns": [
+      "g5"
+     ]
+    },
+    {
+     "name": "Volunteers",
+     "owns": [
+      "g7",
+      "g8",
+      "g6",
+      "g12"
+     ]
+    },
+    {
+     "name": "Timing",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "five parts alt",
+   "parts": [
+    {
+     "name": "Entries",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Course",
+     "owns": [
+      "g3",
+      "g4",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Medical",
+     "owns": [
+      "g5"
+     ]
+    },
+    {
+     "name": "Volunteers",
+     "owns": [
+      "g7",
+      "g8",
+      "g6"
+     ]
+    },
+    {
+     "name": "Timing",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}
