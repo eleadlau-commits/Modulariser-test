@@ -1,0 +1,254 @@
+{
+ "id": "x03-gpref",
+ "domain": "GP referral to a specialist",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.nhs.uk/nhs-services/hospitals/going-into-hospital/",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "Notes from the practice manager on referrals. GP sees the patient and decides they need a specialist. GP writes the referral letter, using the patient record for history and meds. The letter goes through the e-Referral Service, patient gets a booking reference and chooses a hospital and date themselves (or the admin team helps them on the phone). Hospital consultant triages the referral and can bounce it back with advice instead of an appointment. Waiting list is managed by the hospital. After the appointment the consultant sends a clinic letter back, which our admin team codes into the patient record. Practice tracks outstanding referrals on a spreadsheet so nothing falls through the cracks.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "GP consultation"
+  },
+  {
+   "id": "g2",
+   "text": "write the referral letter"
+  },
+  {
+   "id": "g3",
+   "text": "patient record"
+  },
+  {
+   "id": "g4",
+   "text": "e-Referral Service"
+  },
+  {
+   "id": "g5",
+   "text": "booking reference"
+  },
+  {
+   "id": "g6",
+   "text": "choose hospital and date"
+  },
+  {
+   "id": "g7",
+   "text": "consultant triages the referral"
+  },
+  {
+   "id": "g8",
+   "text": "waiting list"
+  },
+  {
+   "id": "g9",
+   "text": "clinic letter back to the practice"
+  },
+  {
+   "id": "g10",
+   "text": "code the letter into the record"
+  },
+  {
+   "id": "g11",
+   "text": "outstanding referrals spreadsheet"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g4",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does the referral letter draw on?",
+   "a": "the patient record",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "How does the patient pick a hospital?",
+   "a": "with the booking reference, themselves or with admin help",
+   "needs": [
+    "g6",
+    "g5"
+   ]
+  },
+  {
+   "q": "Who can send a referral back with advice?",
+   "a": "the consultant at triage",
+   "needs": [
+    "g7"
+   ]
+  },
+  {
+   "q": "What happens to the clinic letter?",
+   "a": "admin code it into the patient record",
+   "needs": [
+    "g9",
+    "g10",
+    "g3"
+   ]
+  },
+  {
+   "q": "How are lost referrals prevented?",
+   "a": "the outstanding referrals spreadsheet",
+   "needs": [
+    "g11"
+   ]
+  },
+  {
+   "q": "Who manages the waiting list?",
+   "a": "the hospital",
+   "needs": [
+    "g8"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "switch referral system",
+   "touches": [
+    "g4",
+    "g5",
+    "g11"
+   ]
+  },
+  {
+   "name": "new coding rules",
+   "touches": [
+    "g10"
+   ]
+  },
+  {
+   "name": "consultant advice-only pathway",
+   "touches": [
+    "g7",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "GP",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g10"
+     ]
+    },
+    {
+     "name": "Booking",
+     "owns": [
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Hospital",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Tracking",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "GP",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Booking",
+     "owns": [
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Hospital",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

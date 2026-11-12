@@ -1,0 +1,276 @@
+{
+ "id": "x08-peer",
+ "domain": "journal peer review",
+ "source": {
+  "kind": "real",
+  "origin": "https://publicationethics.org/",
+  "licence": "paraphrased general practice"
+ },
+ "input": "how our journal handles a submission. author submits through the manuscript system. editorial assistant checks formatting and runs the plagiarism check. handling editor reads it, can desk-reject straight away. otherwise invites 2-3 reviewers from the reviewer database, they get 3 weeks, reviewer reports come back into the manuscript system. editor writes the decision letter based on the reports: accept, minor, major, reject. revisions go back to the same reviewers usually. accepted papers go to production: copyediting, typesetting, author proofs, then online first. APC invoice is sent at acceptance by the finance office.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "submit through the manuscript system"
+  },
+  {
+   "id": "g2",
+   "text": "manuscript system"
+  },
+  {
+   "id": "g3",
+   "text": "formatting check"
+  },
+  {
+   "id": "g4",
+   "text": "plagiarism check"
+  },
+  {
+   "id": "g5",
+   "text": "desk rejection"
+  },
+  {
+   "id": "g6",
+   "text": "invite reviewers"
+  },
+  {
+   "id": "g7",
+   "text": "reviewer database"
+  },
+  {
+   "id": "g8",
+   "text": "reviewer reports"
+  },
+  {
+   "id": "g9",
+   "text": "decision letter"
+  },
+  {
+   "id": "g10",
+   "text": "copyediting and typesetting"
+  },
+  {
+   "id": "g11",
+   "text": "author proofs"
+  },
+  {
+   "id": "g12",
+   "text": "publish online first"
+  },
+  {
+   "id": "g13",
+   "text": "APC invoice"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g13",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does the editor base the decision on?",
+   "a": "the reviewer reports",
+   "needs": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "Where do reviewers come from?",
+   "a": "the reviewer database",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "What checks happen before the editor reads it?",
+   "a": "formatting and plagiarism checks",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "When is the APC invoiced?",
+   "a": "at acceptance, by finance",
+   "needs": [
+    "g13",
+    "g9"
+   ]
+  },
+  {
+   "q": "What follows acceptance?",
+   "a": "copyediting, typesetting, proofs, online first",
+   "needs": [
+    "g10",
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new manuscript system",
+   "touches": [
+    "g2",
+    "g1",
+    "g8"
+   ]
+  },
+  {
+   "name": "switch to open review",
+   "touches": [
+    "g6",
+    "g8"
+   ]
+  },
+  {
+   "name": "change APC policy",
+   "touches": [
+    "g13"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Editorial",
+     "owns": [
+      "g5",
+      "g9"
+     ]
+    },
+    {
+     "name": "Review",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g10",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Editorial",
+     "owns": [
+      "g5",
+      "g9",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g10",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

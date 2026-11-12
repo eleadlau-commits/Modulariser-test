@@ -1,0 +1,263 @@
+{
+ "id": "x05-passport",
+ "domain": "passport renewal",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.gov.uk/renew-adult-passport",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "renewing my passport, writing it down so I don't forget for my partner's. digital photo first, either take it yourself following the photo rules or get the code from a booth. apply online, pay the fee online with card. the application gets a reference number and you get emails. they might need a countersignatory if your appearance changed a lot, that person confirms your identity online. you post the old passport to them (they tell you the address after applying). the passport office checks everything, then the new one is printed and sent by courier, old one sent back separately cancelled. tracking page uses the reference number.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "get a digital photo"
+  },
+  {
+   "id": "g2",
+   "text": "photo rules"
+  },
+  {
+   "id": "g3",
+   "text": "apply online"
+  },
+  {
+   "id": "g4",
+   "text": "pay the fee"
+  },
+  {
+   "id": "g5",
+   "text": "application reference number"
+  },
+  {
+   "id": "g6",
+   "text": "countersignatory confirms identity"
+  },
+  {
+   "id": "g7",
+   "text": "post the old passport"
+  },
+  {
+   "id": "g8",
+   "text": "passport office checks the application"
+  },
+  {
+   "id": "g9",
+   "text": "print the new passport"
+  },
+  {
+   "id": "g10",
+   "text": "courier delivery"
+  },
+  {
+   "id": "g11",
+   "text": "return the cancelled passport"
+  },
+  {
+   "id": "g12",
+   "text": "tracking page"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g5",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What must the photo meet?",
+   "a": "the photo rules",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "When is a countersignatory needed?",
+   "a": "when appearance has changed a lot",
+   "needs": [
+    "g6"
+   ]
+  },
+  {
+   "q": "What happens to the old passport?",
+   "a": "posted in, then returned cancelled",
+   "needs": [
+    "g7",
+    "g11"
+   ]
+  },
+  {
+   "q": "How do you track progress?",
+   "a": "the tracking page with the reference number",
+   "needs": [
+    "g12",
+    "g5"
+   ]
+  },
+  {
+   "q": "What happens after the checks?",
+   "a": "the new passport is printed and couriered",
+   "needs": [
+    "g8",
+    "g9",
+    "g10"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new photo rules",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "name": "change courier firm",
+   "touches": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "name": "fee increase",
+   "touches": [
+    "g4"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Applicant",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g7"
+     ]
+    },
+    {
+     "name": "Identity",
+     "owns": [
+      "g6"
+     ]
+    },
+    {
+     "name": "Processing",
+     "owns": [
+      "g5",
+      "g8",
+      "g12"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Applicant",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g7",
+      "g6"
+     ]
+    },
+    {
+     "name": "Processing",
+     "owns": [
+      "g5",
+      "g8",
+      "g12"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

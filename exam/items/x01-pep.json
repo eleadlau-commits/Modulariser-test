@@ -1,0 +1,235 @@
+{
+ "id": "x01-pep",
+ "domain": "python enhancement proposals",
+ "source": {
+  "kind": "real",
+  "origin": "https://peps.python.org/pep-0001/",
+  "licence": "public domain (paraphrased)"
+ },
+ "input": "how a PEP actually happens (roughly, from memory of PEP 1): you float the idea on the Ideas category on discourse first and see if anyone cares. if it survives you write the draft PEP. needs a core dev to sponsor it unless you're one yourself. the PEP editors check the formatting and give it a number, then it goes in the peps repo. the real argument happens in the discussion thread and the draft gets revised from that. steering council makes the call eventually, they read the thread. a reference implementation should exist before it's marked Final. editors update the status header (Draft/Accepted/Final etc) when stuff happens.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "float the idea on Discourse"
+  },
+  {
+   "id": "g2",
+   "text": "write the draft PEP"
+  },
+  {
+   "id": "g3",
+   "text": "core developer sponsor"
+  },
+  {
+   "id": "g4",
+   "text": "editors check and assign a number"
+  },
+  {
+   "id": "g5",
+   "text": "PEPs repository"
+  },
+  {
+   "id": "g6",
+   "text": "discussion thread"
+  },
+  {
+   "id": "g7",
+   "text": "steering council decision"
+  },
+  {
+   "id": "g8",
+   "text": "reference implementation"
+  },
+  {
+   "id": "g9",
+   "text": "status header"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g9",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Who decides whether a PEP is accepted?",
+   "a": "the steering council, after reading the thread",
+   "needs": [
+    "g7",
+    "g6"
+   ]
+  },
+  {
+   "q": "What does an author need if they are not a core developer?",
+   "a": "a core developer sponsor",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "What happens before the draft is written?",
+   "a": "the idea is floated on Discourse",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "Who gives a PEP its number?",
+   "a": "the PEP editors",
+   "needs": [
+    "g4"
+   ]
+  },
+  {
+   "q": "What must exist before a PEP is marked Final?",
+   "a": "a reference implementation",
+   "needs": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "Where are PEPs stored?",
+   "a": "the PEPs repository",
+   "needs": [
+    "g5"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "move discussion to a mailing list",
+   "touches": [
+    "g6"
+   ]
+  },
+  {
+   "name": "change numbering rules",
+   "touches": [
+    "g4"
+   ]
+  },
+  {
+   "name": "require an implementation before acceptance",
+   "touches": [
+    "g8",
+    "g7"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Proposal",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Editorial",
+     "owns": [
+      "g4",
+      "g5",
+      "g9"
+     ]
+    },
+    {
+     "name": "Discussion",
+     "owns": [
+      "g6"
+     ]
+    },
+    {
+     "name": "Decision",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Implementation",
+     "owns": [
+      "g8"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Proposal",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g6"
+     ]
+    },
+    {
+     "name": "Editorial",
+     "owns": [
+      "g4",
+      "g5",
+      "g9"
+     ]
+    },
+    {
+     "name": "Decision",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,268 @@
+=== x01-pep | python enhancement proposals | real | https://peps.python.org/pep-0001/ | public domain (paraphrased) | ok
+how a PEP actually happens (roughly, from memory of PEP 1): you float the idea on the Ideas category on discourse first and see if anyone cares. if it survives you write the draft PEP. needs a core dev to sponsor it unless you're one yourself. the PEP editors check the formatting and give it a number, then it goes in the peps repo. the real argument happens in the discussion thread and the draft gets revised from that. steering council makes the call eventually, they read the thread. a reference implementation should exist before it's marked Final. editors update the status header (Draft/Accepted/Final etc) when stuff happens.
+---
+el idea: float the idea on Discourse
+el draft: write the draft PEP
+el sponsor: core developer sponsor
+el editors: editors check and assign a number
+el repo: PEPs repository
+el thread: discussion thread
+el decide: steering council decision
+el impl: reference implementation
+el status: status header
+edges: idea>>draft, draft>sponsor, editors>draft, editors>repo, draft>thread, decide>thread, status>decide, status>impl, editors>status
+q: Who decides whether a PEP is accepted? | the steering council, after reading the thread | decide,thread
+q: What does an author need if they are not a core developer? | a core developer sponsor | draft,sponsor
+q: What happens before the draft is written? | the idea is floated on Discourse | idea,draft
+q: Who gives a PEP its number? | the PEP editors | editors
+q: What must exist before a PEP is marked Final? | a reference implementation | status,impl
+q: Where are PEPs stored? | the PEPs repository | repo
+ch: move discussion to a mailing list | thread
+ch: change numbering rules | editors
+ch: require an implementation before acceptance | impl,decide
+cut: five parts: Proposal=idea,draft,sponsor; Editorial=editors,repo,status; Discussion=thread; Decision=decide; Implementation=impl
+cut: three parts: Proposal=idea,draft,sponsor,thread; Editorial=editors,repo,status; Decision=decide,impl
+
+=== x02-mot | vehicle roadworthiness test | real | https://www.gov.uk/getting-an-mot | OGL v3 (paraphrased) | ok
+MOT day at the garage. customer books online or rings, it goes in the test bay calendar. tester has to be logged into the MOT testing service before starting, every result gets recorded there. the test itself: lights, brakes, emissions, tyres etc, tester follows the inspection manual. emissions needs the gas analyser and it has to be calibrated (calibration certificate on the wall, renewed yearly). if it passes, certificate printed from the testing service. if it fails we give them a refusal sheet and quote for repairs, workshop does the repair, then partial retest within 10 working days is free. fee is capped by the government, reception takes payment.
+---
+el book: book the test
+el cal: test bay calendar
+el login: log into the MOT testing service
+el inspect: inspect the vehicle
+el manual: inspection manual
+el gas: gas analyser
+el calib: calibration certificate
+el cert: print the pass certificate
+el refuse: issue the refusal sheet
+el repair: repair failed items
+el retest: partial retest
+el pay: take payment
+edges: book>cal, login>>inspect, inspect>manual, inspect>gas, gas>calib, cert>login, refuse>inspect, repair>refuse, repair>>retest, retest>login, pay>book
+q: Where are test results recorded? | the MOT testing service | login,cert
+q: What does the emissions check depend on? | a calibrated gas analyser | inspect,gas,calib
+q: What happens after a failure? | refusal sheet, repair, then a partial retest | refuse,repair,retest
+q: What guides the tester? | the inspection manual | inspect,manual
+q: How is the test booked? | online or by phone into the test bay calendar | book,cal
+q: Who takes the fee? | reception | pay
+ch: new emissions limits | inspect,gas
+ch: change retest window | retest
+ch: online payment | pay,book
+cut: four parts: Booking=book,cal,pay; Testing=login,inspect,manual,cert,refuse,retest; Equipment=gas,calib; Workshop=repair
+cut: five parts: Booking=book,cal; Testing=login,inspect,manual,cert,refuse,retest; Equipment=gas,calib; Workshop=repair; Payment=pay
+
+=== x03-gpref | GP referral to a specialist | real | https://www.nhs.uk/nhs-services/hospitals/going-into-hospital/ | OGL v3 (paraphrased) | ok
+Notes from the practice manager on referrals. GP sees the patient and decides they need a specialist. GP writes the referral letter, using the patient record for history and meds. The letter goes through the e-Referral Service, patient gets a booking reference and chooses a hospital and date themselves (or the admin team helps them on the phone). Hospital consultant triages the referral and can bounce it back with advice instead of an appointment. Waiting list is managed by the hospital. After the appointment the consultant sends a clinic letter back, which our admin team codes into the patient record. Practice tracks outstanding referrals on a spreadsheet so nothing falls through the cracks.
+---
+el consult: GP consultation
+el letter: write the referral letter
+el record: patient record
+el ers: e-Referral Service
+el ref: booking reference
+el choose: choose hospital and date
+el triage: consultant triages the referral
+el wait: waiting list
+el clinic: clinic letter back to the practice
+el code: code the letter into the record
+el track: outstanding referrals spreadsheet
+edges: consult>>letter, letter>record, letter>ers, ref>ers, choose>ref, triage>letter, wait>triage, clinic>triage, code>clinic, code>record, track>ers
+q: What does the referral letter draw on? | the patient record | letter,record
+q: How does the patient pick a hospital? | with the booking reference, themselves or with admin help | choose,ref
+q: Who can send a referral back with advice? | the consultant at triage | triage
+q: What happens to the clinic letter? | admin code it into the patient record | clinic,code,record
+q: How are lost referrals prevented? | the outstanding referrals spreadsheet | track
+q: Who manages the waiting list? | the hospital | wait
+ch: switch referral system | ers,ref,track
+ch: new coding rules | code
+ch: consultant advice-only pathway | triage,clinic
+cut: four parts: GP=consult,letter,record,code; Booking=ers,ref,choose; Hospital=triage,wait,clinic; Tracking=track
+cut: three parts: GP=consult,letter,record,code,track; Booking=ers,ref,choose; Hospital=triage,wait,clinic
+
+=== x04-rfc | internet standards publication | real | https://www.ietf.org/process/rfcs/ | IETF Trust (paraphrased) | ok
+ietf, roughly: someone posts an Internet-Draft to the datatracker. drafts expire after 6 months unless updated. if a working group adopts it, wg chairs run the adoption call on the mailing list, then working group last call later. after that it goes to the area director who reviews and asks for IETF last call (whole community, on the main list). then the IESG ballots on it, ADs can DISCUSS (block) until issues are fixed. approved docs go to the RFC Editor queue, they copy-edit, authors do AUTH48 final check, then it's published with a number. the datatracker shows state through all of this.
+---
+el post: post an Internet-Draft
+el dt: datatracker
+el adopt: working group adoption call
+el list: working group mailing list
+el wglc: working group last call
+el ad: area director review
+el ietflc: IETF last call
+el ballot: IESG ballot
+el queue: RFC Editor queue
+el edit: copy-edit
+el auth48: AUTH48 author check
+el publish: publish the RFC
+edges: post>dt, adopt>list, wglc>list, adopt>>wglc, wglc>>ad, ad>>ietflc, ietflc>>ballot, ballot>>queue, edit>queue, edit>>auth48, auth48>>publish, ballot>dt, ad>dt
+q: Where is the state of a draft shown? | the datatracker | dt
+q: Where are adoption and last calls run? | the working group mailing list | adopt,wglc,list
+q: Who can block a document in IESG ballot? | an area director with a DISCUSS | ballot
+q: What comes after IESG approval? | the RFC Editor queue, copy-edit, AUTH48, publication | queue,edit,auth48,publish
+q: What precedes IETF last call? | area director review | ad,ietflc
+ch: change ballot rules | ballot
+ch: new editing style guide | edit,auth48
+ch: move working group discussion to GitHub | list,adopt,wglc
+cut: four parts: Drafts=post,dt; Working group=adopt,list,wglc; IESG=ad,ietflc,ballot; RFC Editor=queue,edit,auth48,publish
+cut: three parts: Drafts=post,dt; Review=adopt,list,wglc,ad,ietflc,ballot; RFC Editor=queue,edit,auth48,publish
+
+=== x05-passport | passport renewal | real | https://www.gov.uk/renew-adult-passport | OGL v3 (paraphrased) | ok
+renewing my passport, writing it down so I don't forget for my partner's. digital photo first, either take it yourself following the photo rules or get the code from a booth. apply online, pay the fee online with card. the application gets a reference number and you get emails. they might need a countersignatory if your appearance changed a lot, that person confirms your identity online. you post the old passport to them (they tell you the address after applying). the passport office checks everything, then the new one is printed and sent by courier, old one sent back separately cancelled. tracking page uses the reference number.
+---
+el photo: get a digital photo
+el rules: photo rules
+el apply: apply online
+el fee: pay the fee
+el ref: application reference number
+el counter: countersignatory confirms identity
+el post: post the old passport
+el check: passport office checks the application
+el print: print the new passport
+el courier: courier delivery
+el return: return the cancelled passport
+el track: tracking page
+edges: photo>rules, photo>>apply, fee>apply, apply>ref, counter>ref, post>ref, check>apply, check>counter, check>post, check>>print, print>>courier, return>post, track>ref
+q: What must the photo meet? | the photo rules | photo,rules
+q: When is a countersignatory needed? | when appearance has changed a lot | counter
+q: What happens to the old passport? | posted in, then returned cancelled | post,return
+q: How do you track progress? | the tracking page with the reference number | track,ref
+q: What happens after the checks? | the new passport is printed and couriered | check,print,courier
+ch: new photo rules | photo,rules
+ch: change courier firm | courier,return
+ch: fee increase | fee
+cut: four parts: Applicant=photo,rules,apply,fee,post; Identity=counter; Processing=ref,check,track; Delivery=print,courier,return
+cut: three parts: Applicant=photo,rules,apply,fee,post,counter; Processing=ref,check,track; Delivery=print,courier,return
+
+=== x06-debian | distro package maintenance | real | https://www.debian.org/doc/manuals/developers-reference/ | GPL-2+ (paraphrased) | ok
+debian packaging, how I do mine. watch file notices a new upstream release, I pull the tarball, update debian/changelog. build in a clean chroot with sbuild, run lintian on the result and fix what it complains about. autopkgtest runs the package tests. if all good, sign and dput the upload to the archive. it lands in unstable, then migrates to testing automatically after a few days if no release-critical bugs filed and it builds on all arches (buildds do the other architectures). bugs come in through the BTS, I close them from the changelog entries.
+---
+el watch: watch file
+el pull: pull the upstream tarball
+el changelog: debian changelog
+el build: build in a clean chroot
+el lintian: run lintian
+el apt: run autopkgtest
+el upload: sign and upload
+el unstable: unstable suite
+el migrate: migration to testing
+el buildd: buildds for other architectures
+el bts: bug tracking system
+edges: pull>watch, pull>>build, build>changelog, lintian>build, apt>build, lintian>>upload, apt>>upload, upload>unstable, migrate>unstable, migrate>bts, migrate>buildd, buildd>unstable, changelog>bts
+q: What tells the maintainer about a new upstream release? | the watch file | watch,pull
+q: What checks happen before upload? | lintian and autopkgtest | lintian,apt,upload
+q: What blocks migration to testing? | release-critical bugs or failed builds on other architectures | migrate,bts,buildd
+q: How are bugs closed? | from changelog entries | changelog,bts
+q: Where does an upload land first? | unstable | upload,unstable
+ch: new lintian rules | lintian
+ch: add an architecture | buildd
+ch: change migration delay | migrate
+cut: four parts: Upstream=watch,pull,changelog; QA=build,lintian,apt; Archive=upload,unstable,migrate,buildd; Bugs=bts
+cut: three parts: Packaging=watch,pull,changelog,build,lintian,apt; Archive=upload,unstable,migrate,buildd; Bugs=bts
+
+=== x07-afd | wiki article deletion discussion | real | https://en.wikipedia.org/wiki/Wikipedia:Articles_for_deletion | CC BY-SA 4.0 (paraphrased) | ok
+AfD in practice: editor thinks an article isn't notable. should do a search first (WP:BEFORE) to check for sources. then tag the article with the AfD template and create the discussion page, and it gets listed on the daily log. notify the article's creator on their talk page. other editors comment keep/delete citing policy (notability guidelines mainly). runs 7 days. then an uninvolved admin or experienced editor closes it, reading consensus not counting votes. if delete, admin deletes the article. people can go to deletion review if they think the close was wrong.
+---
+el before: search for sources first
+el tag: tag the article
+el page: discussion page
+el log: daily log
+el notify: notify the creator
+el comment: editors comment
+el policy: notability guidelines
+el close: close the discussion
+el delete: delete the article
+el review: deletion review
+edges: before>>tag, tag>page, log>page, notify>page, comment>page, comment>policy, close>page, close>policy, delete>close, review>close
+q: What should happen before nominating? | a search for sources | before,tag
+q: What do commenters cite? | notability guidelines | comment,policy
+q: Who closes and how? | an uninvolved admin or experienced editor, by consensus | close
+q: What can you do about a bad close? | deletion review | review,close
+q: Who is notified? | the article's creator | notify
+ch: change notability rules | policy
+ch: shorten the discussion period | page,close
+ch: automatic notifications | notify
+cut: four parts: Nomination=before,tag,notify; Discussion=page,log,comment; Policy=policy; Outcome=close,delete,review
+cut: three parts: Nomination=before,tag,notify,page,log; Discussion=comment,policy; Outcome=close,delete,review
+
+=== x08-peer | journal peer review | real | https://publicationethics.org/ | paraphrased general practice | ok
+how our journal handles a submission. author submits through the manuscript system. editorial assistant checks formatting and runs the plagiarism check. handling editor reads it, can desk-reject straight away. otherwise invites 2-3 reviewers from the reviewer database, they get 3 weeks, reviewer reports come back into the manuscript system. editor writes the decision letter based on the reports: accept, minor, major, reject. revisions go back to the same reviewers usually. accepted papers go to production: copyediting, typesetting, author proofs, then online first. APC invoice is sent at acceptance by the finance office.
+---
+el submit: submit through the manuscript system
+el ms: manuscript system
+el format: formatting check
+el plag: plagiarism check
+el desk: desk rejection
+el invite: invite reviewers
+el db: reviewer database
+el reports: reviewer reports
+el decision: decision letter
+el copyedit: copyediting and typesetting
+el proofs: author proofs
+el online: publish online first
+el apc: APC invoice
+edges: submit>ms, format>ms, plag>ms, desk>ms, invite>db, reports>ms, decision>reports, copyedit>decision, copyedit>>proofs, proofs>>online, apc>decision, format>>plag
+q: What does the editor base the decision on? | the reviewer reports | decision,reports
+q: Where do reviewers come from? | the reviewer database | invite,db
+q: What checks happen before the editor reads it? | formatting and plagiarism checks | format,plag
+q: When is the APC invoiced? | at acceptance, by finance | apc,decision
+q: What follows acceptance? | copyediting, typesetting, proofs, online first | copyedit,proofs,online
+ch: new manuscript system | ms,submit,reports
+ch: switch to open review | invite,reports
+ch: change APC policy | apc
+cut: five parts: Intake=submit,ms,format,plag; Editorial=desk,decision; Review=invite,db,reports; Production=copyedit,proofs,online; Finance=apc
+cut: four parts: Intake=submit,ms,format,plag; Editorial=desk,decision,invite,db,reports; Production=copyedit,proofs,online; Finance=apc
+
+=== x09-planning | householder planning permission | real | https://www.planningportal.co.uk/ | OGL v3 (paraphrased) | ok
+extension planning application, what the council does. you submit on the planning portal with drawings, site plan and the fee. council validates it (checks the paperwork, can ask for missing bits). once valid, case officer gets it, neighbours are consulted by letter and a site notice goes up, 21 days for comments. officer does a site visit and checks it against the local plan policies. they write the officer report with a recommendation. most householder ones are decided under delegated powers, controversial ones go to planning committee. decision notice issued, if refused you can appeal to the planning inspectorate.
+---
+el submit: submit on the planning portal
+el drawings: drawings and site plan
+el fee: application fee
+el validate: validate the application
+el consult: consult neighbours
+el notice: site notice
+el visit: site visit
+el policy: local plan policies
+el report: officer report
+el delegated: delegated decision
+el committee: planning committee
+el decision: decision notice
+el appeal: appeal to the inspectorate
+edges: submit>drawings, submit>fee, validate>submit, validate>>consult, consult>notice, report>visit, report>policy, report>consult, delegated>report, committee>report, decision>delegated, decision>committee, appeal>decision
+q: What does validation check? | that the submitted paperwork is complete | validate,submit
+q: How are neighbours told? | letters and a site notice | consult,notice
+q: What is the officer report based on? | site visit, local plan policies and consultation | report,visit,policy,consult
+q: Who decides controversial cases? | the planning committee | committee
+q: What if it is refused? | appeal to the planning inspectorate | appeal,decision
+ch: new local plan | policy,report
+ch: online-only consultation | consult,notice
+ch: fee rise | fee
+cut: four parts: Application=submit,drawings,fee; Validation=validate; Assessment=consult,notice,visit,policy,report; Decision=delegated,committee,decision,appeal
+cut: three parts: Application=submit,drawings,fee,validate; Assessment=consult,notice,visit,policy,report; Decision=delegated,committee,decision,appeal
+
+=== x10-blood | blood donation session | real | https://www.blood.co.uk/ | paraphrased general practice | ok
+blood donation session at the church hall. donors book an appointment in the app. on arrival, reception checks them in and gives the health questionnaire. nurse does the private health screening chat and the finger prick haemoglobin test. if ok, donor goes to the chair and the donor carer does the donation, ~10 mins, bag labelled with the donation barcode. rest and snacks for 15 mins at the refreshment table. bags go in cool boxes and the driver takes them to the processing centre that evening, where they're tested and separated. donor records updated with the barcode so test results link back.
+---
+el book: book an appointment
+el app: donor app
+el checkin: check in donors
+el quest: health questionnaire
+el screen: health screening
+el hb: haemoglobin test
+el donate: take the donation
+el barcode: donation barcode
+el rest: rest and refreshments
+el cool: pack bags in cool boxes
+el drive: drive to the processing centre
+el test: test and separate
+el records: donor records
+edges: book>app, checkin>book, checkin>quest, screen>quest, screen>hb, hb>>donate, donate>barcode, donate>>rest, cool>barcode, cool>>drive, test>barcode, records>barcode, test>>records
+q: How does a donor book? | in the donor app | book,app
+q: What happens before donating? | questionnaire, health screening and haemoglobin test | quest,screen,hb,donate
+q: How do test results link to the donor? | via the donation barcode in donor records | barcode,records,test
+q: Where do bags go? | in cool boxes to the processing centre | cool,drive
+q: What happens after donating? | rest and refreshments | donate,rest
+ch: new screening questions | quest,screen
+ch: change courier times | drive,cool
+ch: switch barcode format | barcode,records,test
+cut: five parts: Booking=book,app,checkin; Screening=quest,screen,hb; Donation=donate,barcode,rest; Transport=cool,drive; Lab=test,records
+cut: four parts: Booking=book,app,checkin; Screening=quest,screen,hb; Donation=donate,barcode,rest; Processing=cool,drive,test,records

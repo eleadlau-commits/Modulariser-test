@@ -1,0 +1,257 @@
+{
+ "id": "x06-debian",
+ "domain": "distro package maintenance",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.debian.org/doc/manuals/developers-reference/",
+  "licence": "GPL-2+ (paraphrased)"
+ },
+ "input": "debian packaging, how I do mine. watch file notices a new upstream release, I pull the tarball, update debian/changelog. build in a clean chroot with sbuild, run lintian on the result and fix what it complains about. autopkgtest runs the package tests. if all good, sign and dput the upload to the archive. it lands in unstable, then migrates to testing automatically after a few days if no release-critical bugs filed and it builds on all arches (buildds do the other architectures). bugs come in through the BTS, I close them from the changelog entries.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "watch file"
+  },
+  {
+   "id": "g2",
+   "text": "pull the upstream tarball"
+  },
+  {
+   "id": "g3",
+   "text": "debian changelog"
+  },
+  {
+   "id": "g4",
+   "text": "build in a clean chroot"
+  },
+  {
+   "id": "g5",
+   "text": "run lintian"
+  },
+  {
+   "id": "g6",
+   "text": "run autopkgtest"
+  },
+  {
+   "id": "g7",
+   "text": "sign and upload"
+  },
+  {
+   "id": "g8",
+   "text": "unstable suite"
+  },
+  {
+   "id": "g9",
+   "text": "migration to testing"
+  },
+  {
+   "id": "g10",
+   "text": "buildds for other architectures"
+  },
+  {
+   "id": "g11",
+   "text": "bug tracking system"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g11",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What tells the maintainer about a new upstream release?",
+   "a": "the watch file",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "What checks happen before upload?",
+   "a": "lintian and autopkgtest",
+   "needs": [
+    "g5",
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "What blocks migration to testing?",
+   "a": "release-critical bugs or failed builds on other architectures",
+   "needs": [
+    "g9",
+    "g11",
+    "g10"
+   ]
+  },
+  {
+   "q": "How are bugs closed?",
+   "a": "from changelog entries",
+   "needs": [
+    "g3",
+    "g11"
+   ]
+  },
+  {
+   "q": "Where does an upload land first?",
+   "a": "unstable",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new lintian rules",
+   "touches": [
+    "g5"
+   ]
+  },
+  {
+   "name": "add an architecture",
+   "touches": [
+    "g10"
+   ]
+  },
+  {
+   "name": "change migration delay",
+   "touches": [
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Upstream",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "QA",
+     "owns": [
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Archive",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Bugs",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Packaging",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Archive",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Bugs",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,272 @@
+{
+ "id": "x02-mot",
+ "domain": "vehicle roadworthiness test",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.gov.uk/getting-an-mot",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "MOT day at the garage. customer books online or rings, it goes in the test bay calendar. tester has to be logged into the MOT testing service before starting, every result gets recorded there. the test itself: lights, brakes, emissions, tyres etc, tester follows the inspection manual. emissions needs the gas analyser and it has to be calibrated (calibration certificate on the wall, renewed yearly). if it passes, certificate printed from the testing service. if it fails we give them a refusal sheet and quote for repairs, workshop does the repair, then partial retest within 10 working days is free. fee is capped by the government, reception takes payment.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "book the test"
+  },
+  {
+   "id": "g2",
+   "text": "test bay calendar"
+  },
+  {
+   "id": "g3",
+   "text": "log into the MOT testing service"
+  },
+  {
+   "id": "g4",
+   "text": "inspect the vehicle"
+  },
+  {
+   "id": "g5",
+   "text": "inspection manual"
+  },
+  {
+   "id": "g6",
+   "text": "gas analyser"
+  },
+  {
+   "id": "g7",
+   "text": "calibration certificate"
+  },
+  {
+   "id": "g8",
+   "text": "print the pass certificate"
+  },
+  {
+   "id": "g9",
+   "text": "issue the refusal sheet"
+  },
+  {
+   "id": "g10",
+   "text": "repair failed items"
+  },
+  {
+   "id": "g11",
+   "text": "partial retest"
+  },
+  {
+   "id": "g12",
+   "text": "take payment"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g1",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Where are test results recorded?",
+   "a": "the MOT testing service",
+   "needs": [
+    "g3",
+    "g8"
+   ]
+  },
+  {
+   "q": "What does the emissions check depend on?",
+   "a": "a calibrated gas analyser",
+   "needs": [
+    "g4",
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "What happens after a failure?",
+   "a": "refusal sheet, repair, then a partial retest",
+   "needs": [
+    "g9",
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What guides the tester?",
+   "a": "the inspection manual",
+   "needs": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "How is the test booked?",
+   "a": "online or by phone into the test bay calendar",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "Who takes the fee?",
+   "a": "reception",
+   "needs": [
+    "g12"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new emissions limits",
+   "touches": [
+    "g4",
+    "g6"
+   ]
+  },
+  {
+   "name": "change retest window",
+   "touches": [
+    "g11"
+   ]
+  },
+  {
+   "name": "online payment",
+   "touches": [
+    "g12",
+    "g1"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1",
+      "g2",
+      "g12"
+     ]
+    },
+    {
+     "name": "Testing",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g8",
+      "g9",
+      "g11"
+     ]
+    },
+    {
+     "name": "Equipment",
+     "owns": [
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Workshop",
+     "owns": [
+      "g10"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Testing",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g8",
+      "g9",
+      "g11"
+     ]
+    },
+    {
+     "name": "Equipment",
+     "owns": [
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Workshop",
+     "owns": [
+      "g10"
+     ]
+    },
+    {
+     "name": "Payment",
+     "owns": [
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}
