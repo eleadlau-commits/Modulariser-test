@@ -1,0 +1,71 @@
+name: kaggle
+# Runs training or evaluation on a free Kaggle T4 and collects the output.
+# Needs repo secrets KAGGLE_USERNAME and KAGGLE_KEY (and HF_TOKEN to publish adapters).
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "eval or train"
+        default: eval
+      models:
+        description: "comma-separated Hugging Face model ids"
+        default: "Qwen/Qwen2.5-3B-Instruct"
+      options:
+        description: "extra JSON merged into CONFIG, e.g. {\"epochs\":2}"
+        default: "{}"
+      ref:
+        description: "git ref the kernel checks out (default: this commit)"
+        default: ""
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install kaggle CLI
+        run: |
+          pip install -q kaggle huggingface_hub
+          # New-style tokens (KGAT_...) go in KAGGLE_API_TOKEN.
+          if [[ "$KAGGLE_KEY" == KGAT_* ]]; then echo "KAGGLE_API_TOKEN=$KAGGLE_KEY" >> "$GITHUB_ENV"; fi
+      - name: Build kernel
+        id: build
+        run: |
+          python kaggle/make_kernel.py \
+            --task "${{ inputs.task }}" --models "${{ inputs.models }}" \
+            --options '${{ inputs.options }}' --ref "${{ inputs.ref || github.sha }}" \
+            --run-id "${{ github.run_id }}" --out kernel
+          cat kernel/kernel-metadata.json
+          echo "slug=$(python -c "import json;print(json.load(open('kernel/kernel-metadata.json'))['id'])")" >> "$GITHUB_OUTPUT"
+      - name: Push kernel
+        run: |
+          kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel
+      - name: Wait for kernel
+        run: python kaggle/wait.py "${{ steps.build.outputs.slug }}" --minutes 340
+      - name: Collect output
+        if: always()
+        run: |
+          mkdir -p result
+          kaggle kernels output "${{ steps.build.outputs.slug }}" -p result || true
+          ls -la result result/out || true
+          cat result/out/summary.json || true
+          tail -50 result/out/log.txt || true
+      - name: Publish adapter to Hugging Face
+        if: inputs.task == 'train' && env.HF_TOKEN != ''
+        run: python kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-${{ inputs.task }}-${{ github.run_id }}
+          path: |
+            result/out/*.json
+            result/out/*.jsonl
+            result/out/log.txt
+            result/*.log
+          if-no-files-found: warn
