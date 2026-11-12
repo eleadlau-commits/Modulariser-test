@@ -32,7 +32,7 @@ jobs:
           python-version: "3.11"
       - name: Install kaggle CLI
         run: |
-          pip install -q -U kaggle huggingface_hub
+          pip install -q -U kaggle huggingface_hub six
           if [ -z "$KAGGLE_USERNAME" ]; then echo "::error::KAGGLE_USERNAME secret is missing"; exit 1; fi
           kaggle --version
           kaggle kernels list --mine --page-size 1 || echo "::warning::kaggle auth check failed"
