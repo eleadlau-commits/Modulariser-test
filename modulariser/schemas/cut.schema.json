@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "modulariser/cut.schema.json",
+  "title": "Modulariser cut (model output)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "reason", "elements", "parts", "links", "missing", "unsure", "unresolved"],
+  "properties": {
+    "status": {"enum": ["ok", "partial", "refuse"]},
+    "reason": {"enum": ["too_long", "sequential", "underspecified", "out_of_domain", "conflicting", null]},
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^e[0-9]+$"},
+          "text": {"type": "string", "minLength": 1, "maxLength": 200}
+        }
+      }
+    },
+    "parts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "summary", "owns"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^p[0-9]+$"},
+          "name": {"type": "string", "minLength": 1, "maxLength": 60},
+          "summary": {"type": "string", "minLength": 1, "maxLength": 200},
+          "owns": {"type": "array", "items": {"type": "string", "pattern": "^e[0-9]+$"}}
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "uses", "kind"],
+        "properties": {
+          "from": {"type": "string", "pattern": "^p[0-9]+$"},
+          "to": {"type": "string", "pattern": "^p[0-9]+$"},
+          "uses": {"type": ["string", "null"], "pattern": "^e[0-9]+$"},
+          "kind": {"enum": ["uses", "order"]}
+        }
+      }
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "why"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1, "maxLength": 60},
+          "why": {"type": "string", "minLength": 1, "maxLength": 200}
+        }
+      }
+    },
+    "unsure": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["part", "why"],
+        "properties": {
+          "part": {"type": "string", "pattern": "^p[0-9]+$"},
+          "why": {"type": "string", "minLength": 1, "maxLength": 200}
+        }
+      }
+    },
+    "unresolved": {"type": "array", "items": {"type": "string", "pattern": "^e[0-9]+$"}}
+  }
+}

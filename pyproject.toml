@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modulariser"
+version = "0.1.0"
+description = "Cut a messy process description into well-fitting parts"
+requires-python = ">=3.10"
+dependencies = ["jsonschema>=4.18"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["modulariser*"]
+
+[tool.setuptools.package-data]
+"modulariser.schemas" = ["*.json"]
