@@ -1,0 +1,30 @@
+# plumbing business
+people: Terry, Kim, Hassan, Dot
+## Enquiries | Takes calls and books jobs. | why: work must be booked
+a calls: answer calls
+t jobs: job board
+a schedule: schedule jobs
+calls >> schedule
+schedule > jobs
+## Quoting | Prices the work.
+a survey: survey the job
+t quote: written quote
+survey >> quote
+## Jobs | Does the work.
+a fit: fit the boiler
+a certify: issue a gas certificate
+fit >> certify
+## Stock | Keeps the van stocked.
+t vanstock: van stock list
+a merchant: buy from the merchant
+merchant > vanstock
+## Accounts | Invoices and chases payment.
+a invoice: send invoices
+t book: accounts book
+invoice > book
+## cross
+quoting.survey > enquiries.jobs
+jobs.fit > quoting.quote
+jobs.fit > stock.vanstock
+accounts.invoice > quoting.quote
+jobs.certify >> accounts.invoice

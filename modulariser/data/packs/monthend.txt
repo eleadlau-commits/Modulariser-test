@@ -1,0 +1,34 @@
+# month-end close
+people: Wendy, Ahmed, Lars, Tess
+## Payables | Pays suppliers. | why: bills need paying
+a enter: enter supplier invoices
+a payrun: run the payment run
+t aplist: aged creditors
+enter >> payrun
+payrun > aplist
+## Receivables | Bills customers and chases debt.
+a raise: raise sales invoices
+a chase: chase overdue invoices
+t arlist: aged debtors
+chase > arlist
+## Payroll | Pays staff.
+a payroll: run payroll
+t timesheets: timesheets
+payroll > timesheets
+## Ledger | Keeps the books balanced.
+t gl: general ledger
+a reconcile: reconcile the bank
+a journals: post accruals
+reconcile > gl
+journals > gl
+## Reporting | Produces the management accounts.
+a pack: build the management pack
+t variance: budget variance report
+pack > variance
+## cross
+payables.payrun > ledger.gl
+receivables.raise > ledger.gl
+payroll.payroll > ledger.gl
+ledger.reconcile >> reporting.pack
+reporting.pack > ledger.gl
+reporting.variance > receivables.arlist

@@ -1,0 +1,38 @@
+# dental clinic
+people: Dr Patel, Grace, Owen, Fatima
+## Reception | Books appointments and checks patients in. | why: patients need a way to get appointments
+t diary: appointment diary
+a book: book appointments
+a checkin: check patients in
+book > diary
+checkin > diary
+## Records | Keeps patient history and consent.
+t notes: patient notes
+t consent: consent forms
+a update: update medical history
+update > notes
+## Treatment | Examines and treats patients.
+a examine: examine the patient
+a treat: carry out treatment
+t plan: treatment plan
+examine >> treat
+treat > plan
+## Sterilising | Cleans and sterilises instruments.
+a clean: clean instruments
+a autoclave: run the autoclave
+t log: sterilisation log
+clean >> autoclave
+autoclave > log
+## Payments | Bills patients and claims from insurers.
+a invoice: invoice the patient
+a claim: submit insurance claims
+t price: fee schedule
+invoice > price
+## cross
+reception.checkin >> treatment.examine
+treatment.examine > records.notes
+treatment.treat > records.consent
+treatment.plan > records.notes
+treatment.treat > sterilising.log
+payments.invoice > treatment.plan
+payments.claim > records.notes

@@ -1,0 +1,33 @@
+# conference organising
+people: Rhea, Kwame, Olga, Finn
+## Programme | Chooses talks and builds the agenda. | why: there must be content
+a cfp: run the call for papers
+a reviewtalks: review submissions
+t agenda: agenda
+cfp >> reviewtalks
+reviewtalks > agenda
+## Registration | Sells tickets and tracks attendees.
+t attendees: attendee list
+a tickets: sell tickets
+a badges: print badges
+tickets > attendees
+badges > attendees
+## Venue | Books rooms and AV.
+a rooms: book rooms
+t floorplan: floor plan
+a av: arrange AV
+rooms > floorplan
+## Sponsors | Finds and serves sponsors.
+a pitch: pitch sponsors
+t packages: sponsor packages
+pitch > packages
+## Speakers | Looks after speakers.
+a travel: book speaker travel
+t briefing: speaker briefing
+## cross
+venue.rooms > programme.agenda
+speakers.briefing > programme.agenda
+speakers.travel > programme.agenda
+registration.badges > sponsors.packages
+sponsors.packages > venue.floorplan
+venue.av > programme.agenda

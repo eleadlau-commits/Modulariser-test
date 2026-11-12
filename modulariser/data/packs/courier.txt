@@ -1,0 +1,30 @@
+# courier depot
+people: Vic, Hamid, Paula, Den
+## Collections | Picks parcels up from senders. | why: parcels must be collected
+a book: book collections
+a pickup: pick up parcels
+book >> pickup
+## Sorting | Sorts parcels by route.
+a scan: scan parcels in
+a sort: sort into routes
+t sortplan: sort plan
+scan >> sort
+sort > sortplan
+## Routing | Plans driver routes.
+t routes: route sheets
+a plan: plan routes
+plan > routes
+## Delivery | Delivers parcels.
+a deliver: deliver parcels
+t pod: proof of delivery
+deliver > pod
+## Fleet | Keeps vans running.
+t vans: van schedule
+a servicevan: service vans
+servicevan > vans
+## cross
+collections.pickup >> sorting.scan
+sorting.sortplan > routing.routes
+delivery.deliver > routing.routes
+routing.plan > fleet.vans
+delivery.pod > sorting.scan

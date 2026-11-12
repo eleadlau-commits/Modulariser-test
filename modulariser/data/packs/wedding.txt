@@ -1,0 +1,34 @@
+# wedding planning
+people: Hannah, Luke, Aunt Rosa, Imran
+## Budget | Sets and tracks the money. | why: costs need a limit
+t budget: budget spreadsheet
+a deposits: pay deposits
+deposits > budget
+## Guests | Manages the guest list and invitations.
+t list: guest list
+a invite: send invitations
+a rsvp: chase RSVPs
+invite > list
+invite >> rsvp
+rsvp > list
+## Venue | Books and arranges the venue.
+a visit: visit venues
+a bookvenue: book the venue
+t layout: seating plan
+visit >> bookvenue
+## Catering | Picks the menu and caterer.
+a tasting: go to the tasting
+t menu: wedding menu
+a numbers: give final numbers to the caterer
+tasting > menu
+## Ceremony | Organises the service itself.
+t vows: vows
+a officiant: book the officiant
+t order: order of service
+## cross
+venue.bookvenue > budget.budget
+catering.numbers > guests.list
+catering.tasting > budget.budget
+venue.layout > guests.list
+budget.deposits >> venue.bookvenue
+ceremony.officiant > budget.budget

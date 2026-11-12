@@ -1,0 +1,32 @@
+# IT helpdesk
+people: Raj, Lou, Petra, Ngozi
+## Intake | Logs requests from staff. | why: requests must be captured
+t queue: ticket queue
+a log: log tickets
+a prioritise: prioritise tickets
+log > queue
+log >> prioritise
+## Support | Fixes problems.
+a remote: fix issues remotely
+a deskvisit: visit desks
+t kb: knowledge base
+remote > kb
+## Assets | Tracks laptops and licences.
+t register: asset register
+a provision: set up new laptops
+t licences: licence list
+provision > register
+provision > licences
+## Accounts | Manages logins and access.
+a create: create user accounts
+a reset: reset passwords
+t directory: user directory
+create > directory
+reset > directory
+## cross
+support.remote > intake.queue
+support.deskvisit > intake.queue
+assets.provision > accounts.directory
+intake.prioritise > assets.register
+accounts.create >> assets.provision
+support.remote > accounts.directory

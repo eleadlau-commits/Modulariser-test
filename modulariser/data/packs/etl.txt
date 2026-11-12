@@ -1,0 +1,33 @@
+# data pipeline
+people: Mira, Josh, Anil, Kate
+## Ingestion | Pulls raw data from sources. | why: data must come in
+a pull: pull data from the APIs
+t raw: raw bucket
+t sources: source config
+pull > sources
+pull > raw
+## Transform | Cleans and joins data.
+a clean: clean the data
+a join: join tables
+t models: dbt models
+clean >> join
+join > models
+## Quality | Checks the data is right.
+a tests: run data tests
+t alerts: alert channel
+tests > alerts
+## Warehouse | Stores modelled data.
+t tables: warehouse tables
+a load: load tables
+load > tables
+## Dashboards | Shows the numbers to the business.
+a build: build dashboards
+t metrics: metric definitions
+build > metrics
+## cross
+transform.clean > ingestion.raw
+transform.join >> warehouse.load
+quality.tests > warehouse.tables
+dashboards.build > warehouse.tables
+warehouse.load > transform.models
+quality.tests > dashboards.metrics

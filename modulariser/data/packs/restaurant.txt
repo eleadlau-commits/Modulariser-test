@@ -1,0 +1,37 @@
+# restaurant
+people: Ana, Raj, Mei, Tom, Lucia
+## Purchasing | Buys ingredients and checks deliveries in. | why: food has to be bought from somewhere
+a order: order ingredients
+t suppliers: supplier list
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Stock | Tracks what is in the stores and fridges.
+t sheet: stock sheet
+a count: count stock weekly
+count > sheet
+## Kitchen | Plans and cooks the dishes.
+t prep: prep list
+a cook: cook dishes
+t menu: menu
+cook > prep
+cook > menu
+## Front | Takes bookings and serves guests.
+t bookings: booking book
+a seat: seat guests
+a orders: take orders at tables
+seat > bookings
+seat >> orders
+## Billing | Takes payment and closes the till.
+a pay: take payment
+t till: till report
+a close: close the till
+pay >> close
+close > till
+## cross
+purchasing.order > stock.sheet
+purchasing.receive > stock.sheet
+kitchen.prep > stock.sheet
+front.orders > kitchen.menu
+front.orders >> kitchen.cook
+billing.pay > front.orders

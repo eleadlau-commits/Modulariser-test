@@ -1,0 +1,31 @@
+# museum exhibition
+people: Dr Hale, Noor, Felix, Ama
+## Curation | Chooses objects and writes the story. | why: the show needs content
+a select: select objects
+t checklist: object checklist
+a labels: write labels
+select > checklist
+labels > checklist
+## Loans | Borrows objects from other museums.
+a request: request loans
+t agreements: loan agreements
+t insurance: indemnity cover
+request >> agreements
+agreements > insurance
+## Conservation | Checks and protects objects.
+a condition: write condition reports
+t climate: display climate specs
+## Design | Designs the gallery.
+t layout: gallery layout
+a build: build showcases
+build > layout
+## Marketing | Promotes the show.
+a press: run the press launch
+t tickets: ticket sales
+## cross
+loans.request > curation.checklist
+conservation.condition > curation.checklist
+design.build > conservation.climate
+design.layout > curation.checklist
+marketing.press > curation.labels
+marketing.tickets > design.layout

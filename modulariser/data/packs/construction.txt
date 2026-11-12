@@ -1,0 +1,31 @@
+# construction site
+people: Big Steve, Ama, Piotr, Hollis
+## Planning | Plans the programme of works. | why: work needs a sequence
+t programme: programme of works
+a lookahead: write the two-week lookahead
+lookahead > programme
+## Procurement | Buys materials and hires plant.
+a po: raise purchase orders
+a hire: hire plant
+t deliveries: delivery schedule
+po > deliveries
+## Safety | Keeps the site safe.
+a induct: induct workers
+t rams: method statements
+a inspect: do safety inspections
+induct > rams
+## Groundworks | Digs and pours foundations.
+a dig: dig foundations
+a pour: pour concrete
+dig >> pour
+## Quality | Inspects finished work.
+t snags: snag list
+a signoff: sign off work
+signoff > snags
+## cross
+procurement.deliveries > planning.programme
+groundworks.dig > safety.rams
+groundworks.pour > procurement.deliveries
+quality.signoff > planning.programme
+groundworks.pour >> quality.signoff
+safety.induct >> groundworks.dig

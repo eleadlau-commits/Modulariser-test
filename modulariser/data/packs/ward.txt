@@ -1,0 +1,32 @@
+# hospital ward
+people: Sister Ward, Kai, Dr Mensah, Ruth
+## Admissions | Admits patients onto the ward. | why: patients have to arrive somehow
+a admit: admit patients
+t beds: bed board
+admit > beds
+## Nursing | Gives day-to-day care.
+a obs: take observations
+a meds: give medicines
+t chart: obs chart
+t mar: medication chart
+obs > chart
+meds > mar
+## Medical | Diagnoses and prescribes.
+a round: do the ward round
+a prescribe: prescribe drugs
+round >> prescribe
+## Pharmacy | Supplies drugs.
+a dispense: dispense drugs
+t stock: ward drug stock
+dispense > stock
+## Discharge | Sends patients home safely.
+a plandischarge: plan discharge
+t letter: discharge letter
+plandischarge >> letter
+## cross
+medical.prescribe > nursing.mar
+nursing.meds > pharmacy.stock
+medical.round > nursing.chart
+pharmacy.dispense > nursing.mar
+discharge.letter > nursing.mar
+discharge.plandischarge > admissions.beds

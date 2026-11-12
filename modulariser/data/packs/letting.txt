@@ -1,0 +1,34 @@
+# property letting agency
+people: Hugo, Amara, Lee, Bridget
+## Listings | Markets properties to rent. | why: properties need tenants
+a valuation: do rental valuations
+t ads: property adverts
+a viewings: run viewings
+valuation >> ads
+ads >> viewings
+## Tenancy | Vets tenants and signs leases.
+a referencing: reference tenants
+t lease: tenancy agreement
+a deposit: register the deposit
+referencing >> lease
+deposit > lease
+## Maintenance | Handles repairs.
+t repairs: repairs log
+a contractor: send a contractor
+contractor > repairs
+## Rent | Collects and pays out rent.
+a collect: collect rent
+a payout: pay landlords
+t statement: landlord statement
+collect >> payout
+payout > statement
+## Compliance | Keeps safety certificates current.
+t certs: safety certificates
+a gas: book gas safety checks
+gas > certs
+## cross
+tenancy.lease > listings.ads
+rent.collect > tenancy.lease
+maintenance.contractor > rent.statement
+tenancy.lease > compliance.certs
+listings.viewings > compliance.certs

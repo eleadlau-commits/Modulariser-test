@@ -1,0 +1,31 @@
+# food bank
+people: Rev Clarke, Shona, Abdi, Win
+## Donations | Collects food from donors. | why: food has to come in
+a collect: collect from supermarkets
+a weigh: weigh donations
+t donorlog: donations log
+collect >> weigh
+weigh > donorlog
+## Warehouse | Sorts and stores food.
+a sort: sort food by date
+t shelves: stock shelves
+sort > shelves
+## Referrals | Takes referrals from agencies.
+t vouchers: referral vouchers
+a check: check vouchers
+check > vouchers
+## Distribution | Hands out parcels.
+a packparcel: pack food parcels
+a handout: hand out parcels
+t parcellog: parcel log
+packparcel >> handout
+handout > parcellog
+## Volunteers | Rosters helpers.
+t rota: volunteer rota
+a train: train new volunteers
+## cross
+warehouse.sort > donations.donorlog
+distribution.packparcel > warehouse.shelves
+distribution.handout > referrals.vouchers
+distribution.packparcel > volunteers.rota
+donations.collect > volunteers.rota

@@ -1,0 +1,27 @@
+# gym
+people: Jess, Carlos, Bev, Arun
+## Memberships | Sells and renews memberships. | why: members pay the bills
+t members: member database
+a join: sign up members
+a renew: process renewals
+join > members
+renew > members
+## Classes | Runs group classes.
+t timetable: class timetable
+a bookclass: book class places
+a instruct: teach classes
+bookclass > timetable
+instruct > timetable
+## Equipment | Maintains the machines.
+t servicelog: service log
+a service: service machines
+service > servicelog
+## Trainers | Provides personal training.
+a pt: run PT sessions
+t programmes: client programmes
+pt > programmes
+## cross
+classes.bookclass > memberships.members
+trainers.pt > memberships.members
+classes.instruct > equipment.servicelog
+trainers.pt > classes.timetable

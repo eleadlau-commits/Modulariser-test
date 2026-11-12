@@ -1,0 +1,34 @@
+# short film production
+people: Zara, Elliot, Mo, June
+## Development | Writes and finances the script. | why: there must be a script
+t script: shooting script
+a rewrite: rewrite the script
+t budget: production budget
+rewrite > script
+## Casting | Finds the actors.
+a auditions: hold auditions
+t castlist: cast list
+auditions > castlist
+## Locations | Finds and secures places to film.
+a scout: scout locations
+t permits: filming permits
+scout >> permits
+## Shoot | Films the scenes.
+t callsheet: call sheet
+a film: film the scenes
+t schedule: shooting schedule
+film > callsheet
+callsheet > schedule
+## Post | Edits and finishes the film.
+a editcut: edit the cut
+a grade: colour grade
+a sound: mix sound
+editcut >> grade
+editcut >> sound
+## cross
+casting.auditions > development.script
+shoot.schedule > development.script
+shoot.callsheet > casting.castlist
+shoot.callsheet > locations.permits
+shoot.film >> post.editcut
+locations.scout > development.budget

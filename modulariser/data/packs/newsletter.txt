@@ -1,0 +1,33 @@
+# newsletter publishing
+people: Iris, Moe, Kat, Femi
+## Editorial | Plans and edits the issue. | why: someone must choose what goes in
+t calendar: editorial calendar
+a commission: commission articles
+a edit: edit articles
+commission > calendar
+commission >> edit
+## Writing | Writes the pieces.
+a draft: write drafts
+t style: style guide
+draft > style
+## Design | Lays out the issue.
+a layout: lay out the issue
+t template: email template
+layout > template
+## Subscribers | Manages the mailing list.
+t list: mailing list
+a signup: handle sign-ups
+a unsub: process unsubscribes
+signup > list
+unsub > list
+## Sending | Sends and measures the issue.
+a send: send the issue
+t stats: open-rate report
+send >> stats
+## cross
+writing.draft > editorial.calendar
+editorial.edit > writing.style
+editorial.edit >> design.layout
+design.layout >> sending.send
+sending.send > subscribers.list
+sending.send > design.template

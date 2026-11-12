@@ -1,0 +1,34 @@
+# online shop
+people: Lily, Arjun, Bo, Nkechi
+## Catalogue | Lists products and prices. | why: customers need something to browse
+t listings: product listings
+a photos: take product photos
+a pricing: set prices
+photos >> listings
+pricing > listings
+## Orders | Takes and tracks orders.
+a checkout: process checkout
+t orderdb: orders table
+checkout > orderdb
+## Fulfilment | Packs and posts orders.
+a packorder: pack orders
+a post: post parcels
+t tracking: tracking numbers
+packorder >> post
+post > tracking
+## Support | Answers customers and handles returns.
+a emails: answer customer emails
+a refunds: process refunds
+t returns: returns log
+refunds > returns
+## Marketing | Brings in customers.
+a ads: run ads
+t discounts: discount codes
+ads > discounts
+## cross
+orders.checkout > catalogue.listings
+orders.checkout > marketing.discounts
+fulfilment.packorder > orders.orderdb
+support.emails > fulfilment.tracking
+support.refunds > orders.orderdb
+marketing.ads > catalogue.listings

@@ -1,0 +1,33 @@
+# airport check-in
+people: Gita, Mark, Ines, Tobi
+## Check-in | Checks passengers onto the flight. | why: passengers need boarding passes
+a checkin: check passengers in
+t manifest: passenger manifest
+a passes: issue boarding passes
+checkin > manifest
+checkin >> passes
+## Baggage | Tags and loads bags.
+a tag: tag bags
+a load: load the hold
+t bagcount: bag reconciliation
+tag >> load
+load > bagcount
+## Security | Screens passengers.
+a screen: screen passengers
+t watchlist: watch list
+screen > watchlist
+## Boarding | Boards the aircraft.
+a board: board passengers
+t gate: gate list
+board > gate
+## Loadcontrol | Balances the aircraft.
+a loadsheet: prepare the load sheet
+t weights: weight figures
+loadsheet > weights
+## cross
+boarding.gate > checkin.manifest
+loadcontrol.loadsheet > baggage.bagcount
+loadcontrol.loadsheet > checkin.manifest
+checkin.passes >> security.screen
+security.screen >> boarding.board
+baggage.bagcount > checkin.manifest

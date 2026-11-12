@@ -1,0 +1,32 @@
+# open source project
+people: maintainer Kim, Obi, Rafa, Lin
+## Issues | Takes in bug reports and requests. | why: users need a way to report problems
+t tracker: issue tracker
+a triage: triage issues
+a labels: label issues
+triage > tracker
+## Contributions | Reviews and merges PRs.
+a review: review PRs
+a merge: merge PRs
+t guide: contributing guide
+review >> merge
+review > guide
+## CI | Tests every change.
+a run: run CI
+t matrix: test matrix
+run > matrix
+## Releases | Cuts versions.
+a tag: tag the release
+a publish: publish to the package index
+t changelog: changelog
+tag >> publish
+## Community | Talks to users.
+t chat: community chat
+a docs: maintain docs
+## cross
+contributions.review > ci.run
+contributions.merge > issues.tracker
+releases.changelog > contributions.merge
+releases.tag > ci.matrix
+community.docs > contributions.guide
+issues.triage > community.chat
