@@ -34,7 +34,7 @@ jobs:
           python-version: "3.11"
       - name: Install kaggle CLI
         run: |
-          pip install -q -U kaggle huggingface_hub six
+          pip install -q -U kaggle huggingface_hub six jsonschema
           if [ -z "$KAGGLE_USERNAME" ]; then echo "::error::KAGGLE_USERNAME secret is missing"; exit 1; fi
           kaggle --version
           if [ -z "$HF_TOKEN" ]; then echo "::warning::HF_TOKEN is not visible to this workflow (adapter publishing and the demo Space are skipped)"; fi
@@ -70,7 +70,7 @@ jobs:
       - name: Save results to a branch
         if: always()
         run: |
-          mkdir -p /tmp/tools && cp -r kaggle space /tmp/tools/
+          mkdir -p /tmp/tools && cp -r kaggle space modulariser /tmp/tools/
           mkdir -p /tmp/res && cp -r result/out/*.json result/out/*.jsonl result/out/log.txt result/out/packs result/*.log /tmp/res/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

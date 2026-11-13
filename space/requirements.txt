@@ -1,5 +1,0 @@
---extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
-llama-cpp-python==0.3.16
-huggingface_hub
-jsonschema>=4.18
-modulariser @ git+https://github.com/eleadlau-commits/Modulariser-test@main
