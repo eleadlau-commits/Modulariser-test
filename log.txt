@@ -1,0 +1,34 @@
+15:49:53 config {"task": "summaries", "ref": "ee28a876fe72fee030b1cfe38c3465390609a550", "models": ["Qwen/Qwen2.5-32B-Instruct-AWQ"], "n_train": 4000}
+15:49:53 $ nvidia-smi
+Fri Nov 13 15:49:53 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   57C    P8             11W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   59C    P8             11W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+15:49:54 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q ee28a876fe72fee030b1cfe38c3465390609a550
+15:49:55 $ pip install -q -e /kaggle/working/repo
+15:50:02 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 4000
+train 4000, val 200, test 200 (206 train domains, 6 test domains)
+15:50:03 $ pip install -q vllm
+16:49:43 summaries: sum_train.jsonl rewrote 3623 of 3623 cut targets (4000 rows)
+17:13:15 summaries: para_train.jsonl rewrote 1439 of 1439 cut targets (1439 rows)
+17:13:18 all done in 83.4 min
