@@ -62,7 +62,7 @@ jobs:
         if: always()
         run: |
           mkdir -p result
-          kaggle kernels output "${{ steps.build.outputs.slug }}" -p result || true
+          kaggle kernels output "${{ steps.build.outputs.slug }}" -p result --file-pattern '(^out/)|(\.log$)' || kaggle kernels output "${{ steps.build.outputs.slug }}" -p result || true
           ls -la result result/out || true
           cat result/out/summary.json || true
           tail -50 result/out/log.txt || true
