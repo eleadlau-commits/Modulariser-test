@@ -1,0 +1,57 @@
+10:14:02 config {"task": "train", "ref": "04b97b23eaf1f3dbea14955ecbb88ecf0fedb601", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_train": 4000, "n_test": 60, "epochs": 1, "repeat": {"real": 3}}
+10:14:02 $ nvidia-smi
+Fri Nov 13 10:14:02 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   52C    P8             12W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   47C    P8              9W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+10:14:03 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q 04b97b23eaf1f3dbea14955ecbb88ecf0fedb601
+10:14:04 $ pip install -q -e /kaggle/working/repo
+10:14:11 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 4000
+10:14:13 config {"task": "train_only", "ref": "04b97b23eaf1f3dbea14955ecbb88ecf0fedb601", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_train": 4000, "n_test": 60, "epochs": 1, "repeat": {"real": 3}}
+10:14:13 $ pip install -q 'trl>=0.12,<0.24' 'peft>=0.13' 'bitsandbytes>=0.45' accelerate datasets
+10:14:16 $ pip list 2>/dev/null | grep -iE '^(torch|transformers|trl|peft|bitsandbytes|accelerate) '
+accelerate                            1.15.0
+bitsandbytes                          0.50.2
+peft                                  0.21.2
+torch                                 2.11.0+cu130
+transformers                          5.20.2
+trl                                   0.23.1
+10:14:57 extra training file /kaggle/working/repo/data/para_train.jsonl 1439 (x1)
+10:14:57 extra training file /kaggle/working/repo/data/real_train.jsonl 1104 (x3)
+14:20:50 train done in 244.9 min
+14:20:51 all done in 246.6 min
+train 4000, val 200, test 200 (206 train domains, 6 test domains)
+14:20:56 train_only exit code 0
+14:20:56 config {"task": "eval_tuned", "ref": "04b97b23eaf1f3dbea14955ecbb88ecf0fedb601", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_train": 4000, "n_test": 60, "epochs": 1, "repeat": {"real": 3}}
+14:20:56 $ pip install -q vllm
+14:30:35 tuned {"synth_test": {"n": 60, "code_score": 0.8199, "code_score_cut_items": 0.8078, "status_acc": 0.9833, "first_try_pass": 1.0, "wrapper_refused": 0, "repaired": 20, "secs_per_item": 2.11, "coverage": 0.9856, "element_precision": 1.0, "no_ghosts": 1.0, "relations_kept": 0.523, "modularity_rel": 0.6976, "change_locality": 0.8477, "agreement": 0.6005}, "exam": {"n": 60, "code_score": 0.6887, "code_score_cut_items": 0.6476, "status_acc": 1.0, "first_try_pass": 1.0, "wrapper_refused": 0, "repaired": 38, "secs_per_item": 2.09, "coverage": 0.7948, "element_precision": 0.6347, "no_ghosts": 0.8206, "relations_kept": 0.466, "modularity_rel": 0.4195, "change_locality": 0.8627, "agreement": 0.5348}}
+14:30:35 all done in 9.6 min
+14:30:37 eval_tuned exit code 0
+14:30:37 config {"task": "judge", "ref": "04b97b23eaf1f3dbea14955ecbb88ecf0fedb601", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_train": 4000, "n_test": 60, "epochs": 1, "repeat": {"real": 3}}
+14:30:37 $ pip install -q vllm
+14:33:19 tuned exam blur 0.345
+14:33:51 tuned synth_test blur 0.3499
+14:33:53 all done in 3.3 min
+14:33:56 judge exit code 0
+14:33:56 all done in 259.9 min
+14:33:56 $ rm -rf /kaggle/working/repo /kaggle/working/data /kaggle/working/ckpt
