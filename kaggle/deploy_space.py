@@ -9,6 +9,7 @@ import io
 import json
 import os
 import subprocess
+import tarfile
 import tempfile
 import urllib.request
 import zipfile
@@ -23,15 +24,19 @@ def split(gguf: str, out: str) -> list[str]:
     """Split with llama.cpp's gguf-split from its latest Linux release; [] if unavailable."""
     try:
         rel = json.load(urllib.request.urlopen("https://api.github.com/repos/ggml-org/llama.cpp/releases/latest"))
-        url = next(a["browser_download_url"] for a in rel["assets"] if a["name"].endswith("bin-ubuntu-x64.zip"))
-        zipfile.ZipFile(io.BytesIO(urllib.request.urlopen(url).read())).extractall(out + "/bin")
+        a = next(a for a in rel["assets"] if "bin-ubuntu-x64" in a["name"] and a["name"].endswith((".zip", ".tar.gz")))
+        data = io.BytesIO(urllib.request.urlopen(a["browser_download_url"]).read())
+        if a["name"].endswith(".zip"):
+            zipfile.ZipFile(data).extractall(out + "/bin")
+        else:
+            tarfile.open(fileobj=data, mode="r:gz").extractall(out + "/bin", filter="data")
         exe = next(p for p in glob.glob(out + "/bin/**/llama-gguf-split", recursive=True))
         os.chmod(exe, 0o755)
         env = {**os.environ, "LD_LIBRARY_PATH": str(Path(exe).parent)}
         subprocess.run([exe, "--split-max-size", "480M", gguf, out + "/model-q4_k_m"], check=True, env=env)
         return sorted(glob.glob(out + "/model-q4_k_m-*-of-*.gguf"))
     except Exception as e:  # noqa: BLE001
-        print("split failed, uploading one file:", e)
+        print("split failed, uploading one file:", repr(e))
         return []
 
 
