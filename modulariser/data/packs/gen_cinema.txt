@@ -1,0 +1,39 @@
+# cinema
+people: Sam, Lisa, Mark, Emily, Jordan
+## Scheduling | Determines which movies play when and where. | why: movies need to be assigned to screens
+t calendar: weekly schedule
+a update: update the schedule
+a check: check availability
+update > calendar
+update >> check
+## Ticketing | Sells and tracks movie tickets. | why: customers need tickets to enter screenings
+t sales: ticket sales
+a sell: sell tickets
+a print: print tickets
+sell >> print
+print > sales
+## Screening | Prepares and runs movie screenings.
+t cuesheet: cue sheet for screenings
+a setup: set up the projection
+a show: run the screening
+setup >> show
+show > cuesheet
+## Housekeeping | Cleans and maintains the cinema space.
+t checklist: daily maintenance checklist
+a clean: clean auditoriums and restrooms
+a inspect: inspect the premises
+clean >> inspect
+inspect > checklist
+## Marketing | Promotes the cinema and its movies.
+t promotion: promotional materials
+a advertise: run ads in local media
+a social: manage social media
+advertise > promotion
+social > promotion
+## cross
+scheduling.update > screening.cuesheet
+scheduling.check > housekeeping.inspect
+ticketing.print > screening.show
+marketing.advertise > ticketing.sales
+marketing.social > ticketing.sales
+screening.setup > housekeeping.checklist

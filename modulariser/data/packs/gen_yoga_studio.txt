@@ -1,0 +1,38 @@
+# yoga studio
+people: Priya, Ben, Alex, Mei
+## Scheduling | Manages class schedules and instructor assignments. | why: classes need to be planned and instructors need to know their duties.
+t calendar: class schedule
+a assign: assign instructors to classes
+a update: update calendar as needed
+assign > calendar
+update > calendar
+## Marketing | Promotes the studio and attracts new customers.
+t flyer: promotional flyer
+a post: post on social media
+a email: send email newsletters
+post > flyer
+email > flyer
+## Registration | Handles customer registration and payment for classes.
+t register: customer registration form
+a collect: collect payment
+a confirm: confirm registration
+collect > register
+confirm > register
+## Instruction | Teaches yoga classes and provides individual guidance to customers.
+t guide: teaching guide
+a teach: teach yoga classes
+a assist: assist individual customers
+teach > guide
+assist > guide
+## Cleaning | Ensures the studio is clean and safe for use.
+t checklist: cleaning checklist
+a clean: clean studio after classes
+a restock: restock supplies
+clean > checklist
+restock > checklist
+## cross
+scheduling.assign > instruction.teach
+marketing.post >> registration.collect
+registration.confirm >> instruction.teach
+cleaning.clean >> scheduling.calendar
+cleaning.restock >> instruction.teach

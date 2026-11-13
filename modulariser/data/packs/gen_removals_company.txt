@@ -1,0 +1,39 @@
+# removals company
+people: Alex, Bella, Carlos, Diana
+## Quotation | Estimates the cost and creates a quote. | why: clients need to know the cost before proceeding.
+a assess: assess house contents
+t estimate: cost estimate
+a quote: create quote
+assess >> estimate
+estimate >> quote
+## Scheduling | Plans the move date and logistics. | why: the move needs to be organized.
+a plan: plan move date
+t calendar: scheduling calendar
+t resources: vehicle and manpower resources
+plan >> calendar
+plan >> resources
+## Packing | Prepares items for transport. | why: items need to be protected during transport.
+t boxes: packing boxes
+a wrap: wrap fragile items
+a load: load items into boxes
+wrap >> load
+load > boxes
+## Transport | Moves items from one location to another. | why: items need to be transported.
+t vehicle: transport vehicle
+a load: load vehicle
+a unload: unload vehicle
+load >> unload
+load > vehicle
+## Insurance | Handles insurance claims and policies. | why: items may be damaged during transport.
+t policy: insurance policy
+a claim: file insurance claims
+t coverage: coverage details
+claim > policy
+claim > coverage
+## cross
+quotation.assess > packing.wrap
+scheduling.plan > transport.load
+packing.load > transport.load
+transport.unload > insurance.claim
+quotation.estimate > insurance.policy
+scheduling.resources > transport.vehicle

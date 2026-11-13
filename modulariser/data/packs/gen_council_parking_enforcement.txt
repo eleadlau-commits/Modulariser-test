@@ -1,0 +1,40 @@
+# council parking enforcement
+people: Alice, Bob, Carol, Dave
+## Ticketing | Issues tickets for parking violations.
+a spot: spot violations
+t ticket: ticket
+a issue: issue tickets
+spot >> issue
+issue > ticket
+## Appeals | Handles appeals and resolutions.
+t appeal: appeal form
+a review: review appeals
+a resolve: resolve appeals
+review >> resolve
+resolve > appeal
+## Collection | Collects fines and manages payment.
+a fine: issue fines
+t payment: payment record
+a collect: collect payments
+fine >> collect
+collect > payment
+## Investigation | Investigates serious or repeat violations.
+a track: track repeat offenders
+t report: violation report
+a investigate: conduct investigations
+track >> investigate
+investigate > report
+## Compliance | Ensures adherence to regulations and policies.
+t policy: parking policy
+a audit: audit enforcement
+a update: update policies
+audit > policy
+update > policy
+## cross
+ticketing.spot > investigation.track
+investigation.report > ticketing.issue
+ticketing.ticket > collection.fine
+ticketing.ticket > appeals.review
+collection.payment > ticketing.issue
+compliance.update >> ticketing.issue
+compliance.audit >> ticketing.issue

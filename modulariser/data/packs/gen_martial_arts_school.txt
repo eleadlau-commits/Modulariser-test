@@ -1,0 +1,39 @@
+# martial arts school
+people: Alex, Jamie, Sam, Lisa, Mark
+## Training | Manages the training sessions for students.
+t schedule: training schedule
+a conduct: conduct training sessions
+a assess: assess progress
+conduct >> assess
+conduct > schedule
+## Grading | Evaluates students for belt promotions.
+t criteria: grading criteria
+a evaluate: evaluate students
+a promote: promote to next belt
+evaluate >> promote
+evaluate > criteria
+## Facilities | Ensures the training facility is well-maintained.
+t maintenance: maintenance schedule
+a clean: clean the dojo
+a inspect: inspect equipment
+clean >> inspect
+inspect > maintenance
+## Administration | Handles registration and billing.
+t registration: student registration
+a register: register new students
+a bill: bill monthly fees
+register > registration
+bill > registration
+## Competition | Prepares students for and participates in martial arts competitions.
+t calendar: competition calendar
+a prepare: prepare for competitions
+a compete: compete in tournaments
+prepare >> compete
+prepare > calendar
+## cross
+training.conduct > grading.evaluate
+facilities.inspect > training.schedule
+administration.register > training.schedule
+administration.bill > facilities.maintenance
+competition.prepare >> training.assess
+competition.calendar > training.schedule

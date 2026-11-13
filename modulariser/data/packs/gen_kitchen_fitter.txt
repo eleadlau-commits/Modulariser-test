@@ -1,0 +1,45 @@
+# kitchen fitter
+people: Alex, Jamie, Casey, Sam, Olivia
+## Planning | Determines the work scope and logistics. | why: needed to start the project
+t blueprint: kitchen blueprint
+a measure: measure the space
+t supplies: material list
+measure > blueprint
+measure > supplies
+## Design | Customizes the kitchen design based on client needs. | why: ensures the kitchen meets client expectations
+t layout: layout plan
+a customize: customize design details
+a review: review design with client
+customize > layout
+review > layout
+## Installation | Assembles and installs the kitchen units. | why: transforms the design into a functional kitchen
+t units: kitchen units
+a assemble: assemble units
+a install: install units
+assemble >> install
+install > units
+## Electrical | Sets up and installs electrical components. | why: needed for functionality
+t wiring: electrical wiring
+a connect: connect electrical components
+t sockets: power sockets
+connect > wiring
+connect > sockets
+## Plumbing | Sets up and installs plumbing components. | why: needed for functionality
+t pipes: plumbing pipes
+a connect: connect plumbing components
+t faucets: plumbing fixtures
+connect > pipes
+connect > faucets
+## Finishing | Completes the installation with final touches. | why: ensures the kitchen is ready for use
+t fixtures: final fixtures
+a clean: clean the workspace
+a inspect: final inspection
+clean >> inspect
+inspect > fixtures
+## cross
+planning.measure > design.layout
+installation.assemble > electrical.connect
+installation.assemble > plumbing.connect
+design.layout > installation.units
+electrical.connect > finishing.fixtures
+plumbing.connect > finishing.fixtures

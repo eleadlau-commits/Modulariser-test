@@ -1,0 +1,44 @@
+# web development agency
+people: Liam, Olivia, Noah, Ava
+## ClientConsultation | Understands client needs and outlines project scope. | why: sets the foundation for the project
+a meet: meet with client
+t needs: client needs
+a outline: outline project scope
+meet > needs
+outline > needs
+## Design | Creates wireframes and visual designs. | why: provides a visual roadmap for development
+t wireframe: wireframe design
+a sketch: sketch initial designs
+t mockup: visual mockup
+sketch >> wireframe
+sketch >> mockup
+## Development | Builds the website using front-end and back-end technologies.
+t code: source code
+a code: write the code
+t framework: framework used
+code > framework
+## Testing | Ensures the website meets quality standards through automated and manual testing.
+a automate: run automated tests
+a manual: perform manual testing
+t report: test report
+automate >> report
+manual >> report
+## Deployment | Deploys the website to production and monitors performance.
+a deploy: deploy to production
+t server: hosting server
+a monitor: monitor performance
+deploy > server
+monitor > server
+## Maintenance | Provides ongoing support and updates to the website.
+a update: apply updates
+t log: maintenance log
+a fix: fix issues
+update > log
+fix > log
+## cross
+clientconsultation.outline > design.sketch
+design.mockup > development.code
+development.code > testing.automate
+testing.report > deployment.deploy
+deployment.server > maintenance.update
+maintenance.log > clientconsultation.meet

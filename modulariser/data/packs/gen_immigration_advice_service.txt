@@ -1,0 +1,36 @@
+# immigration advice service
+people: Emily, John, Maria, David, Olivia
+## Intake | Collects initial client information and schedules the first consultation. | why: needed to understand the client's situation and set up the consultation
+a intake: collect initial client data
+t intakeform: intake form
+a schedule: schedule the first consultation
+intake > intakeform
+intake >> schedule
+## Assessment | Conducts legal assessments and identifies the best course of action. | why: essential to provide accurate legal advice
+a assess: perform legal assessment
+t casefile: case file
+t laws: relevant laws and regulations
+assess > casefile
+assess > laws
+## Documentation | Prepares all necessary documents and forms for the application. | why: required to submit a complete and accurate application
+a draft: draft application documents
+t checklist: document checklist
+a review: review and finalize documents
+draft >> review
+review > checklist
+## Communication | Manages all client interactions and updates. | why: crucial for maintaining trust and keeping the client informed
+a consult: conduct consultations with clients
+t calendar: schedule calendar
+a update: provide updates to clients
+consult > calendar
+consult >> update
+## Submission | Submits the application to the relevant authorities. | why: the final step to initiate the legal process
+a submit: submit the application
+t proof: proof of submission
+submit > proof
+## cross
+intake.schedule > communication.calendar
+assessment.assess > documentation.draft
+documentation.review > submission.submit
+communication.update > assessment.laws
+submission.proof > communication.update

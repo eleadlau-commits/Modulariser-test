@@ -1,0 +1,39 @@
+# adult education centre
+people: Sarah, Michael, Linda, David, Emma
+## Curriculum Development | Designs the course curriculum and materials.
+t syllabus: course syllabus
+a create: create course materials
+t outline: course outline
+create > syllabus
+create > outline
+## Student Recruitment | Attracts and enrols students into the courses.
+t brochure: course brochure
+a promote: promote the courses
+a enroll: enrol students
+promote > brochure
+promote >> enroll
+## Classroom Management | Manages the logistics of the classroom.
+t schedule: class schedule
+a manage: manage classroom resources
+a assign: assign seats
+manage > schedule
+manage >> assign
+## Instruction | Delivers the course content and engages students.
+t lessonplan: lesson plan
+a teach: teach the course content
+a interact: interact with students
+teach > lessonplan
+teach >> interact
+## Assessment | Evaluates student performance and provides feedback.
+a assess: assess student performance
+t rubric: assessment rubric
+a feedback: provide feedback
+assess > rubric
+assess >> feedback
+## cross
+curriculum.syllabus > instruction.lessonplan
+student.promote > classroom.schedule
+student.enroll > assessment.assess
+instruction.teach >> assessment.assess
+curriculum.create > student.brochure
+classroom.assign >> instruction.teach

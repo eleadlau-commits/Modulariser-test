@@ -1,0 +1,41 @@
+# exhibition hall
+people: Laura, Jake, Zoe, Sam, Emma
+## Curation | Selects and prepares items for display.
+t inventory: item inventory
+a select: select items for display
+t theme: exhibition theme
+a prepare: prepare items for display
+select > inventory
+select > theme
+prepare > inventory
+## Setup | Prepares the exhibition space and installs items.
+a layout: create floor plan
+a install: install items in space
+t markers: installation markers
+layout >> install
+install > markers
+## Promotion | Advertises the exhibition to attract visitors.
+t poster: promotional poster
+a social: post on social media
+t email: newsletter email
+social > poster
+social > email
+## Reception | Welcomes and guides visitors through the exhibition.
+t map: visitor map
+a greet: greet visitors
+a guide: guide visitors through
+greet >> guide
+guide > map
+## Documentation | Records and provides information about the exhibition.
+t brochure: detailed brochure
+a record: record curator insights
+a label: create item labels
+record >> label
+record > brochure
+## cross
+curation.select > setup.layout
+curation.prepare > setup.install
+promotion.poster > reception.greet
+promotion.email > reception.greet
+documentation.brochure > reception.map
+setup.markers > documentation.label

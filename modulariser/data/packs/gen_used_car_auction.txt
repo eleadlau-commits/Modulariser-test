@@ -1,0 +1,39 @@
+# used car auction
+people: Mike, Sarah, Tom, Lisa
+## Inspection | Evaluates and documents the condition of each car.
+t report: inspection report
+a check: inspect the vehicle
+a record: document issues
+check >> record
+record > report
+## Bidding | Manages the bidding process during the auction.
+t bids: bidding record
+a open: open the bidding
+a accept: accept higher bids
+open >> accept
+accept > bids
+## Logistics | Coordinates the transport and storage of vehicles.
+t manifest: vehicle manifest
+a load: load vehicles onto transport
+a store: store vehicles in auction lot
+load > manifest
+store > manifest
+## Sales | Handles the sale and prepares necessary documents for buyers.
+t contract: sale contract
+a sell: finalize the sale
+a prepare: prepare necessary documents
+sell > prepare
+prepare > contract
+## Finance | Manages the financial transactions and payments.
+t invoice: sales invoice
+a charge: charge the buyer
+a collect: collect payment
+charge >> collect
+collect > invoice
+## cross
+inspection.report > bidding.open
+logistics.load > inspection.check
+sales.sell > finance.charge
+sales.prepare > finance.invoice
+inspection.record > sales.prepare
+bidding.accept > sales.sell

@@ -1,0 +1,37 @@
+# electricity substation maintenance
+people: Sam, Lisa, Mike, Pat, Emily
+
+## Planning | Coordinates maintenance activities and schedules. | why: maintenance needs to be scheduled to minimize impact
+t schedule: maintenance schedule
+a prioritize: prioritize tasks
+t checklist: maintenance checklist
+prioritize > schedule
+prioritize > checklist
+
+## Inspection | Checks equipment for wear and tear. 
+a inspect: perform visual inspection
+t report: inspection report
+inspect > report
+
+## Testing | Performs functional tests on equipment.
+a test: functional testing
+t log: test log
+test > log
+
+## Repair | Fixes identified issues and performs replacements.
+a repair: perform necessary repairs
+t parts: replacement parts
+repair > parts
+
+## Documentation | Updates manuals and maintenance records.
+t manual: maintenance manual
+a update: update records
+update > manual
+
+## cross
+planning.schedule > inspection.inspect
+planning.schedule > testing.test
+inspection.report > repair.repair
+testing.log > repair.repair
+repair.parts > documentation.update
+repair.repair > documentation.update

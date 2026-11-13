@@ -6,6 +6,8 @@
 #   eval   score base models and/or adapters on the synthetic test set and exam
 #   train  QLoRA fine-tune one base model, save the adapter, then eval it
 import json
+import os as _os
+_os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 import os
 import subprocess
 import sys
@@ -63,7 +65,8 @@ def exam_items():
 
 
 def train(base, adapter_dir):
-    sh("pip install -q -U 'trl>=0.12' 'peft>=0.13' bitsandbytes accelerate")
+    sh("pip install -q 'trl>=0.12,<0.24' 'peft>=0.13' 'bitsandbytes>=0.45' accelerate datasets")
+    sh("pip list 2>/dev/null | grep -iE '^(torch|transformers|trl|peft|bitsandbytes|accelerate) '", check=False)
     import torch
     from datasets import Dataset
     from peft import LoraConfig
@@ -71,9 +74,11 @@ def train(base, adapter_dir):
     from trl import SFTConfig, SFTTrainer
 
     rows = load_jsonl(f"{WORK}/data/synth_train.jsonl")
-    extra = f"{WORK}/repo/data/extra_train.jsonl"
-    if os.path.exists(extra):
-        rows += load_jsonl(extra)
+    import glob
+    for extra in sorted(glob.glob(f"{WORK}/repo/data/*_train.jsonl")):
+        more = load_jsonl(extra)
+        log("extra training file", extra, len(more))
+        rows += more
     ds = Dataset.from_list([{"messages": r["messages"]} for r in rows]).shuffle(seed=0)
     tok = AutoTokenizer.from_pretrained(base)
     model = AutoModelForCausalLM.from_pretrained(
@@ -85,13 +90,16 @@ def train(base, adapter_dir):
     lora = LoraConfig(r=CONFIG.get("rank", 32), lora_alpha=CONFIG.get("rank", 32) * 2, lora_dropout=0.05,
                       target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
                       task_type="CAUSAL_LM")
-    args = SFTConfig(
+    import inspect
+    want = dict(
         output_dir=f"{WORK}/ckpt", num_train_epochs=CONFIG.get("epochs", 1),
-        per_device_train_batch_size=4, gradient_accumulation_steps=4, learning_rate=CONFIG.get("lr", 2e-4),
+        per_device_train_batch_size=1, gradient_accumulation_steps=16, learning_rate=CONFIG.get("lr", 2e-4),
         lr_scheduler_type="cosine", warmup_ratio=0.03, logging_steps=10, save_strategy="no",
-        fp16=True, gradient_checkpointing=True, max_length=2048, assistant_only_loss=False,
+        fp16=True, gradient_checkpointing=True, max_length=2048, max_seq_length=2048,
         report_to=[], optim="paged_adamw_8bit",
     )
+    ok = set(inspect.signature(SFTConfig.__init__).parameters)
+    args = SFTConfig(**{k: v for k, v in want.items() if k in ok})
     try:
         trainer = SFTTrainer(model=model, args=args, train_dataset=ds, processing_class=tok, peft_config=lora)
     except TypeError:
@@ -192,6 +200,7 @@ def eval_one(spec, sets, schema, check, cut_for, strip_meta):
             "status_acc": round(sum(r["status"] == r["expect"] for r in rows) / n, 4),
             "first_try_pass": round(sum(r["meta"]["attempts"] == 1 for r in rows) / n, 4),
             "wrapper_refused": sum(bool(r["meta"].get("wrapper_refused")) for r in rows),
+            "repaired": sum(bool(r["meta"].get("repaired")) for r in rows),
             "secs_per_item": round(secs / n, 2),
         }
         for k in ["coverage", "element_precision", "no_ghosts", "relations_kept", "modularity_rel", "change_locality", "agreement"]:
@@ -325,72 +334,117 @@ def fetch_govuk(n):
     return docs
 
 
+def fetch_github(n):
+    """Process docs (contributing, release, governance) from popular public repos."""
+    import re
+    import urllib.request
+
+    def get(url, js=True):
+        req = urllib.request.Request(url, headers={"User-Agent": "modulariser-research"})
+        data = urllib.request.urlopen(req, timeout=20).read()
+        return json.loads(data) if js else data.decode("utf-8", "replace")
+
+    repos = []
+    for lang in ["python", "javascript", "typescript", "go", "rust", "java", "c++", "ruby", "php", "c#", "kotlin", "swift"]:
+        for page in (1, 2):
+            try:
+                res = get(f"https://api.github.com/search/repositories?q=stars:>2000+language:{lang}&sort=stars&per_page=100&page={page}")
+                repos += [(r["full_name"], r["default_branch"], (r.get("license") or {}).get("spdx_id") or "unknown") for r in res.get("items", [])]
+            except Exception as e:
+                log("search failed", lang, e)
+            time.sleep(7)  # unauthenticated search: 10 requests a minute
+    log("repos", len(repos))
+    names = ["RELEASING.md", "RELEASE.md", "docs/RELEASING.md", "docs/release.md", "GOVERNANCE.md", "CONTRIBUTING.md",
+             ".github/CONTRIBUTING.md", "docs/CONTRIBUTING.md", "MAINTAINING.md", "docs/process.md"]
+    docs = []
+    for full, branch, lic in repos:
+        if len(docs) >= n:
+            break
+        for name in names:
+            try:
+                text = get(f"https://raw.githubusercontent.com/{full}/{branch}/{name}", js=False)
+            except Exception:
+                continue
+            text = re.sub(r"```.*?```", " ", text, flags=re.S)
+            text = re.sub(r"<[^>]+>|!\[[^\]]*\]\([^)]*\)", " ", text)
+            text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+            text = re.sub(r"[ \t]+", " ", text).strip()
+            if len(text) >= 1200:
+                docs.append({"url": f"https://github.com/{full}/blob/{branch}/{name}", "title": f"{full} {name}",
+                             "text": text[:4000], "licence": lic})
+                break
+    log("fetched", len(docs), "github process docs")
+    return docs
+
+
 def teacher():
     sh("pip install -q vllm", check=True)
+    from collections import Counter
     from vllm import LLM, SamplingParams
-    from modulariser.check import CUT_SCHEMA, _pair_f1, hard_checks
-    from modulariser.align import align
+    from modulariser.check import CUT_SCHEMA, hard_checks
     from modulariser.prompt import messages
 
-    docs = fetch_govuk(CONFIG.get("n_docs", 1200))
+    src = CONFIG.get("source", "github")
+    docs = fetch_github(CONFIG.get("n_docs", 1200)) if src == "github" else fetch_govuk(CONFIG.get("n_docs", 1200))
+    for d in docs:
+        d.setdefault("licence", "OGL-UK-3.0")
     llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=6144,
               gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
     plain = SamplingParams(temperature=0.8, max_tokens=1200)
-
-    def guided(temp):
-        try:
-            from vllm.sampling_params import StructuredOutputsParams
-            return SamplingParams(temperature=temp, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
-        except ImportError:
-            from vllm.sampling_params import GuidedDecodingParams
-            return SamplingParams(temperature=temp, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+    try:
+        from vllm.sampling_params import StructuredOutputsParams
+        guided = SamplingParams(temperature=0.0, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
+    except ImportError:
+        from vllm.sampling_params import GuidedDecodingParams
+        guided = SamplingParams(temperature=0.0, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+    from modulariser.infer import repair
 
     out_path = os.path.join(OUT, "real_train.jsonl")
-    kept = 0
-    deadline = time.time() + CONFIG.get("hours", 7) * 3600
+    why = Counter()
+    deadline = time.time() + CONFIG.get("hours", 5) * 3600
     for i in range(0, len(docs), 100):
         if time.time() > deadline:
             log("time budget reached")
             break
         batch = docs[i:i + 100]
+        # Cut first (from the clean doc); only ok/partial cuts get a messy rewrite.
+        cuts = llm.chat([messages(d["text"]) for d in batch], guided, use_tqdm=False)
+        keep = []
+        for d, o in zip(batch, cuts):
+            try:
+                c = json.loads(o.outputs[0].text)
+            except Exception:
+                why["json"] += 1
+                continue
+            if hard_checks(c):
+                c = repair(c)
+                if c is None or hard_checks(c):
+                    why["hard"] += 1
+                    continue
+                why["repaired"] += 1
+            if c["status"] == "refuse":
+                why["refuse:" + str(c["reason"])] += 1
+                continue
+            if not (2 <= len(c["parts"]) <= 10 and 5 <= len(c["elements"]) <= 45 and c["links"]):
+                why["size"] += 1
+                continue
+            keep.append((d, c))
+        if not keep:
+            continue
         messy = [o.outputs[0].text.strip() for o in llm.chat(
-            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d in batch], plain, use_tqdm=False)]
-        # The cut is made from the clean guidance (more reliable), twice, and kept only if both agree.
-        convs = [messages(d["text"]) for d in batch]
-        a = llm.chat(convs, guided(0.0), use_tqdm=False)
-        b = llm.chat(convs, guided(0.7), use_tqdm=False)
+            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d, _ in keep], plain, use_tqdm=False)]
         with open(out_path, "a") as f:
-            for d, m, oa, ob in zip(batch, messy, a, b):
-                try:
-                    ca, cb = json.loads(oa.outputs[0].text), json.loads(ob.outputs[0].text)
-                except Exception:
+            for (d, c), m in zip(keep, messy):
+                low = m.lower()
+                hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in c["elements"])
+                if hits < 0.6 * len(c["elements"]):
+                    why["mess_lost"] += 1
                     continue
-                if hard_checks(ca) or hard_checks(cb) or ca["status"] != cb["status"]:
-                    continue
-                if ca["status"] == "ok":
-                    if not (2 <= len(ca["parts"]) <= 9 and 5 <= len(ca["elements"]) <= 40 and ca["links"]):
-                        continue
-                    g = [{"id": e["id"].replace("e", "g"), "text": e["text"]} for e in ca["elements"]]
-                    m_ = align(cb["elements"], g)
-                    pa = {e.replace("e", "g"): p["id"] for p in ca["parts"] for e in p["owns"]}
-                    pb = {e: p["id"] for p in cb["parts"] for e in p["owns"]}
-                    common = [gid for gid, eid in m_.items() if gid in pa and eid in pb]
-                    if len(common) < 0.7 * len(g):
-                        continue
-                    agree = _pair_f1({k: pa[k] for k in common}, {k: pb[m_[k]] for k in common}, common)
-                    if agree < CONFIG.get("min_agree", 0.5):
-                        continue
-                    # The messy rewrite must still mention most elements.
-                    low = m.lower()
-                    hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in ca["elements"])
-                    if hits < 0.8 * len(ca["elements"]):
-                        continue
-                item_id = f"govuk-{i + batch.index(d):05d}"
-                f.write(json.dumps({"id": item_id, "source": {"kind": "real", "origin": d["url"], "licence": "OGL-UK-3.0"},
-                                    "domain": "govuk:" + d["title"][:60], "messages": messages(m, ca)}) + "\n")
-                kept += 1
-        log(f"teacher: {i + len(batch)} docs seen, {kept} kept")
-
+                why["kept"] += 1
+                f.write(json.dumps({"id": f"{src}-{i + batch.index(d):05d}",
+                                    "source": {"kind": "real", "origin": d["url"], "licence": d["licence"]},
+                                    "domain": f"{src}:" + d["title"][:60], "messages": messages(m, c)}) + "\n")
+        log(f"teacher: {i + len(batch)} docs seen", dict(why))
 
 # ---------------------------------------------------------------- export (GGUF for the demo)
 
@@ -403,25 +457,118 @@ def export():
     if not src:
         raise SystemExit("no adapter found under /kaggle/input")
     log("adapter", src)
-    sh("pip install -q -U peft 'transformers>=4.45' accelerate sentencepiece gguf")
+    sh("pip uninstall -y -q torchao", check=False)  # an old torchao breaks peft's import
+    sh("pip install -q sentencepiece gguf")
     import torch
     from peft import PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     base = CONFIG["models"][0]
+    os.makedirs("/tmp/exp", exist_ok=True)
     model = AutoModelForCausalLM.from_pretrained(base, torch_dtype=torch.float16, device_map="cpu")
     model = PeftModel.from_pretrained(model, src).merge_and_unload()
-    merged = f"{WORK}/merged"
+    merged = "/tmp/exp/merged"  # /tmp has more room than /kaggle/working
     model.save_pretrained(merged, safe_serialization=True)
-    AutoTokenizer.from_pretrained(base).save_pretrained(merged)
+    # Original tokenizer files (newer transformers saves them in a form the converter misreads).
+    from huggingface_hub import snapshot_download
+    tok_dir = snapshot_download(base, allow_patterns=["tokenizer*", "vocab.json", "merges.txt", "generation_config.json"])
+    sh(f"cp {tok_dir}/* {merged}/")
     del model
-    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
-    sh(f"pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt", check=False)
-    sh(f"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
-    sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
-    sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
-    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp", check=False)
+    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /tmp/exp/llama.cpp")
+    # The converter gets its own venv with the library versions it pins.
+    sh(f"pip install -q uv && cd /tmp/exp && uv venv -q --python 3.12 cv && uv pip install -q --python /tmp/exp/cv/bin/python --index-strategy unsafe-best-match -r /tmp/exp/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
+    sh(f"/tmp/exp/cv/bin/python /tmp/exp/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile /tmp/exp/model-f16.gguf")
+    sh(f"rm -rf {merged} /tmp/exp/cv", check=False)
+    sh("df -h /tmp /kaggle/working | tail -2", check=False)
+    sh(f"cd /tmp/exp/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
+    sh(f"/tmp/exp/llama.cpp/build/bin/llama-quantize /tmp/exp/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
+    sh(f"rm -rf {merged} /tmp/exp/model-f16.gguf /tmp/exp/llama.cpp /tmp/exp/cv", check=False)
     log("gguf size MB", os.path.getsize(f"{OUT}/model-q4_k_m.gguf") // 2**20)
+
+
+# ---------------------------------------------------------------- teacher (new domain packs)
+
+PACK_PROMPT = """You write "domain packs": a small text format describing how one kind of organisation's process splits into modules.
+Rules:
+- First line "# <domain>", then "people: " with 4 first names or roles.
+- 4 to 6 modules. Each starts "## Name | one-sentence summary" and may add " | why: <reason it is usually needed>" when the module is essential.
+- Each module has 2 to 4 element lines: "a key: activity as a short verb phrase" or "t key: thing as a short noun phrase". Keys are lowercase single words, unique within the module.
+- Inside a module, edges between its own keys: "a > b" means a uses b, "a >> b" means a happens before b.
+- Then "## cross" with 4 to 8 edges between modules written "module.key > module.key" (or >>), where module is the lowercased first word of the module name.
+- Elements must be concrete and specific to this domain. No comments, no blank modules.
+
+EXAMPLE:
+{ex1}
+
+EXAMPLE:
+{ex2}
+
+Now write the pack for: {domain}"""
+
+
+def write_packs():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.data.pack import parse
+
+    ex = [open(f"{WORK}/repo/modulariser/data/packs/{n}.txt").read().strip() for n in ("restaurant", "release")]
+    domains = [l.strip() for l in open(f"{WORK}/repo/kaggle/domains.txt") if l.strip() and not l.startswith("#")]
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    sp = SamplingParams(temperature=0.7, max_tokens=900, n=CONFIG.get("tries", 2))
+    outs = llm.chat([[{"role": "user", "content": PACK_PROMPT.format(ex1=ex[0], ex2=ex[1], domain=d)}] for d in domains], sp, use_tqdm=False)
+    os.makedirs(os.path.join(OUT, "packs"), exist_ok=True)
+    good = 0
+    for d, o in zip(domains, outs):
+        for cand in o.outputs:
+            text = cand.text.strip().strip("`").strip()
+            try:
+                p = parse(text)
+            except Exception as e:
+                continue
+            if not (4 <= len(p.modules) <= 7 and all(len(m.elements) >= 2 for m in p.modules.values()) and len(p.cross) >= 3):
+                continue
+            slug = "".join(ch if ch.isalnum() else "_" for ch in d.lower())[:40]
+            open(os.path.join(OUT, "packs", f"gen_{slug}.txt"), "w").write(text + "\n")
+            good += 1
+            break
+    log(f"packs: {good} of {len(domains)} domains")
+
+
+# ---------------------------------------------------------------- teacher (natural rewrites of synthetic mess)
+
+PARA_PROMPT = """Rewrite the following notes so they read like something a real person wrote about their work: natural wording, varied sentences, some informality. Keep every activity, thing, person and relationship in it, and keep which step comes before which. You may reword names of activities and things slightly. Do not add new steps or facts. Output only the rewritten text.
+
+NOTES:
+{text}"""
+
+
+def paraphrase():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.data.build import TEST_DOMAINS
+    from modulariser.data.pack import load_all
+    from modulariser.data.synth import generate
+    from modulariser.prompt import messages
+
+    packs = [p for n, p in load_all().items() if n not in TEST_DOMAINS]
+    rows = [r for r in generate(packs, CONFIG.get("n_para", 1500), 991, "para") if r[1]["status"] != "refuse"]
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    sp = SamplingParams(temperature=0.8, max_tokens=1200)
+    outs = llm.chat([[{"role": "user", "content": PARA_PROMPT.format(text=it["input"])}] for it, _ in rows], sp, use_tqdm=False)
+    kept = 0
+    with open(os.path.join(OUT, "para_train.jsonl"), "w") as f:
+        for (it, tg), o in zip(rows, outs):
+            text = o.outputs[0].text.strip()
+            low = text.lower()
+            hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in tg["elements"])
+            if not text or hits < 0.8 * len(tg["elements"]):
+                continue
+            kept += 1
+            f.write(json.dumps({"id": it["id"], "source": {"kind": "synthetic", "origin": it["source"]["origin"] + "+paraphrase", "licence": "CC0"},
+                                "domain": it["domain"], "messages": messages(text, tg)}) + "\n")
+    log(f"paraphrase: kept {kept} of {len(rows)}")
 
 
 def subrun(task):
@@ -439,37 +586,57 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval", "teacher"):
+    if task in ("train", "eval", "teacher", "evaladapter", "packs", "paraphrase"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
     adapter = os.path.join(OUT, "adapter")
     if task == "train":
-        train(base, adapter)
-        # Fresh processes: installing vLLM swaps packages under a live torch,
-        # and vLLM does not reliably free the GPU between models.
+        # Fresh processes for every GPU stage: a parent that has touched CUDA keeps
+        # memory that vLLM then cannot get, and installing vLLM swaps packages.
+        subrun("train_only")
         subrun("eval_tuned")
+    elif task == "train_only":
+        train(base, adapter)
+    elif task == "evaladapter":
+        import glob
+        src = next(iter(glob.glob("/kaggle/input/*/out/adapter") + glob.glob("/kaggle/input/**/adapter", recursive=True)), None)
+        log("adapter from", src)
+        evaluate([{"base": base, "adapter": src, "name": "tuned"}])
     elif task == "eval_tuned":
         evaluate([{"base": base, "adapter": adapter, "name": "tuned"}])
     elif task == "eval_one":
         m = CONFIG["one"]
-        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1]}])
+        tp = 2 if any(x in m for x in ("14B", "32B", "70B")) else 1
+        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1], "tp": tp}])
     elif task == "judge":
         judge()
     elif task == "teacher":
         teacher()
     elif task == "export":
         export()
+    elif task == "packs":
+        write_packs()
+    elif task == "paraphrase":
+        paraphrase()
     else:
         for m in CONFIG["models"]:
             subrun_cfg = dict(CONFIG, one=m)
             CONFIG.update(subrun_cfg)
             subrun("eval_one")
-    if task in ("train", "eval") and CONFIG.get("judge", True):
+    if task in ("train", "eval", "evaladapter") and CONFIG.get("judge", True):
         subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
-    if task in ("train", "eval", "teacher"):
+    if task in ("train", "eval", "teacher", "evaladapter", "export", "packs", "paraphrase"):
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
-main()
+try:
+    main()
+except BaseException:
+    import traceback
+    log("CRASH", traceback.format_exc())
+    if CONFIG["task"] in ("train", "eval", "teacher", "evaladapter", "export", "packs"):
+        # Keep the kernel output small so collecting it stays fast.
+        subprocess.run(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt {WORK}/llama.cpp {WORK}/cv {WORK}/merged {WORK}/*.gguf", shell=True)
+    raise

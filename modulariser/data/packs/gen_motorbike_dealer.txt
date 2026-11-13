@@ -1,0 +1,45 @@
+# motorbike dealer
+people: Lisa, Mark, Emily, Kevin
+## Sales | Handles customer inquiries and closes deals.
+t inventory: sales inventory list
+a show: show bikes to customers
+a close: close the sale
+a finance: arrange financing options
+show > inventory
+show >> close
+finance >> close
+## Service | Manages maintenance, repairs, and customer service.
+t schedule: service schedule
+a diagnose: diagnose bike issues
+a repair: perform repairs
+a maintain: perform maintenance
+diagnose >> repair
+diagnose >> maintain
+repair > schedule
+maintain > schedule
+## Parts | Orders and stocks parts for repairs and maintenance.
+a order: order parts
+t stock: parts stock list
+a receive: receive parts deliveries
+order > stock
+order >> receive
+## Accounting | Tracks sales, expenses, and manages payments.
+t ledger: sales ledger
+a invoice: generate invoices
+a pay: manage payments
+invoice > ledger
+pay > ledger
+## Marketing | Promotes the dealer and attracts customers.
+t campaign: marketing campaign plan
+a promote: run promotional activities
+a advertise: place ads in media
+promote > campaign
+advertise > campaign
+## cross
+sales.show > parts.stock
+sales.close > accounting.ledger
+service.schedule > parts.stock
+parts.receive > service.schedule
+service.repair >> accounting.invoice
+service.maintain >> accounting.invoice
+marketing.campaign >> sales.show

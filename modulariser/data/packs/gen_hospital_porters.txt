@@ -1,0 +1,35 @@
+# hospital porters
+people: John, Sarah, Mike, Lisa, Mark
+## Receiving | Processes deliveries and checks inventory. | why: supplies need to be stocked and tracked
+a unload: unload deliveries
+t inventory: stock inventory
+a check: check delivery contents
+unload > inventory
+check > inventory
+## Transport | Moves patients, equipment, and supplies within the hospital.
+t patient: patient transport
+a move: move patients
+t equipment: medical equipment
+move > patient
+move > equipment
+## Cleaning | Cleans and sanitizes patient areas and equipment.
+t area: cleaning area
+a clean: clean the area
+t tools: cleaning tools
+clean > area
+clean > tools
+## Restocking | Refills and maintains the supply levels in patient rooms.
+t supplies: patient room supplies
+a stock: restock supplies
+stock > supplies
+## Maintenance | Fixes and maintains equipment and facilities.
+t issues: maintenance issues
+a repair: repair equipment
+repair > issues
+## cross
+receiving.unload > transport.equipment
+receiving.check > restocking.supplies
+transport.move > cleaning.area
+cleaning.clean > maintenance.issues
+restocking.stock > transport.equipment
+maintenance.repair >> transport.equipment

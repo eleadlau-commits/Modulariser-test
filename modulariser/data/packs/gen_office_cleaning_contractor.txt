@@ -1,0 +1,36 @@
+# office cleaning contractor
+people: Lucy, John, Sarah, Mike
+## Scheduling | Schedules cleaning staff and tasks for the week. | why: ensures staff are allocated and tasks are covered
+t schedule: cleaning schedule
+a assign: assign staff to locations
+a plan: plan daily tasks
+assign >> plan
+assign > schedule
+## Staffing | Manages the hiring and training of cleaning staff. | why: ensures a competent and reliable workforce
+t roster: staff roster
+a recruit: recruit new staff
+a train: train staff on cleaning procedures
+recruit >> train
+train > roster
+## Cleaning | Performs the cleaning tasks at the client's premises.
+t checklist: daily cleaning checklist
+a clean: perform cleaning tasks
+a inspect: inspect areas after cleaning
+clean > checklist
+clean >> inspect
+## Reporting | Generates reports and logs of cleaning activities. | why: provides accountability and progress tracking
+t log: cleaning activity log
+a report: generate daily cleaning reports
+report > log
+## Supplies | Manages the procurement and distribution of cleaning supplies. | why: ensures that staff have the necessary equipment
+t inventory: supply inventory
+a order: order supplies
+a distribute: distribute supplies to staff
+order >> inventory
+distribute > inventory
+## cross
+scheduling.assign > staffing.roster
+staffing.train > cleaning.clean
+cleaning.clean > reporting.log
+supplies.order >> cleaning.clean
+supplies.distribute > cleaning.clean

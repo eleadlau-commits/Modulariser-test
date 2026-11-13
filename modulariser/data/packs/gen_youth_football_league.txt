@@ -1,0 +1,39 @@
+# youth football league
+people: Alex, Jamie, Laura, Sam
+## Registration | Manages player and team sign-ups.
+t roster: team roster
+a register: register players
+t fees: registration fees
+register > roster
+register > fees
+## Scheduling | Sets up the match calendar and venues.
+t calendar: match calendar
+a assign: assign venues
+t schedule: match schedule
+assign > calendar
+schedule > calendar
+## Refereeing | Assigns referees and conducts training.
+t roster: referee roster
+a assign: assign referees
+t training: referee training
+assign > roster
+assign >> training
+## Matchday | Oversees match events and reports.
+t report: match report
+a supervise: supervise matches
+t score: match score
+supervise > report
+supervise > score
+## Communication | Sends out updates and reminders.
+t email: email list
+a send: send reminders
+t updates: league updates
+send > email
+send > updates
+## cross
+registration.roster > scheduling.schedule
+registration.fees >> scheduling.calendar
+refereeing.assign > matchday.supervise
+refereeing.training >> communication.updates
+scheduling.schedule > matchday.score
+communication.email >> registration.register

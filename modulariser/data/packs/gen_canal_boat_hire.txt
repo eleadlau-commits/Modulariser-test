@@ -1,0 +1,39 @@
+# canal boat hire
+people: Emma, Mike, Sarah, Tom
+## Booking | Manages reservations and customer details. | why: customers need to reserve a boat
+a check: check availability
+a reserve: reserve a boat
+t calendar: booking calendar
+check > calendar
+reserve > calendar
+## Inspection | Ensures the boat is clean and safe for use. | why: safety and cleanliness are paramount
+a clean: clean the boat
+a inspect: inspect safety equipment
+t checklist: inspection checklist
+clean > checklist
+inspect > checklist
+## Orientation | Briefs customers on boat use and safety. | why: customers need to know how to use the boat safely
+a brief: brief customers on use
+t manual: user manual
+a safety: explain safety procedures
+brief > manual
+safety > manual
+## Maintenance | Conducts regular maintenance and repairs. | why: boats need to be in good working order
+a service: service the boat
+a repair: make repairs
+t log: maintenance log
+service > log
+repair > log
+## Navigation | Assists with route planning and provides maps. | why: customers need to know the route
+a plan: plan the route
+a provide: provide maps
+t maps: map set
+plan > maps
+provide > maps
+## cross
+booking.reserve > inspection.clean
+booking.reserve > orientation.brief
+inspection.inspect > maintenance.log
+orientation.brief > navigation.plan
+navigation.provide > orientation.manual
+inspection.checklist > maintenance.log

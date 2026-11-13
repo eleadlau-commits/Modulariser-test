@@ -1,0 +1,39 @@
+# geological survey team
+people: Alex, Jamie, Casey, Sam, Taylor
+## Field Survey | Collects geological data and samples in the field.
+a locate: locate sampling sites
+t samples: geological samples
+a record: record field data
+locate >> record
+record > samples
+## Sample Analysis | Analyzes collected samples to identify minerals and structures.
+a prepare: prepare samples for analysis
+t microscope: microscopes
+a analyze: analyze samples
+prepare >> analyze
+analyze > microscope
+## Data Processing | Processes field data for analysis and mapping.
+a import: import field data
+t software: data processing software
+a process: process and clean data
+import >> process
+process > software
+## Mapping | Creates geological maps and models based on data.
+t maps: geological maps
+a create: create maps
+a model: create 3D models
+create > maps
+model > maps
+## Reporting | Compiles and presents findings for stakeholders.
+a compile: compile survey findings
+t report: final report
+a present: present findings
+compile > report
+present > report
+## cross
+field.locate > mapping.create
+field.record > data.import
+sample.analyze > data.import
+data.process >> mapping.create
+mapping.create >> reporting.compile
+mapping.model >> reporting.compile

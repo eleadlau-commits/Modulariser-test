@@ -1,0 +1,38 @@
+# archaeological dig
+people: Alice, Bob, Charlie, Dana, Ethan
+## Excavation | Unearths and documents artifacts from the site. | why: uncovering history requires physical digging
+a dig: conduct excavations
+t trench: excavation trenches
+a record: record findings
+dig >> record
+dig > trench
+## Survey | Maps the site and locates potential excavation areas. | why: to plan where to dig
+t map: site map
+a locate: locate potential areas
+a measure: measure dimensions of the site
+measure > map
+locate > map
+## Cataloging | Catalogs and labels artifacts for identification and record-keeping. | why: keeping track of artifacts is essential
+t catalog: artifact catalog
+a label: label artifacts
+a input: input data into the catalog
+label >> input
+input > catalog
+## Analysis | Analyzes artifacts to understand their historical significance. | why: to interpret the findings
+t report: analysis report
+a study: study artifacts
+a document: document findings
+study >> document
+document > report
+## Conservation | Preserves artifacts for future study and display. | why: to safeguard the artifacts for future generations
+a clean: clean artifacts
+t storage: storage solutions
+a store: store artifacts
+clean >> store
+store > storage
+## cross
+excavation.dig > survey.map
+cataloging.label > analysis.study
+analysis.report > conservation.clean
+excavation.record > cataloging.input
+survey.measure > excavation.trench

@@ -1,0 +1,37 @@
+# school canteen
+people: Ana, Raj, Mei, Tom
+## Ordering | Orders food supplies for the canteen. | why: food supplies must be continuously replenished
+a order: place food orders
+t suppliers: list of suppliers
+a check: check delivery quality
+order > suppliers
+order >> check
+## Inventory | Manages the stock of food items. 
+t stock_list: inventory list
+a count: perform weekly inventory count
+count > stock_list
+## Preparation | Prepares meals and ensures they are ready for serving.
+t menu: meal menu
+a prep: prepare food items
+a cook: cook dishes according to menu
+prep > menu
+prep >> cook
+## Serving | Serves meals to students and staff.
+t trays: serving trays
+a serve: serve food to students
+a collect: collect empty trays
+serve > trays
+collect > trays
+## Cleaning | Cleans and sanitizes the dining area and kitchen.
+t sanitizers: cleaning supplies
+a clean: clean dining tables
+a sanitize: sanitize kitchen equipment
+clean > sanitizers
+sanitize > sanitizers
+## cross
+ordering.order > inventory.stock_list
+ordering.check > inventory.stock_list
+preparation.cook > inventory.stock_list
+serving.serve > preparation.menu
+cleaning.clean > serving.trays
+cleaning.sanitize > preparation.cook

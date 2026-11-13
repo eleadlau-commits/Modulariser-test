@@ -1,0 +1,38 @@
+# christmas market
+people: Sarah, Liam, Olivia, Noah, Emma
+## Setup | Prepares the market stalls and space. | why: the market needs to be ready for visitors
+a arrange: arrange stalls and decorations
+t permits: market permits
+a install: install lighting and decorations
+install >> arrange
+install > permits
+## Inventory | Tracks inventory and restocks items. 
+t stock: inventory stock
+a restock: restock items
+a count: count inventory weekly
+count > stock
+restock > stock
+## Sales | Handles sales and customer service at the stalls. 
+t receipts: sales receipts
+a serve: serve customers
+a sell: sell items
+sell > receipts
+serve >> sell
+## Logistics | Manages deliveries and pickups of goods. 
+t schedule: delivery schedule
+a load: load goods onto trucks
+a deliver: deliver goods to stalls
+load >> deliver
+deliver > schedule
+## CleanUp | Cleans and dismantles the market after the event. 
+t checklist: cleanup checklist
+a clean: clean stalls and area
+a dismantle: dismantle stalls
+clean >> dismantle
+dismantle > checklist
+## cross
+setup.permits > logistics.schedule
+inventory.restock > sales.sell
+logistics.deliver > inventory.stock
+sales.sell >> cleanup.clean
+setup.arrange > cleanup.dismantle

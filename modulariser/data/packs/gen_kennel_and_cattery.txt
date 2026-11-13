@@ -1,0 +1,45 @@
+# kennel and cattery
+people: Mia, Ethan, Lila, Noah, Harper
+## Intake | Evaluates and records new animals coming into the kennel or cattery.
+a assess: assess new animals
+t records: intake records
+a vaccinate: vaccinate new animals
+assess >> vaccinate
+vaccinate > records
+## Housing | Assigns and maintains the living spaces for the animals.
+t cages: animal cages
+a assign: assign animals to cages
+a clean: clean cages daily
+assign > cages
+clean > cages
+## Feeding | Prepares and delivers food to the animals.
+t menu: feeding schedule
+a prepare: prepare food
+a deliver: deliver food to cages
+prepare >> deliver
+deliver > menu
+## Exercise | Ensures animals get regular exercise and socialization.
+a walk: walk dogs
+a play: play with cats
+t schedule: exercise schedule
+walk > schedule
+play > schedule
+## Health | Monitors and treats the health of the animals.
+t logs: health logs
+a check: regularly check on animals
+a treat: administer treatments
+check > logs
+treat > logs
+## Release | Preps animals for adoption or return to owners.
+t forms: release forms
+a prep: prepare animals for release
+a release: release animals to new owners
+prep >> release
+release > forms
+## cross
+intake.assess > housing.assign
+intake.vaccinate > health.logs
+housing.assign > feeding.deliver
+exercise.walk > health.check
+health.check > release.prep
+feeding.menu > health.check

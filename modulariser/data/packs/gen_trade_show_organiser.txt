@@ -1,0 +1,40 @@
+# trade show organiser
+people: Lily, Jack, Sam, Emma, Olivia
+## Planning | Sets the vision, scope, and budget for the trade show. | why: needs a clear vision to attract exhibitors and attendees
+t budget: budget
+a scope: define show scope
+t schedule: timeline schedule
+scope >> schedule
+scope > budget
+## Exhibitor Management | Manages exhibitor registration, booth allocation, and logistics. | why: ensure exhibitors can set up and showcase effectively
+a register: register exhibitors
+t booths: booth allocation plan
+a logistics: arrange exhibitor logistics
+register >> logistics
+register > booths
+## Attendee Management | Handles registration, ticket sales, and track attendee engagement.
+t tickets: ticket sales
+a register: register attendees
+a engage: track attendee engagement
+register > tickets
+engage > tickets
+## Content & Programming | Organizes talks, workshops, and entertainment to engage attendees.
+a schedule: schedule talks and workshops
+t speakers: speaker lineup
+a entertainment: organize entertainment
+schedule > speakers
+schedule >> entertainment
+## Marketing & Promotion | Promotes the show to attract exhibitors and attendees. | why: generates interest and attendance
+a promote: promote the trade show
+t outreach: marketing and outreach plan
+a track: track promotion effectiveness
+promote > outreach
+track > outreach
+## cross
+exhibitor.register > attendee.register
+exhibitor.logistics > planning.schedule
+content.schedule > planning.schedule
+marketing.promote > attendee.tickets
+marketing.promote > exhibitor.register
+marketing.track > attendee.tickets
+marketing.track > exhibitor.register

@@ -1,0 +1,39 @@
+# cake decorating business
+people: Emma, Lisa, Jack, Sam
+## Design | Creates custom designs and templates for cakes. | why: every cake needs a unique design
+t template: design template
+a sketch: sketch design ideas
+t palette: color palette
+sketch > template
+sketch > palette
+## Procurement | Orders and receives ingredients and materials. | why: materials are needed for production
+a order: order ingredients and materials
+t supplier: supplier list
+a receive: receive deliveries
+order > supplier
+order >> receive
+## Production | Assembles and decorates the cakes.
+t recipe: production recipe
+a bake: bake the cake
+a decorate: decorate the cake
+bake >> decorate
+decorate > recipe
+## Quality | Inspects and tests the cakes for quality before delivery.
+a inspect: inspect the cake for quality
+a test: conduct taste tests
+t checklist: quality checklist
+inspect > checklist
+test > checklist
+## Delivery | Prepares and delivers cakes to customers.
+a prepare: prepare for delivery
+t schedule: delivery schedule
+a deliver: deliver the cake
+prepare >> deliver
+prepare > schedule
+## cross
+design.template > production.recipe
+procurement.order > production.recipe
+procurement.receive > quality.checklist
+production.decorate >> quality.inspect
+quality.inspect >> delivery.prepare
+production.decorate > delivery.schedule

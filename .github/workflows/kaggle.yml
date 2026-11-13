@@ -26,7 +26,7 @@ jobs:
       KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
       KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
       KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN || secrets.KAGGLE_KEY }}
-      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN || vars.HF_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -37,6 +37,7 @@ jobs:
           pip install -q -U kaggle huggingface_hub six
           if [ -z "$KAGGLE_USERNAME" ]; then echo "::error::KAGGLE_USERNAME secret is missing"; exit 1; fi
           kaggle --version
+          if [ -z "$HF_TOKEN" ]; then echo "::warning::HF_TOKEN is not visible to this workflow (adapter publishing and the demo Space are skipped)"; fi
           kaggle kernels list --mine --page-size 1 || echo "::warning::kaggle auth check failed"
       - name: Build kernel
         id: build
@@ -54,34 +55,36 @@ jobs:
       - name: Push kernel
         if: ${{ !startsWith(inputs.task, 'collect-') }}
         run: |
-          kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel
+          if [ "${{ inputs.task }}" = "export" ]; then kaggle kernels push -p kernel; else
+            kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel; fi
       - name: Wait for kernel
         run: python kaggle/wait.py "${{ steps.build.outputs.slug }}" --minutes 340
       - name: Collect output
         if: always()
         run: |
           mkdir -p result
-          kaggle kernels output "${{ steps.build.outputs.slug }}" -p result || true
+          kaggle kernels output "${{ steps.build.outputs.slug }}" -p result --file-pattern '(^out/)|(\.log$)' || kaggle kernels output "${{ steps.build.outputs.slug }}" -p result || true
           ls -la result result/out || true
           cat result/out/summary.json || true
           tail -50 result/out/log.txt || true
       - name: Save results to a branch
         if: always()
         run: |
-          mkdir -p /tmp/res && cp result/out/*.json result/out/*.jsonl result/out/log.txt /tmp/res/ 2>/dev/null || true
+          mkdir -p /tmp/tools && cp -r kaggle space /tmp/tools/
+          mkdir -p /tmp/res && cp -r result/out/*.json result/out/*.jsonl result/out/log.txt result/out/packs result/*.log /tmp/res/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan "results/${{ github.run_id }}"
           git rm -rfq . && git clean -fdq -e result
-          cp /tmp/res/* . 2>/dev/null || echo "no results" > EMPTY
+          cp -r /tmp/res/* . 2>/dev/null || echo "no results" > EMPTY
           printf '%s\n' "${{ inputs.task }} ${{ inputs.models }} ${{ inputs.options }}" > RUN.txt
           git add -A ':!result' && git commit -qm "results of run ${{ github.run_id }}" && git push -q origin "results/${{ github.run_id }}"
       - name: Publish adapter to Hugging Face
         if: (inputs.task == 'train' || inputs.task == 'collect-train') && env.HF_TOKEN != ''
-        run: python kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"
+        run: python /tmp/tools/kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"
       - name: Deploy demo Space
         if: (inputs.task == 'export' || inputs.task == 'collect-export') && env.HF_TOKEN != ''
-        run: python kaggle/deploy_space.py result/out/model-q4_k_m.gguf --run-id "${{ github.run_id }}"
+        run: python /tmp/tools/kaggle/deploy_space.py result/out/model-q4_k_m.gguf --run-id "${{ github.run_id }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

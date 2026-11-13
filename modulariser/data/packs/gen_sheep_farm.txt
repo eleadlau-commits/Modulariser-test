@@ -1,0 +1,39 @@
+# sheep farm
+people: Laura, Martin, Sam, Emily, Tom
+## Breeding | Manages sheep breeding and herd health.
+t roster: breeding roster
+a inseminate: artificial insemination
+a vaccinate: administer vaccines
+inseminate > roster
+vaccinate > roster
+## Feeding | Manages the feeding schedule and feed quality.
+t feed: feed types
+a mix: mix feed batches
+a distribute: distribute feed to pens
+mix > feed
+distribute > feed
+## Shearing | Shears sheep and processes wool.
+t wool: wool bales
+a shear: shear sheep
+a sort: sort wool by quality
+shear > wool
+sort > wool
+## Grazing | Manages pasture rotation and grazing practices.
+t pasture: grazing pastures
+a rotate: rotate pastures
+a inspect: inspect pasture quality
+rotate > pasture
+inspect > pasture
+## Health | Manages disease control and animal health.
+t medicine: medicine stock
+a treat: treat sick animals
+a check: check for signs of illness
+treat > medicine
+check > medicine
+## cross
+breeding.roster > feeding.distribute
+shearing.shear >> health.check
+health.treat >> breeding.vaccinate
+grazing.inspect >> feeding.mix
+feeding.distribute > grazing.rotate
+breeding.inseminate >> shearing.shear

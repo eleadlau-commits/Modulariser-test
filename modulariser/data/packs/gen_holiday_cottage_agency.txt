@@ -1,0 +1,33 @@
+# holiday cottage agency
+people: Emma, Liam, Olivia, Noah, Ava
+## Listing | Maintains the listing of all available cottages. | why: clients need to know what is available
+t inventory: cottage inventory
+a update: update listing information
+t photos: cottage photos
+update > inventory
+update > photos
+## Booking | Handles the booking process for the cottages. | why: clients need to book
+t calendar: booking calendar
+a request: receive booking requests
+a confirm: confirm bookings
+request > calendar
+confirm > calendar
+## Cleaning | Ensures the cottages are cleaned and ready for new guests. | why: cottages must be clean for check-in
+t schedule: cleaning schedule
+a clean: perform cleaning
+clean > schedule
+## Inspection | Conducts regular inspections to ensure the cottages are in good condition. | why: maintenance ensures guest satisfaction
+a inspect: conduct inspection
+t report: inspection report
+inspect > report
+## Maintenance | Carries out necessary repairs and upkeep. | why: keeps cottages in good condition
+a repair: perform repairs
+t parts: replacement parts
+repair > parts
+## cross
+listing.update > booking.calendar
+cleaning.schedule > inspection.inspect
+cleaning.schedule > maintenance.repair
+booking.request > cleaning.schedule
+booking.confirm > inspection.inspect
+inspection.report > maintenance.repair

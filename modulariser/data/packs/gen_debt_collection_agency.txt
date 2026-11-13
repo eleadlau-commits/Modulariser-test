@@ -1,0 +1,40 @@
+# debt collection agency
+people: Sam, Lisa, Mike, Nora
+## Case Assignment | Assigns cases to collectors based on criteria. | why: ensures efficient distribution of workload
+a assign: assign cases to collectors
+t criteria: assignment criteria
+a review: review case details
+assign > criteria
+review > assign
+## Collection | Communicates with debtors to negotiate payments. | why: aims to recover debts
+a contact: contact debtors
+t payment: payment plan
+a negotiate: negotiate terms
+contact > payment
+negotiate > payment
+## Documentation | Maintains records and documentation of all actions taken. | why: critical for legal compliance and auditing
+t file: case file
+a update: update case file
+a log: log communications
+update > file
+log > file
+## Legal | Prepares and initiates legal actions if necessary. | why: ensures legal recourse for uncooperative debtors
+t lawsuit: legal case filing
+a prepare: prepare legal documentation
+a file: file lawsuit
+prepare > lawsuit
+file > lawsuit
+## Reporting | Compiles reports on recovery rates and collector performance. | why: supports management decisions and performance tracking
+t report: performance report
+a compile: compile recovery data
+a analyze: analyze performance
+compile > report
+analyze > report
+## cross
+case.assign > collection.contact
+collection.negotiate > documentation.update
+collection.negotiate >> documentation.log
+legal.file >> reporting.compile
+collection.contact >> reporting.analyze
+documentation.update > reporting.compile
+legal.prepare > collection.negotiate

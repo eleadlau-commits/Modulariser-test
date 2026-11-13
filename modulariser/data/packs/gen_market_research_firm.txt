@@ -1,0 +1,38 @@
+# market research firm
+people: Emma, Liam, Olivia, Noah, Ava
+## SurveyDesign | Designs the questionnaires for market research.
+t questionnaire: survey questionnaire
+a design: design questions
+a test: test survey questions
+design >> test
+test > questionnaire
+## DataCollection | Gathers responses to the surveys.
+t responses: survey responses
+a distribute: distribute survey
+a collect: collect survey responses
+distribute >> collect
+collect > responses
+## DataAnalysis | Analyzes the collected data to find patterns and insights.
+t insights: research insights
+a analyze: analyze data
+a visualize: visualize data
+analyze >> visualize
+visualize > insights
+## Reporting | Prepares final reports and presentations for clients.
+t report: research report
+a draft: draft report
+a present: finalize presentation
+draft >> present
+present > report
+## ClientEngagement | Manages client interactions and expectations.
+t contact: client contact list
+a meet: meet with clients
+a followup: follow-up meetings
+meet >> followup
+followup > contact
+## cross
+surveydesign.questionnaire > datacollection.distribute
+datacollection.responses > dataanalysis.analyze
+dataanalysis.insights > reporting.draft
+reporting.report > clientengagement.followup
+clientengagement.meet > surveydesign.design

@@ -1,0 +1,38 @@
+# coffee roastery
+people: Sam, Lucy, Alex, Mia, Ethan
+## Sourcing | Finds and selects green coffee beans. | why: the quality of the coffee depends on the quality of the beans
+a scout: scout for new suppliers
+t profiles: supplier profiles
+a taste: taste test samples
+scout > profiles
+scout >> taste
+## Roasting | Roasts the green coffee beans into ready-to-brew coffee. | why: roasting transforms the green beans into a flavor-rich product
+t batches: roast batches
+a roast: roast beans
+a cool: cool the roasted beans
+roast >> cool
+cool > batches
+## Quality Control | Tests the roasted coffee to ensure it meets standards. | why: quality control ensures product consistency
+a cup: cupping evaluation
+a measure: measure roast profiles
+t standards: quality standards
+cup > standards
+measure > standards
+## Packaging | Prepares the roasted coffee for distribution. | why: packaging preserves the freshness and quality of the coffee
+a package: package the coffee
+t labels: product labels
+a seal: seal the packaging
+package > labels
+package >> seal
+## Sales | Connects with customers and manages orders. | why: sales are how the roastery generates revenue
+t orders: sales orders
+a quote: provide quotes
+a ship: ship orders
+quote > orders
+ship > orders
+## cross
+sourcing.taste > quality.cup
+roasting.roast > quality.measure
+roasting.batches > packaging.package
+sales.quote > sourcing.profiles
+sales.orders >> packaging.seal

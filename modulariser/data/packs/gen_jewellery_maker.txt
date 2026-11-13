@@ -1,0 +1,42 @@
+# jewellery maker
+people: Emma, Leo, Grace, Noah
+## Design | Creates sketches and selects materials.
+t sketch: design sketch
+a choose: choose materials
+t material: material list
+choose >> sketch
+sketch > material
+## Crafting | Assembles the jewellery piece.
+a assemble: assemble components
+t component: component list
+a polish: polish piece
+assemble >> polish
+assemble > component
+## Finishing | Adds final touches and packaging.
+a package: package jewellery
+t box: jewellery box
+a label: label packaging
+package >> label
+package > box
+## Sales | Manages orders and customer relations.
+t order: order form
+a contact: contact customers
+t invoice: invoice
+contact >> invoice
+contact > order
+## Inventory | Tracks materials and finished pieces.
+t ledger: inventory ledger
+a update: update stock levels
+t stock: stock list
+update > ledger
+update > stock
+## cross
+design.material > inventory.stock
+crafting.component > inventory.stock
+finishing.box > inventory.stock
+sales.order > inventory.stock
+design.sketch >> crafting.assemble
+crafting.polish >> finishing.package
+finishing.package > sales.invoice
+inventory.update > sales.contact
+inventory.update > design.material

@@ -1,0 +1,40 @@
+# car dealership
+people: Jim, Sarah, Mike, Lisa, Tom
+## Sales | Sells cars to customers.
+t inventory: car inventory list
+a show: show cars to customers
+a deal: negotiate deals
+show > inventory
+show >> deal
+## Finance | Handles the financing and payment process.
+a credit: check credit
+a payment: process payments
+a finance: arrange financing
+credit >> payment
+credit >> finance
+## Service | Maintains and repairs cars.
+t schedule: service schedule
+a repair: perform repairs
+a maintain: perform maintenance
+repair > schedule
+maintain > schedule
+## Parts | Orders and stocks parts for repairs.
+t stock: parts stock
+a order: order parts
+a receive: receive parts delivery
+order > stock
+receive > stock
+## Body Shop | Repairs and paints car bodies.
+t supplies: supplies
+a repair: repair body
+a paint: paint car
+repair > supplies
+paint > supplies
+## cross
+sales.show > service.schedule
+sales.deal > finance.credit
+finance.payment > parts.order
+parts.receive > service.repair
+parts.receive > body.repair
+service.maintain > parts.stock
+body.paint > service.schedule

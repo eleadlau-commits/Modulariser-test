@@ -1,0 +1,40 @@
+# science museum outreach
+people: Lisa, Mark, Sarah, Tom
+## Planning | Organizes the logistics and content for outreach events.
+t schedule: event schedule
+a plan: plan event activities
+t budget: event budget
+a scope: define the outreach scope
+plan >> schedule
+plan > budget
+scope > schedule
+## Education | Prepares educational materials and teaches at events.
+t materials: educational materials
+a teach: teach at events
+t demos: interactive demonstrations
+teach > materials
+teach > demos
+## Promotion | Advertises events and manages social media.
+a promote: promote events
+t posts: social media posts
+a engage: engage with community
+promote > posts
+engage > posts
+## Evaluation | Collects feedback and evaluates the success of events.
+a survey: conduct surveys
+t feedback: event feedback
+a report: write evaluation reports
+survey > feedback
+report > feedback
+## Logistics | Manages travel, setup, and teardown of exhibits.
+a travel: arrange travel
+t setup: setup checklist
+a teardown: perform teardown
+travel > setup
+teardown > setup
+## cross
+planning.schedule > logistics.travel
+education.materials > evaluation.survey
+promotion.posts >> education.teach
+logistics.teardown >> planning.schedule
+evaluation.report > planning.scope

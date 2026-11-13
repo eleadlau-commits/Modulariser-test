@@ -1,0 +1,38 @@
+# arable farm
+people: Emily, Jake, Sarah, Mike, Linda
+## Planning | Determines what crops to plant and when. | why: ensures crop rotation and profitability
+t calendar: planting calendar
+a analyze: analyze soil quality
+t market: market demands
+analyze > calendar
+market > calendar
+## Cultivation | Prepares the soil and plants the crops.
+a plow: plow the fields
+a plant: plant seeds
+t equipment: farming equipment
+plow >> plant
+plant > equipment
+## Irrigation | Provides water to the crops as needed.
+a water: water the fields
+t system: irrigation system
+a monitor: monitor water levels
+water > system
+monitor > system
+## Harvest | Collects the crops at the end of the growing season.
+a harvest: harvest crops
+t storage: storage facilities
+a transport: transport to market
+harvest >> transport
+harvest > storage
+## Maintenance | Keeps the farm's infrastructure in good condition.
+a repair: repair equipment
+t tools: maintenance tools
+a inspect: inspect facilities
+repair > tools
+inspect > tools
+## cross
+planning.calendar > cultivation.plant
+cultivation.plant > irrigation.water
+irrigation.water >> harvest.harvest
+harvest.storage > maintenance.inspect
+cultivation.equipment > maintenance.tools

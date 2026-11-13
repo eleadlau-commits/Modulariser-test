@@ -1,0 +1,39 @@
+# window cleaning round
+people: Sarah, Jack, Lisa, Mike, Emily
+## Scheduling | Coordinates the schedule for the round. | why: ensures timely organization of tasks
+t schedule: weekly schedule
+a assign: assign tasks to cleaners
+a update: update availability
+assign > schedule
+update > schedule
+## Preparation | Prepares the necessary equipment and materials. | why: ensures the needed tools are ready
+t kit: cleaning kit
+a check: check equipment
+a prepare: prepare cleaning supplies
+check > kit
+prepare > kit
+## Cleaning | Cleans the windows of assigned properties.
+t list: property list
+a access: access properties
+a clean: clean windows
+access > list
+clean > access
+## Inspection | Inspects the cleaned windows for quality assurance.
+t checklist: quality checklist
+a inspect: inspect windows
+a report: report issues
+inspect > checklist
+report > checklist
+## Reporting | Generates the final report of the cleaning round.
+t report: cleaning report
+a summarize: summarize the round
+a review: review inspection reports
+summarize > report
+review > report
+## cross
+scheduling.assign > cleaning.list
+preparation.check > cleaning.access
+preparation.prepare > cleaning.clean
+cleaning.clean >> inspection.inspect
+inspection.report >> reporting.review
+reporting.summarize > scheduling.update

@@ -1,0 +1,39 @@
+# athletics club
+people: Alex, Mia, Ben, Carla
+## Membership | Manages membership and registration.
+t roster: member roster
+a register: register new members
+a update: update member information
+register > roster
+update > roster
+## Training | Plans and conducts training sessions.
+t schedule: training schedule
+a train: conduct training sessions
+a plan: plan training sessions
+plan >> train
+train > schedule
+## Competitions | Prepares for and participates in competitions.
+t calendar: competition calendar
+a prepare: prepare for competitions
+a compete: compete in events
+prepare >> compete
+prepare > calendar
+## Health | Tracks injuries and ensures medical readiness.
+t log: injury log
+a check: check medical readiness
+a treat: treat injuries
+check > log
+treat > log
+## Events | Organizes and runs club events.
+t plan: event plan
+a organize: organize events
+a run: run events
+organize >> run
+organize > plan
+## cross
+membership.register > training.schedule
+training.train > health.check
+competitions.prepare >> training.train
+health.treat >> training.train
+events.organize >> membership.update
+events.run >> competitions.prepare

@@ -1,0 +1,40 @@
+# tennis club
+people: Alex, Jamie, Mia, Olivia, Ethan
+## Membership | Manages the list of members and their payments. | why: to keep track of club members
+t list: member list
+a register: register new members
+t fees: fee schedule
+a collect: collect membership fees
+register > list
+collect > fees
+## Scheduling | Plans the use of courts and times for members and guests. | why: to efficiently use the courts
+t calendar: court calendar
+a book: book court slots
+t waitlist: waitlist
+book > calendar
+book >> waitlist
+## Tournaments | Organizes local and external tournaments for members. | why: to provide competitive opportunities
+t events: tournament events
+a schedule: schedule tournament dates
+t entry: entry forms
+schedule > events
+schedule >> entry
+## Coaching | Provides training sessions for members of different skill levels. | why: to improve player skills
+t roster: coaching roster
+a train: conduct training sessions
+t schedule: coaching schedule
+train > roster
+train > schedule
+## Facilities | Maintains the courts, equipment, and club premises. | why: to keep the club in good condition
+t maintenance: maintenance log
+a check: check courts and equipment
+t supplies: supplies inventory
+check > maintenance
+check >> supplies
+## cross
+membership.register > scheduling.waitlist
+scheduling.book > membership.list
+tournaments.schedule > membership.list
+coaching.train > membership.list
+facilities.check > coaching.roster
+facilities.supplies > coaching.schedule

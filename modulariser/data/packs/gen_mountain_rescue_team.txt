@@ -1,0 +1,46 @@
+# mountain rescue team
+people: Alex, Bella, Carlos, Dana
+## Planning | Coordinates rescue missions. | why: clear plans are essential for safety
+t mission: mission briefing
+a assess: assess the situation
+t team: team roster
+assess > mission
+assess > team
+## Search | Locates the missing person. | why: finding the person is critical
+a scan: scan the area
+t map: topographical map
+t kit: search kit
+scan > map
+scan > kit
+## Extraction | Safely transports the person out of the mountain. | why: safe extraction is vital
+a secure: secure the subject
+t harness: rescue harness
+a transport: transport the subject
+secure > harness
+secure >> transport
+## Medical | Provides on-site medical care. | why: medical care is essential for survival
+a triage: triage injuries
+t kit: medical kit
+a stabilize: stabilize the patient
+triage > kit
+triage >> stabilize
+## Logistics | Manages equipment and supplies. | why: proper logistics ensures readiness
+t inventory: equipment inventory
+a distribute: distribute supplies
+t vehicle: rescue vehicle
+distribute > inventory
+distribute > vehicle
+## Communication | Maintains contact between team members. | why: clear communication ensures coordination
+a relay: relay information
+t radio: communication radio
+a track: track team member locations
+relay > radio
+track > radio
+## cross
+planning.mission > search.scan
+planning.team > communication.radio
+medical.stabilize >> extraction.transport
+logistics.distribute > medical.kit
+logistics.distribute > extraction.harness
+search.scan >> medical.triage
+communication.relay >> logistics.vehicle

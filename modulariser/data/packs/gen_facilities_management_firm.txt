@@ -1,0 +1,52 @@
+# facilities management
+people: Alex, Jamie, Casey, Morgan
+## Maintenance | Ensures all equipment and facilities are in working order. | why: to keep operations running smoothly
+a inspect: inspect equipment
+t schedule: maintenance schedule
+a repair: repair faulty components
+a replace: replace parts
+inspect >> schedule
+repair > schedule
+replace > schedule
+## Cleaning | Manages the cleanliness of the facilities. | why: to maintain a safe and hygienic environment
+t roster: cleaning roster
+a sweep: sweep floors
+a dust: dust surfaces
+a sanitize: sanitize high-touch areas
+sweep > roster
+dust > roster
+sanitize > roster
+## Security | Ensures the safety and security of the facilities and its occupants. | why: to protect the premises from unauthorized access and threats
+t access: access control list
+a patrol: patrol grounds
+a monitor: monitor security cameras
+a check: check access logs
+patrol > access
+monitor > access
+check > access
+## Supplies | Provides and manages the supply of necessary materials and equipment. | why: to ensure the availability of required items
+t inventory: supply inventory
+a order: order supplies
+a replenish: replenish stock
+a store: store supplies
+order > inventory
+replenish > inventory
+store > inventory
+## Compliance | Ensures adherence to all relevant laws, regulations, and standards. | why: to avoid legal penalties and ensure safety
+t checklist: compliance checklist
+a audit: conduct compliance audits
+a train: train staff on regulations
+a report: report findings
+audit > checklist
+train > checklist
+report > checklist
+## cross
+maintenance.inspect > cleaning.roster
+maintenance.repair > supplies.order
+cleaning.sweep > maintenance.schedule
+security.monitor > maintenance.schedule
+security.check > compliance.checklist
+supplies.replenish > maintenance.repair
+supplies.replenish > cleaning.sweep
+compliance.audit > maintenance.inspect
+compliance.train > security.monitor

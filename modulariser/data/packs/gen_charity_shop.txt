@@ -1,0 +1,37 @@
+# charity shop
+people: Emma, John, Lisa, Michael, Sarah
+## Donations | Receives and sorts donated items. | why: the shop needs items to sell
+a receive: receive donations
+a sort: sort donations
+t log: donation log
+receive >> sort
+sort > log
+## Inventory | Tracks what items are available and their condition. | why: to manage the stock effectively
+t list: inventory list
+a check: check stock condition
+check > list
+## Pricing | Sets prices for items based on their condition and demand. | why: items need to be priced for sale
+a assess: assess item condition
+a price: set price
+t guide: pricing guide
+assess >> price
+price > guide
+## Sales | Handles customer interactions and transactions. | why: to sell items and raise funds
+t register: sales register
+a assist: assist customers
+a transact: process sales
+assist > register
+transact > register
+## Cleaning | Cleans and prepares items for display. | why: to present items attractively
+a clean: clean items
+a prepare: prepare items for display
+t schedule: cleaning schedule
+clean >> prepare
+prepare > schedule
+## cross
+donations.receive > inventory.list
+donations.sort > inventory.list
+inventory.check > pricing.assess
+pricing.price > sales.register
+cleaning.prepare > sales.assist
+sales.transact > cleaning.schedule

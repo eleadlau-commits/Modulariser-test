@@ -1,0 +1,39 @@
+# farmers market
+people: Sarah, John, Emily, Michael
+## Setup | Prepares the market space and structures for vendors. | why: vendors need a clear and organized space to operate
+t layout: market layout plan
+a setup: setup stalls and structures
+t signage: market signage
+setup > layout
+setup > signage
+## Vendor Management | Registers vendors and checks their inventory. | why: ensures a variety of goods and fair play
+t registry: vendor registry
+a register: register vendors
+a check: check inventory
+register > registry
+check > registry
+## Logistics | Handles the transport of goods to the market. | why: goods must arrive fresh and in good condition
+t schedule: delivery schedule
+a transport: transport goods to the market
+a unload: unload goods at the stalls
+transport > schedule
+transport >> unload
+## Sales | Manages the selling process and customer interactions. | why: ensures smooth transactions and customer satisfaction
+t payment: payment processing
+a sell: sell goods to customers
+a assist: assist customers with purchases
+sell > payment
+assist > sell
+## Cleanup | Cleans up the market space after the event. | why: keeps the market space tidy and attractive for future events
+t waste: waste management plan
+a clean: clean stalls and structures
+a pack: pack up equipment
+clean > waste
+clean >> pack
+## cross
+setup.layout > vendor.registry
+logistics.unload > sales.sell
+sales.payment > cleanup.pack
+vendor.check > logistics.schedule
+logistics.transport >> vendor.register
+sales.sell >> cleanup.clean

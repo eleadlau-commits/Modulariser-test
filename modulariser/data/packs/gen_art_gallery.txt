@@ -1,0 +1,46 @@
+# art gallery
+people: Emily, Leo, Olivia, Sam, Ava
+## Curation | Selects and organizes artworks for exhibitions.
+t collection: artwork collection
+a choose: choose artworks
+t theme: exhibition theme
+choose > collection
+choose > theme
+## Conservation | Ensures artworks are preserved properly.
+t records: conservation records
+a inspect: inspect artworks
+a document: document condition
+inspect >> document
+document > records
+## Exhibition | Sets up and manages the exhibition space.
+t layout: exhibition layout
+a install: install artworks
+t lighting: lighting setup
+install > layout
+install > lighting
+## Marketing | Promotes the gallery and its exhibitions.
+t brochure: exhibition brochure
+a advertise: advertise exhibition
+t social: social media posts
+advertise > brochure
+advertise > social
+## Sales | Handles the buying and selling of artworks.
+a sell: sell artworks
+t inventory: inventory list
+a appraise: appraise artwork value
+sell > inventory
+appraise >> sell
+## Events | Organizes public events and artist talks.
+t schedule: event schedule
+a invite: invite artists
+a host: host events
+invite >> schedule
+host > schedule
+## cross
+curation.choose > conservation.inspect
+exhibition.install > conservation.records
+marketing.advertise > sales.inventory
+events.invite > curation.theme
+events.host >> exhibition.install
+sales.appraise > curation.collection
+exhibition.layout > events.schedule

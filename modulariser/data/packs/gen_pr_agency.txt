@@ -1,0 +1,39 @@
+# pr-agency
+people: Emily, Mark, Lisa, David
+## Strategy | Defines the campaign goals and messages. | why: clear goals and messages are essential for effective PR.
+a plan: plan the campaign
+t plan: campaign plan
+a message: define key messages
+message > plan
+plan >> message
+## Media | Identifies and engages media outlets. | why: media coverage amplifies the message.
+a research: research media outlets
+t contacts: media contact list
+a pitch: pitch stories to media
+pitch > contacts
+research >> pitch
+## Content | Creates press releases, statements, and other materials. | why: quality content is crucial for media engagement.
+t release: press release
+a write: write press materials
+a review: review content for accuracy
+review > release
+write >> review
+## Monitoring | Tracks media coverage and public reaction. | why: feedback is essential for adjusting the campaign.
+a track: track media coverage
+t report: coverage report
+a analyze: analyze public sentiment
+analyze > report
+track >> analyze
+## Client | Manages client expectations and communication. | why: keeping the client informed is vital for a successful campaign.
+a brief: provide briefs to client
+t updates: client updates
+a feedback: gather client feedback
+brief > updates
+feedback > updates
+## cross
+strategy.message > content.write
+media.research > strategy.plan
+content.release > media.pitch
+monitoring.track > strategy.plan
+client.brief > strategy.plan
+client.feedback > strategy.plan

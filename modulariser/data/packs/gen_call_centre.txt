@@ -1,0 +1,39 @@
+# call centre
+people: John, Mary, Tom, Lisa
+## Inbound | Handles incoming calls and queries.
+a answer: answer incoming calls
+t queue: call queue
+a transfer: transfer calls to specialists
+answer >> queue
+answer >> transfer
+## Outbound | Makes outgoing calls for follow-ups and sales.
+a dial: make outgoing calls
+t list: call list
+a followup: follow up on previous interactions
+dial >> list
+dial >> followup
+## Training | Trains new agents and updates existing staff.
+a teach: conduct training sessions
+t manual: training manual
+a update: update staff on new procedures
+teach > manual
+update > manual
+## Reporting | Tracks call statistics and agent performance.
+t report: call report
+a analyze: analyze call data
+t metrics: performance metrics
+analyze > report
+analyze > metrics
+## Support | Provides technical support for call centre equipment.
+a troubleshoot: troubleshoot technical issues
+t log: support log
+a repair: repair equipment
+troubleshoot >> log
+troubleshoot >> repair
+## cross
+inbound.answer > reporting.metrics
+outbound.dial > reporting.metrics
+training.teach > inbound.answer
+training.update > outbound.dial
+reporting.analyze > support.log
+support.repair > inbound.queue

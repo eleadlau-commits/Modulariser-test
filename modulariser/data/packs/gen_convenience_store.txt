@@ -1,0 +1,38 @@
+# convenience store
+people: Alice, Bob, Carol, Dave
+## Ordering | Ensures necessary stock is available for sale.
+a place: place orders
+t vendors: vendor list
+a track: track order status
+place > vendors
+place >> track
+## Stock Management | Keeps track of what is in stock and where.
+t inventory: stock inventory
+a count: count stock daily
+a restock: restock shelves
+count > inventory
+restock > inventory
+## Sales | Handles customer transactions and maintains sales records.
+t register: cash register
+a scan: scan items
+a pay: process payment
+scan >> pay
+pay > register
+## Security | Ensures the store is safe and secure.
+a patrol: patrol store
+t cameras: security cameras
+a monitor: monitor security footage
+patrol > cameras
+monitor > cameras
+## Cleaning | Maintains a clean and pleasant store environment.
+t schedule: cleaning schedule
+a sweep: sweep floors
+a wipe: wipe surfaces
+sweep > schedule
+wipe > schedule
+## cross
+ordering.place > stock.inventory
+stock.restock > sales.scan
+security.monitor >> cleaning.sweep
+sales.pay > security.monitor
+stock.count > security.patrol

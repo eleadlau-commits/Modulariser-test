@@ -1,0 +1,38 @@
+# sailing club
+people: Alex, Beth, Carlos, Diana, Ethan
+## Membership | Manages club members and their participation.
+t roster: member roster
+a register: register new members
+a renew: renew membership
+register > roster
+renew > roster
+## Training | Conducts training sessions for members.
+t schedule: training schedule
+a teach: teach sailing classes
+a evaluate: evaluate skill levels
+teach > schedule
+evaluate > schedule
+## Boats | Manages the club boats and their maintenance.
+t fleet: boat fleet
+a maintain: perform maintenance
+t log: maintenance log
+maintain > log
+maintain > fleet
+## Scheduling | Organizes club events and sailing slots.
+t calendar: event calendar
+a book: book sailing slots
+a notify: send out notifications
+book > calendar
+notify > calendar
+## Safety | Ensures safety practices and procedures are followed.
+t checklist: safety checklist
+a inspect: inspect boats and equipment
+a brief: brief members on safety
+inspect > checklist
+brief > checklist
+## cross
+membership.register > training.schedule
+training.teach >> safety.brief
+boats.maintain > scheduling.calendar
+scheduling.book >> boats.fleet
+safety.inspect > boats.log

@@ -1,0 +1,42 @@
+# probation service
+people: Lisa, Mark, David, Sarah, Emily
+## Assessment | Evaluates the risk and needs of individuals on probation.
+t file: case file
+a interview: conduct interviews
+a assess: assess risk and needs
+interview >> assess
+interview > file
+assess > file
+## Supervision | Manages the day-to-day monitoring of individuals.
+t schedule: supervision schedule
+a check: conduct spot checks
+a meet: hold supervision meetings
+check > schedule
+meet > schedule
+## Rehabilitation | Provides services to help individuals reintegrate into society.
+t plan: rehabilitation plan
+a program: enroll in programs
+a review: review progress
+program > plan
+review > plan
+## Reporting | Generates reports for courts and probation officers.
+t report: probation report
+a compile: compile data
+a write: write report
+compile >> write
+write > report
+## Support | Offers counseling and support services.
+t record: support records
+a counsel: provide counseling
+a support: offer support services
+counsel > record
+support > record
+## cross
+assessment.file > supervision.schedule
+assessment.file > rehabilitation.plan
+rehabilitation.review >> assessment.assess
+supervision.meet >> assessment.assess
+support.counsel >> rehabilitation.review
+rehabilitation.program > support.record
+assessment.assess > reporting.compile
+supervision.check > reporting.compile

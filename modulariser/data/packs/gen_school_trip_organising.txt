@@ -1,0 +1,38 @@
+# school trip organising
+people: Sarah, Michael, Lisa, Tom
+## Planning | Develops the itinerary and sets the schedule. | why: essential for trip logistics
+t itinerary: trip itinerary
+a schedule: set daily schedules
+t budget: budget plan
+schedule > itinerary
+schedule > budget
+## Logistics | Coordinates transportation and accommodation. | why: essential for participant safety and comfort
+t transport: transportation arrangements
+a book: book accommodations
+a arrange: arrange transportation
+book > transport
+arrange > transport
+## Risk Management | Identifies and mitigates potential risks. | why: essential for participant safety
+t risk: risk assessment
+a prepare: prepare emergency response plan
+a train: train staff on emergency procedures
+train >> prepare
+prepare > risk
+## Communication | Inform and update stakeholders. | why: essential for transparency and coordination
+t update: update sheets
+a notify: notify parents and students
+a track: track participant attendance
+notify >> update
+track > update
+## Activities | Organizes and manages the scheduled activities. | why: essential for engagement and learning
+t activities: scheduled activities
+a conduct: conduct activities
+a supervise: supervise participants
+conduct > activities
+supervise > activities
+## cross
+planning.itinerary > logistics.transport
+planning.schedule > activities.conduct
+logistics.book > planning.budget
+risk.risk > communication.notify
+activities.supervise > communication.track

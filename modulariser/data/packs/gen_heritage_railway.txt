@@ -1,0 +1,38 @@
+# heritage railway
+people: Emma, Liam, Noah, Olivia, Isabella
+## Maintenance | Ensures the locomotives and tracks are in working order. | why: safety and operational readiness
+a inspect: inspect locomotives and tracks
+a repair: repair any damages
+t records: maintenance records
+inspect >> repair
+repair > records
+## Scheduling | Plans the train runs and ensures timetables are followed. | why: to maintain a consistent service
+t timetable: train timetable
+a schedule: schedule train runs
+a coordinate: coordinate with stations
+schedule > timetable
+coordinate > timetable
+## Ticketing | Sells tickets and manages the booking process.
+t bookings: ticket bookings
+a sell: sell tickets
+a check: check bookings
+sell > bookings
+check > bookings
+## Operations | Manages the actual running of the trains.
+t roster: crew roster
+a run: operate the train
+a communicate: communicate with control
+run > roster
+communicate > run
+## Preservation | Keeps historical artefacts and documents.
+t archive: historical archive
+a document: document historical events
+a store: store historical artefacts
+document > archive
+store > archive
+## cross
+maintenance.repair > operations.run
+scheduling.schedule > operations.run
+ticketing.sell > operations.run
+preservation.document > maintenance.records
+preservation.store > maintenance.records

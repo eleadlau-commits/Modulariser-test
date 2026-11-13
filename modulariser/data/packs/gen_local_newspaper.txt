@@ -1,0 +1,39 @@
+# local newspaper
+people: Emma, David, Lisa, Carlos, Brian
+## Reporting | Writes stories and gathers information.
+a interview: conduct interviews
+a research: research topics
+t notes: reporter notes
+interview >> research
+interview > notes
+## Editing | Checks and formats the stories.
+a proofread: proofread articles
+a format: format articles for print
+t guide: style guide
+proofread >> format
+proofread > guide
+## Layout | Assembles the pages for the newspaper.
+t template: layout template
+a arrange: arrange articles on page
+t images: image library
+arrange > template
+arrange > images
+## Printing | Prepares and prints the final edition.
+a prep: prepare the press
+a print: print the newspaper
+t edition: final edition files
+prep >> print
+prep > edition
+## Delivery | Distributes the newspaper to subscribers and stands.
+a load: load the trucks
+a deliver: deliver newspapers
+t route: delivery route map
+load >> deliver
+load > route
+## cross
+reporting.research > editing.proofread
+reporting.notes > editing.proofread
+editing.format > layout.arrange
+layout.arrange > printing.prep
+printing.print > delivery.load
+delivery.deliver > printing.print

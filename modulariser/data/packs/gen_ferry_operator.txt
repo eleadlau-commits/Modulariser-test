@@ -1,0 +1,39 @@
+# ferry operator
+people: Anna, Sam, Lisa, Mark, Tom
+## Scheduling | Plans the ferry routes and times. | why: necessary to organize the service
+t schedule: ferry schedule
+a plan: plan routes and times
+a adjust: adjust to demand
+plan > schedule
+adjust > schedule
+## Maintenance | Keeps the ferry operational and safe.
+t checklist: maintenance checklist
+a inspect: inspect the ferry
+a repair: perform necessary repairs
+inspect > checklist
+repair > checklist
+## Crewing | Assigns and manages the crew for each voyage.
+t roster: crew roster
+a assign: assign crew to voyages
+a manage: manage crew performance
+assign > roster
+manage > roster
+## Ticketing | Sells and manages passenger tickets.
+t tickets: ticket system
+a sell: sell tickets
+a check: check in passengers
+sell > tickets
+check > tickets
+## Navigation | Operates the ferry during voyages.
+t chart: navigation chart
+a pilot: pilot the ferry
+a navigate: navigate using chart
+pilot > chart
+navigate > chart
+## cross
+scheduling.schedule > crewing.roster
+scheduling.schedule > ticketing.tickets
+maintenance.inspect >> scheduling.plan
+crewing.assign >> navigation.pilot
+ticketing.sell > navigation.pilot
+navigation.navigate >> maintenance.inspect

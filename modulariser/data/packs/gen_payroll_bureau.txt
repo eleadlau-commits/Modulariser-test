@@ -1,0 +1,37 @@
+# payroll bureau
+people: Jane, Mark, Lisa, Tom, Emily
+## Collection | Receives and verifies employee timesheets and pay details.
+a receive: receive timesheets
+t validation: validation checklist
+a verify: verify timesheet accuracy
+receive >> validation
+receive >> verify
+## Calculation | Computes gross and net pay based on rules.
+t rules: pay rules document
+a compute: calculate gross pay
+a adjust: apply tax and deductions
+compute >> adjust
+## Processing | Handles the payroll transactions and schedules payments.
+t transactions: payroll transactions
+a process: process payroll transactions
+a schedule: schedule bank transfers
+process >> transactions
+process >> schedule
+## Reporting | Generates and distributes payroll reports.
+t report: payroll report
+a generate: generate payroll report
+a distribute: distribute report to managers
+generate >> report
+generate >> distribute
+## Compliance | Ensures payroll complies with legal standards.
+t regulations: legal regulations
+a audit: audit payroll for compliance
+a update: update compliance rules
+audit > regulations
+update > regulations
+## cross
+collection.receive > calculation.rules
+calculation.adjust > processing.transactions
+processing.schedule > reporting.distribute
+compliance.audit > processing.transactions
+compliance.update > calculation.rules

@@ -1,0 +1,38 @@
+# poultry farm
+people: Mike, Sarah, John, Lisa
+## Breeding | Manages the breeding process to ensure a steady supply of chicks.
+t brooders: brooder facilities
+a hatch: hatch eggs
+a select: select chicks for breeding
+hatch > brooders
+hatch >> select
+## Feeding | Provides nutrition to the flock to ensure health and productivity.
+a mix: mix feed
+a distribute: distribute feed
+a monitor: monitor consumption
+mix >> distribute
+distribute >> monitor
+## Health | Monitors and maintains the health of the flock.
+t vaccines: vaccine schedule
+a vaccinate: administer vaccines
+a inspect: inspect flock for signs of illness
+vaccinate > vaccines
+vaccinate >> inspect
+## Housing | Maintains living conditions for the flock.
+t coop: coop structure
+a clean: clean coops
+a maintain: maintain coop structure
+clean > coop
+maintain > coop
+## Harvesting | Collects eggs and prepares birds for market.
+t crates: crates for eggs/birds
+a collect: collect eggs/birds
+a prepare: prepare for market
+collect >> prepare
+collect > crates
+## cross
+breeding.hatch > feeding.distribute
+health.vaccinate >> housing.clean
+housing.clean > feeding.monitor
+harvesting.collect > feeding.distribute
+harvesting.prepare >> health.inspect

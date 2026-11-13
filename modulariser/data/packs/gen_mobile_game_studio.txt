@@ -1,0 +1,45 @@
+# mobile game studio
+people: Alex, Jamie, Sam, Casey, Robin
+## Conceptualization | Brainstorms and decides on game ideas.
+t ideas: list of game ideas
+a brainstorm: brainstorm game concepts
+a select: select final game concept
+brainstorm >> select
+select > ideas
+## Design | Outlines the game mechanics and aesthetics.
+t design_doc: design document
+a design_mech: design game mechanics
+a design_vis: design visual elements
+design_mech >> design_doc
+design_vis >> design_doc
+## Development | Codes and integrates game features.
+t codebase: game codebase
+a code: write game code
+a integrate: integrate features
+code >> codebase
+integrate > codebase
+## Testing | Ensures the game is free of bugs and issues.
+a unit_test: runs unit tests
+a beta_test: runs beta testing
+t bugs: list of bugs
+unit_test >> beta_test
+beta_test > bugs
+## Marketing | Promotes the game through various channels.
+t marketing_plan: marketing plan
+a promote: promote the game
+a release: release marketing materials
+promote > marketing_plan
+promote >> release
+## Publishing | Prepares and submits the game to app stores.
+t submission: app store submission
+a prepare: prepare for launch
+a submit: submit to app stores
+prepare >> submission
+submit > submission
+## cross
+conceptualization.select > design.design_doc
+design.design_vis >> development.integrate
+testing.unit_test > development.code
+testing.beta_test >> marketing.promote
+publishing.submit >> marketing.release
+marketing.promote >> testing.unit_test

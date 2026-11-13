@@ -1,0 +1,39 @@
+# synagogue events
+people: Sarah, David, Rachel, Jonathan, Michael
+## Planning | Coordinates the logistics of the event. | why: no event can happen without planning
+t schedule: event schedule
+a coordinate: coordinate with venue
+t guestlist: guest list
+coordinate > schedule
+coordinate > guestlist
+## Religious Preparation | Prepares religious elements and readings. | why: religious events require spiritual preparation
+t readings: Torah readings
+a prepare: prepare for service
+t blessings: blessings list
+prepare > readings
+prepare > blessings
+## Catering | Manages food and beverages for the event.
+t menu: catering menu
+a order: order food and beverages
+a deliver: delivery of food
+order > menu
+order >> deliver
+## Decoration | Sets up the venue and manages decor.
+t decor: decorations
+a set: set up venue
+a remove: remove decorations
+set > decor
+set >> remove
+## Security | Ensures safety and security measures are in place.
+t checklist: security checklist
+a patrol: patrol the venue
+a monitor: monitor entry points
+patrol > checklist
+monitor > checklist
+## cross
+planning.schedule > religious.prepare
+planning.schedule > catering.order
+planning.schedule > decoration.set
+catering.deliver >> decoration.set
+catering.menu > security.monitor
+security.monitor > decoration.remove

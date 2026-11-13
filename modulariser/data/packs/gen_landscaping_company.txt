@@ -1,0 +1,39 @@
+# landscaping company
+people: Emma, Liam, Olivia, Noah, Ava
+## Planning | Plans the landscaping projects and timelines. | why: projects need clear planning to be successful
+t schedule: project schedule
+a estimate: estimate project costs
+t blueprint: project blueprint
+estimate > blueprint
+estimate >> schedule
+## Design | Designs the layout and selects the plants and materials. | why: visual and functional design is essential
+t designplan: design plan
+a choose: choose plants and materials
+t materialslist: materials list
+choose >> designplan
+choose > materialslist
+## Procurement | Purchases the necessary materials and plants. | why: materials must be acquired to execute the design
+a order: order materials and plants
+t supplierlist: supplier list
+a receive: receive deliveries
+order > supplierlist
+order >> receive
+## Installation | Executes the landscaping project on-site. | why: the design must be brought to life
+t checklist: installation checklist
+a install: plant and install materials
+t siteplan: site layout plan
+install > siteplan
+install > checklist
+## Maintenance | Performs regular upkeep and care of the landscaping. | why: regular maintenance ensures the landscaping remains in good condition
+a water: water plants
+t schedule: maintenance schedule
+a prune: prune plants
+water >> prune
+water > schedule
+## cross
+planning.schedule > design.designplan
+planning.schedule > installation.checklist
+design.materialslist > procurement.order
+design.designplan > installation.siteplan
+procurement.receive > installation.checklist
+installation.checklist > maintenance.schedule

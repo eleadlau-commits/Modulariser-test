@@ -1,0 +1,38 @@
+# cemetery management
+people: Alice, Bob, Carol, Dave, Eve
+## Planning | Coordinates cemetery use and maintenance. | why: someone has to organize the use of space
+t schedule: burial schedule
+a allocate: allocate plots
+t maintenance: maintenance schedule
+allocate > schedule
+allocate > maintenance
+## Burials | Handles the burial process.
+a dig: dig the plot
+a place: place the casket
+a fill: fill the plot
+dig >> place
+place >> fill
+## Memorials | Manages the placement and maintenance of memorials.
+a install: install gravestones
+t gravestones: gravestone inventory
+a clean: clean memorials
+install > gravestones
+clean > gravestones
+## Landscaping | Maintains the cemetery grounds.
+a mow: mow the grass
+a prune: prune plants
+a plant: plant flowers
+mow >> prune
+prune > plant
+## Administration | Manages records and billing.
+t records: burial records
+a bill: bill for services
+t contracts: service contracts
+bill > contracts
+bill > records
+## cross
+planning.schedule > burials.dig
+planning.maintenance > landscaping.mow
+memorials.gravestones > administration.records
+administration.bill > planning.maintenance
+burials.fill > memorials.install

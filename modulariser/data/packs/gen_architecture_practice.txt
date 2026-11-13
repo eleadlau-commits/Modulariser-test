@@ -1,0 +1,46 @@
+# architecture practice
+people: Emily, Jack, Sarah, David, Lucas
+## Requirements | Gathers and refines the project requirements. | why: clear requirements are essential for architectural design
+t usecases: use case descriptions
+a gather: gather stakeholder inputs
+a refine: refine requirements
+gather >> refine
+refine > usecases
+## Design | Develops the architectural design based on the requirements. | why: a solid design ensures the project meets its goals
+t diagrams: architectural diagrams
+a draft: draft initial designs
+a review: review and refine designs
+draft >> review
+review > diagrams
+## Implementation | Specifies the implementation details and guidelines for the architecture. | why: detailed implementation ensures consistency and quality
+t guidelines: implementation guidelines
+a specify: specify implementation details
+a validate: validate against design
+specify > guidelines
+validate >> specify
+## Testing | Ensures the architecture works as intended through various tests. | why: testing is crucial to verify the architecture meets its goals
+a unit: perform unit tests
+a integration: perform integration tests
+t testcases: test cases
+unit >> integration
+integration > testcases
+## Deployment | Deploys the architecture to the production environment. | why: successful deployment is needed for the architecture to be used
+a deploy: deploy to production
+a monitor: monitor post-deployment performance
+t rollback: rollback plan
+deploy >> monitor
+monitor > rollback
+## Maintenance | Maintains and evolves the architecture over time. | why: maintenance ensures the architecture remains relevant and effective
+t updates: update logs
+a patch: apply patches and fixes
+a evolve: evolve architecture as needed
+patch > updates
+evolve > updates
+## cross
+requirements.gather > design.draft
+requirements.refine > design.review
+design.review > implementation.specify
+implementation.specify > testing.unit
+testing.integration > deployment.deploy
+deployment.deploy > maintenance.patch
+maintenance.patch > implementation.guidelines

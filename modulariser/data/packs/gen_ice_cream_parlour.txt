@@ -1,0 +1,41 @@
+# ice cream parlour
+people: Mia, Ethan, Olivia, Noah, Ava
+## Inventory | Tracks and orders supplies. | why: ensures flavors and ingredients are available
+t list: inventory list
+a order: order supplies
+a check: check inventory levels
+order > list
+check > list
+## Preparation | Prepares ice cream bases and mixes flavors. | why: creates the core product
+t base: ice cream base
+a mix: mix flavors
+a churn: churn ice cream
+mix > base
+churn > base
+## Display | Prepares and maintains the display of ice cream flavors. | why: ensures attractive presentation for customers
+t tubs: display tubs
+a fill: fill display tubs
+a clean: clean display area
+fill > tubs
+clean > tubs
+## Sales | Serves customers and processes sales. | why: fulfills customer orders
+t menu: ice cream menu
+a serve: serve customers
+a process: process sales transactions
+serve > menu
+process > menu
+## Cleaning | Cleans equipment and workspaces. | why: maintains hygiene standards
+a wash: wash equipment
+a sweep: sweep and mop floors
+a disinfect: disinfect surfaces
+wash >> sweep
+disinfect >> sweep
+## cross
+inventory.order > preparation.base
+inventory.check > display.tubs
+preparation.churn > display.tubs
+sales.serve > display.tubs
+sales.process >> inventory.order
+cleaning.wash >> preparation.base
+cleaning.disinfect >> display.tubs
+cleaning.sweep >> sales.serve

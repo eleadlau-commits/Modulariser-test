@@ -1,0 +1,39 @@
+# dark kitchen
+people: Jake, Mia, Luis, Zoe
+## Order Management | Handles incoming orders and ensures accuracy. | why: orders need to be processed and tracked
+a receive: receive orders
+a verify: verify order details
+t queue: order queue
+receive >> verify
+verify > queue
+## Inventory Management | Tracks and manages ingredient stock. | why: ensures ingredients are available
+t stock: inventory stock
+a check: check ingredient levels
+a restock: restock ingredients
+check > stock
+restock > stock
+## Preparation | Prepares ingredients and meals based on orders.
+t prep: prep list
+a prep: prepare ingredients
+a cook: cook meals
+prep > prep
+prep >> cook
+## Quality Control | Ensures meals meet quality standards before packaging.
+a inspect: inspect meals
+a package: package meals
+t standard: quality standards
+inspect > standard
+inspect >> package
+## Dispatch | Packages and dispatches orders to customers.
+a pack: pack meals
+a dispatch: dispatch orders
+t delivery: delivery list
+pack >> dispatch
+dispatch > delivery
+## cross
+order.queue > preparation.prep
+order.queue > quality.inspect
+inventory.restock > preparation.prep
+inventory.check > preparation.prep
+quality.package > dispatch.dispatch
+preparation.cook > quality.inspect

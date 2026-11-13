@@ -1,0 +1,35 @@
+# electronics repair shop
+people: Mike, Sarah, Lucas, Emily, Jordan
+## Reception | Manages incoming repairs and customer interactions. | why: essential for customer service and tracking repairs
+t log: repair log
+a intake: intake devices
+t status: repair status
+intake > log
+intake > status
+## Diagnostics | Identifies the problems with the devices.
+a test: run diagnostic tests
+t report: diagnostic report
+test > report
+## Repair | Fixes the identified issues. | why: necessary to restore device functionality
+t part: replacement parts
+a fix: perform repairs
+a calibrate: calibrate device
+fix > part
+fix >> calibrate
+## Quality Check | Ensures repairs meet the standards. | why: ensures customer satisfaction and reliability
+a inspect: inspect repaired devices
+t checklist: quality checklist
+inspect > checklist
+## Return | Prepares and delivers repaired devices back to customers.
+t receipt: delivery receipt
+a prepare: prepare for delivery
+a deliver: deliver to customer
+prepare > receipt
+deliver > receipt
+## cross
+reception.intake > diagnostics.test
+diagnostics.report > repair.fix
+repair.calibrate > quality.inspect
+quality.inspect >> return.prepare
+repair.part > quality.checklist
+return.receipt > reception.status

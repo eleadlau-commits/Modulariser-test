@@ -1,0 +1,38 @@
+# rowing club
+people: Lisa, Jack, Emma, Tom
+## Recruitment | Finds and welcomes new members.
+t form: membership form
+a interview: conduct interviews
+a onboard: onboard new members
+interview >> onboard
+onboard > form
+## Training | Plans and conducts training sessions.
+t schedule: training schedule
+a plan: plan training sessions
+a coach: coach members
+plan >> coach
+coach > schedule
+## Racing | Organizes and participates in races.
+t calendar: race calendar
+a organize: organize races
+a compete: compete in races
+organize >> compete
+organize > calendar
+## Equipment | Manages boats and gear.
+t inventory: equipment list
+a maintain: maintain equipment
+a distribute: distribute gear
+maintain > inventory
+distribute > inventory
+## Health | Tracks and maintains member health and fitness.
+t records: health records
+a check: conduct health checks
+a fitness: organize fitness training
+check > records
+fitness > records
+## cross
+recruitment.onboard > training.schedule
+training.coach > health.records
+racing.organize > equipment.distribute
+equipment.maintain >> racing.compete
+health.fitness >> training.plan

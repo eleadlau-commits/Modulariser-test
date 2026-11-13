@@ -1,0 +1,38 @@
+# picture framing shop
+people: Emily, Jake, Sarah, Mark
+## Consultation | Advises clients on framing options.
+a discuss: discuss framing options with clients
+t options: framing options
+a recommend: recommend suitable framing materials
+discuss >> recommend
+recommend > options
+## Design | Creates the design for the framed artwork.
+a layout: layout the frame design
+t sample: design sample
+a approve: client approves the design
+layout >> approve
+layout > sample
+## Cutting | Cuts the frame and matting materials to size.
+a measure: measure the artwork
+t tools: cutting tools
+a cut: cut the frame and matting materials
+measure >> cut
+cut > tools
+## Assembly | Assembles the frame and mounts the artwork.
+t materials: framing materials
+a assemble: assemble the frame
+a mount: mount the artwork
+assemble >> mount
+assemble > materials
+## Finishing | Adds final touches and prepares for delivery.
+a polish: polish the frame
+t accessories: final accessories
+a wrap: wrap the finished piece
+polish >> wrap
+wrap > accessories
+## cross
+consultation.recommend > design.layout
+cutting.cut > assembly.assemble
+design.approve >> cutting.measure
+assembly.mount >> finishing.polish
+finishing.wrap > consultation.options
