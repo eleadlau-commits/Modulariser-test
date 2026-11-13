@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modulariser test</title>
+<style>
+  :root { --bg:#fbfbfa; --fg:#1d1d1b; --muted:#6b6b66; --line:#deded8; --accent:#2f6f5e; --warn:#a4462b; --card:#fff; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --fg:#ecece8; --muted:#9d9d97; --line:#33332f; --accent:#6fb8a2; --warn:#e08a6c; --card:#1f1f1d; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  p.lede { color: var(--muted); margin: 0 0 20px; }
+  textarea { width:100%; min-height: 220px; padding:12px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); font: inherit; }
+  button { margin-top: 10px; padding: 10px 18px; border:0; border-radius:8px; background:var(--accent); color:#fff; font: inherit; cursor:pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  #status { color: var(--muted); margin: 12px 0; min-height: 1.5em; }
+  .part { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin: 10px 0; }
+  .part h3 { margin: 0 0 4px; font-size: 1.05rem; }
+  .part p { margin: 0 0 6px; color: var(--muted); }
+  ul { margin: 4px 0; padding-left: 20px; }
+  .warn { color: var(--warn); }
+  details { margin-top: 16px; }
+  pre { overflow:auto; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Modulariser (test build)</h1>
+  <p class="lede">Paste a messy description of a process and get it cut into parts. The model (about 1.9 GB) runs on your own computer in this browser tab. The first run downloads it, then it is cached.</p>
+  <textarea id="text" placeholder="e.g. notes on how your team runs a bake sale, a release, an intake process…"></textarea>
+  <button id="go">Cut into parts</button>
+  <div id="status"></div>
+  <div id="out"></div>
+  <details><summary>JSON</summary><pre id="json"></pre></details>
+</main>
+<script type="module">
+import { Wllama } from 'https://cdn.jsdelivr.net/npm/@wllama/wllama@3.7.0/esm/index.js';
+import { CONFIG } from './config.js';
+
+const $ = (id) => document.getElementById(id);
+const status = (s) => { $('status').textContent = s; };
+let wllama = null;
+
+async function load() {
+  if (wllama) return wllama;
+  const w = new Wllama({ default: 'https://cdn.jsdelivr.net/npm/@wllama/wllama@3.7.0/esm/wasm/wllama.wasm' }, { parallelDownloads: 3 });
+  await w.loadModelFromHF({ repo: CONFIG.repo, file: CONFIG.file }, {
+    n_ctx: 4096,
+    progressCallback: ({ loaded, total }) => status(`Downloading model… ${Math.round(100 * loaded / total)}%`),
+  });
+  wllama = w;
+  return w;
+}
+
+// Same wrapper as modulariser/infer.py: parse, hard-check, repair, retry once.
+const num = (i) => { const n = parseInt(String(i).slice(1), 10); return Number.isNaN(n) ? 1e9 : n; };
+
+function hardChecks(c) {
+  const errs = [];
+  if (!c || !Array.isArray(c.elements) || !Array.isArray(c.parts)) return ['not a cut'];
+  if (c.status === 'refuse') return c.reason ? [] : ['refuse needs a reason'];
+  if (c.status === 'partial' && !c.reason) errs.push('partial needs a reason');
+  if (!c.parts.length) errs.push('no parts');
+  const known = new Set(c.elements.map((e) => e.id)), pids = new Set(c.parts.map((p) => p.id));
+  const owners = {};
+  for (const p of c.parts) for (const e of p.owns || []) {
+    if (!known.has(e)) errs.push(`unknown element ${e}`);
+    (owners[e] = owners[e] || []).push(p.id);
+  }
+  for (const [e, ps] of Object.entries(owners)) if (ps.length > 1) errs.push(`leak ${e}`);
+  const unres = new Set(c.unresolved || []);
+  for (const e of known) if (!owners[e] && !unres.has(e)) errs.push(`orphan ${e}`);
+  for (const l of c.links || []) {
+    if (!pids.has(l.from) || !pids.has(l.to) || l.from === l.to) errs.push('bad link');
+    else if (l.uses != null && (owners[l.uses] || []).join() !== l.to) errs.push(`link uses ${l.uses} not owned by ${l.to}`);
+  }
+  return errs;
+}
+
+function repair(cut) {
+  if (!cut || !Array.isArray(cut.elements) || !Array.isArray(cut.parts)) return null;
+  const c = { status: cut.status, reason: cut.reason ?? null };
+  for (const k of ['links', 'missing', 'unsure', 'unresolved']) c[k] = [...(cut[k] || [])];
+  const seen = new Set();
+  c.elements = cut.elements.filter((e) => e && !seen.has(e.id) && seen.add(e.id));
+  if (c.status === 'refuse') { c.reason = c.reason || 'underspecified'; c.parts = []; return c; }
+  const owner = {};
+  let parts = cut.parts.map((p) => ({ ...p, owns: (p.owns || []).filter((e) => seen.has(e) && !owner[e] && (owner[e] = p.id)) }));
+  const unresolved = [...new Set(c.unresolved)].filter((e) => seen.has(e) && !owner[e]);
+  const todo = [...seen].filter((e) => !owner[e] && !unresolved.includes(e)).sort((a, b) => num(a) - num(b));
+  for (const e of todo) {
+    const owned = Object.keys(owner);
+    const before = owned.filter((o) => num(o) < num(e)), after = owned.filter((o) => num(o) > num(e));
+    const ref = before.length ? before.reduce((a, b) => (num(b) > num(a) ? b : a)) : after.length ? after.reduce((a, b) => (num(b) < num(a) ? b : a)) : null;
+    if (ref === null) return null;
+    owner[e] = owner[ref];
+    parts.find((p) => p.id === owner[ref]).owns.push(e);
+  }
+  parts = parts.filter((p) => p.owns.length);
+  const pids = new Set(parts.map((p) => p.id)), lseen = new Set();
+  c.links = [];
+  for (const l of cut.links || []) {
+    if (!l || !pids.has(l.from)) continue;
+    let to = l.to; const uses = l.uses ?? null;
+    if (uses !== null) { if (!owner[uses]) continue; to = owner[uses]; }
+    if (!pids.has(to) || to === l.from) continue;
+    const key = [l.from, to, uses, l.kind].join('|');
+    if (!lseen.has(key)) { lseen.add(key); c.links.push({ from: l.from, to, uses, kind: l.kind || 'uses' }); }
+  }
+  c.parts = parts; c.unresolved = unresolved;
+  c.unsure = c.unsure.filter((u) => u && pids.has(u.part));
+  if (unresolved.length && c.status === 'ok') c.status = 'partial';
+  if (c.status === 'partial' && !c.reason) c.reason = 'conflicting';
+  if (c.status === 'ok') c.reason = null;
+  return c;
+}
+
+async function cutFor(text) {
+  if (text.length > CONFIG.maxChars) return { status: 'refuse', reason: 'too_long', elements: [], parts: [], links: [], missing: [], unsure: [], unresolved: [] };
+  const w = await load();
+  for (let attempt = 0; attempt < 2; attempt++) {
+    status(attempt ? 'First answer failed the checks, retrying…' : 'Cutting… (a few minutes on a laptop CPU)');
+    const res = await w.createChatCompletion({
+      messages: [{ role: 'system', content: CONFIG.system }, { role: 'user', content: text }],
+      max_tokens: 1800, temperature: attempt ? 0.7 : 0,
+      response_format: { type: 'json_schema', json_schema: { name: 'cut', schema: CONFIG.schema } },
+    });
+    let cut = null;
+    try { cut = JSON.parse(res.choices[0].message.content.match(/\{[\s\S]*\}/)[0]); } catch (e) {}
+    if (cut && !hardChecks(cut).length) return cut;
+    const fixed = repair(cut);
+    if (fixed && !hardChecks(fixed).length) return fixed;
+  }
+  return { status: 'refuse', reason: 'underspecified', elements: [], parts: [], links: [], missing: [], unsure: [], unresolved: [] };
+}
+
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+
+function render(c) {
+  if (c.status === 'refuse') return `<p class="warn"><b>Refused</b> (${esc(c.reason)})</p>`;
+  const el = Object.fromEntries(c.elements.map((e) => [e.id, e.text]));
+  const pn = Object.fromEntries(c.parts.map((p) => [p.id, p.name]));
+  let h = `<p><b>Status:</b> ${esc(c.status)}${c.reason ? ` (${esc(c.reason)})` : ''}</p>`;
+  for (const p of c.parts) h += `<div class="part"><h3>${esc(p.name)}</h3><p>${esc(p.summary)}</p><ul>${p.owns.map((e) => `<li>${esc(el[e])}</li>`).join('')}</ul></div>`;
+  if (c.links.length) h += `<h3>Links</h3><ul>${c.links.map((l) => `<li>${esc(pn[l.from])} → ${esc(pn[l.to])} ${l.uses ? `(uses <i>${esc(el[l.uses])}</i>)` : '(comes before)'}</li>`).join('')}</ul>`;
+  if (c.missing.length) h += `<h3>Possibly missing</h3><ul>${c.missing.map((m) => `<li>${esc(m.name)}: ${esc(m.why)}</li>`).join('')}</ul>`;
+  if (c.unsure.length) h += `<h3>Unsure</h3><ul>${c.unsure.map((u) => `<li>${esc(pn[u.part])}: ${esc(u.why)}</li>`).join('')}</ul>`;
+  if (c.unresolved.length) h += `<h3 class="warn">Unresolved</h3><ul>${c.unresolved.map((e) => `<li>${esc(el[e])}</li>`).join('')}</ul>`;
+  return h;
+}
+
+$('go').onclick = async () => {
+  $('go').disabled = true; $('out').innerHTML = ''; $('json').textContent = '';
+  try {
+    const t0 = performance.now();
+    const cut = await cutFor($('text').value.trim());
+    $('out').innerHTML = render(cut);
+    $('json').textContent = JSON.stringify(cut, null, 2);
+    status(`Done in ${Math.round((performance.now() - t0) / 1000)} s.`);
+  } catch (e) {
+    status('Error: ' + e.message);
+  } finally { $('go').disabled = false; }
+};
+</script>
+</body>
+</html>
