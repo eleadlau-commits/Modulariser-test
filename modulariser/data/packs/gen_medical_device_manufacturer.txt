@@ -1,0 +1,48 @@
+# medical device manufacturer
+people: Elena, Rafael, Lisa, Andrew, Carlos
+## Design | Creates the specifications and design of the medical device. | why: defines the technical requirements and design
+a draft: draft initial design
+t specs: technical specifications
+a refine: refine design based on feedback
+draft >> specs
+refine > specs
+## Testing | Ensures the device meets safety and performance standards. | why: critical for regulatory approval and safety
+a validate: perform validation tests
+t protocol: test protocol
+a document: document test results
+validate > protocol
+validate >> document
+## Manufacturing | Produces the device according to the design and specifications.
+t assembly: assembly instructions
+a assemble: assemble device
+t inspection: quality inspection report
+assemble > assembly
+assemble >> inspection
+## Quality Control | Ensures the manufacturing process meets the standards.
+a inspect: perform quality inspections
+t report: quality control report
+a correct: correct any issues found
+inspect >> report
+correct > report
+## Regulatory | Handles all regulatory filings and approvals.
+t submission: regulatory submission
+a submit: submit for approval
+t compliance: compliance documentation
+submit > submission
+compliance > submission
+## Marketing | Prepares the product for market introduction.
+t brochure: marketing brochure
+a launch: plan product launch
+t campaign: marketing campaign plan
+launch > brochure
+launch > campaign
+## cross
+design.specs > manufacturing.assembly
+design.specs > quality.inspect
+testing.protocol > manufacturing.inspection
+testing.document > quality.correct
+manufacturing.assembly > quality.inspect
+quality.report > manufacturing.inspection
+regulatory.compliance > testing.protocol
+regulatory.submit > marketing.brochure
+marketing.launch > regulatory.compliance

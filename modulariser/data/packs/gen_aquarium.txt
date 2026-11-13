@@ -1,0 +1,38 @@
+# aquarium
+people: Alice, Bob, Charlie, Dana
+## Water Management | Monitors and maintains water quality.
+t tests: water test results
+a test: test water parameters
+a adjust: adjust water chemistry
+test >> adjust
+## Feeding | Plans and executes feeding schedules.
+t schedule: feeding schedule
+a feed: feed the fish
+a observe: observe feeding behavior
+feed > schedule
+feed >> observe
+## Maintenance | Cleans and inspects equipment.
+t checklist: maintenance checklist
+a clean: clean aquarium and equipment
+a inspect: inspect equipment
+clean >> inspect
+inspect > checklist
+## Stock Management | Tracks and manages fish stock.
+t inventory: fish inventory
+a count: count the fish
+a tag: tag new arrivals
+count > inventory
+tag > inventory
+## Health Monitoring | Tracks fish health and disease.
+t logs: health logs
+a inspect: visually inspect fish
+a treat: treat sick fish
+inspect > logs
+treat > logs
+## cross
+water.test > stock.inventory
+water.adjust >> feeding.feed
+maintenance.clean > water.tests
+stock.count > health.logs
+feeding.observe >> health.inspect
+health.treat >> stock.tag

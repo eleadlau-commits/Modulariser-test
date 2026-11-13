@@ -1,0 +1,34 @@
+# electrician business
+people: Mark, Laura, David, Emily
+## Consultation | Assesses the electrical needs of the client. | why: to understand client requirements
+a assess: assess electrical needs
+t report: consultation report
+assess >> report
+## Quotation | Provides a detailed cost estimate for the work. | why: clients need to know costs
+a estimate: estimate costs
+t quote: quotation document
+estimate >> quote
+## Procurement | Orders required materials and tools. | why: materials are needed for the job
+a order: order materials and tools
+t suppliers: supplier list
+order > suppliers
+## Installation | Performs the electrical work as specified. | why: to complete the job
+t plan: installation plan
+a install: install electrical components
+a test: test installation
+install > plan
+install >> test
+## Inspection | Ensures work meets legal and safety standards. | why: for legal compliance and safety
+a inspect: perform inspection
+t checklist: inspection checklist
+inspect > checklist
+## Documentation | Maintains records of the work completed. | why: for client records and legal requirements
+t log: work log
+a record: record work details
+record >> log
+## cross
+consultation.report > quotation.estimate
+installation.install > inspection.inspect
+inspection.checklist > documentation.log
+procurement.order > installation.plan
+installation.test > documentation.record

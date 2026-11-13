@@ -1,0 +1,40 @@
+# conference centre
+people: Alice, Bob, Carlos, Dana
+## EventPlanning | Coordinates details for upcoming events.
+t schedule: event schedule
+a coordinate: coordinate logistics
+a confirm: confirm bookings
+coordinate > schedule
+confirm > schedule
+## Setup | Prepares the venue for events.
+a arrange: arrange seating and AV
+a test: test equipment
+t checklist: setup checklist
+arrange > checklist
+test > checklist
+## Security | Ensures the safety of all guests and staff.
+t roster: security roster
+a patrol: patrol the venue
+a check: check credentials
+patrol > roster
+check > roster
+## Catering | Provides food and beverages for events.
+t menu: catering menu
+a serve: serve food and beverages
+a restock: restock supplies
+serve > menu
+restock > menu
+## Cleaning | Maintains cleanliness before and after events.
+t schedule: cleaning schedule
+a clean: clean the venue
+a restock: restock supplies
+clean > schedule
+restock > schedule
+## cross
+eventplanning.schedule > setup.checklist
+eventplanning.schedule > security.roster
+eventplanning.schedule > catering.menu
+eventplanning.schedule > cleaning.schedule
+setup.arrange >> catering.serve
+catering.serve >> cleaning.clean
+security.patrol >> cleaning.clean

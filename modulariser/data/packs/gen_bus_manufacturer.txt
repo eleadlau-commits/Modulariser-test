@@ -1,0 +1,38 @@
+# bus manufacturer
+people: John, Emma, Leo, Ava
+## Design | Creates the blueprint and specifications of the bus.
+t schematics: design schematics
+a model: create 3D models
+a spec: write technical specifications
+model >> spec
+spec > schematics
+## Engineering | Builds and tests the prototype.
+a build: build the prototype
+a test: perform initial tests
+t prototype: prototype bus
+build >> test
+test > prototype
+## Manufacturing | Produces the parts and assembles the bus.
+t parts: list of required parts
+a assemble: assemble the bus
+a inspect: final bus inspection
+assemble > parts
+inspect > assemble
+## Quality Control | Ensures the bus meets safety and quality standards.
+a inspect: perform quality inspections
+t checklist: quality checklist
+a adjust: make necessary adjustments
+inspect > checklist
+adjust > inspect
+## Sales | Manages the sales process and customer relations.
+t leads: list of sales leads
+a quote: provide quotes
+a demo: conduct demonstrations
+quote > leads
+demo >> quote
+## cross
+design.spec > engineering.prototype
+design.schematics > manufacturing.parts
+engineering.test >> manufacturing.assemble
+quality.inspect >> sales.quote
+sales.demo >> quality.adjust

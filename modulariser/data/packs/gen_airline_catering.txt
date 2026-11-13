@@ -1,0 +1,39 @@
+# airline catering
+people: Anna, Raj, Mei, Tom
+## Menu Planning | Develops and finalizes meal plans for flights.
+t menu: menu options
+a review: review dietary restrictions
+a update: update seasonal meals
+review > menu
+update > menu
+## Procurement | Orders and receives food supplies.
+a order: order food supplies
+t suppliers: supplier list
+a receive: receive food deliveries
+order > suppliers
+order >> receive
+## Preparation | Prepares food items according to menu and safety standards.
+t prep: prep list
+a cook: cook food items
+a package: package food items
+cook >> package
+cook > prep
+## Assembly | Assembles meals for each flight.
+t assembly: assembly checklist
+a assemble: assemble meals
+a label: label meals
+assemble >> label
+assemble > assembly
+## Quality Control | Ensures meals meet safety and quality standards.
+a inspect: inspect meals
+a sample: sample meals
+t checklist: quality checklist
+inspect > checklist
+sample > checklist
+## cross
+menu.menu > preparation.prep
+menu.menu > assembly.assembly
+procurement.order > preparation.cook
+procurement.receive > preparation.cook
+preparation.cook > quality.inspect
+assembly.assemble > quality.sample

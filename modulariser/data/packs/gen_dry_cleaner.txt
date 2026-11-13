@@ -1,0 +1,36 @@
+# dry cleaner
+people: Lisa, Mark, Sarah, Tom, Emily
+## Collection | Collects clothes and delivers to the store.
+a pick: pick up clothes
+t bags: collection bags
+pick > bags
+## Sorting | Sorts clothes by fabric and stain type.
+t tag: sorting tags
+a sort: sort clothes
+t list: sorting list
+sort > tag
+sort > list
+## Cleaning | Cleans clothes using appropriate methods.
+t cleaner: cleaning solution
+a wash: wash clothes
+t machines: cleaning machines
+wash > machines
+wash > cleaner
+## Ironing | Irons clothes to remove wrinkles.
+t iron: steam iron
+a iron: iron clothes
+t board: ironing board
+iron > iron
+iron > board
+## Packaging | Prepares clothes for delivery or pick-up.
+a fold: fold clothes
+t box: packaging box
+a label: label clothes
+fold >> label
+label > box
+## cross
+collection.bags > sorting.list
+sorting.tag > cleaning.wash
+cleaning.wash >> ironing.iron
+ironing.iron >> packaging.fold
+packaging.box > collection.bags

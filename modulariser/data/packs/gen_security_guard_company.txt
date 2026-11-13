@@ -1,0 +1,38 @@
+# security guard company
+people: Mike, Lisa, John, Sarah, David
+## Recruitment | Finds and screens potential guards.
+t profile: candidate profile
+a interview: conduct interviews
+a screen: background screening
+interview > profile
+screen > profile
+## Training | Prepares new hires for their roles. | why: guards need to know the protocols
+a drill: conduct drills
+t manual: guard manual
+a test: conduct knowledge tests
+drill >> test
+test > manual
+## Patrol | Guards patrol designated areas to ensure safety.
+t schedule: patrol schedule
+a patrol: walk patrol routes
+t report: patrol report
+patrol > report
+patrol > schedule
+## Monitoring | Monitors security cameras and alarms.
+t log: monitoring log
+a watch: watch live feeds
+a alert: respond to alarms
+watch > log
+alert > log
+## Incident Response | Manages any security incidents.
+t incident: incident report
+a respond: respond to incidents
+t protocol: response protocol
+respond > incident
+respond > protocol
+## cross
+training.test > recruitment.profile
+patrol.report > incident.incident
+monitoring.alert >> incident.respond
+monitoring.watch > patrol.schedule
+training.drill > patrol.patrol

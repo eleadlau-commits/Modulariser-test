@@ -1,0 +1,38 @@
+# api platform team
+people: Alice, Bob, Charlie, Dana, Ethan
+## Design | Defines API specifications and requirements. | why: APIs need clear definitions
+t spec: API specification
+a review: review API design
+a update: update documentation
+review > spec
+review >> update
+## Development | Implements the API based on design. | why: someone has to write the code
+a code: write API code
+a test: write unit tests
+t branch: development branch
+code >> test
+test > branch
+## Testing | Runs automated and manual tests on the API.
+a run: run automated tests
+a verify: verify API behavior
+t report: test report
+run >> verify
+verify > report
+## Documentation | Maintains and updates the API documentation.
+t doc: API documentation
+a update: update documentation
+a review: review documentation
+update > doc
+review >> update
+## Deployment | Deploys the API to production and monitors it.
+a deploy: deploy API to production
+a monitor: monitor API performance
+t rollback: rollback plan
+deploy >> monitor
+monitor > rollback
+## cross
+design.spec > development.code
+development.branch > testing.run
+testing.verify >> deployment.deploy
+documentation.update > design.review
+documentation.review >> testing.verify

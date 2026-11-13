@@ -1,0 +1,39 @@
+# tea room
+people: Linda, John, Sarah, Peter
+## Sourcing | Procures high-quality tea and accessories. | why: ensures the tea room has the best products
+a select: select tea varieties
+t suppliers: supplier contacts
+a order: place orders
+select >> order
+order > suppliers
+## Inventory | Manages tea and accessory stock. | why: keeps track of available stock
+t ledger: inventory ledger
+a count: count inventory monthly
+a update: update stock levels
+count > ledger
+update > ledger
+## Preparation | Prepares tea and serves customers.
+t menu: tea menu
+a brew: brew tea
+a serve: serve tea
+brew > menu
+serve > brew
+## Cleaning | Ensures the tea room is clean and welcoming.
+t schedule: cleaning schedule
+a wipe: wipe surfaces
+a sweep: sweep floors
+wipe > schedule
+sweep > schedule
+## Accounting | Handles financial transactions and reports. | why: tracks the financial health of the tea room
+a record: record transactions
+t ledger: accounting ledger
+a report: generate financial reports
+record >> ledger
+report > ledger
+## cross
+sourcing.order > inventory.ledger
+sourcing.select > preparation.menu
+inventory.update > preparation.brew
+preparation.serve >> cleaning.wipe
+accounting.record > sourcing.order
+accounting.record > inventory.update

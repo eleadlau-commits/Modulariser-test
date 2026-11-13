@@ -1,0 +1,39 @@
+# optician
+people: Lisa, Mark, Sarah, David, Emily
+## Consultation | Examines patient's vision and discusses options.
+t records: patient records
+a examine: conduct eye examination
+a discuss: discuss options with patient
+examine > records
+examine >> discuss
+## Prescription | Writes and explains the prescription to the patient.
+t prescription: written prescription
+a explain: explain prescription details
+a confirm: confirm patient understanding
+explain > prescription
+explain >> confirm
+## Dispensing | Measures and fits the patient's new glasses.
+t glasses: new glasses
+a measure: take measurements
+a fit: fit glasses to patient
+measure >> fit
+measure > glasses
+## Repair | Fixes broken or damaged glasses.
+t repairs: repair log
+a fix: fix broken glasses
+a log: log repair work
+fix >> log
+fix > repairs
+## Billing | Handles payment and insurance claims for services.
+t invoice: service invoice
+a charge: charge patient or insurance
+a settle: settle payment
+charge >> settle
+settle > invoice
+## cross
+consultation.examine > prescription.explain
+dispensing.measure > prescription.prescription
+repair.fix > dispensing.glasses
+billing.settle > consultation.records
+billing.charge > repair.repairs
+billing.charge > dispensing.glasses

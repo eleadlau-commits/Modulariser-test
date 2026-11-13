@@ -1,0 +1,39 @@
+# shoe repair shop
+people: Alex, Maria, John, Lucy
+## Assessment | Evaluates the condition of the shoes and determines the repair needed.
+a inspect: inspect the shoes
+t report: assessment report
+a diagnose: diagnose issues
+inspect >> diagnose
+diagnose > report
+## Materials | Gathers and prepares the needed materials for repair.
+t stock: materials stock
+a select: select materials
+a prepare: prepare materials
+select >> prepare
+prepare > stock
+## Repair | Performs the actual repair process.
+t tools: repair tools
+a fix: fix the shoes
+a finish: finish the repair
+fix >> finish
+fix > tools
+## Finishing | Finalizes the repair and prepares the shoes for pickup.
+t polish: shoe polish
+a polish: polish shoes
+a package: package the shoes
+polish >> package
+package > polish
+## Pricing | Calculates the cost of the repair.
+t rates: pricing rates
+a calculate: calculate cost
+t invoice: invoice
+calculate >> invoice
+calculate > rates
+## cross
+assessment.inspect > materials.select
+repair.fix > assessment.report
+finishing.polish > repair.finish
+pricing.calculate > assessment.report
+materials.prepare > repair.fix
+finishing.package > pricing.invoice

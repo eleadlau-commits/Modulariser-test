@@ -1,0 +1,38 @@
+# car parts factory
+people: John, Sarah, Mike, Lisa, Charlie
+## Procurement | Orders raw materials and checks deliveries. | why: raw materials are needed for production
+a order: place orders for materials
+t suppliers: supplier list
+a receive: check deliveries
+order > suppliers
+order >> receive
+## Inventory | Manages storage and tracking of materials and parts. 
+t stock: inventory list
+a count: weekly stock count
+count > stock
+## Assembly | Assembles parts into components.
+t blueprint: assembly blueprint
+a assemble: assemble parts
+t component: assembled component
+assemble > blueprint
+assemble > component
+## Quality Control | Ensures parts meet quality standards. 
+a inspect: inspect parts
+t checklist: quality checklist
+inspect > checklist
+## Packaging | Prepares components for shipment.
+a package: package components
+t label: shipping label
+package > label
+## Shipments | Manages the shipping of components to clients.
+a ship: ship components
+t manifest: shipping manifest
+ship > manifest
+## cross
+procurement.order > inventory.stock
+procurement.receive > inventory.stock
+assembly.assemble > quality.inspect
+assembly.component > packaging.package
+packaging.package >> shipments.ship
+quality.inspect > assembly.component
+inventory.stock > assembly.blueprint

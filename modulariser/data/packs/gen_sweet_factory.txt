@@ -1,0 +1,37 @@
+# sweet factory
+people: Alice, Bob, Carol, Dave
+## Sourcing | Acquires raw materials and packages. | why: raw materials are needed to produce sweets
+a order: order raw materials
+t suppliers: supplier list
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Production | Mixes and molds the sweets.
+t ingredients: ingredient mix
+a mix: mix ingredients
+t molds: mold shapes
+mix > ingredients
+mix > molds
+## Packaging | Seals and labels the sweets.
+t seal: sealing machine
+a seal: seal sweets
+t label: label design
+seal > label
+seal > seal
+## Quality Control | Inspects sweets for defects.
+a inspect: inspect sweets
+t standards: quality standards
+inspect > standards
+## Shipping | Prepares and dispatches orders.
+t crates: shipping crates
+a pack: pack orders
+t manifest: shipping manifest
+pack > crates
+pack > manifest
+## cross
+sourcing.receive > production.mix
+production.mix > packaging.seal
+quality.inspect > packaging.seal
+packaging.seal > shipping.pack
+production.mix >> quality.inspect
+quality.inspect >> shipping.pack

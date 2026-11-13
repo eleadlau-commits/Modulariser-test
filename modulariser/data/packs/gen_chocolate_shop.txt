@@ -1,0 +1,37 @@
+# chocolate shop
+people: Emma, Lucas, Olivia, Noah, Isabella
+## Sourcing | Selects and orders cocoa beans and other ingredients. | why: necessary for production
+a select: select bean varieties
+t suppliers: supplier contacts
+a order: place orders
+select >> order
+order > suppliers
+## Production | Mixes ingredients and molds chocolates. | why: makes the final product
+t recipe: production recipe
+a mix: mix ingredients
+a mold: mold chocolates
+a cool: cool chocolates
+mix > recipe
+mix >> mold
+mold >> cool
+## Quality | Inspects and tests chocolate products. | why: ensures product quality
+a inspect: visually inspect
+t sample: quality samples
+a taste: taste test
+inspect > sample
+inspect >> taste
+## Packaging | Wraps and boxes chocolates for sale. | why: prepares product for sale
+t design: packaging design
+a wrap: wrap chocolates
+a box: box chocolates
+wrap > design
+wrap >> box
+## Sales | Tracks sales and manages inventory. | why: keeps track of stock and sales
+t inventory: inventory levels
+a track: track daily sales
+track > inventory
+## cross
+sourcing.order > production.recipe
+production.cool > quality.inspect
+quality.sample > packaging.wrap
+packaging.box > sales.track

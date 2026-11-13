@@ -1,0 +1,39 @@
+# ambulance dispatch
+people: Mike, Sarah, John, Lisa, Tom
+## Dispatch | Assigns ambulances to calls based on severity and location.
+t calls: call log
+a assign: assign ambulance to call
+t availability: vehicle availability
+assign > calls
+assign > availability
+## Triaging | Prioritizes calls based on symptom severity.
+t symptoms: symptom checklist
+a assess: assess severity
+a prioritize: prioritize calls
+assess > symptoms
+assess >> prioritize
+## Communication | Contacts paramedics and provides call details.
+t instructions: call instructions
+a contact: contact assigned ambulance
+a provide: provide call details
+contact > instructions
+provide > instructions
+## Logistics | Tracks ambulance locations and ensures fuel and supplies.
+t tracking: GPS tracking
+t supplies: supply inventory
+a check: check fuel and supplies
+check > supplies
+check > tracking
+## Reporting | Logs the outcomes of calls and provides feedback.
+t outcomes: call outcomes
+a log: log call outcome
+a feedback: provide feedback
+log > outcomes
+feedback > outcomes
+## cross
+dispatch.calls > triaging.assess
+dispatch.assign > communication.contact
+triaging.prioritize > dispatch.assign
+logistics.check > dispatch.availability
+reporting.log > logistics.tracking
+reporting.feedback > dispatch.calls

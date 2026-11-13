@@ -1,0 +1,38 @@
+# youth hostel
+people: Emma, Liam, Olivia, Noah, Ava
+## Booking | Manages reservations and check-ins. | why: Guests need to reserve rooms.
+t calendar: reservation calendar
+a check: check reservations
+a checkin: check guests in
+checkin > calendar
+check > calendar
+## Cleaning | Keeps rooms and common areas clean. | why: Maintaining hygiene is essential.
+t schedule: cleaning schedule
+a rooms: clean rooms
+a common: clean common areas
+rooms > schedule
+common > schedule
+## Security | Ensures safety and monitors access. | why: Guests' safety and security are paramount.
+t log: access log
+a monitor: monitor entrance/exits
+a patrol: patrol grounds
+monitor > log
+patrol > log
+## Kitchen | Prepares meals and manages food storage. | why: Meals need to be provided to guests.
+t menu: daily menu
+a prepare: prepare meals
+t storage: food storage
+prepare > storage
+prepare > menu
+## Maintenance | Fixes and maintains facilities. | why: Facilities need to be in good condition.
+t list: maintenance list
+a fix: fix issues
+a maintain: routine maintenance
+fix > list
+maintain > list
+## cross
+booking.checkin > cleaning.rooms
+cleaning.rooms > maintenance.list
+security.monitor > booking.calendar
+kitchen.prepare > cleaning.common
+maintenance.fix > kitchen.storage

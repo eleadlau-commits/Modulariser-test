@@ -1,0 +1,30 @@
+# orchestra
+people: Maria, Liam, Clara, Ethan, Sophia
+## Repertoire | Chooses and prepares the music for performances. | why: concert programs need to be decided and prepared
+t program: concert program
+a curate: curate the music selection
+t scores: sheet music
+curate > program
+curate > scores
+## Rehearsal | Practices the music to ensure polished performance. | why: rehearsals improve performance quality
+a practice: practice the music
+t schedule: rehearsal schedule
+practice > schedule
+## Conducting | Leads the orchestra through the music. | why: a conductor directs the ensemble
+t baton: conductor's baton
+a conduct: conduct rehearsals and performances
+conduct > baton
+## Performance | Executes the music in front of an audience.
+t stage: concert stage
+a perform: perform the concert
+perform > stage
+## Maintenance | Ensures instruments are in working order. | why: instruments must be in good condition
+a tune: tune instruments
+t tools: maintenance tools
+tune > tools
+## cross
+repertoire.curate > rehearsal.practice
+repertoire.scores > conducting.conduct
+conducting.conduct > performance.perform
+maintenance.tune > rehearsal.practice
+maintenance.tools > performance.perform

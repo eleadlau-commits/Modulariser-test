@@ -1,0 +1,36 @@
+# freight forwarder
+people: Alex, Jamie, Raj, Priya
+## Booking | Coordinates shipments with clients and carriers.
+t booking: booking form
+a confirm: confirm shipping details
+a schedule: schedule pickup
+confirm >> schedule
+## Pricing | Calculates and negotiates costs for clients.
+t pricelist: pricing list
+a quote: provide a quote
+a adjust: adjust pricing based on negotiation
+quote > pricelist
+quote >> adjust
+## Documentation | Prepares and files necessary documents.
+t documents: shipping documents
+a create: create shipping documents
+a file: file shipping documents with customs
+create >> file
+## Tracking | Monitors the shipment status.
+t status: tracking status
+a update: update tracking status
+a notify: notify client of status
+update >> notify
+## Compliance | Ensures adherence to legal and regulatory requirements.
+t regulations: regulatory requirements
+a check: check compliance
+a report: report any non-compliance issues
+check >> report
+## cross
+booking.confirm > pricing.quote
+documentation.create > tracking.status
+pricing.adjust > compliance.check
+compliance.report > documentation.create
+booking.schedule >> documentation.create
+pricing.pricelist > documentation.documents
+tracking.notify > booking.booking

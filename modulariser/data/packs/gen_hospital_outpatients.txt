@@ -1,0 +1,46 @@
+# hospital outpatients
+people: Sarah, Mark, Lisa, David, Amanda
+## Scheduling | Manages appointment bookings and cancellations. | why: patients need to be scheduled for appointments
+a book: schedule appointments
+a cancel: cancel appointments
+t calendar: appointment calendar
+book > calendar
+cancel > calendar
+## Reception | Greets patients and checks them in. | why: patients need to be checked in and directed
+a greet: greet patients
+a checkin: check patients in
+t log: check-in log
+greet >> checkin
+checkin > log
+## Medical Consultation | Conducts patient examinations and provides diagnoses. | why: patients need medical attention
+t chart: medical chart
+a examine: examine patients
+a diagnose: diagnose conditions
+examine >> diagnose
+examine > chart
+## Lab Testing | Collects and processes samples for analysis. | why: tests are needed to diagnose
+a collect: collect samples
+a process: process samples
+t results: test results
+collect >> process
+process > results
+## Imaging | Performs imaging studies. | why: imaging can help diagnose conditions
+t scan: imaging scan
+a perform: perform imaging
+a review: review images
+perform >> review
+review > scan
+## Medication | Prescribes and dispenses medication. | why: patients may need medication
+a prescribe: prescribe medication
+a dispense: dispense medication
+t prescription: prescription log
+prescribe >> dispense
+dispense > prescription
+## cross
+scheduling.book > reception.greet
+medical.examine >> lab.collect
+medical.examine >> imaging.perform
+medical.diagnose >> medication.prescribe
+lab.results > medical.chart
+imaging.scan > medical.chart
+medication.dispense > medical.chart

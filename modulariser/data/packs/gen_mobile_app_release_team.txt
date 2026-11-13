@@ -1,0 +1,38 @@
+# mobile app release team
+people: Sam, Lisa, Mike, Tina, Jordan
+## Planning | Coordinates the scope and timeline for the release. | why: Define scope and timeline
+t backlog: product backlog
+a prioritize: prioritize tasks
+t roadmap: product roadmap
+prioritize > backlog
+prioritize > roadmap
+## Development | Implements the features and fixes for the release.
+a code: write code
+a review: code review
+t branch: feature branch
+code >> review
+review > branch
+## Testing | Ensures the app works as expected through automated and manual testing.
+a ci: run continuous integration
+a qa: perform manual QA
+t testplan: test plan
+qa > testplan
+ci >> qa
+## Packaging | Prepares the app for distribution, packaging and signing.
+a build: build app binary
+a sign: sign the app
+t changelog: release changelog
+build >> sign
+## Deployment | Deploys the app to the app store and monitors the release.
+a deploy: deploy to app store
+a monitor: monitor user feedback
+t runbook: rollback plan
+deploy >> monitor
+monitor > runbook
+## cross
+planning.backlog > development.code
+testing.ci > development.branch
+packaging.build > development.branch
+packaging.changelog > planning.roadmap
+testing.qa >> packaging.build
+packaging.sign >> deployment.deploy

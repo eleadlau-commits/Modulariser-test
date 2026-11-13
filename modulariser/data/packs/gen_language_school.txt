@@ -1,0 +1,47 @@
+# language school
+people: Emma, Liam, Olivia, Noah, Ava
+## Curriculum Development | Designs and updates the language courses. | why: students need structured learning materials
+t syllabus: course syllabus
+a review: review course content
+t materials: teaching materials
+review > syllabus
+review > materials
+## Student Recruitment | Attracts and enrolls new students. | why: the school needs students to operate
+t brochure: student recruitment brochure
+a promote: promote on social media
+a interview: conduct interviews
+promote >> interview
+interview > brochure
+## Class Management | Schedules and coordinates classes. | why: students need to attend classes
+t schedule: class schedule
+a register: register new students
+t room: classrooms
+register > schedule
+register > room
+## Teaching | Provides language instruction to students. | why: the primary purpose of the school
+a teach: deliver language lessons
+t lessonplan: lesson plan
+t workbook: student workbook
+teach > lessonplan
+teach > workbook
+## Assessment | Evaluates students' progress through tests and feedback. | why: to measure and improve learning outcomes
+a test: administer language tests
+a feedback: provide feedback
+t gradebook: student gradebook
+test > gradebook
+feedback > gradebook
+## Support Services | Offers extra help and resources to students. | why: to enhance the learning experience
+a tutoring: provide tutoring sessions
+t resources: learning resources
+a counseling: offer academic counseling
+tutoring > resources
+tutoring >> counseling
+## cross
+curriculum.syllabus > teaching.lessonplan
+curriculum.materials > teaching.workbook
+student.promote > class.register
+student.interview > class.register
+teaching.teach >> assessment.test
+teaching.teach >> support.tutoring
+assessment.feedback > support.counseling
+support.resources > teaching.workbook

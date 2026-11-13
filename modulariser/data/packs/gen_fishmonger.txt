@@ -1,0 +1,39 @@
+# fishmonger
+people: Olivia, Liam, Isabella, Ethan
+## Sourcing | Procures fresh fish from suppliers.
+a source: source fish
+t suppliers: supplier list
+a inspect: inspect quality
+source >> inspect
+source > suppliers
+## Storage | Keeps fish fresh and tracks inventory.
+t inventory: inventory log
+a store: store fish
+a check: check freshness
+store > inventory
+check > inventory
+## Preparation | Prepares fish for sale.
+t cuts: cut types
+a clean: clean fish
+a cut: cut fish
+clean >> cut
+cut > cuts
+## Sales | Sells fish to customers.
+t customers: customer list
+a sell: sell fish
+a service: service customers
+sell > customers
+service > customers
+## Accounting | Tracks expenses and revenues.
+a record: record sales
+t ledger: sales ledger
+a reconcile: reconcile accounts
+record > ledger
+reconcile > ledger
+## cross
+sourcing.source > storage.store
+sourcing.inspect >> storage.check
+preparation.cut >> sales.sell
+storage.inventory > preparation.clean
+sales.sell > accounting.record
+accounting.reconcile >> sourcing.suppliers

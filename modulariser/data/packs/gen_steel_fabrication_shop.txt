@@ -1,0 +1,43 @@
+# steel fabrication shop
+people: Jack, Lisa, Mike, Sarah, Tom
+## Design | Creates the detailed blueprints for fabrication.
+t blueprint: detailed blueprint
+a model: model parts in CAD
+a dimension: add dimensions
+model >> dimension
+model > blueprint
+dimension > blueprint
+## Cutting | Cuts the steel to the required dimensions.
+t raw: raw steel stock
+a cut: cut to dimensions
+a measure: measure cuts
+cut > measure
+cut > raw
+## Forming | Shapes the cut steel into the required form.
+t shape: shaped parts
+a bend: bend steel
+a weld: weld parts together
+bend >> weld
+bend > shape
+weld > shape
+## Finishing | Prepares the fabricated parts for final inspection.
+t finish: finished parts
+a polish: polish surfaces
+a inspect: final inspection
+polish >> inspect
+polish > finish
+inspect > finish
+## Assembly | Assembles the finished parts into the final product.
+t product: assembled product
+a fit: fit parts together
+a check: check for alignment
+fit >> check
+fit > product
+check > product
+## cross
+design.blueprint > cutting.raw
+design.blueprint > forming.shape
+forming.weld > finishing.finish
+forming.shape > finishing.finish
+finishing.finish > assembly.fit
+assembly.product > cutting.raw

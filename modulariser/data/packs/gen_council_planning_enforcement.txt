@@ -1,0 +1,39 @@
+# council planning enforcement
+people: Alice, Bob, Carol, Dave
+## Complaints | Receives and logs complaints about planning issues. | why: complaints drive the enforcement process
+t logs: complaints log
+a register: register complaints
+a investigate: investigate complaints
+register >> investigate
+investigate > logs
+## Inspections | Conducts site visits and inspections. | why: ensures compliance with planning permissions
+t report: inspection report
+a visit: visit site
+a document: document findings
+visit >> document
+document > report
+## Enforcement | Takes action against breaches, including notices and penalties. | why: ensures legal compliance
+t notice: enforcement notice
+a issue: issue notice
+a followup: follow up on compliance
+issue >> followup
+issue > notice
+## Appeals | Manages the appeal process against enforcement actions.
+t appeal: appeal record
+a register: register appeals
+a review: review appeal
+register >> review
+review > appeal
+## Legal | Prepares for and manages legal proceedings if necessary.
+t case: legal case
+a prepare: prepare for hearings
+a prosecute: prosecute cases
+prepare >> prosecute
+prosecute > case
+## cross
+complaints.register > inspections.visit
+complaints.investigate >> enforcement.issue
+inspections.document >> enforcement.issue
+enforcement.followup >> appeals.register
+legal.prepare >> enforcement.issue
+legal.prosecute > enforcement.notice

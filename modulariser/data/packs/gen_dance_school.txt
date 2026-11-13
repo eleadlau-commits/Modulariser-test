@@ -1,0 +1,39 @@
+# dance school
+people: Mia, Ryan, Emma, Leo
+## Curriculum | Plans the dance lessons and routines.
+t syllabus: dance syllabus
+a schedule: schedule classes
+t routine: dance routines
+schedule > syllabus
+schedule > routine
+## Instruction | Teaches the dance classes to students.
+a teach: teach dance moves
+t demo: demonstration video
+a correct: correct student's technique
+teach > demo
+correct > demo
+## Performance | Prepares students for public performances.
+t calendar: performance calendar
+a rehearse: rehearse performance
+t costume: costume list
+rehearse > costume
+rehearse > calendar
+## Registration | Manages enrollment and payments for classes.
+t roster: class roster
+a enroll: enroll new students
+t payment: payment records
+enroll > roster
+enroll > payment
+## Evaluation | Assesses student progress and proficiency.
+a evaluate: evaluate student performance
+t feedback: feedback report
+a rank: rank students in levels
+evaluate > feedback
+rank > feedback
+## cross
+curriculum.schedule > instruction.teach
+curriculum.routine > performance.rehearse
+registration.roster > evaluation.evaluate
+evaluation.rank > curriculum.syllabus
+instruction.correct >> evaluation.rank
+performance.calendar > registration.enroll

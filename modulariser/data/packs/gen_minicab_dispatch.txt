@@ -1,0 +1,38 @@
+# minicab dispatch
+people: Alex, Bella, Chris, Dana
+## Booking | Receives and confirms ride requests.
+a receive: receive booking requests
+t bookings: booking log
+a confirm: confirm bookings
+receive >> bookings
+confirm > bookings
+## Dispatch | Assigns drivers to bookings.
+a assign: assign drivers to bookings
+t availability: driver availability list
+a notify: notify drivers of bookings
+assign > availability
+assign >> notify
+## Tracking | Tracks driver locations and ride progress.
+t locations: driver location updates
+a track: track driver progress
+t status: ride status updates
+track > locations
+track >> status
+## Support | Handles rider and driver support requests.
+a handle: handle support requests
+t issues: issue log
+a resolve: resolve issues
+handle >> issues
+resolve > issues
+## Reporting | Compiles and presents operational data.
+a compile: compile daily reports
+t data: operational data
+a present: present reports
+compile > data
+compile >> present
+## cross
+booking.confirm > dispatch.assign
+dispatch.notify > tracking.track
+tracking.status > reporting.data
+support.handle > reporting.data
+support.resolve > booking.bookings

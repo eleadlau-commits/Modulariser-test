@@ -1,0 +1,40 @@
+# photography studio
+people: Lisa, Mark, Emma, Ryan
+## Scheduling | Manages and coordinates booking and consultations.
+t bookings: booking calendar
+a consult: conduct client consultations
+a schedule: schedule photo sessions
+consult >> schedule
+schedule > bookings
+## Photography | Captures the actual photographs.
+t equipment: photography equipment
+a shoot: take photos
+a setup: set up the shoot location
+shoot >> setup
+shoot > equipment
+## Editing | Edits the photos post-shoot.
+t software: editing software
+a edit: edit photos
+a review: review and refine edits
+edit >> review
+review > software
+## Sales | Handles sales and client interaction post-editing.
+t portfolio: photo portfolio
+a present: present the portfolio to client
+a finalize: finalize client selection
+present >> finalize
+finalize > portfolio
+## Storage | Archives and manages storage of photos.
+t drive: external drive
+t cloud: cloud storage
+a backup: back up photos to drive
+a upload: upload to cloud storage
+backup > drive
+upload > cloud
+## cross
+scheduling.schedule > photography.setup
+scheduling.bookings > sales.present
+photography.shoot > editing.edit
+editing.review > sales.finalize
+sales.finalize > storage.backup
+editing.edit >> storage.upload

@@ -1,0 +1,37 @@
+# travel agency
+people: Lisa, John, Emma, Noah, Olivia
+## Sales | Sells travel packages and handles customer inquiries. | why: customers need to buy their travel plans
+a sell: sell travel packages
+a inquire: handle customer inquiries
+t brochure: travel brochure
+sell > brochure
+inquire > brochure
+## Planning | Plans travel itineraries and bookings. | why: travel plans need to be organized
+t itinerary: travel itinerary
+a book: make bookings
+a arrange: arrange transportation
+book > itinerary
+arrange > itinerary
+## Operations | Manages day-to-day operations and ensures smooth travel. | why: ensures customer satisfaction
+t schedule: daily schedule
+a coordinate: coordinate services
+a track: track customer progress
+coordinate > schedule
+track > schedule
+## Finance | Manages payments and financial records. | why: financial transactions need to be handled
+a pay: process payments
+t invoice: payment invoice
+a record: record financial transactions
+pay > invoice
+record > invoice
+## Support | Provides customer support and resolves issues. | why: issues need to be resolved for customer satisfaction
+a resolve: resolve issues
+t faq: frequently asked questions
+resolve > faq
+## cross
+sales.inquire >> planning.book
+planning.book > operations.schedule
+planning.itinerary > operations.schedule
+sales.sell >> finance.pay
+finance.record > support.faq
+operations.track >> support.resolve

@@ -1,0 +1,39 @@
+# esports team
+people: Alex, Jamie, Casey, Tyler, Morgan
+## Recruitment | Finds and evaluates potential new players. | why: the team needs the best players
+a scout: scout potential players
+a interview: conduct player interviews
+t criteria: recruitment criteria
+scout >> interview
+interview > criteria
+## Training | Prepares players for matches through practice and analysis. | why: winning requires preparation
+a practice: practice match scenarios
+a analyze: analyze team and opponent strategies
+t schedule: training schedule
+practice > schedule
+analyze > schedule
+## Match | Competes in live matches against other teams. | why: matches are the core of the team's activity
+a play: play live matches
+t lineup: match lineup
+t strategy: match strategy
+play > lineup
+play > strategy
+## Support | Provides psychological and logistical support to players. | why: players need support to perform at their best
+a coach: provide coaching
+a health: check player health
+t playbook: psychological playbook
+coach > playbook
+health >> coach
+## Analytics | Tracks and analyzes player and team performance to inform training and strategy. | why: data-driven decisions improve performance
+a track: track match data
+a analyze: analyze player performance
+t dashboard: performance dashboard
+track >> analyze
+analyze > dashboard
+## cross
+recruitment.criteria > training.schedule
+training.schedule > match.strategy
+match.play > analytics.track
+analytics.analyze > training.practice
+support.health > match.play
+training.analyze > match.strategy

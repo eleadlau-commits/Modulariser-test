@@ -1,0 +1,47 @@
+# tailor
+people: Emily, David, Maria, Liam
+## Consultation | Meets with the client to understand their needs. | why: tailoring requires personalized input
+a meet: meet with client
+t style: style preferences
+a measure: take measurements
+meet > style
+meet >> measure
+## Design | Creates the design based on the consultation. | why: every item needs a design
+t sketch: design sketch
+a customize: customize based on client needs
+a select: select fabric
+customize > sketch
+select > sketch
+## Cutting | Prepares the fabric for assembly. | why: fabric needs to be cut according to the design
+t pieces: fabric pieces
+a cut: cut fabric
+a mark: mark on fabric
+cut > pieces
+mark > pieces
+## Assembly | Puts the pieces together into the final garment. | why: this is the core of tailoring
+t garment: assembled garment
+a sew: sew garment
+a pin: pin pieces together
+pin > garment
+sew > garment
+## Finishing | Adds the final touches to the garment. | why: ensures the garment looks perfect
+t finished: finished garment
+a press: press garment
+a detail: add final details
+press > finished
+detail > finished
+## Delivery | Prepares for and delivers the completed garment to the client. | why: the client needs to receive the garment
+a pack: pack the garment
+t receipt: delivery receipt
+a present: present to client
+pack >> present
+present > receipt
+## cross
+consultation.style > design.customize
+consultation.measure > cutting.cut
+design.sketch > cutting.mark
+design.select > cutting.cut
+assembly.sew >> finishing.press
+assembly.pin >> finishing.detail
+finishing.finished > delivery.pack
+delivery.present > consultation.meet

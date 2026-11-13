@@ -1,0 +1,39 @@
+# interior design studio
+people: Mia, Ethan, Olivia, Noah, Ava
+## Consultation | Gathers client requirements and preferences. | why: understanding client needs is essential
+a meet: meet with client
+t questionnaire: client questionnaire
+a listen: discuss client needs
+meet >> listen
+meet > questionnaire
+listen > questionnaire
+## Design | Creates sketches and 3D models of the design. | why: visualizing the design is critical
+t sketch: design sketch
+a model: create 3D models
+t plan: floor plan
+model > sketch
+model > plan
+## Sourcing | Finds materials and furniture that match the design. | why: materials need to be sourced to match the design
+t catalog: supplier catalog
+a search: search for materials
+a choose: choose furniture
+search > catalog
+choose > catalog
+## Installation | Oversees the installation of the design.
+t schedule: installation schedule
+a install: oversee installation
+a supervise: supervise contractors
+install > schedule
+supervise > install
+## Review | Finalizes the design and ensures client satisfaction. | why: ensuring client satisfaction is crucial
+t feedback: client feedback
+a adjust: make adjustments
+a finish: finalize design
+adjust > feedback
+finish > feedback
+## cross
+consultation.listen > design.model
+design.plan > sourcing.catalog
+sourcing.choose > installation.install
+installation.supervise > review.adjust
+review.finish > consultation.meet

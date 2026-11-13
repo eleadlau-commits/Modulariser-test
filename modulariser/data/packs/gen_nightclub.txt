@@ -1,0 +1,39 @@
+# nightclub
+people: Alex, Jamie, Sam, Taylor, Casey
+## Booking | Manages reservations and VIP entries.
+t list: booking list
+a confirm: confirm bookings
+a entry: manage VIP entry
+confirm > list
+entry > list
+## Security | Ensures the safety and compliance of the venue.
+t logs: security logs
+a check: check ID and bags
+a patrol: patrol the premises
+check > logs
+patrol > logs
+## Sound | Sets up and operates the sound system.
+t setup: sound setup
+a mix: mix the music
+a adjust: adjust the levels
+mix > setup
+adjust > setup
+## Lighting | Designs and operates the lighting effects.
+t design: lighting design
+a program: program the lights
+a operate: operate the lighting effects
+program > design
+operate > design
+## Bar | Serves drinks and maintains the bar area.
+t menu: drink menu
+a serve: serve drinks
+a clean: clean the bar
+serve > menu
+clean > menu
+## cross
+booking.confirm > security.check
+booking.entry > security.check
+sound.mix >> lighting.program
+lighting.operate >> sound.adjust
+bar.serve > sound.mix
+bar.serve > lighting.operate

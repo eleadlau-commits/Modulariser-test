@@ -1,0 +1,41 @@
+# skip hire company
+people: Lisa, Mike, Sarah, Tom, Kevin
+## Booking | Coordinates and confirms customer bookings.
+t calendar: booking calendar
+a confirm: confirm booking details
+a assign: assign equipment based on booking
+confirm > calendar
+assign > calendar
+## Delivery | Prepares and transports the skips to the job site.
+a load: load skips onto trucks
+a transport: transport skips to site
+t manifest: delivery manifest
+load >> transport
+load > manifest
+## Setup | Prepares the site and places the skips.
+t siteplan: site plan
+a siteprep: prepare the site
+a place: place skips according to plan
+siteprep > siteplan
+siteprep >> place
+place > siteplan
+## Monitoring | Tracks the use and condition of the skips.
+a inspect: inspect skips daily
+t log: usage log
+a report: report any issues
+inspect > log
+report > log
+## Collection | Prepares and transports the skips back to the depot.
+a collect: collect skips from site
+a unload: unload skips at depot
+t checklist: collection checklist
+collect >> unload
+collect > checklist
+## cross
+booking.calendar > delivery.manifest
+booking.assign >> setup.place
+setup.place > monitoring.log
+setup.siteprep > monitoring.log
+monitoring.report >> collection.collect
+delivery.transport >> setup.siteprep
+collection.unload > delivery.manifest

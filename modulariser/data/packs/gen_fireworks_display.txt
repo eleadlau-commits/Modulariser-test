@@ -1,0 +1,47 @@
+# fireworks display
+people: Lily, Mark, Mei, Tom, Raj
+## Planning | Coordinates the display logistics and design. | why: a plan is needed for any display
+t schedule: display schedule
+a design: design fireworks sequences
+t permits: required permits
+design > schedule
+permits >> schedule
+## Procurement | Orders fireworks and safety equipment. | why: materials need to be acquired
+a order: order fireworks
+t equipment: safety equipment
+a check: check deliveries
+order > equipment
+check > order
+## Setup | Sets up the launch sites and safety perimeters. | why: setup is critical for safety and performance
+t sites: launch sites
+a layout: layout the sites
+t perimeters: safety perimeters
+layout > sites
+layout > perimeters
+## Control | Manages the firing sequence and timing. | why: timing is crucial for the display
+t sequence: firing sequence
+a fire: fire the fireworks
+a time: time the cues
+fire > sequence
+time >> fire
+## Safety | Ensures that all safety protocols are followed. | why: safety protocols must be followed
+a inspect: inspect equipment
+a monitor: monitor the perimeter
+t protocols: safety protocols
+inspect > protocols
+monitor > protocols
+## Cleanup | Cleans up the site and disposes of debris. | why: cleanup is necessary after the display
+a collect: collect debris
+a dispose: dispose of debris
+a clear: clear the site
+collect >> dispose
+dispose >> clear
+## cross
+planning.schedule > setup.layout
+planning.schedule > control.time
+procurement.check > setup.layout
+procurement.equipment > safety.inspect
+setup.sites > control.fire
+control.time >> cleanup.clear
+safety.protocols > control.time
+safety.monitor > control.time

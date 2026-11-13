@@ -1,0 +1,37 @@
+# coin and stamp dealer
+people: Alice, Bob, Carol, Dave, Erin
+## Inventory | Manages the catalog of coins and stamps.
+t catalog: inventory catalog
+a update: update catalog entries
+t ledger: transaction ledger
+update > catalog
+update > ledger
+## Appraisal | Evaluates the value and authenticity of items.
+a assess: assess item value
+t reference: reference books
+t tools: appraisal tools
+assess > reference
+assess > tools
+## Acquisition | Buys coins and stamps from sellers.
+a negotiate: negotiate purchase price
+t contract: purchase contract
+negotiate > contract
+## Sales | Sells coins and stamps to collectors.
+a list: list items for sale
+t price: price list
+a sell: sell items to customers
+list > price
+sell > price
+## Storage | Safeguards and stores the items.
+t safe: secure storage safe
+a record: record item location
+record > safe
+## cross
+inventory.update > appraisal.assess
+appraisal.assess > acquisition.negotiate
+appraisal.assess >> sales.list
+inventory.catalog > sales.list
+inventory.update >> storage.record
+acquisition.contract > inventory.update
+sales.sell > inventory.update
+sales.sell > storage.record

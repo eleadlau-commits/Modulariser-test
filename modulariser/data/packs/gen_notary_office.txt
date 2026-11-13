@@ -1,0 +1,38 @@
+# notary office
+people: Anna, Brian, Carlos, Daisy, Ethan
+## Document Preparation | Prepares and reviews documents for notarization.
+t document: document drafts
+a review: review document content
+a edit: edit document for accuracy
+review > document
+edit > document
+## Client Consultation | Advises clients on notarial requirements and procedures.
+t form: client information form
+a advise: advise on notarial requirements
+a interview: interview clients
+interview > form
+advise > form
+## Notarization | Verifies identity and witnesses signatures.
+t id: client identification
+a verify: verify client identity
+a witness: witness signatures
+verify > id
+verify >> witness
+## Record Keeping | Maintains records of notarized documents.
+t record: notary records
+a log: log notarizations
+a store: store notarized documents
+log > record
+store > record
+## Fees | Collects and processes payments for notarial services.
+a charge: charge for notarial services
+t receipt: payment receipt
+a collect: collect payment
+charge >> collect
+collect > receipt
+## cross
+document.edit > notarization.verify
+client.interview > document.document
+notarization.witness > record.log
+record.log > fees.charge
+fees.collect > record.store

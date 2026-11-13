@@ -1,0 +1,31 @@
+# customs broker
+people: Alice, Bob, Carlos, Dana, Eva
+## Documentation | Prepares and checks customs documents. | why: necessary for legal compliance and processing
+a prepare: prepare customs documents
+a check: check document accuracy
+t template: document template
+prepare > template
+prepare >> check
+## Tariff Classification | Determines the correct tariff classification for goods.
+a classify: classify goods according to HS codes
+t codes: HS code reference
+classify > codes
+## Valuation | Determines the value of goods for customs purposes.
+a value: determine customs value
+t invoices: invoice records
+value > invoices
+## Compliance | Ensures all activities comply with customs and trade laws.
+a audit: conduct internal audits
+t regulations: customs regulations
+audit > regulations
+## Communication | Communicates with customs authorities and clients regarding shipments.
+a notify: notify customs authorities
+t contact: contact lists
+notify > contact
+## cross
+documentation.prepare > tariff.classify
+documentation.prepare > valuation.value
+tariff.classify > valuation.value
+compliance.audit > communication.notify
+communication.notify > documentation.check
+documentation.check > compliance.audit

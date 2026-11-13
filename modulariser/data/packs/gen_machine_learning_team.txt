@@ -1,0 +1,48 @@
+# machine learning team
+people: Alex, Jamie, Priya, Raj, Mei
+## Data Collection | Gathers and stores raw data. | why: data is the foundation for training models.
+a collect: collect data from sources
+t storage: data storage system
+a validate: validate data quality
+collect >> validate
+validate > storage
+## Preprocessing | Cleans and formats data for analysis. | why: raw data often needs cleaning before use.
+a clean: clean data
+t schema: data schema
+a transform: transform data
+clean >> transform
+transform > schema
+## Modeling | Develops and trains machine learning models. | why: models are needed to make predictions.
+t model: machine learning model
+a train: train the model
+a validate: validate the model's performance
+train >> validate
+validate > model
+## Evaluation | Tests and reviews the model's performance. | why: model must be evaluated to ensure it works well.
+a test: conduct testing
+t metrics: performance metrics
+a review: review results
+test > metrics
+test >> review
+## Deployment | Deploys models into production and monitors their performance.
+a deploy: deploy to production
+t config: deployment configuration
+a monitor: monitor performance
+deploy > config
+deploy >> monitor
+monitor > config
+## Documentation | Maintains documentation for all processes and models. | why: documentation is needed for reproducibility and compliance.
+a write: write documentation
+t doc: documentation
+a review: review documentation
+write > doc
+write >> review
+## cross
+data.collect > preprocessing.clean
+data.validate > preprocessing.transform
+preprocessing.schema > modeling.train
+modeling.model > evaluation.test
+evaluation.metrics > modeling.validate
+deployment.deploy > modeling.model
+deployment.config > documentation.write
+evaluation.review >> documentation.review

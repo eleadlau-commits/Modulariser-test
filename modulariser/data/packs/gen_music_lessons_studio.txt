@@ -1,0 +1,35 @@
+# music lessons studio
+people: Emily, Luis, Sophia, Jake
+## Scheduling | Manages the calendar of lessons and booking. | why: lessons need to be scheduled
+a book: book new lessons
+t calendar: lesson calendar
+a reschedule: reschedule lessons
+book > calendar
+reschedule > calendar
+## Instruction | Prepares and delivers music lessons.
+t plan: lesson plan
+a teach: deliver lesson content
+t materials: lesson materials
+teach > plan
+teach > materials
+## Assessment | Evaluates student progress and provides feedback.
+a assess: evaluate student performance
+t feedback: feedback notes
+assess >> feedback
+## Communication | Handles emails, messages, and other forms of teacher-student communication.
+a email: send lesson updates
+t messages: communication log
+email > messages
+## Invoicing | Prepares and sends invoices and handles payments.
+a invoice: create and send invoices
+t payment: payment record
+a collect: collect payments
+invoice >> collect
+collect > payment
+## cross
+scheduling.book > instruction.plan
+scheduling.reschedule > instruction.plan
+instruction.teach >> assessment.assess
+assessment.assess >> communication.email
+communication.email > invoicing.invoice
+invoicing.invoice >> scheduling.reschedule

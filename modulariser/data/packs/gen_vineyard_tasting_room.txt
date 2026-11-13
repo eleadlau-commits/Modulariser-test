@@ -1,0 +1,39 @@
+# vineyard tasting room
+people: Emma, Chris, Olivia, Jake
+## Reception | Manages guest check-in and initial experience.
+t register: guest register
+a welcome: welcome guests
+a direct: direct to tasting area
+welcome >> direct
+welcome > register
+## Tasting | Conducts wine tastings and educates guests.
+t menu: tasting menu
+a pour: pour wine samples
+a explain: explain wine notes
+pour >> explain
+pour > menu
+## Sales | Handles wine purchases and customer orders.
+t inventory: wine inventory list
+a sell: sell wines to guests
+a package: package wine orders
+sell >> package
+sell > inventory
+## Tours | Organizes and leads vineyard tours.
+t itinerary: tour itinerary
+a lead: lead vineyard tours
+a answer: answer questions during tours
+lead >> answer
+lead > itinerary
+## Billing | Manages payment processing and receipts.
+t receipt: sales receipt
+a process: process payment
+a give: give receipt to guest
+process >> give
+process > receipt
+## cross
+reception.direct >> tasting.pour
+tasting.explain >> sales.sell
+sales.package >> billing.process
+tours.answer >> reception.register
+tours.lead >> tasting.pour
+billing.process > sales.inventory

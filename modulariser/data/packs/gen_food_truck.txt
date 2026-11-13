@@ -1,0 +1,37 @@
+# food truck
+people: Sarah, Mike, Lisa, Tom
+## Ordering | Manages customer orders and payment. | why: orders must be taken and paid for
+a take: take orders
+a pay: process payment
+t menu: food truck menu
+take > menu
+take >> pay
+## Cooking | Prepares the food according to orders. | why: food must be cooked before serving
+t prep: prep list
+a cook: cook dishes
+t ingredients: ingredient list
+cook > prep
+cook > ingredients
+## Serving | Serves the food to customers. | why: food must be delivered to customers
+t orders: served orders
+a hand: hand over food
+hand > orders
+## Cleaning | Cleans tables and dishes to maintain hygiene. | why: hygiene is critical for customer safety
+a wash: wash dishes
+a clean: clean tables
+t supplies: cleaning supplies
+wash > supplies
+clean > supplies
+## Inventory | Tracks inventory of ingredients and supplies. | why: to keep track of what is available and to order more
+t stock: inventory stock
+a update: update inventory
+update > stock
+## cross
+ordering.take >> cooking.cook
+cooking.cook >> serving.hand
+serving.hand > inventory.stock
+cleaning.wash > inventory.stock
+cleaning.clean > inventory.stock
+inventory.update > ordering.menu
+inventory.update > cooking.ingredients
+inventory.update > cleaning.supplies

@@ -1,0 +1,37 @@
+# pet shop
+people: Bella, Tom, Max, Lucy, Jake
+## Purchasing | Orders and receives pet supplies and animals. | why: inventory needs to be replenished
+a order: order stock
+t suppliers: list of suppliers
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Inventory | Tracks and manages the store's stock levels.
+t sheet: inventory sheet
+a count: count stock weekly
+count > sheet
+## Care | Provides daily care and attention to animals.
+t list: care checklist
+a feed: feed animals
+a clean: clean cages
+feed > list
+clean > list
+## Sales | Handles customer interactions and sales transactions.
+t register: sales register
+a assist: assist customers
+a sell: sell pets and supplies
+assist >> sell
+sell > register
+## Grooming | Offers grooming services for pets.
+t schedule: grooming schedule
+a groom: groom pets
+a wash: wash pets
+groom > schedule
+wash > schedule
+## cross
+purchasing.receive > inventory.sheet
+care.clean > inventory.sheet
+sales.sell > inventory.sheet
+grooming.schedule >> sales.assist
+inventory.sheet > sales.assist
+purchasing.order > grooming.schedule

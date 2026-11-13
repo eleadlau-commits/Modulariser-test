@@ -1,0 +1,42 @@
+# wedding venue
+people: Emma, Jake, Olivia, Noah
+## Planning | Coordinates the wedding details and timeline. | why: ensures everything is organized
+t schedule: event schedule
+a confirm: confirm details with the couple
+t guestlist: guest list
+confirm > schedule
+confirm > guestlist
+## Catering | Prepares and serves food and beverages. | why: sustains guests
+t menu: menu options
+a serve: serve food and drinks
+t inventory: inventory list
+serve > inventory
+serve > menu
+## Decorations | Sets up and manages the decor for the event. | why: creates the ambiance
+t design: design plan
+a set: set up decorations
+t elements: decor elements
+set > elements
+set > design
+## Photography | Captures the event through photos and video. | why: preserves the memories
+a shoot: take photos and videos
+t equipment: camera equipment
+a edit: edit and organize photos
+shoot > equipment
+shoot >> edit
+## Entertainment | Provides music and activities for guests. | why: keeps the guests engaged
+t playlist: music playlist
+a perform: perform at the event
+t activities: guest activities
+perform > playlist
+perform > activities
+## cross
+planning.schedule > catering.serve
+planning.schedule > decorations.set
+planning.schedule > photography.shoot
+planning.schedule > entertainment.perform
+catering.inventory > decorations.elements
+catering.menu > photography.equipment
+decorations.design > photography.edit
+entertainment.playlist > photography.shoot
+entertainment.activities > catering.serve

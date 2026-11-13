@@ -1,0 +1,39 @@
+# mosque community centre
+people: Fatima, Omar, Aisha, Ali
+## Programming | Plans and schedules events and activities.
+t calendar: event calendar
+a schedule: schedule events
+t theme: monthly theme
+schedule > calendar
+schedule > theme
+## Outreach | Communicates events to the community.
+a announce: announce events on social media
+t flyer: event flyer
+a distribute: distribute flyers in the community
+announce > flyer
+announce >> distribute
+## Facilities | Manages the building and its maintenance.
+t checklist: maintenance checklist
+a inspect: inspect the facilities
+t log: maintenance log
+inspect > checklist
+inspect > log
+## Worship | Organizes and conducts regular prayers and services.
+t schedule: prayer schedule
+a lead: lead prayers
+t call: call to prayer
+lead > schedule
+lead > call
+## Education | Provides classes and workshops for various skills.
+t curriculum: educational curriculum
+a teach: teach classes
+t resource: educational resource
+teach > curriculum
+teach > resource
+## cross
+programming.schedule > worship.schedule
+programming.schedule > education.curriculum
+facilities.inspect > programming.calendar
+outreach.announce > programming.calendar
+education.teach >> worship.lead
+programming.theme > outreach.flyer

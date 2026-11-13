@@ -1,0 +1,37 @@
+# solar panel installer
+people: Alex, Jamie, Casey, Morgan
+## Site Survey | Assesses the site for solar panel installation.
+a measure: measure roof dimensions
+t report: site survey report
+a shade: assess shading
+measure >> report
+shade >> report
+## Design | Designs the solar panel system layout.
+t layout: system layout
+a optimize: optimize panel orientation
+a select: select panel models
+optimize > layout
+select > layout
+## Installation | Installs the solar panels on the roof.
+a mount: mount racking system
+a install: install solar panels
+t tools: installation tools
+mount >> install
+## Electrical | Connects the solar panels to the electrical system.
+a connect: connect panels to inverter
+a wire: wire to electrical panel
+t inverter: solar inverter
+connect >> wire
+## Inspection | Inspects the system for compliance and safety.
+a check: check system compliance
+a test: test electrical connections
+t certificate: inspection certificate
+check >> test
+test > certificate
+## cross
+site.measure > design.layout
+site.shade > design.optimize
+installation.mount > electrical.connect
+design.layout > installation.install
+electrical.wire > inspection.check
+inspection.test > design.layout

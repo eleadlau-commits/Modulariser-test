@@ -1,0 +1,38 @@
+# trade union branch
+people: Sarah, Mark, Linda, Andrew, David
+## Membership | Manages the members and their dues.
+t roster: member roster
+a collect: collect dues
+a update: update contact info
+collect > roster
+update > roster
+## Communication | Organizes meetings and sends out updates.
+t newsletter: union newsletter
+a meeting: organize meetings
+a inform: inform members of updates
+meeting > newsletter
+inform > newsletter
+## Advocacy | Represents members' interests to management.
+t grievances: list of grievances
+a negotiate: negotiate with management
+a present: present grievances
+negotiate > grievances
+present > grievances
+## Education | Provides training and materials to members.
+t materials: educational materials
+a train: conduct training sessions
+a distribute: distribute materials
+train > materials
+distribute > materials
+## Legal | Ensures compliance with labor laws and contracts.
+t contract: union contract
+a review: review legal documents
+a consult: consult with legal advisors
+review > contract
+consult > contract
+## cross
+membership.collect > advocacy.present
+communication.inform > advocacy.present
+education.train >> advocacy.present
+advocacy.negotiate >> legal.review
+advocacy.present >> legal.review

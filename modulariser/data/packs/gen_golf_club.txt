@@ -1,0 +1,40 @@
+# golf club
+people: Mark, Lisa, Tom, Emily, Robert
+## Membership | Manages membership and access rights. | why: members need to be registered and have access
+t roster: member roster
+a register: register new members
+t access: access card
+a update: update member information
+register > roster
+update > roster
+## Course Maintenance | Keeps the course in playable condition.
+a mow: mow grass
+a water: water course
+t schedule: maintenance schedule
+mow > schedule
+water > schedule
+## Pro Shop | Sells golf equipment and accessories.
+t inventory: shop inventory
+a sell: sell merchandise
+t receipts: sales receipts
+sell > inventory
+sell > receipts
+## Instruction | Offers golf lessons and tips.
+a lesson: provide golf lessons
+t schedule: lesson schedule
+a tips: offer golf tips
+lesson > schedule
+tips > schedule
+## Events | Plans and runs tournaments and special events.
+t calendar: event calendar
+a plan: plan events
+a run: run tournaments
+plan > calendar
+run > calendar
+## cross
+membership.access > course.mow
+membership.access > course.water
+instruction.schedule >> events.plan
+pro.inventory > instruction.tips
+events.run >> pro.sell
+course.schedule >> instruction.lesson

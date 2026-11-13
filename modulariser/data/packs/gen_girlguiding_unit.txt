@@ -1,0 +1,39 @@
+# girlguiding unit
+people: Emily, Sarah, Lisa, Claire, Rachel
+## Planning | Coordinates activities and meetings. | why: ensures activities are organized and communicated
+t calendar: monthly calendar
+a schedule: schedule meetings and activities
+t agenda: meeting agenda
+schedule > calendar
+schedule > agenda
+## Activities | Prepares and leads the group activities.
+t materials: activity materials
+a lead: lead group activities
+t badges: badge requirements
+lead > materials
+lead > badges
+## Learning | Focuses on skill development and training.
+t handbook: training handbook
+a teach: teach skills to the girls
+t topics: learning topics
+teach > handbook
+teach > topics
+## Support | Provides guidance and support to the girls.
+t guidelines: support guidelines
+a mentor: mentor the girls
+t resources: support resources
+mentor > guidelines
+mentor > resources
+## Reflection | Reviews and discusses the activities and learning.
+a discuss: discuss the activities
+t journal: reflection journal
+a review: review group progress
+review > journal
+discuss > journal
+## cross
+planning.schedule > activities.materials
+planning.agenda > learning.handbook
+activities.badges > learning.handbook
+activities.lead >> reflection.discuss
+learning.teach >> reflection.review
+support.mentor > reflection.journal

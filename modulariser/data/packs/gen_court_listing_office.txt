@@ -1,0 +1,33 @@
+# court listing office
+people: Sarah, John, Maria, David, Emily
+## Case Intake | Receives new cases and assigns them to a category. | why: cases must be categorized to be listed appropriately
+a intake: receive new cases
+t categories: case categories
+a assign: assign cases to categories
+intake >> assign
+assign > categories
+## Calendar Management | Schedules court dates. | why: court dates must be scheduled to avoid conflicts
+t calendar: court calendar
+a schedule: schedule court dates
+a conflict: check for date conflicts
+schedule >> conflict
+conflict > calendar
+## Notification | Notifies parties involved in the cases. | why: parties need to be informed of their court dates
+a notify: send notifications
+t contact: contact information
+notify > contact
+## Record Keeping | Maintains records of all court cases. | why: records are necessary for legal and administrative purposes
+t files: case files
+a update: update case files
+update > files
+## Compliance | Ensures all court procedures comply with legal standards. | why: compliance with legal standards is mandatory
+a review: review compliance
+t regulations: legal regulations
+review > regulations
+## cross
+case.intake > calendar.calendar
+case.assign > record.files
+calendar.schedule > notification.notify
+notification.contact > record.files
+record.update > compliance.regulations
+compliance.review > case.categories

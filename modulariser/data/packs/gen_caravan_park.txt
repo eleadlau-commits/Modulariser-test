@@ -1,0 +1,39 @@
+# caravan park
+people: Laura, Jake, Emma, Mike, Sarah
+## Booking | Manages reservations and arrival checks.
+t calendar: booking calendar
+a check: check availability
+a register: register bookings
+check > calendar
+register > calendar
+## Maintenance | Checks and maintains caravans and facilities.
+t list: maintenance checklist
+a inspect: inspect caravans and facilities
+a repair: perform necessary repairs
+inspect > list
+repair > list
+## Cleaning | Cleans and prepares caravans for guests.
+t schedule: cleaning schedule
+a clean: clean caravans
+a prep: prepare caravans for guests
+clean > schedule
+prep > schedule
+## Reception | Welcomes guests and handles check-in/check-out.
+t log: guest log
+a greet: greet and welcome guests
+a process: process check-in/check-out
+greet > log
+process > log
+## Security | Monitors the site and responds to emergencies.
+t log: security log
+a patrol: patrol the premises
+a respond: respond to emergencies
+patrol > log
+respond > log
+## cross
+booking.check > cleaning.schedule
+booking.register > maintenance.list
+maintenance.repair >> cleaning.clean
+reception.greet >> booking.check
+reception.process >> booking.calendar
+security.patrol > reception.log

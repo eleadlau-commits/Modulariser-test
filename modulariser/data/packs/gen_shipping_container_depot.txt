@@ -1,0 +1,38 @@
+# shipping container depot
+people: Alice, Bob, Carol, Dave, Erin
+## Reception | Checks in incoming containers and updates tracking. | why: containers need to be tracked and managed
+a receive: receive containers
+t manifest: incoming manifest
+a update: update tracking system
+receive > manifest
+receive >> update
+## Storage | Assigns containers to storage locations and moves them. | why: containers need to be stored efficiently
+t locations: storage locations
+a assign: assign containers to locations
+a move: move containers to locations
+assign > locations
+move > locations
+## Inspection | Inspects containers for damage or discrepancies. | why: ensures containers are not damaged before further handling
+a inspect: inspect containers
+t report: inspection report
+inspect > report
+## Loading | Loads containers onto outgoing vehicles and updates tracking. | why: containers need to be loaded for transport
+a load: load containers onto vehicles
+t vehicle: outgoing vehicle
+a update: update tracking system
+load > vehicle
+load >> update
+## Maintenance | Maintains and repairs container handling equipment. | why: ensures equipment is in good working order
+a inspect: inspect equipment
+t repair: repair logs
+a repair: perform repairs
+inspect > repair
+repair > repair
+## cross
+reception.receive > storage.assign
+storage.assign > inspection.inspect
+inspection.inspect > loading.load
+loading.update > reception.update
+maintenance.inspect > reception.receive
+maintenance.repair > storage.move
+maintenance.repair > loading.load

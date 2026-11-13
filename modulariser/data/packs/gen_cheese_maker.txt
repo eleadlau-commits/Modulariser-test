@@ -1,0 +1,31 @@
+# cheese maker
+people: Ana, Raj, Mei, Tom
+## Milk Sourcing | Obtains the milk for cheese production. | why: milk is the primary ingredient
+t suppliers: supplier list
+a inspect: inspect milk quality
+a order: order milk deliveries
+inspect > suppliers
+order >> inspect
+## Curdling | Curdles the milk and adds starter cultures. | why: curdling is essential for cheese formation
+t rennet: rennet
+a add: add starter cultures
+a curdle: curdle the milk
+add >> curdle
+curdle > rennet
+## Draining | Drains the curds to remove whey. | why: draining is necessary for cheese texture
+a drain: drain the curds
+a press: press the curds
+drain >> press
+## Aging | Ages the cheese to develop flavor. | why: aging is crucial for taste
+t cave: aging cave
+a age: age the cheese
+age > cave
+## Packaging | Prepares the cheese for sale. | why: packaging is essential for sales
+a wrap: wrap the cheese
+t label: cheese label
+wrap >> label
+## cross
+milk.order > curdling.add
+draining.press >> aging.age
+aging.age > packaging.wrap
+packaging.label > milk.suppliers

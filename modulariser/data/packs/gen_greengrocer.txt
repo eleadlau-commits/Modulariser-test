@@ -1,0 +1,36 @@
+# greengrocer
+people: Sarah, Michael, Emily, David, Lisa
+## Sourcing | Procures fresh produce from various suppliers. | why: produce needs to be sourced to stock the store
+a order: place orders with suppliers
+t suppliers: list of suppliers
+a inspect: inspect deliveries
+order > suppliers
+order >> inspect
+## Inventory | Manages the stock levels and freshness of produce. 
+t sheet: inventory sheet
+a check: check stock levels
+a rotate: rotate stock to ensure freshness
+check > sheet
+rotate > sheet
+## Display | Arranges produce in an appealing manner for customers.
+t layout: display layout
+a arrange: arrange produce on display
+a restock: restock depleted sections
+arrange > layout
+restock > layout
+## Sales | Handles customer interactions and transactions.
+t ledger: sales ledger
+a serve: serve customers
+a process: process payments
+serve >> process
+process > ledger
+## Cleaning | Ensures the store and produce areas are clean and organized.
+a clean: clean display areas
+a organize: organize storage areas
+clean >> organize
+## cross
+sourcing.inspect > inventory.sheet
+inventory.check > display.layout
+inventory.rotate > display.layout
+sales.serve > display.layout
+cleaning.clean > display.layout

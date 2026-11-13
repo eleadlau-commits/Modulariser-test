@@ -1,0 +1,45 @@
+# cybersecurity incident response
+people: Alex, Jamie, Lisa, David, Erin
+## Detection | Identifies anomalous activities or breaches.
+t alerts: security alerts
+a monitor: monitor security systems
+a analyze: analyze alert data
+monitor >> alerts
+analyze > alerts
+## Analysis | Determines the nature and scope of the incident.
+t report: incident report
+a classify: classify the incident type
+a scope: scope the incident extent
+classify >> report
+scope >> report
+## Containment | Tries to stop the spread of the breach.
+t plan: containment plan
+a isolate: isolate affected systems
+a implement: implement the plan
+isolate >> plan
+implement > plan
+## Eradication | Removes the threat and cleans affected systems.
+t log: eradication log
+a remove: remove malware or unauthorized access
+a clean: clean infected systems
+remove >> log
+clean >> log
+## Recovery | Restores systems to normal operation.
+t checklist: recovery checklist
+a restore: restore from backups
+a verify: verify system integrity
+restore >> checklist
+verify >> checklist
+## Lessons | Documents lessons learned and updates policies.
+t doc: lessons learned document
+a update: update security policies
+a train: train staff on new procedures
+update >> doc
+train >> doc
+## cross
+detection.alerts > analysis.report
+analysis.classify >> detection.monitor
+containment.isolate >> eradication.remove
+eradication.clean >> recovery.restore
+recovery.verify >> lessons.update
+lessons.train >> detection.monitor

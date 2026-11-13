@@ -1,0 +1,40 @@
+# phone repair kiosk
+people: Alex, Beth, Carlos, Dana, Ethan
+## Reception | Manages customer check-in and initial assessment. | why: customers need to be directed and assessed
+a register: register customer information
+t queue: appointment queue
+a assess: assess phone damage
+register >> queue
+assess > queue
+## Diagnostics | Identifies specific issues and parts needed. | why: to determine the repair scope
+t parts: replacement parts list
+a diagnose: diagnose phone issues
+a identify: identify required parts
+diagnose >> identify
+identify > parts
+## Repair | Fixes the phone by replacing or repairing components.
+t tools: repair tools
+a replace: replace damaged components
+a repair: repair software issues
+replace > tools
+repair > tools
+## Parts Inventory | Manages stock of replacement parts.
+t inventory: parts inventory
+a update: update inventory levels
+a order: order new parts
+update > inventory
+order > inventory
+## Billing | Handles payment and creates invoices. | why: customers need to pay for repairs
+a pay: process payment
+t receipt: receipt
+a generate: generate invoice
+pay >> generate
+generate > receipt
+## cross
+reception.queue > diagnostics.diagnose
+diagnostics.parts > repair.replace
+repair.tools > parts.inventory
+billing.pay > reception.register
+billing.generate > repair.repair
+parts.inventory > diagnostics.parts
+parts.inventory > repair.tools

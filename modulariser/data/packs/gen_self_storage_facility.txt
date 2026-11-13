@@ -1,0 +1,39 @@
+# self storage facility
+people: Chris, Hannah, Mark, Lisa
+## CustomerOnboarding | Handles new customer sign-ups and introductions to the facility.
+t contract: storage contract
+a register: register customer details
+a orientation: orientation tour of facility
+register > contract
+orientation > contract
+## InventoryManagement | Manages the units available and their status.
+t units: unit inventory
+a allocate: allocate units to customers
+a update: update unit statuses
+allocate > units
+update > units
+## Billing | Manages recurring payments and billing cycles.
+t invoices: invoice records
+a charge: charge customers
+a statement: generate statements
+charge > invoices
+statement > invoices
+## Maintenance | Handles repairs, cleaning, and facility upkeep.
+t schedule: maintenance schedule
+a clean: clean units and common areas
+a repair: repair units and facilities
+clean > schedule
+repair > schedule
+## AccessControl | Manages who has access to the facility and when.
+t access: access logs
+a grant: grant access to customers
+a revoke: revoke access for past due customers
+grant > access
+revoke > access
+## cross
+customeronboarding.register >> inventorymanagement.allocate
+customeronboarding.orientation >> maintenance.clean
+billing.charge >> accesscontrol.grant
+billing.statement >> maintenance.repair
+inventorymanagement.update >> billing.charge
+inventorymanagement.allocate >> maintenance.schedule

@@ -1,0 +1,45 @@
+# documentary production
+people: Jake, Emily, Lisa, Mark, Sandra
+## Research | Investigates and gathers information on the documentary topic.
+t outline: research outline
+a interview: conduct interviews
+t sources: interview sources
+interview > sources
+interview >> outline
+## Scriptwriting | Writes the script and narrative for the documentary.
+t script: script draft
+a structure: structure the narrative
+a write: write scenes
+structure >> write
+write > script
+## Filming | Captures the visual elements of the documentary.
+t footage: raw footage
+a shoot: film scenes
+a direct: direct on set
+shoot >> direct
+direct > footage
+## Editing | Assembles the footage and narrative into a cohesive documentary.
+t cut: final cut
+a assemble: assemble scenes
+a polish: polish the final cut
+assemble >> polish
+polish > cut
+## Music & Sound | Adds music and sound design to enhance the documentary.
+t track: original music track
+a mix: mix audio
+a score: write the score
+score >> track
+mix > track
+## Distribution | Prepares and distributes the documentary to audiences.
+t release: release schedule
+a package: package for distribution
+a market: market the documentary
+package >> market
+market > release
+## cross
+research.outline > scriptwriting.script
+filming.direct > editing.assemble
+scriptwriting.write > filming.shoot
+editing.polish > music.score
+distribution.package > music.mix
+scriptwriting.script > filming.shoot

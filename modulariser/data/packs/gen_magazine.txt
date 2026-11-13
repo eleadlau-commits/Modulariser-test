@@ -1,0 +1,40 @@
+# magazine
+people: Emily, Jordan, Taylor, Casey, Olivia
+## Content Creation | Writes and edits articles. | why: content needs to be created for the magazine
+a write: write articles
+a edit: edit submitted articles
+t drafts: draft files
+write >> edit
+edit > drafts
+## Design | Designs the layout and selects images. | why: visual appeal is crucial for magazine
+a layout: design article layout
+a select: select images for articles
+t template: design templates
+layout > template
+select > template
+## Printing | Prepares and sends for printing. | why: physical copies need to be produced
+a prepare: prepare for printing
+a print: send to print
+t proof: print proof
+prepare >> print
+print > proof
+## Distribution | Distributes physical copies and manages subscriptions. | why: magazines need to reach readers
+a deliver: deliver physical copies
+a manage: manage subscriptions
+t delivery: delivery list
+deliver > delivery
+manage > delivery
+## Digital | Manages the online presence and subscriptions. | why: digital presence is essential for engagement
+a publish: publish online
+a update: update website
+t online: online content
+publish > online
+update > online
+## cross
+content.write > design.template
+content.edit > design.template
+printing.print > distribution.delivery
+digital.publish > distribution.manage
+digital.update > content.drafts
+design.template > printing.prepare
+content.drafts > digital.online

@@ -1,0 +1,38 @@
+# recycling centre
+people: Mia, Carlos, Linda, Jack, Olivia
+## Reception | Identifies and sorts incoming waste. | why: waste needs to be identified and sorted for processing
+a check: check waste quality
+t schedule: delivery schedule
+a sort: sort waste into categories
+check >> sort
+## Processing | Breaks down waste into reusable materials.
+a shred: shred waste
+a wash: wash materials
+t bins: processing bins
+shred >> wash
+wash > bins
+## Quality Control | Ensures materials meet standards before storage.
+a inspect: inspect materials
+t defects: defect log
+a approve: approve for storage
+inspect >> approve
+inspect > defects
+## Storage | Stores processed materials until needed.
+t racks: storage racks
+a store: store materials
+a track: track inventory levels
+store > racks
+track > racks
+## Distribution | Prepares and ships materials to buyers.
+a pack: pack materials
+t orders: order list
+a ship: ship materials
+pack >> ship
+pack > orders
+## cross
+reception.sort > processing.shred
+quality.inspect > processing.wash
+processing.wash > quality.inspect
+quality.approve > storage.store
+storage.track > distribution.pack
+distribution.orders > storage.track

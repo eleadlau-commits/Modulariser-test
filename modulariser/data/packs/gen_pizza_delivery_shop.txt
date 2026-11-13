@@ -1,0 +1,38 @@
+# pizza delivery shop
+people: Maria, John, Luis, Emily, Sam
+## Ordering | Takes and processes customer orders. | why: orders need to be taken to start the process.
+a receive: receive customer orders
+t menu: pizza menu
+a confirm: confirm order details
+receive >> confirm
+confirm > menu
+## Preparation | Assembles and cooks the pizzas. | why: pizzas have to be prepared before delivery.
+t toppings: available toppings
+a assemble: assemble pizzas
+a cook: cook pizzas
+assemble > toppings
+assemble >> cook
+## Packaging | Packages the pizzas for delivery. | why: pizzas need to be properly packaged for delivery.
+t boxes: pizza boxes
+a pack: package pizzas
+a seal: seal packages
+pack > boxes
+pack >> seal
+## Dispatch | Manages delivery logistics. | why: someone needs to organize the deliveries.
+t deliveries: delivery list
+a assign: assign deliveries to drivers
+a route: plan delivery routes
+assign > deliveries
+route >> assign
+## Tracking | Tracks orders and updates customer status. | why: customers need to know the status of their orders.
+t tracking: tracking system
+a update: update order status
+a notify: notify customers of status
+update > tracking
+update >> notify
+## cross
+ordering.confirm > preparation.assemble
+preparation.cook > packaging.pack
+packaging.seal > dispatch.assign
+dispatch.assign >> tracking.update
+tracking.notify > ordering.receive

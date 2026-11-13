@@ -1,0 +1,40 @@
+# physiotherapy clinic
+people: Emily, David, Lisa, Sam, Olivia
+## Assessment | Determines the patient's condition and needs.
+a examine: perform initial examination
+t history: patient medical history
+a diagnose: diagnose the condition
+examine > history
+examine >> diagnose
+## Plan | Creates a customized treatment plan.
+t goals: treatment goals
+a customize: customize plan based on assessment
+a schedule: schedule treatment sessions
+customize > goals
+customize >> schedule
+## Treatment | Conducts physiotherapy sessions.
+a apply: apply physiotherapy techniques
+t equipment: physiotherapy equipment
+a monitor: monitor patient progress
+apply > equipment
+apply >> monitor
+## Review | Evaluates the progress and modifies the plan if necessary.
+a assess: assess patient improvement
+t notes: progress notes
+a modify: modify treatment plan
+assess > notes
+assess >> modify
+## Documentation | Records all patient interactions and progress.
+t file: patient file
+a update: update patient records
+a report: report to referring physician
+update > file
+report > file
+## cross
+assessment.examine > plan.customize
+assessment.diagnose > plan.customize
+treatment.apply > review.assess
+treatment.monitor > review.assess
+plan.schedule > treatment.apply
+documentation.update > review.assess
+review.modify > treatment.apply
