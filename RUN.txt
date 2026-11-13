@@ -1,0 +1,1 @@
+export Qwen/Qwen2.5-3B-Instruct {kernel_sources:[modulariser-train], n_train:10}
