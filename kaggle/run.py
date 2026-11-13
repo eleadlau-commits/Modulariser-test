@@ -76,8 +76,9 @@ def train(base, adapter_dir):
     rows = load_jsonl(f"{WORK}/data/synth_train.jsonl")
     import glob
     for extra in sorted(glob.glob(f"{WORK}/repo/data/*_train.jsonl")):
-        more = load_jsonl(extra)
-        log("extra training file", extra, len(more))
+        rep = CONFIG.get("repeat", {}).get(os.path.basename(extra).split("_")[0], 1)
+        more = load_jsonl(extra) * rep
+        log("extra training file", extra, len(more), f"(x{rep})")
         rows += more
     ds = Dataset.from_list([{"messages": r["messages"]} for r in rows]).shuffle(seed=0)
     tok = AutoTokenizer.from_pretrained(base)
