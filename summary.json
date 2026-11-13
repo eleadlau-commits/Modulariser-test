@@ -1,0 +1,82 @@
+{
+  "Qwen2.5-7B-Instruct-AWQ": {
+    "synth_test": {
+      "n": 60,
+      "code_score": 0.6574,
+      "code_score_cut_items": 0.6431,
+      "status_acc": 0.1167,
+      "first_try_pass": 1.0,
+      "wrapper_refused": 0,
+      "repaired": 56,
+      "secs_per_item": 2.15,
+      "coverage": 0.762,
+      "element_precision": 0.9163,
+      "no_ghosts": 0.9682,
+      "relations_kept": 0.4598,
+      "modularity_rel": 0.275,
+      "change_locality": 0.7768,
+      "agreement": 0.3437,
+      "blur_score": 0.4436,
+      "final_score": 0.5434
+    },
+    "exam": {
+      "n": 60,
+      "code_score": 0.5997,
+      "code_score_cut_items": 0.5873,
+      "status_acc": 0.15,
+      "first_try_pass": 0.9833,
+      "wrapper_refused": 0,
+      "repaired": 58,
+      "secs_per_item": 3.26,
+      "coverage": 0.5943,
+      "element_precision": 0.7247,
+      "no_ghosts": 0.7439,
+      "relations_kept": 0.5245,
+      "modularity_rel": 0.2414,
+      "change_locality": 0.838,
+      "agreement": 0.4443,
+      "blur_score": 0.5827,
+      "final_score": 0.585
+    }
+  },
+  "Qwen2.5-32B-Instruct-AWQ": {
+    "synth_test": {
+      "n": 60,
+      "code_score": 0.7096,
+      "code_score_cut_items": 0.6773,
+      "status_acc": 0.9,
+      "first_try_pass": 0.9667,
+      "wrapper_refused": 0,
+      "repaired": 54,
+      "secs_per_item": 9.27,
+      "coverage": 0.911,
+      "element_precision": 0.9776,
+      "no_ghosts": 0.9943,
+      "relations_kept": 0.2692,
+      "modularity_rel": 0.4472,
+      "change_locality": 0.8045,
+      "agreement": 0.3375,
+      "blur_score": 0.5582,
+      "final_score": 0.6177
+    },
+    "exam": {
+      "n": 60,
+      "code_score": 0.6324,
+      "code_score_cut_items": 0.5919,
+      "status_acc": 0.9833,
+      "first_try_pass": 0.9833,
+      "wrapper_refused": 1,
+      "repaired": 51,
+      "secs_per_item": 3.87,
+      "coverage": 0.798,
+      "element_precision": 0.7228,
+      "no_ghosts": 0.7571,
+      "relations_kept": 0.1769,
+      "modularity_rel": 0.3841,
+      "change_locality": 0.8517,
+      "agreement": 0.4531,
+      "blur_score": 0.6519,
+      "final_score": 0.6219
+    }
+  }
+}
