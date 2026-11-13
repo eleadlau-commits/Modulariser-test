@@ -592,4 +592,7 @@ try:
 except BaseException:
     import traceback
     log("CRASH", traceback.format_exc())
+    if CONFIG["task"] in ("train", "eval", "teacher", "evaladapter", "export", "packs"):
+        # Keep the kernel output small so collecting it stays fast.
+        subprocess.run(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt {WORK}/llama.cpp {WORK}/cv {WORK}/merged {WORK}/*.gguf", shell=True)
     raise
