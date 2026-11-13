@@ -73,7 +73,7 @@ def train(base, adapter_dir):
     from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
     from trl import SFTConfig, SFTTrainer
 
-    rows = load_jsonl(f"{WORK}/data/synth_train.jsonl")
+    rows = [] if CONFIG.get("skip_synth") else load_jsonl(f"{WORK}/data/synth_train.jsonl")
     import glob
     for extra in sorted(glob.glob(f"{WORK}/repo/data/*_train.jsonl")):
         rep = CONFIG.get("repeat", {}).get(os.path.basename(extra).split("_")[0], 1)
@@ -572,6 +572,71 @@ def paraphrase():
     log(f"paraphrase: kept {kept} of {len(rows)}")
 
 
+# ---------------------------------------------------------------- teacher (text-grounded part summaries)
+
+SUM_PROMPT = """Below is a description of a process and a list of parts it was cut into, with the items each part owns.
+For each part write ONE sentence (at most 30 words) saying what happens in it, using only facts from the text: who does it, how, where it is kept or recorded, and when, whenever the text says so. Do not invent details. Reply with a JSON object mapping each part id to its sentence.
+
+TEXT:
+{text}
+
+PARTS:
+{parts}"""
+
+
+def summaries():
+    """Replace the generic pack summaries in training targets with text-grounded ones.
+
+    The blur test needs summaries that keep who/how/where; pack summaries are
+    generic, so the model learned to write generic ones. Writes sum_train.jsonl
+    (synthetic) and para_train.jsonl (rewritten notes) with new summaries."""
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+
+    jobs = [("sum_train.jsonl", load_jsonl(f"{WORK}/data/synth_train.jsonl"))]
+    pp = f"{WORK}/repo/data/para_train.jsonl"
+    if os.path.exists(pp):
+        jobs.append(("para_train.jsonl", load_jsonl(pp)))
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    for name, rows in jobs:
+        prompts, idx = [], []
+        for i, r in enumerate(rows):
+            tg = json.loads(r["messages"][-1]["content"])
+            if tg["status"] == "refuse" or not tg["parts"]:
+                continue
+            el = {e["id"]: e["text"] for e in tg["elements"]}
+            parts = "\n".join(f"{p['id']}: {p['name']} (owns: {'; '.join(el[e] for e in p['owns'])})" for p in tg["parts"])
+            schema = {"type": "object", "additionalProperties": False, "required": [p["id"] for p in tg["parts"]],
+                      "properties": {p["id"]: {"type": "string", "maxLength": 190} for p in tg["parts"]}}
+            try:
+                from vllm.sampling_params import StructuredOutputsParams
+                sp = SamplingParams(temperature=0.2, max_tokens=900, structured_outputs=StructuredOutputsParams(json=schema))
+            except ImportError:
+                from vllm.sampling_params import GuidedDecodingParams
+                sp = SamplingParams(temperature=0.2, max_tokens=900, guided_decoding=GuidedDecodingParams(json=schema))
+            prompts.append(([{"role": "user", "content": SUM_PROMPT.format(text=r["messages"][1]["content"], parts=parts)}], sp))
+            idx.append(i)
+        outs = llm.chat([p for p, _ in prompts], [s for _, s in prompts], use_tqdm=False)
+        changed = 0
+        for i, o in zip(idx, outs):
+            try:
+                new = json.loads(o.outputs[0].text)
+            except Exception:
+                continue
+            tg = json.loads(rows[i]["messages"][-1]["content"])
+            if not all(isinstance(new.get(p["id"]), str) and len(new[p["id"]]) > 10 for p in tg["parts"]):
+                continue
+            for p in tg["parts"]:
+                p["summary"] = " ".join(new[p["id"]].split())
+            rows[i]["messages"][-1]["content"] = json.dumps(tg, ensure_ascii=False, separators=(",", ":"))
+            changed += 1
+        with open(os.path.join(OUT, name), "w") as f:
+            for r in rows:
+                f.write(json.dumps(r) + "\n")
+        log(f"summaries: {name} rewrote {changed} of {len(idx)} cut targets ({len(rows)} rows)")
+
+
 def subrun(task):
     """Run this script again as a fresh process with another task."""
     cfg = dict(CONFIG, task=task)
@@ -587,7 +652,7 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval", "teacher", "evaladapter", "packs", "paraphrase"):
+    if task in ("train", "eval", "teacher", "evaladapter", "packs", "paraphrase", "summaries"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
@@ -618,6 +683,8 @@ def main():
         export()
     elif task == "packs":
         write_packs()
+    elif task == "summaries":
+        summaries()
     elif task == "paraphrase":
         paraphrase()
     else:
