@@ -1,0 +1,217 @@
+[{"stream_name":"stdout","time":0.668102449,"data":"config {\"task\": \"train\", \"ref\": \"706952ec88a7f59da9b7d2c5074560c4408ae3ab\", \"models\": [\"Qwen/Qwen2.5-3B-Instruct\"], \"n_test\": 60, \"epochs\": 1}\n"}
+,{"stream_name":"stdout","time":0.668547249,"data":"$ nvidia-smi\n"}
+,{"stream_name":"stdout","time":1.0813707909999999,"data":"$ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo \u0026\u0026 cd /kaggle/working/repo \u0026\u0026 git checkout -q 706952ec88a7f59da9b7d2c5074560c4408ae3ab\n"}
+,{"stream_name":"stdout","time":1.66581817,"data":"$ pip install -q -e /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":8.876665553,"data":"$ cd /kaggle/working/repo \u0026\u0026 python -m modulariser.data.build --out /kaggle/working/data --n 4000\n"}
+,{"stream_name":"stdout","time":10.352203854,"data":"$ pip install -q 'trl\u003e=0.12,\u003c0.24' 'peft\u003e=0.13' 'bitsandbytes\u003e=0.45' accelerate datasets\n"}
+,{"stream_name":"stdout","time":15.423435826,"data":"$ pip list 2\u003e/dev/null | grep -iE '^(torch|transformers|trl|peft|bitsandbytes|accelerate) '\n"}
+,{"stream_name":"stderr","time":51.566990387,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":52.68778667,"data":"[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n"}
+,{"stream_name":"stderr","time":86.113069106,"data":"\rFetching 2 files:   0%|          | 0/2 [00:00\u003c?, ?it/s]\rFetching 2 files:  50%|█████     | 1/2 [00:20\u003c00:20, 20.75s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:33\u003c00:00, 15.95s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:33\u003c00:00, 16.67s/it]\n"}
+,{"stream_name":"stderr","time":92.589402151,"data":"\rLoading weights:   0%|          | 0/434 [00:00\u003c?, ?it/s]\rLoading weights:   0%|          | 1/434 [00:00\u003c04:14,  1.70it/s]\rLoading weights:   1%|          | 3/434 [00:00\u003c01:35,  4.53it/s]\rLoading weights:   3%|▎         | 13/434 [00:00\u003c00:18, 22.95it/s]\rLoading weights:   4%|▍         | 18/434 [00:01\u003c00:15, 27.19it/s]\rLoading weights:   6%|▋         | 28/434 [00:01\u003c00:09, 43.51it/s]\rLoading weights:   9%|▉         | 40/434 [00:01\u003c00:06, 56.48it/s]\rLoading weights:  12%|█▏        | 52/434 [00:01\u003c00:05, 65.41it/s]\rLoading weights:  15%|█▍        | 63/434 [00:01\u003c00:04, 75.68it/s]\rLoading weights:  17%|█▋        | 72/434 [00:01\u003c00:04, 78.48it/s]\rLoading weights:  19%|█▊        | 81/434 [00:01\u003c00:04, 74.26it/s]\rLoading weights:  21%|██        | 89/434 [00:01\u003c00:04, 69.15it/s]\rLoading weights:  23%|██▎       | 100/434 [00:01\u003c00:04, 78.79it/s]\rLoading weights:  26%|██▌       | 111/434 [00:02\u003c00:03, 85.98it/s]\rLoading weights:  28%|██▊       | 121/434 [00:02\u003c00:03, 89.16it/s]\rLoading weights:  30%|███       | 131/434 [00:02\u003c00:03, 82.21it/s]\rLoading weights:  32%|███▏      | 140/434 [00:02\u003c00:03, 77.31it/s]\rLoading weights:  34%|███▍      | 149/434 [00:02\u003c00:03, 72.76it/s]\rLoading weights:  37%|███▋      | 161/434 [00:02\u003c00:03, 76.74it/s]\rLoading weights:  40%|███▉      | 173/434 [00:02\u003c00:03, 79.30it/s]\rLoading weights:  42%|████▏     | 184/434 [00:02\u003c00:02, 86.65it/s]\rLoading weights:  45%|████▍     | 195/434 [00:03\u003c00:02, 92.00it/s]\rLoading weights:  47%|████▋     | 205/434 [00:03\u003c00:02, 93.71it/s]\rLoading weights:  50%|████▉     | 215/434 [00:03\u003c00:02, 85.64it/s]\rLoading weights:  52%|█████▏    | 224/434 [00:03\u003c00:02, 80.23it/s]\rLoading weights:  54%|█████▎    | 233/434 [00:03\u003c00:02, 74.32it/s]\rLoading weights:  56%|█████▋    | 245/434 [00:03\u003c00:02, 77.63it/s]\rLoading weights:  59%|█████▉    | 257/434 [00:03\u003c00:02, 79.79it/s]\rLoading weights:  62%|██████▏   | 269/434 [00:04\u003c00:02, 81.31it/s]\rLoading weights:  65%|██████▍   | 280/434 [00:04\u003c00:01, 87.60it/s]\rLoading weights:  67%|██████▋   | 291/434 [00:04\u003c00:01, 91.53it/s]\rLoading weights:  69%|██████▉   | 301/434 [00:04\u003c00:01, 93.21it/s]\rLoading weights:  72%|███████▏  | 311/434 [00:04\u003c00:01, 85.09it/s]\rLoading weights:  74%|███████▎  | 320/434 [00:04\u003c00:01, 79.29it/s]\rLoading weights:  76%|███████▌  | 329/434 [00:04\u003c00:01, 70.90it/s]\rLoading weights:  79%|███████▊  | 341/434 [00:04\u003c00:01, 75.08it/s]\rLoading weights:  81%|████████▏ | 353/434 [00:05\u003c00:01, 78.07it/s]\rLoading weights:  84%|████████▍ | 365/434 [00:05\u003c00:00, 79.95it/s]\rLoading weights:  87%|████████▋ | 376/434 [00:05\u003c00:00, 86.87it/s]\rLoading weights:  89%|████████▉ | 387/434 [00:05\u003c00:00, 92.56it/s]\rLoading weights:  91%|█████████▏| 397/434 [00:05\u003c00:00, 94.10it/s]\rLoading weights:  94%|█████████▍| 407/434 [00:05\u003c00:00, 86.27it/s]\rLoading weights:  96%|█████████▌| 416/434 [00:05\u003c00:00, 80.37it/s]\rLoading weights:  98%|█████████▊| 425/434 [00:05\u003c00:00, 74.88it/s]\rLoading weights: 100%|██████████| 434/434 [00:05\u003c00:00, 73.16it/s]\n"}
+,{"stream_name":"stderr","time":103.075399999,"data":"\rTokenizing train dataset:   0%|          | 0/4000 [00:00\u003c?, ? examples/s]\rTokenizing train dataset:   1%|          | 48/4000 [00:00\u003c00:08, 459.96 examples/s]\rTokenizing train dataset:   3%|▎         | 110/4000 [00:00\u003c00:07, 550.57 examples/s]\rTokenizing train dataset:   4%|▍         | 171/4000 [00:00\u003c00:06, 569.98 examples/s]\rTokenizing train dataset:   6%|▋         | 259/4000 [00:00\u003c00:06, 574.40 examples/s]\rTokenizing train dataset:   8%|▊         | 321/4000 [00:00\u003c00:06, 586.17 examples/s]\rTokenizing train dataset:  10%|▉         | 384/4000 [00:00\u003c00:06, 594.41 examples/s]\rTokenizing train dataset:  11%|█         | 445/4000 [00:00\u003c00:05, 594.39 examples/s]\rTokenizing train dataset:  13%|█▎        | 506/4000 [00:00\u003c00:05, 597.25 examples/s]\rTokenizing train dataset:  14%|█▍        | 570/4000 [00:00\u003c00:05, 608.38 examples/s]\rTokenizing train dataset:  17%|█▋        | 662/4000 [00:01\u003c00:05, 605.90 examples/s]\rTokenizing train dataset:  18%|█▊        | 725/4000 [00:01\u003c00:05, 609.65 examples/s]\rTokenizing train dataset:  20%|██        | 817/4000 [00:01\u003c00:05, 607.83 examples/s]\rTokenizing train dataset:  22%|██▏       | 879/4000 [00:01\u003c00:05, 609.61 examples/s]\rTokenizing train dataset:  24%|██▎       | 942/4000 [00:01\u003c00:05, 611.35 examples/s]\rTokenizing train dataset:  26%|██▌       | 1028/4000 [00:01\u003c00:07, 418.35 examples/s]\rTokenizing train dataset:  27%|██▋       | 1090/4000 [00:02\u003c00:06, 456.21 examples/s]\rTokenizing train dataset:  29%|██▉       | 1153/4000 [00:02\u003c00:05, 491.33 examples/s]\rTokenizing train dataset:  30%|███       | 1211/4000 [00:02\u003c00:05, 511.70 examples/s]\rTokenizing train dataset:  32%|███▏      | 1270/4000 [00:02\u003c00:05, 529.14 examples/s]\rTokenizing train dataset:  34%|███▍      | 1358/4000 [00:02\u003c00:04, 545.17 examples/s]\rTokenizing train dataset:  35%|███▌      | 1416/4000 [00:02\u003c00:04, 551.33 examples/s]\rTokenizing train dataset:  37%|███▋      | 1476/4000 [00:02\u003c00:04, 558.71 examples/s]\rTokenizing train dataset:  38%|███▊      | 1536/4000 [00:02\u003c00:04, 568.35 examples/s]\rTokenizing train dataset:  40%|███▉      | 1597/4000 [00:02\u003c00:04, 576.78 examples/s]\rTokenizing train dataset:  41%|████▏     | 1657/4000 [00:02\u003c00:04, 579.39 examples/s]\rTokenizing train dataset:  43%|████▎     | 1716/4000 [00:03\u003c00:03, 581.19 examples/s]\rTokenizing train dataset:  44%|████▍     | 1778/4000 [00:03\u003c00:03, 587.65 examples/s]\rTokenizing train dataset:  46%|████▌     | 1841/4000 [00:03\u003c00:03, 595.09 examples/s]\rTokenizing train dataset:  48%|████▊     | 1929/4000 [00:03\u003c00:03, 587.41 examples/s]\rTokenizing train dataset:  50%|████▉     | 1991/4000 [00:03\u003c00:03, 593.14 examples/s]\rTokenizing train dataset:  51%|█████▏    | 2059/4000 [00:03\u003c00:03, 487.35 examples/s]\rTokenizing train dataset:  53%|█████▎    | 2122/4000 [00:03\u003c00:03, 518.56 examples/s]\rTokenizing train dataset:  55%|█████▍    | 2185/4000 [00:03\u003c00:03, 541.84 examples/s]\rTokenizing train dataset:  56%|█████▌    | 2247/4000 [00:04\u003c00:03, 559.23 examples/s]\rTokenizing train dataset:  58%|█████▊    | 2308/4000 [00:04\u003c00:02, 569.96 examples/s]\rTokenizing train dataset:  59%|█████▉    | 2369/4000 [00:04\u003c00:02, 578.87 examples/s]\rTokenizing train dataset:  61%|██████    | 2429/4000 [00:04\u003c00:02, 582.28 examples/s]\rTokenizing train dataset:  62%|██████▏   | 2489/4000 [00:04\u003c00:02, 586.05 examples/s]\rTokenizing train dataset:  64%|██████▍   | 2578/4000 [00:04\u003c00:02, 584.55 examples/s]\rTokenizing train dataset:  66%|██████▌   | 2638/4000 [00:04\u003c00:02, 585.95 examples/s]\rTokenizing train dataset:  68%|██████▊   | 2700/4000 [00:04\u003c00:02, 591.50 examples/s]\rTokenizing train dataset:  69%|██████▉   | 2760/4000 [00:04\u003c00:02, 589.44 examples/s]\rTokenizing train dataset:  71%|███████   | 2821/4000 [00:05\u003c00:01, 590.64 examples/s]\rTokenizing train dataset:  73%|███████▎  | 2906/4000 [00:05\u003c00:01, 577.52 examples/s]\rTokenizing train dataset:  74%|███████▍  | 2965/4000 [00:05\u003c00:01, 577.79 examples/s]\rTokenizing train dataset:  76%|███████▌  | 3025/4000 [00:05\u003c00:02, 477.22 examples/s]\rTokenizing train dataset:  78%|███████▊  | 3100/4000 [00:05\u003c00:01, 481.60 examples/s]\rTokenizing train dataset:  79%|███████▉  | 3160/4000 [00:05\u003c00:01, 506.57 examples/s]\rTokenizing train dataset:  80%|████████  | 3219/4000 [00:05\u003c00:01, 526.43 examples/s]\rTokenizing train dataset:  82%|████████▏ | 3280/4000 [00:05\u003c00:01, 545.65 examples/s]\rTokenizing train dataset:  83%|████████▎ | 3337/4000 [00:06\u003c00:01, 550.05 examples/s]\rTokenizing train dataset:  85%|████████▍ | 3395/4000 [00:06\u003c00:01, 554.07 examples/s]\rTokenizing train dataset:  86%|████████▋ | 3453/4000 [00:06\u003c00:00, 555.78 examples/s]\rTokenizing train dataset:  88%|████████▊ | 3514/4000 [00:06\u003c00:00, 568.40 examples/s]\rTokenizing train dataset:  90%|████████▉ | 3596/4000 [00:06\u003c00:00, 554.12 examples/s]\rTokenizing train dataset:  92%|█████████▏| 3679/4000 [00:06\u003c00:00, 549.63 examples/s]\rTokenizing train dataset:  93%|█████████▎| 3739/4000 [00:06\u003c00:00, 560.24 examples/s]\rTokenizing train dataset:  95%|█████████▍| 3798/4000 [00:06\u003c00:00, 565.35 examples/s]\rTokenizing train dataset:  96%|█████████▋| 3856/4000 [00:06\u003c00:00, 566.14 examples/s]\rTokenizing train dataset:  98%|█████████▊| 3914/4000 [00:07\u003c00:00, 566.48 examples/s]\rTokenizing train dataset:  99%|█████████▉| 3976/4000 [00:07\u003c00:00, 579.07 examples/s]\rTokenizing train dataset: 100%|██████████| 4000/4000 [00:07\u003c00:00, 551.64 examples/s]\n"}
+,{"stream_name":"stderr","time":103.120784313,"data":"\rTruncating train dataset:   0%|          | 0/4000 [00:00\u003c?, ? examples/s]\rTruncating train dataset: 100%|██████████| 4000/4000 [00:00\u003c00:00, 95405.32 examples/s]\n"}
+,{"stream_name":"stderr","time":103.139944722,"data":"[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'pad_token_id': 151643}.\n"}
+,{"stream_name":"stderr","time":103.903583494,"data":"\r  0%|          | 0/125 [00:00\u003c?, ?it/s]/usr/local/lib/python3.13/dist-packages/torch/_dynamo/eval_frame.py:1263: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. Starting in PyTorch 2.9, calling checkpoint without use_reentrant will raise an exception. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.\n"}
+,{"stream_name":"stderr","time":103.903620386,"data":"  return fn(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043268963,"data":"CRASH Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":109.0433041,"data":"  File \"/kaggle/src/script.py\", line 481, in \u003cmodule\u003e\n"}
+,{"stream_name":"stdout","time":109.04331179,"data":"    main()\n"}
+,{"stream_name":"stdout","time":109.04331597,"data":"    ~~~~^^\n"}
+,{"stream_name":"stdout","time":109.043319762,"data":"  File \"/kaggle/src/script.py\", line 453, in main\n"}
+,{"stream_name":"stdout","time":109.04332374,"data":"    train(base, adapter)\n"}
+,{"stream_name":"stdout","time":109.043327386,"data":"    ~~~~~^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043331146,"data":"  File \"/kaggle/src/script.py\", line 105, in train\n"}
+,{"stream_name":"stdout","time":109.043334933,"data":"    trainer.train()\n"}
+,{"stream_name":"stdout","time":109.043338861,"data":"    ~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":109.043342465,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1559, in train\n"}
+,{"stream_name":"stdout","time":109.043346248,"data":"    return inner_training_loop(\n"}
+,{"stream_name":"stdout","time":109.043350258,"data":"        args=args,\n"}
+,{"stream_name":"stdout","time":109.043354157,"data":"    ...\u003c2 lines\u003e...\n"}
+,{"stream_name":"stdout","time":109.043358631,"data":"        ignore_keys_for_eval=ignore_keys_for_eval,\n"}
+,{"stream_name":"stdout","time":109.043362852,"data":"    )\n"}
+,{"stream_name":"stdout","time":109.043366792,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1643, in _inner_training_loop\n"}
+,{"stream_name":"stdout","time":109.043371422,"data":"    self._run_epoch(\n"}
+,{"stream_name":"stdout","time":109.043375158,"data":"    ~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":109.043379156,"data":"        model=model,\n"}
+,{"stream_name":"stdout","time":109.043382656,"data":"        ^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.04338679,"data":"    ...\u003c9 lines\u003e...\n"}
+,{"stream_name":"stdout","time":109.043390958,"data":"        steps_trained_in_current_epoch=steps_trained_in_current_epoch,\n"}
+,{"stream_name":"stdout","time":109.043394711,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043398592,"data":"    )\n"}
+,{"stream_name":"stdout","time":109.043401986,"data":"    ^\n"}
+,{"stream_name":"stdout","time":109.043405317,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1889, in _run_epoch\n"}
+,{"stream_name":"stdout","time":109.043420452,"data":"    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)\n"}
+,{"stream_name":"stdout","time":109.043426171,"data":"  File \"/usr/local/lib/python3.13/dist-packages/trl/trainer/sft_trainer.py\", line 1178, in training_step\n"}
+,{"stream_name":"stdout","time":109.043434393,"data":"    return super().training_step(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043437869,"data":"           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043440618,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 2062, in training_step\n"}
+,{"stream_name":"stdout","time":109.043443169,"data":"    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)\n"}
+,{"stream_name":"stdout","time":109.04344562,"data":"  File \"/usr/local/lib/python3.13/dist-packages/trl/trainer/sft_trainer.py\", line 1096, in compute_loss\n"}
+,{"stream_name":"stdout","time":109.043448161,"data":"    (loss, outputs) = super().compute_loss(\n"}
+,{"stream_name":"stdout","time":109.04345064,"data":"                      ~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":109.04345344,"data":"        model, inputs, return_outputs=True, num_items_in_batch=num_items_in_batch\n"}
+,{"stream_name":"stdout","time":109.043457288,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043461202,"data":"    )\n"}
+,{"stream_name":"stdout","time":109.043481838,"data":"    ^\n"}
+,{"stream_name":"stdout","time":109.043485936,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 2144, in compute_loss\n"}
+,{"stream_name":"stdout","time":109.043490048,"data":"    outputs = model(**inputs)\n"}
+,{"stream_name":"stdout","time":109.043496174,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stdout","time":109.043500641,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.04350437,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043508354,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stdout","time":109.043512538,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043516188,"data":"  File \"/usr/local/lib/python3.13/dist-packages/accelerate/utils/operations.py\", line 943, in forward\n"}
+,{"stream_name":"stdout","time":109.043520203,"data":"    return model_forward(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043524077,"data":"  File \"/usr/local/lib/python3.13/dist-packages/accelerate/utils/operations.py\", line 931, in __call__\n"}
+,{"stream_name":"stdout","time":109.04352805,"data":"    return convert_to_fp32(self.model_forward(*args, **kwargs))\n"}
+,{"stream_name":"stdout","time":109.043532205,"data":"                           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043535955,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/amp/autocast_mode.py\", line 44, in decorate_autocast\n"}
+,{"stream_name":"stdout","time":109.043540011,"data":"    return func(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043544119,"data":"  File \"/usr/local/lib/python3.13/dist-packages/peft/peft_model.py\", line 2120, in forward\n"}
+,{"stream_name":"stdout","time":109.043548286,"data":"    return self.base_model(\n"}
+,{"stream_name":"stdout","time":109.043551858,"data":"           ~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":109.043560414,"data":"        input_ids=input_ids,\n"}
+,{"stream_name":"stdout","time":109.043564267,"data":"        ^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043567517,"data":"    ...\u003c6 lines\u003e...\n"}
+,{"stream_name":"stdout","time":109.043571696,"data":"        **kwargs,\n"}
+,{"stream_name":"stdout","time":109.043575671,"data":"        ^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.04357909,"data":"    )\n"}
+,{"stream_name":"stdout","time":109.043583418,"data":"    ^\n"}
+,{"stream_name":"stdout","time":109.043587043,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stdout","time":109.043591169,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043595361,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043599324,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stdout","time":109.043604486,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.04360877,"data":"  File \"/usr/local/lib/python3.13/dist-packages/peft/tuners/tuners_utils.py\", line 359, in forward\n"}
+,{"stream_name":"stdout","time":109.043613728,"data":"    return self.model(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043617528,"data":"           ~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043621258,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stdout","time":109.043625268,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043629144,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043633126,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stdout","time":109.043637134,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043646529,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/utils/generic.py\", line 943, in wrapper\n"}
+,{"stream_name":"stdout","time":109.043650756,"data":"    output = func(self, *args, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.04365639,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/models/qwen2/modeling_qwen2.py\", line 461, in forward\n"}
+,{"stream_name":"stdout","time":109.043661027,"data":"    loss = self.loss_function(logits=logits, labels=labels, vocab_size=self.config.vocab_size, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043665453,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/loss/loss_utils.py\", line 70, in ForCausalLMLoss\n"}
+,{"stream_name":"stdout","time":109.043670132,"data":"    loss = fixed_cross_entropy(logits, shift_labels, num_items_in_batch, ignore_index, **kwargs)\n"}
+,{"stream_name":"stdout","time":109.043673928,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/loss/loss_utils.py\", line 40, in fixed_cross_entropy\n"}
+,{"stream_name":"stdout","time":109.043677655,"data":"    loss = nn.functional.cross_entropy(source, target, ignore_index=ignore_index, reduction=reduction)\n"}
+,{"stream_name":"stdout","time":109.043681309,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/functional.py\", line 3504, in cross_entropy\n"}
+,{"stream_name":"stdout","time":109.043685104,"data":"    return torch._C._nn.cross_entropy_loss(\n"}
+,{"stream_name":"stdout","time":109.043692623,"data":"           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":109.043696134,"data":"        input,\n"}
+,{"stream_name":"stdout","time":109.043699504,"data":"        ^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043702833,"data":"    ...\u003c5 lines\u003e...\n"}
+,{"stream_name":"stdout","time":109.04370637,"data":"        label_smoothing,\n"}
+,{"stream_name":"stdout","time":109.043709698,"data":"        ^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":109.043713123,"data":"    )\n"}
+,{"stream_name":"stdout","time":109.043716412,"data":"    ^\n"}
+,{"stream_name":"stdout","time":109.043721404,"data":"torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.22 GiB. GPU 0 has a total capacity of 14.56 GiB of which 2.03 GiB is free. Including non-PyTorch memory, this process has 12.53 GiB memory in use. Of the allocated memory 11.93 GiB is allocated by PyTorch, and 485.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n"}
+,{"stream_name":"stdout","time":109.043735116,"data":"\n"}
+,{"stream_name":"stderr","time":109.045173487,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":109.048284125,"data":"  File \"/kaggle/src/script.py\", line 481, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":109.048304741,"data":"    main()\n"}
+,{"stream_name":"stderr","time":109.048308268,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":109.048310603,"data":"  File \"/kaggle/src/script.py\", line 453, in main\n"}
+,{"stream_name":"stderr","time":109.04831302,"data":"    train(base, adapter)\n"}
+,{"stream_name":"stderr","time":109.04831533,"data":"    ~~~~~^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048324257,"data":"  File \"/kaggle/src/script.py\", line 105, in train\n"}
+,{"stream_name":"stderr","time":109.048342593,"data":"    trainer.train()\n"}
+,{"stream_name":"stderr","time":109.048346619,"data":"    ~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":109.048564202,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1559, in train\n"}
+,{"stream_name":"stderr","time":109.048578028,"data":"    return inner_training_loop(\n"}
+,{"stream_name":"stderr","time":109.048581912,"data":"        args=args,\n"}
+,{"stream_name":"stderr","time":109.04858565,"data":"    ...\u003c2 lines\u003e...\n"}
+,{"stream_name":"stderr","time":109.048589797,"data":"        ignore_keys_for_eval=ignore_keys_for_eval,\n"}
+,{"stream_name":"stderr","time":109.04859356,"data":"    )\n"}
+,{"stream_name":"stderr","time":109.04859704,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1643, in _inner_training_loop\n"}
+,{"stream_name":"stderr","time":109.048600894,"data":"    self._run_epoch(\n"}
+,{"stream_name":"stderr","time":109.048604256,"data":"    ~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stderr","time":109.048607657,"data":"        model=model,\n"}
+,{"stream_name":"stderr","time":109.048611022,"data":"        ^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048614437,"data":"    ...\u003c9 lines\u003e...\n"}
+,{"stream_name":"stderr","time":109.048618005,"data":"        steps_trained_in_current_epoch=steps_trained_in_current_epoch,\n"}
+,{"stream_name":"stderr","time":109.04862171,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048625404,"data":"    )\n"}
+,{"stream_name":"stderr","time":109.048640394,"data":"    ^\n"}
+,{"stream_name":"stderr","time":109.048644194,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 1889, in _run_epoch\n"}
+,{"stream_name":"stderr","time":109.048647999,"data":"    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)\n"}
+,{"stream_name":"stderr","time":109.048651714,"data":"  File \"/usr/local/lib/python3.13/dist-packages/trl/trainer/sft_trainer.py\", line 1178, in training_step\n"}
+,{"stream_name":"stderr","time":109.048655722,"data":"    return super().training_step(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.048659317,"data":"           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048668705,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 2062, in training_step\n"}
+,{"stream_name":"stderr","time":109.048672977,"data":"    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)\n"}
+,{"stream_name":"stderr","time":109.048676904,"data":"  File \"/usr/local/lib/python3.13/dist-packages/trl/trainer/sft_trainer.py\", line 1096, in compute_loss\n"}
+,{"stream_name":"stderr","time":109.04868067,"data":"    (loss, outputs) = super().compute_loss(\n"}
+,{"stream_name":"stderr","time":109.048684503,"data":"                      ~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stderr","time":109.048687977,"data":"        model, inputs, return_outputs=True, num_items_in_batch=num_items_in_batch\n"}
+,{"stream_name":"stderr","time":109.048691657,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048695369,"data":"    )\n"}
+,{"stream_name":"stderr","time":109.048698665,"data":"    ^\n"}
+,{"stream_name":"stderr","time":109.048703031,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/trainer.py\", line 2144, in compute_loss\n"}
+,{"stream_name":"stderr","time":109.048707044,"data":"    outputs = model(**inputs)\n"}
+,{"stream_name":"stderr","time":109.048713633,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stderr","time":109.048717728,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.04872148,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048769796,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stderr","time":109.048775304,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.048805759,"data":"  File \"/usr/local/lib/python3.13/dist-packages/accelerate/utils/operations.py\", line 943, in forward\n"}
+,{"stream_name":"stderr","time":109.048815349,"data":"    return model_forward(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.048857789,"data":"  File \"/usr/local/lib/python3.13/dist-packages/accelerate/utils/operations.py\", line 931, in __call__\n"}
+,{"stream_name":"stderr","time":109.048865145,"data":"    return convert_to_fp32(self.model_forward(*args, **kwargs))\n"}
+,{"stream_name":"stderr","time":109.048869352,"data":"                           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.04891109,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/amp/autocast_mode.py\", line 44, in decorate_autocast\n"}
+,{"stream_name":"stderr","time":109.048917161,"data":"    return func(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.048948196,"data":"  File \"/usr/local/lib/python3.13/dist-packages/peft/peft_model.py\", line 2120, in forward\n"}
+,{"stream_name":"stderr","time":109.04898038,"data":"    return self.base_model(\n"}
+,{"stream_name":"stderr","time":109.048984679,"data":"           ~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stderr","time":109.048987919,"data":"        input_ids=input_ids,\n"}
+,{"stream_name":"stderr","time":109.04899106,"data":"        ^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.048994262,"data":"    ...\u003c6 lines\u003e...\n"}
+,{"stream_name":"stderr","time":109.048997661,"data":"        **kwargs,\n"}
+,{"stream_name":"stderr","time":109.049000842,"data":"        ^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.04900404,"data":"    )\n"}
+,{"stream_name":"stderr","time":109.049007168,"data":"    ^\n"}
+,{"stream_name":"stderr","time":109.049047502,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stderr","time":109.049054164,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049058251,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.049113922,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stderr","time":109.049123129,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.04916003,"data":"  File \"/usr/local/lib/python3.13/dist-packages/peft/tuners/tuners_utils.py\", line 359, in forward\n"}
+,{"stream_name":"stderr","time":109.049170054,"data":"    return self.model(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049174103,"data":"           ~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.049219746,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stderr","time":109.049226137,"data":"    return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049229632,"data":"           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.049232822,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stderr","time":109.049236349,"data":"    return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049296062,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/utils/generic.py\", line 943, in wrapper\n"}
+,{"stream_name":"stderr","time":109.049303074,"data":"    output = func(self, *args, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049350849,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/models/qwen2/modeling_qwen2.py\", line 461, in forward\n"}
+,{"stream_name":"stderr","time":109.049356998,"data":"    loss = self.loss_function(logits=logits, labels=labels, vocab_size=self.config.vocab_size, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.04947287,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/loss/loss_utils.py\", line 70, in ForCausalLMLoss\n"}
+,{"stream_name":"stderr","time":109.049480924,"data":"    loss = fixed_cross_entropy(logits, shift_labels, num_items_in_batch, ignore_index, **kwargs)\n"}
+,{"stream_name":"stderr","time":109.049484597,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/loss/loss_utils.py\", line 40, in fixed_cross_entropy\n"}
+,{"stream_name":"stderr","time":109.049488094,"data":"    loss = nn.functional.cross_entropy(source, target, ignore_index=ignore_index, reduction=reduction)\n"}
+,{"stream_name":"stderr","time":109.049557555,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/nn/functional.py\", line 3504, in cross_entropy\n"}
+,{"stream_name":"stderr","time":109.049570948,"data":"    return torch._C._nn.cross_entropy_loss(\n"}
+,{"stream_name":"stderr","time":109.049574594,"data":"           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stderr","time":109.0495783,"data":"        input,\n"}
+,{"stream_name":"stderr","time":109.049581792,"data":"        ^^^^^^\n"}
+,{"stream_name":"stderr","time":109.049585453,"data":"    ...\u003c5 lines\u003e...\n"}
+,{"stream_name":"stderr","time":109.049589514,"data":"        label_smoothing,\n"}
+,{"stream_name":"stderr","time":109.049593036,"data":"        ^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":109.049596754,"data":"    )\n"}
+,{"stream_name":"stderr","time":109.049599965,"data":"    ^\n"}
+,{"stream_name":"stderr","time":109.049605699,"data":"torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.22 GiB. GPU 0 has a total capacity of 14.56 GiB of which 2.03 GiB is free. Including non-PyTorch memory, this process has 12.53 GiB memory in use. Of the allocated memory 11.93 GiB is allocated by PyTorch, and 485.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n"}
+,{"stream_name":"stderr","time":109.557064319,"data":"\r  0%|          | 0/125 [00:05\u003c?, ?it/s]\n"}
+,{"stream_name":"stderr","time":115.031137795,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":115.031169045,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":115.241621531,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":115.24164893,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":116.015636088,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":117.026537443,"data":"[NbConvertApp] Writing 393824 bytes to __results__.html\n"}
+]
