@@ -281,6 +281,117 @@ def judge():
     json.dump(summary, open(os.path.join(OUT, "summary.json"), "w"), indent=2)
 
 
+# ---------------------------------------------------------------- teacher (real data)
+
+TEACHER_MODEL = "Qwen/Qwen2.5-32B-Instruct-AWQ"
+MESSY_PROMPT = """Below is official guidance describing a process. Rewrite it as the messy, informal notes a staff member might jot down for a new colleague: out of order in places, chatty, with some abbreviations, maybe a side remark. Keep every activity, document, system and dependency that matters. Do not add new steps. Output only the notes.
+
+GUIDANCE:
+{text}"""
+
+
+def fetch_govuk(n):
+    """Process-like GOV.UK guides (Open Government Licence v3)."""
+    import html
+    import re
+    import urllib.request
+
+    def get(url):
+        req = urllib.request.Request(url, headers={"User-Agent": "modulariser-research"})
+        return json.load(urllib.request.urlopen(req, timeout=30))
+
+    links, start = [], 0
+    while len(links) < n * 2 and start < 4000:
+        res = get(f"https://www.gov.uk/api/search.json?filter_format=guide&count=500&start={start}&fields=link,title")
+        if not res.get("results"):
+            break
+        links += [r["link"] for r in res["results"]]
+        start += 500
+    docs = []
+    for link in links:
+        if len(docs) >= n:
+            break
+        try:
+            c = get("https://www.gov.uk/api/content" + link)
+        except Exception:
+            continue
+        parts = c.get("details", {}).get("parts") or []
+        body = " ".join(p.get("body", "") for p in parts) or c.get("details", {}).get("body", "")
+        text = html.unescape(re.sub(r"<[^>]+>", " ", body))
+        text = re.sub(r"\s+", " ", text).strip()
+        if 800 <= len(text):
+            docs.append({"url": "https://www.gov.uk" + link, "title": c.get("title", ""), "text": text[:3500]})
+    log("fetched", len(docs), "gov.uk guides")
+    return docs
+
+
+def teacher():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.check import CUT_SCHEMA, _pair_f1, hard_checks
+    from modulariser.align import align
+    from modulariser.prompt import messages
+
+    docs = fetch_govuk(CONFIG.get("n_docs", 1200))
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=6144,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    plain = SamplingParams(temperature=0.8, max_tokens=1200)
+
+    def guided(temp):
+        try:
+            from vllm.sampling_params import StructuredOutputsParams
+            return SamplingParams(temperature=temp, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
+        except ImportError:
+            from vllm.sampling_params import GuidedDecodingParams
+            return SamplingParams(temperature=temp, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+
+    out_path = os.path.join(OUT, "real_train.jsonl")
+    kept = 0
+    deadline = time.time() + CONFIG.get("hours", 7) * 3600
+    for i in range(0, len(docs), 100):
+        if time.time() > deadline:
+            log("time budget reached")
+            break
+        batch = docs[i:i + 100]
+        messy = [o.outputs[0].text.strip() for o in llm.chat(
+            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d in batch], plain, use_tqdm=False)]
+        # The cut is made from the clean guidance (more reliable), twice, and kept only if both agree.
+        convs = [messages(d["text"]) for d in batch]
+        a = llm.chat(convs, guided(0.0), use_tqdm=False)
+        b = llm.chat(convs, guided(0.7), use_tqdm=False)
+        with open(out_path, "a") as f:
+            for d, m, oa, ob in zip(batch, messy, a, b):
+                try:
+                    ca, cb = json.loads(oa.outputs[0].text), json.loads(ob.outputs[0].text)
+                except Exception:
+                    continue
+                if hard_checks(ca) or hard_checks(cb) or ca["status"] != cb["status"]:
+                    continue
+                if ca["status"] == "ok":
+                    if not (2 <= len(ca["parts"]) <= 9 and 5 <= len(ca["elements"]) <= 40 and ca["links"]):
+                        continue
+                    g = [{"id": e["id"].replace("e", "g"), "text": e["text"]} for e in ca["elements"]]
+                    m_ = align(cb["elements"], g)
+                    pa = {e.replace("e", "g"): p["id"] for p in ca["parts"] for e in p["owns"]}
+                    pb = {e: p["id"] for p in cb["parts"] for e in p["owns"]}
+                    common = [gid for gid, eid in m_.items() if gid in pa and eid in pb]
+                    if len(common) < 0.7 * len(g):
+                        continue
+                    agree = _pair_f1({k: pa[k] for k in common}, {k: pb[m_[k]] for k in common}, common)
+                    if agree < CONFIG.get("min_agree", 0.5):
+                        continue
+                    # The messy rewrite must still mention most elements.
+                    low = m.lower()
+                    hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in ca["elements"])
+                    if hits < 0.8 * len(ca["elements"]):
+                        continue
+                item_id = f"govuk-{i + batch.index(d):05d}"
+                f.write(json.dumps({"id": item_id, "source": {"kind": "real", "origin": d["url"], "licence": "OGL-UK-3.0"},
+                                    "domain": "govuk:" + d["title"][:60], "messages": messages(m, ca)}) + "\n")
+                kept += 1
+        log(f"teacher: {i + len(batch)} docs seen, {kept} kept")
+
+
 def subrun(task):
     """Run this script again as a fresh process with another task."""
     cfg = dict(CONFIG, task=task)
@@ -296,7 +407,7 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval"):
+    if task in ("train", "eval", "teacher"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
@@ -313,6 +424,8 @@ def main():
         evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1]}])
     elif task == "judge":
         judge()
+    elif task == "teacher":
+        teacher()
     else:
         for m in CONFIG["models"]:
             subrun_cfg = dict(CONFIG, one=m)
@@ -321,7 +434,7 @@ def main():
     if task in ("train", "eval") and CONFIG.get("judge", True):
         subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
-    if task in ("train", "eval"):
+    if task in ("train", "eval", "teacher"):
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
