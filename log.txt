@@ -1,0 +1,47 @@
+06:11:09 config {"task": "teacher", "ref": "c7b663f9fa39474709c862a56351d02e40bacc3a", "models": ["Qwen/Qwen2.5-32B-Instruct-AWQ"], "n_docs": 1200, "hours": 4.3, "n_train": 10, "source": "github"}
+06:11:09 $ nvidia-smi
+Fri Nov 13 06:11:09 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   45C    P8              9W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   46C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+06:11:09 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q c7b663f9fa39474709c862a56351d02e40bacc3a
+06:11:10 $ pip install -q -e /kaggle/working/repo
+06:11:18 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 10
+train 10, val 0, test 200 (206 train domains, 6 test domains)
+06:11:18 $ pip install -q vllm
+06:16:58 search failed go HTTP Error 403: rate limit exceeded
+06:19:46 repos 2160
+06:47:20 fetched 1028 github process docs
+07:09:26 teacher: 100 docs seen {'refuse:out_of_domain': 28, 'repaired': 62, 'size': 28, 'hard': 5, 'json': 1, 'kept': 37, 'mess_lost': 1}
+07:28:18 teacher: 200 docs seen {'refuse:out_of_domain': 52, 'repaired': 130, 'size': 62, 'hard': 8, 'json': 4, 'kept': 69, 'mess_lost': 4, 'refuse:sequential': 1}
+07:46:33 teacher: 300 docs seen {'refuse:out_of_domain': 82, 'repaired': 188, 'size': 92, 'hard': 12, 'json': 6, 'kept': 102, 'mess_lost': 4, 'refuse:sequential': 2}
+08:03:21 teacher: 400 docs seen {'refuse:out_of_domain': 105, 'repaired': 255, 'size': 125, 'hard': 18, 'json': 7, 'kept': 137, 'mess_lost': 5, 'refuse:sequential': 3}
+08:22:16 teacher: 500 docs seen {'refuse:out_of_domain': 125, 'repaired': 326, 'size': 157, 'hard': 23, 'json': 8, 'kept': 177, 'mess_lost': 6, 'refuse:sequential': 4}
+08:35:59 teacher: 600 docs seen {'refuse:out_of_domain': 158, 'repaired': 384, 'size': 189, 'hard': 29, 'json': 9, 'kept': 204, 'mess_lost': 7, 'refuse:sequential': 4}
+08:52:25 teacher: 700 docs seen {'refuse:out_of_domain': 179, 'repaired': 457, 'size': 223, 'hard': 33, 'json': 10, 'kept': 240, 'mess_lost': 10, 'refuse:sequential': 5}
+09:07:22 teacher: 800 docs seen {'refuse:out_of_domain': 194, 'repaired': 527, 'size': 264, 'hard': 40, 'json': 11, 'kept': 271, 'mess_lost': 11, 'refuse:sequential': 9}
+09:22:41 teacher: 900 docs seen {'refuse:out_of_domain': 220, 'repaired': 584, 'size': 287, 'hard': 42, 'json': 11, 'kept': 319, 'mess_lost': 12, 'refuse:sequential': 9}
+09:37:34 teacher: 1000 docs seen {'refuse:out_of_domain': 246, 'repaired': 649, 'size': 317, 'hard': 44, 'json': 12, 'kept': 357, 'mess_lost': 15, 'refuse:sequential': 9}
+09:43:35 teacher: 1028 docs seen {'refuse:out_of_domain': 253, 'repaired': 670, 'size': 327, 'hard': 44, 'json': 12, 'kept': 368, 'mess_lost': 15, 'refuse:sequential': 9}
+09:43:38 all done in 212.5 min
+09:43:38 $ rm -rf /kaggle/working/repo /kaggle/working/data /kaggle/working/ckpt
