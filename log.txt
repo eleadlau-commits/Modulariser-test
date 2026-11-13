@@ -1,0 +1,57 @@
+07:39:20 config {"task": "export", "ref": "5a86a18a55b40074cccb3f63f28cae7c1ca2fb1e", "models": ["Qwen/Qwen2.5-3B-Instruct"], "kernel_sources": ["modulariser-train"], "n_train": 10}
+07:39:20 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q 5a86a18a55b40074cccb3f63f28cae7c1ca2fb1e
+07:39:21 $ pip install -q -e /kaggle/working/repo
+07:39:32 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 10
+train 10, val 0, test 200 (206 train domains, 6 test domains)
+07:39:32 adapter /kaggle/input/modulariser-train/out/adapter
+07:39:32 $ pip uninstall -y -q torchao
+07:39:33 $ pip install -q sentencepiece gguf
+07:41:41 $ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /kaggle/working/merged/
+07:42:08 $ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp
+07:42:30 $ pip install -q uv && cd /kaggle/working && uv venv -q --python 3.12 cv && uv pip install -q --python /kaggle/working/cv/bin/python --index-strategy unsafe-best-match -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt
+07:42:43 $ /kaggle/working/cv/bin/python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf
+07:43:31 $ cd /kaggle/working/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null
+07:49:02 $ /kaggle/working/llama.cpp/build/bin/llama-quantize /kaggle/working/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M
+07:50:36 2/ 434] blk.16.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB ->     0.28 MiB
+[ 203/ 434] blk.16.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 204/ 434] blk.16.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 205/ 434] blk.16.ffn_norm.weight               - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 206/ 434] blk.16.ffn_up.weight                 - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 207/ 434] blk.17.attn_k.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB
+[ 208/ 434] blk.17.attn_k.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB ->     0.28 MiB
+[ 209/ 434] blk.17.attn_norm.weight              - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 210/ 434] blk.17.attn_output.weight            - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB ->     2.25 MiB
+[ 211/ 434] blk.17.attn_q.bias                   - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 212/ 434] blk.17.attn_q.weight                 - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB ->     2.25 MiB
+[ 213/ 434] blk.17.attn_v.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB
+[ 214/ 434] blk.17.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB ->     0.28 MiB
+[ 215/ 434] blk.17.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 216/ 434] blk.17.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 217/ 434] blk.17.ffn_norm.weight               - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 218/ 434] blk.17.ffn_up.weight                 - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB ->    12.09 MiB
+[ 219/ 434] blk.18.attn_k.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB
+[ 220/ 434] blk.18.attn_k.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB ->     0.28 MiB
+[ 221/ 434] blk.18.attn_norm.weight              - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 222/ 434] blk.18.attn_output.weight            - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB ->     2.25 MiB
+[ 223/ 434] blk.18.attn_q.bias                   - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB
+[ 224/ 434] blk.18.attn_q.weight                 - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB ->     2.25 MiB
+[ 225/ 434] blk.18.attn_v.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB
+[ 226/ 434] blk.18.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q6_K .. size =     1.00 MiB ->     0.41 MiB
+[ 227/ 434] blk.18.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q6_K .. size =    43.00 MiB ->    17.64 MiB
+[ 228/ 434] blk.18.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. llama_model_quantize: failed to quantize: basic_ios::clear: iostream error
+llama_quantize: failed to quantize model from '/kaggle/working/model-f16.gguf'
+
+07:50:36 CRASH Traceback (most recent call last):
+  File "/kaggle/src/script.py", line 592, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/src/script.py", line 576, in main
+    export()
+    ~~~~~~^^
+  File "/kaggle/src/script.py", line 480, in export
+    sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
+    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/src/script.py", line 39, in sh
+    raise SystemExit(f"failed: {cmd}")
+SystemExit: failed: /kaggle/working/llama.cpp/build/bin/llama-quantize /kaggle/working/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M
+

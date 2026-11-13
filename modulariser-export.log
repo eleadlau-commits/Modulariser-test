@@ -1,0 +1,70 @@
+[{"stream_name":"stdout","time":0.980028512,"data":"config {\"task\": \"export\", \"ref\": \"5a86a18a55b40074cccb3f63f28cae7c1ca2fb1e\", \"models\": [\"Qwen/Qwen2.5-3B-Instruct\"], \"kernel_sources\": [\"modulariser-train\"], \"n_train\": 10}\n"}
+,{"stream_name":"stdout","time":0.981146137,"data":"$ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo \u0026\u0026 cd /kaggle/working/repo \u0026\u0026 git checkout -q 5a86a18a55b40074cccb3f63f28cae7c1ca2fb1e\n"}
+,{"stream_name":"stdout","time":2.032770466,"data":"$ pip install -q -e /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":12.291663781,"data":"$ cd /kaggle/working/repo \u0026\u0026 python -m modulariser.data.build --out /kaggle/working/data --n 10\n"}
+,{"stream_name":"stdout","time":12.688482903,"data":"adapter /kaggle/input/modulariser-train/out/adapter\n"}
+,{"stream_name":"stdout","time":12.688522591,"data":"$ pip uninstall -y -q torchao\n"}
+,{"stream_name":"stdout","time":13.914098775,"data":"$ pip install -q sentencepiece gguf\n"}
+,{"stream_name":"stderr","time":52.880178604,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":53.000337974,"data":"[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n"}
+,{"stream_name":"stderr","time":90.512586504,"data":"\rFetching 2 files:   0%|          | 0/2 [00:00\u003c?, ?it/s]\rFetching 2 files:  50%|█████     | 1/2 [00:21\u003c00:21, 21.36s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:37\u003c00:00, 18.12s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:37\u003c00:00, 18.61s/it]\n"}
+,{"stream_name":"stderr","time":95.103030905,"data":"\rLoading weights:   0%|          | 0/434 [00:00\u003c?, ?it/s]\rLoading weights:   0%|          | 1/434 [00:01\u003c07:30,  1.04s/it]\rLoading weights:  20%|██        | 88/434 [00:01\u003c00:03, 104.18it/s]\rLoading weights:  31%|███       | 133/434 [00:01\u003c00:02, 117.21it/s]\rLoading weights:  38%|███▊      | 164/434 [00:01\u003c00:02, 106.37it/s]\rLoading weights:  43%|████▎     | 187/434 [00:02\u003c00:02, 102.53it/s]\rLoading weights:  48%|████▊     | 207/434 [00:02\u003c00:02, 106.69it/s]\rLoading weights:  51%|█████▏    | 223/434 [00:02\u003c00:01, 111.56it/s]\rLoading weights:  55%|█████▍    | 238/434 [00:02\u003c00:01, 107.13it/s]\rLoading weights:  59%|█████▉    | 255/434 [00:02\u003c00:01, 109.27it/s]\rLoading weights:  62%|██████▏   | 269/434 [00:02\u003c00:01, 104.95it/s]\rLoading weights:  67%|██████▋   | 291/434 [00:03\u003c00:01, 108.63it/s]\rLoading weights:  70%|███████   | 304/434 [00:03\u003c00:01, 108.44it/s]\rLoading weights:  75%|███████▌  | 327/434 [00:03\u003c00:00, 115.71it/s]\rLoading weights:  78%|███████▊  | 340/434 [00:03\u003c00:00, 109.40it/s]\rLoading weights:  84%|████████▎ | 363/434 [00:03\u003c00:00, 111.29it/s]\rLoading weights:  86%|████████▋ | 375/434 [00:03\u003c00:00, 112.83it/s]\rLoading weights:  89%|████████▉ | 387/434 [00:03\u003c00:00, 113.58it/s]\rLoading weights:  92%|█████████▏| 400/434 [00:03\u003c00:00, 114.64it/s]\rLoading weights:  95%|█████████▌| 413/434 [00:04\u003c00:00, 117.06it/s]\rLoading weights:  99%|█████████▊| 428/434 [00:04\u003c00:00, 125.65it/s]\rLoading weights: 100%|██████████| 434/434 [00:04\u003c00:00, 104.26it/s]\n"}
+,{"stream_name":"stderr","time":141.233371349,"data":"\rWriting model shards:   0%|          | 0/1 [00:00\u003c?, ?it/s]\rWriting model shards: 100%|██████████| 1/1 [00:05\u003c00:00,  5.32s/it]\rWriting model shards: 100%|██████████| 1/1 [00:05\u003c00:00,  5.32s/it]\n"}
+,{"stream_name":"stderr","time":141.986479152,"data":"\rFetching 5 files:   0%|          | 0/5 [00:00\u003c?, ?it/s]\rFetching 5 files:  40%|████      | 2/5 [00:00\u003c00:00, 12.22it/s]\rFetching 5 files:  80%|████████  | 4/5 [00:00\u003c00:00, 10.17it/s]\rFetching 5 files: 100%|██████████| 5/5 [00:00\u003c00:00,  8.18it/s]\n"}
+,{"stream_name":"stdout","time":141.986570206,"data":"$ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /kaggle/working/merged/\n"}
+,{"stream_name":"stdout","time":168.391988179,"data":"$ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp\n"}
+,{"stream_name":"stdout","time":190.793807314,"data":"$ pip install -q uv \u0026\u0026 cd /kaggle/working \u0026\u0026 uv venv -q --python 3.12 cv \u0026\u0026 uv pip install -q --python /kaggle/working/cv/bin/python --index-strategy unsafe-best-match -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stdout","time":203.250562228,"data":"$ /kaggle/working/cv/bin/python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf\n"}
+,{"stream_name":"stdout","time":252.139121081,"data":"$ cd /kaggle/working/llama.cpp \u0026\u0026 cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF \u003e /dev/null \u0026\u0026 cmake --build build --target llama-quantize -j 4 \u003e /dev/null\n"}
+,{"stream_name":"stdout","time":583.165666155,"data":"$ /kaggle/working/llama.cpp/build/bin/llama-quantize /kaggle/working/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M\n"}
+,{"stream_name":"stdout","time":676.27935826,"data":"2/ 434] blk.16.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB -\u003e     0.28 MiB\n"}
+,{"stream_name":"stdout","time":676.279421518,"data":"[ 203/ 434] blk.16.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279427597,"data":"[ 204/ 434] blk.16.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279431728,"data":"[ 205/ 434] blk.16.ffn_norm.weight               - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.27943553,"data":"[ 206/ 434] blk.16.ffn_up.weight                 - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279439355,"data":"[ 207/ 434] blk.17.attn_k.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB\n"}
+,{"stream_name":"stdout","time":676.279443225,"data":"[ 208/ 434] blk.17.attn_k.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB -\u003e     0.28 MiB\n"}
+,{"stream_name":"stdout","time":676.279450569,"data":"[ 209/ 434] blk.17.attn_norm.weight              - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.279454307,"data":"[ 210/ 434] blk.17.attn_output.weight            - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB -\u003e     2.25 MiB\n"}
+,{"stream_name":"stdout","time":676.279475975,"data":"[ 211/ 434] blk.17.attn_q.bias                   - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.279479802,"data":"[ 212/ 434] blk.17.attn_q.weight                 - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB -\u003e     2.25 MiB\n"}
+,{"stream_name":"stdout","time":676.279499225,"data":"[ 213/ 434] blk.17.attn_v.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB\n"}
+,{"stream_name":"stdout","time":676.27950239,"data":"[ 214/ 434] blk.17.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB -\u003e     0.28 MiB\n"}
+,{"stream_name":"stdout","time":676.279505948,"data":"[ 215/ 434] blk.17.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279510603,"data":"[ 216/ 434] blk.17.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279513794,"data":"[ 217/ 434] blk.17.ffn_norm.weight               - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.279516612,"data":"[ 218/ 434] blk.17.ffn_up.weight                 - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. size =    43.00 MiB -\u003e    12.09 MiB\n"}
+,{"stream_name":"stdout","time":676.279519565,"data":"[ 219/ 434] blk.18.attn_k.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB\n"}
+,{"stream_name":"stdout","time":676.279522562,"data":"[ 220/ 434] blk.18.attn_k.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q4_K .. size =     1.00 MiB -\u003e     0.28 MiB\n"}
+,{"stream_name":"stdout","time":676.279525529,"data":"[ 221/ 434] blk.18.attn_norm.weight              - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.279528353,"data":"[ 222/ 434] blk.18.attn_output.weight            - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB -\u003e     2.25 MiB\n"}
+,{"stream_name":"stdout","time":676.279531399,"data":"[ 223/ 434] blk.18.attn_q.bias                   - [  2048,      1,      1,      1], type =    f32, size =    0.008 MiB\n"}
+,{"stream_name":"stdout","time":676.279534323,"data":"[ 224/ 434] blk.18.attn_q.weight                 - [  2048,   2048,      1,      1], type =    f16, converting to q4_K .. size =     8.00 MiB -\u003e     2.25 MiB\n"}
+,{"stream_name":"stdout","time":676.279537273,"data":"[ 225/ 434] blk.18.attn_v.bias                   - [   256,      1,      1,      1], type =    f32, size =    0.001 MiB\n"}
+,{"stream_name":"stdout","time":676.279540172,"data":"[ 226/ 434] blk.18.attn_v.weight                 - [  2048,    256,      1,      1], type =    f16, converting to q6_K .. size =     1.00 MiB -\u003e     0.41 MiB\n"}
+,{"stream_name":"stdout","time":676.279543119,"data":"[ 227/ 434] blk.18.ffn_down.weight               - [ 11008,   2048,      1,      1], type =    f16, converting to q6_K .. size =    43.00 MiB -\u003e    17.64 MiB\n"}
+,{"stream_name":"stdout","time":676.279546091,"data":"[ 228/ 434] blk.18.ffn_gate.weight               - [  2048,  11008,      1,      1], type =    f16, converting to q4_K .. llama_model_quantize: failed to quantize: basic_ios::clear: iostream error\n"}
+,{"stream_name":"stdout","time":676.279552599,"data":"llama_quantize: failed to quantize model from '/kaggle/working/model-f16.gguf'\n"}
+,{"stream_name":"stdout","time":676.279555418,"data":"\n"}
+,{"stream_name":"stdout","time":676.287717039,"data":"CRASH Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":676.287759771,"data":"  File \"/kaggle/src/script.py\", line 592, in \u003cmodule\u003e\n"}
+,{"stream_name":"stdout","time":676.287791597,"data":"    main()\n"}
+,{"stream_name":"stdout","time":676.287795111,"data":"    ~~~~^^\n"}
+,{"stream_name":"stdout","time":676.287797985,"data":"  File \"/kaggle/src/script.py\", line 576, in main\n"}
+,{"stream_name":"stdout","time":676.287801008,"data":"    export()\n"}
+,{"stream_name":"stdout","time":676.287803614,"data":"    ~~~~~~^^\n"}
+,{"stream_name":"stdout","time":676.287806291,"data":"  File \"/kaggle/src/script.py\", line 480, in export\n"}
+,{"stream_name":"stdout","time":676.287809094,"data":"    sh(f\"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M\")\n"}
+,{"stream_name":"stdout","time":676.287812042,"data":"    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":676.28781498,"data":"  File \"/kaggle/src/script.py\", line 39, in sh\n"}
+,{"stream_name":"stdout","time":676.287817744,"data":"    raise SystemExit(f\"failed: {cmd}\")\n"}
+,{"stream_name":"stdout","time":676.287820569,"data":"SystemExit: failed: /kaggle/working/llama.cpp/build/bin/llama-quantize /kaggle/working/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M\n"}
+,{"stream_name":"stdout","time":676.28782395,"data":"\n"}
+,{"stream_name":"stderr","time":677.520287179,"data":"failed: /kaggle/working/llama.cpp/build/bin/llama-quantize /kaggle/working/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M\n"}
+,{"stream_name":"stderr","time":683.655615157,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":683.65567586,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":684.132410357,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":684.132485555,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":685.236719328,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":686.856218155,"data":"[NbConvertApp] Writing 421548 bytes to __results__.html\n"}
+]
