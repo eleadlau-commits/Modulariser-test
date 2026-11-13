@@ -1,0 +1,38 @@
+# council housing repairs
+people: Sarah, John, Emily, Michael, Lisa
+## Reporting | Collects and logs repair requests. | why: repairs can't start without a request
+a log: log repair requests
+t form: repair request form
+a validate: validate request details
+log > form
+log >> validate
+## Scheduling | Assigns technicians and dates for repairs. | why: ensures repairs are timely and efficient
+a assign: assign technicians
+t calendar: repair schedule
+a confirm: confirm appointments
+assign > calendar
+confirm > calendar
+## Inspection | Assesses the extent of damage and materials needed. | why: necessary for accurate repair planning
+a examine: examine the damage
+t report: damage report
+a estimate: estimate materials
+examine >> report
+estimate > report
+## Repair | Performs the actual repair works. | why: the core of the repair process
+a fix: perform repair
+t tool: repair tools
+t material: repair materials
+fix > material
+fix > tool
+## Documentation | Records the completion and updates systems. | why: important for tracking and compliance
+a complete: mark repair as complete
+t record: repair completion record
+a update: update property database
+complete >> record
+update > record
+## cross
+reporting.log > scheduling.calendar
+inspection.examine >> repair.fix
+repair.fix >> documentation.complete
+scheduling.assign >> inspection.examine
+documentation.update >> reporting.log

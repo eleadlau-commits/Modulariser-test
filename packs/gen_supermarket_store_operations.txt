@@ -1,0 +1,39 @@
+# supermarket store operations
+people: Sarah, Mike, Linda, Tom, Robert
+## Receiving and Stocking | Receives deliveries and stocks items. | why: products need to be in place for sales.
+a unloading: unload delivery trucks
+t stock: inventory list
+a restocking: restock shelves
+unloading > stock
+unloading >> restocking
+## Inventory Management | Manages stock levels and updates inventory. | why: to avoid stockouts and overstocking.
+t system: inventory management system
+a count: count stock periodically
+a update: update inventory system
+count > system
+update > system
+## Sales Floor Management | Organizes the sales floor and customer service.
+t floorplan: sales floor layout
+a arrange: arrange display
+a assist: assist customers
+arrange > floorplan
+assist > floorplan
+## Checkout Operations | Handles transactions and customer billing.
+a scan: scan items at checkout
+t receipt: receipt
+a pay: accept payment
+scan >> pay
+pay > receipt
+## Loss Prevention | Prevents theft and shrinkage. | why: to protect store profits.
+t surveillance: security system
+a patrol: patrol the sales floor
+a check: check for shrinkage
+patrol > surveillance
+check > surveillance
+## cross
+receiving.unloading > inventory.system
+inventory.count > receiving.stock
+sales.arrange > receiving.stock
+checkout.scan > sales.floorplan
+loss.patrol > sales.floorplan
+inventory.update > receiving.restocking

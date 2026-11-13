@@ -1,0 +1,30 @@
+# university admissions office
+people: Lisa, John, Maria, Tom
+## Application | Collects and verifies applications. | why: applications need to be reviewed for admission
+a receive: receive applications
+t form: application form
+a verify: verify documents
+receive >> verify
+## Evaluation | Reviews applications and scores them. | why: applications need to be scored for fairness
+a review: review applications
+t score: evaluation score
+review >> score
+## Selection | Selects candidates based on criteria. | why: a decision needs to be made on who gets admitted
+a decide: decide admissions
+t list: shortlist
+decide > list
+## Communication | Sends out acceptance or rejection letters. | why: candidates need to be informed of their status
+a send: send letters
+t template: letter template
+send > template
+## Registration | Registers admitted students and finalizes enrollment. | why: registration is needed to complete enrollment
+a finalize: complete registration
+t form: registration form
+finalize > form
+## cross
+application.receive > evaluation.review
+application.verify > evaluation.review
+evaluation.score > selection.decide
+selection.list > communication.send
+communication.send > registration.finalize
+registration.finalize > application.form

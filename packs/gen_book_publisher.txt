@@ -1,0 +1,44 @@
+# book publisher
+people: Alex, Mia, Ryan, Casey, Lisa
+## Acquisitions | Identifies and acquires new book proposals. | why: new content is needed to publish books
+a scout: scout for new authors and proposals
+t proposals: list of book proposals
+a evaluate: evaluate the proposals for acquisition
+scout > proposals
+evaluate > proposals
+## Editing | Refines and edits the book manuscripts. | why: ensures the book quality
+a proofread: proofread the manuscript
+a edit: edit the manuscript
+t manuscript: book manuscript
+proofread > manuscript
+edit > manuscript
+## Design | Designs the book cover and layout. | why: creates an appealing visual presentation
+a layout: design layout
+a cover: design cover
+t mockup: book design mockup
+layout > mockup
+cover > mockup
+## Production | Prepares the book for printing. | why: needs to prepare for actual printing
+a print: prepare for printing
+a format: format for printing
+t printfile: print-ready file
+print > printfile
+format > printfile
+## Marketing | Promotes the book to potential readers.
+a promote: promote the book
+t campaign: marketing campaign
+a advertise: place advertisements
+promote > campaign
+advertise > campaign
+## Sales | Sells the book through various channels.
+a distribute: distribute to stores
+t orders: sales orders
+a track: track sales
+distribute > orders
+track > orders
+## cross
+acquisitions.proposals > editing.manuscript
+design.mockup > production.printfile
+marketing.promote >> sales.distribute
+sales.orders >> production.print
+editing.edit >> design.mockup

@@ -1,0 +1,45 @@
+# catering company
+people: Jamie, Lisa, Peter, Sarah, Michael
+## Quoting | Provides quotes based on event details. | why: clients need to know the cost before committing
+t estimates: cost estimates
+a quote: create detailed quote
+t menu: catering menu
+quote > estimates
+quote > menu
+## Planning | Organizes logistics and staffing for events. | why: ensures the event runs smoothly
+t schedule: event schedule
+a allocate: allocate staff and equipment
+t checklist: preparation checklist
+allocate > schedule
+allocate > checklist
+## Procurement | Orders supplies and manages deliveries. 
+t suppliers: supplier list
+a order: place orders
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Preparation | Prepares food and sets up for the event. 
+t menu: catering menu
+a prep: prepare food
+a setup: set up event space
+prep > menu
+setup > prep
+## Service | Manages the event during the service period. 
+t schedule: event schedule
+a serve: serve food and drinks
+a manage: manage customer interactions
+serve > schedule
+manage > schedule
+## Cleanup | Cleans up after the event. 
+t checklist: cleanup checklist
+a clean: clean event space
+a return: return equipment
+clean > checklist
+clean >> return
+## cross
+quoting.menu > preparation.menu
+planning.schedule > service.schedule
+procurement.receive > preparation.setup
+preparation.setup > service.serve
+service.serve > cleanup.clean
+cleanup.return > procurement.suppliers

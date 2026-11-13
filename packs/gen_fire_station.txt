@@ -1,0 +1,37 @@
+# fire station
+people: Mike, Sarah, Tom, Lisa, Andy
+## Dispatch | Receives and prioritizes emergency calls. | why: someone has to decide the order of response
+a receive: receive emergency calls
+a prioritize: prioritize calls
+t log: call log
+receive >> prioritize
+prioritize > log
+## Response | Prepares and deploys to emergencies.
+t gear: firefighter gear
+a equip: prepare gear
+a travel: travel to location
+equip >> travel
+## Investigation | Investigates the cause and circumstances of fires.
+t report: investigation report
+a assess: assess damage
+a interview: interview witnesses
+assess >> report
+interview >> report
+## Training | Conducts regular training for staff.
+t schedule: training schedule
+a simulate: conduct simulations
+a review: review training exercises
+simulate >> review
+review > schedule
+## Maintenance | Ensures the upkeep and readiness of equipment.
+t checklist: maintenance checklist
+a inspect: inspect equipment
+a repair: repair equipment
+inspect >> repair
+repair > checklist
+## cross
+dispatch.receive > response.equip
+response.travel >> investigation.assess
+investigation.interview >> training.review
+maintenance.inspect > response.equip
+maintenance.repair > response.equip

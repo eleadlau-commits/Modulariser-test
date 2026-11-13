@@ -1,0 +1,39 @@
+# scout group
+people: Alice, Ben, Carlos, Diana
+## Planning | Coordinates the activities and events for the group. | why: ensures activities are organized and scheduled
+t calendar: event calendar
+a plan: plan group activities
+t budget: budget plan
+plan > calendar
+plan > budget
+## Training | Conducts skill and badge training sessions. | why: scouts need to learn new skills and earn badges
+t badge: badge list
+a teach: teach new skills
+t manual: scout manual
+teach > badge
+teach > manual
+## Outdoor | Organizes and leads outdoor activities like camping and hiking. | why: scouts need to learn outdoor survival skills
+t equipment: outdoor equipment
+a lead: lead outdoor activities
+t map: trail map
+lead > equipment
+lead > map
+## Community | Engages with the community through service projects. | why: scouts learn to serve the community
+t project: community projects
+a serve: perform community service
+t contact: community contact list
+serve > project
+serve > contact
+## Health & Safety | Ensures safety and first aid knowledge is up to date. | why: safety is critical for all activities
+t kit: first aid kit
+a train: train safety protocols
+t check: health check list
+train > kit
+train > check
+## cross
+planning.calendar > outdoor.lead
+planning.budget > community.serve
+training.teach >> outdoor.lead
+outdoor.equipment > health.kit
+health.train >> training.teach
+community.contact >> health.train

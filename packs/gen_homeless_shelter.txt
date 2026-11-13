@@ -1,0 +1,39 @@
+# homeless shelter
+people: Maria, John, Sarah, Alan
+## Intake | Assesses and registers new arrivals. | why: to know who is entering and their needs
+a assess: conduct initial assessment
+t forms: intake forms
+a register: register individuals
+assess >> register
+register > forms
+## Health | Provides medical and mental health services. | why: to address health needs
+a check: provide check-ups
+t medication: medication list
+a therapy: provide therapy sessions
+check > medication
+therapy >> check
+## Housing | Allocates temporary shelter and monitors conditions. | why: to ensure safe shelter
+t list: shelter list
+a assign: assign shelter space
+a inspect: inspect shelters
+assign > list
+inspect > list
+## Support | Offers case management and life skills training.
+a assist: provide case management
+t plan: individual support plan
+a train: conduct life skills training
+assist > plan
+train >> assist
+## Community | Organizes activities and links to community resources.
+a organize: organize events
+t resources: community resource list
+a connect: connect residents to resources
+organize > resources
+connect > resources
+## cross
+intake.register > housing.assign
+health.check >> support.assist
+health.therapy >> support.assist
+housing.inspect >> health.check
+support.train > community.connect
+community.resources >> support.plan

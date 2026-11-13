@@ -1,0 +1,38 @@
+# climbing wall
+people: Lisa, Mike, Emma, Sam
+## Safety | Ensures the climbing wall is safe for use. | why: safety is paramount for climbers
+t inspection: safety inspection checklist
+a inspect: daily inspection of the wall
+t report: safety report
+inspect > inspection
+inspect >> report
+## Setup | Sets up the routes and anchors for climbing. 
+t routes: route setup plan
+a set: set climbing routes
+a secure: secure anchors
+set > routes
+set >> secure
+## Instruction | Provides climbing instruction and supervision.
+t lesson: lesson plan
+a teach: teach climbing techniques
+t guide: climbing guide
+teach > lesson
+teach > guide
+## Maintenance | Maintains equipment and facilities.
+t schedule: maintenance schedule
+a check: check equipment
+a clean: clean facilities
+check > schedule
+clean > schedule
+## Registration | Manages the sign-ups and availability.
+t availability: availability calendar
+a sign: sign up climbers
+a checkin: check in climbers
+sign > availability
+checkin > availability
+## cross
+safety.inspect > setup.set
+instruction.teach >> setup.set
+maintenance.check > safety.inspection
+registration.sign >> instruction.teach
+setup.set > maintenance.schedule

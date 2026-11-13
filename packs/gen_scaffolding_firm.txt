@@ -1,0 +1,39 @@
+# scaffolding firm
+people: Jack, Maria, Tom, Linda, Brian
+## Planning | Coordinates the logistics and materials for a scaffolding project. | why: ensures everything is ready for the work
+t plan: job plan
+a estimate: provide cost estimates
+t materials: material list
+estimate > plan
+estimate > materials
+## Construction | Builds the scaffolding structure on site.
+a erect: erect scaffolding
+t scaffolding: scaffolding materials
+a install: install safety components
+erect > scaffolding
+erect >> install
+## Inspection | Ensures the structure meets safety and quality standards.
+t checklist: inspection checklist
+a inspect: perform site inspection
+a approve: approve the scaffold setup
+inspect > checklist
+inspect >> approve
+## Dismantling | Safely removes the scaffolding structure after completion.
+a dismantle: dismantle scaffolding
+t storage: storage location for materials
+a store: store dismantled materials
+dismantle >> store
+store > storage
+## Documentation | Maintains records and reports for compliance and reference.
+t report: inspection report
+a record: record job details
+t logs: work logs
+record > logs
+record > report
+## cross
+planning.plan > construction.erect
+planning.materials > construction.scaffolding
+construction.erect > inspection.checklist
+dismantling.dismantle > documentation.logs
+inspection.approve >> dismantling.dismantle
+documentation.report > planning.plan

@@ -1,0 +1,41 @@
+# cricket club
+people: Sarah, Jamie, Ryan, Lisa, Tom
+## Membership | Manages the club's members and their subscriptions.
+t members: list of members
+a register: register new members
+a renew: renew subscriptions
+register > members
+renew > members
+## Training | Organizes training sessions for members.
+t schedule: training schedule
+a plan: plan training sessions
+a conduct: conduct training sessions
+plan > schedule
+plan >> conduct
+## Matches | Coordinates matches and schedules them.
+t fixtures: match fixtures
+a arrange: arrange matches
+a schedule: schedule matches
+arrange > fixtures
+arrange >> schedule
+## Equipment | Manages the club's equipment and ensures it is available for use.
+t inventory: equipment inventory
+a check: check equipment
+a maintain: maintain equipment
+check > inventory
+maintain > inventory
+## Finance | Manages the club's finances, including membership fees and expenses.
+t accounts: financial accounts
+a collect: collect fees
+a pay: pay expenses
+collect > accounts
+pay >> collect
+## cross
+membership.register > finance.collect
+membership.renew > finance.collect
+training.schedule > matches.fixtures
+matches.schedule >> training.conduct
+equipment.check > training.conduct
+equipment.maintain > matches.schedule
+finance.accounts > equipment.maintain
+finance.accounts > membership.renew

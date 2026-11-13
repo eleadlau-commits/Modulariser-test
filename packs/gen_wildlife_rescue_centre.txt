@@ -1,0 +1,41 @@
+# wildlife rescue centre
+people: Sarah, Michael, Lisa, Tom, Emma
+## Intake | Receives and initially assesses the animals.
+t form: intake form
+a examine: examine the animal
+a triage: prioritize care based on urgency
+examine > form
+examine >> triage
+## Medical | Provides treatment and monitoring.
+a treat: administer treatment
+t records: medical records
+a monitor: monitor recovery
+t medications: medication list
+treat >> monitor
+monitor > records
+treat > medications
+## Rehabilitation | Prepares animals for release back into the wild.
+t plan: rehabilitation plan
+a train: train animals for survival
+a assess: assess readiness for release
+train >> assess
+assess > plan
+## Release | Returns animals to their natural habitat.
+a release: release into the wild
+t location: release location
+a track: track post-release survival
+release >> track
+track > location
+## Education | Educates the public about wildlife conservation.
+a talk: give educational talks
+t materials: educational materials
+a workshop: conduct workshops
+talk > materials
+workshop > materials
+## cross
+intake.examine > medical.records
+intake.triage >> medical.treat
+medical.monitor > rehabilitation.train
+rehabilitation.assess >> release.release
+education.talk >> intake.form
+education.workshop >> medical.records

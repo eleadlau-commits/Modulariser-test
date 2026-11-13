@@ -1,0 +1,40 @@
+# tv news desk
+people: Sarah, Mark, Lisa, David
+## Research | Gathers information and checks facts.
+a gather: collect information
+t sources: source list
+a verify: verify facts
+gather > sources
+gather >> verify
+## Scripting | Writes the scripts for the news anchors.
+t script: news script
+a write: write script
+a edit: edit script
+write >> edit
+edit > script
+## Scheduling | Determines the order and timing of segments.
+t schedule: news schedule
+a plan: plan segment order
+a time: time segment slots
+plan > schedule
+time > schedule
+## Reporting | Conducts interviews and reports live.
+t report: field report
+a interview: conduct interviews
+a report: report live
+interview >> report
+report > report
+## Graphics | Creates the visuals for the news.
+t graphics: visual graphics
+a design: create graphics
+a animate: animate graphics
+design >> animate
+animate > graphics
+## cross
+research.gather > scripting.write
+research.verify > scripting.edit
+scheduling.plan > reporting.interview
+scheduling.time > reporting.report
+reporting.interview >> graphics.animate
+scripting.write > scheduling.schedule
+scripting.edit > scheduling.schedule

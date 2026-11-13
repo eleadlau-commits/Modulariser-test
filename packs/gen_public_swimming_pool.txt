@@ -1,0 +1,39 @@
+# public swimming pool
+people: Laura, Sam, Ethan, Olivia, Liam
+## Maintenance | Ensures the pool and facilities are clean and operational.
+t schedule: maintenance schedule
+a clean: clean pool and facilities
+a inspect: inspect equipment
+clean > schedule
+inspect > schedule
+## Lifeguarding | Ensures the safety of swimmers.
+t roster: lifeguard roster
+a patrol: patrol the pool area
+a rescue: perform rescue operations
+patrol > roster
+rescue > roster
+## Operations | Manages the day-to-day running of the pool.
+t log: daily operations log
+a open: open the pool
+a close: close the pool
+open > log
+close > log
+## Ticketing | Sells and controls entry to the pool.
+t tickets: ticket records
+a sell: sell tickets
+a check: check tickets at entry
+sell > tickets
+check > tickets
+## Facilities | Manages the use of additional facilities like lockers, showers, etc.
+t availability: facility availability
+a book: book facilities
+a use: use facilities
+book > availability
+use > availability
+## cross
+maintenance.schedule > operations.log
+lifeguarding.patrol > operations.log
+ticketing.sell >> operations.open
+ticketing.check >> facilities.use
+facilities.use > ticketing.check
+maintenance.clean >> ticketing.sell

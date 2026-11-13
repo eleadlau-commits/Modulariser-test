@@ -1,0 +1,39 @@
+# tree nursery
+people: Emma, Liam, Olivia, Noah, Ava
+## Propagation | Grows seedlings from seeds or cuttings. | why: nursery needs seedlings to grow into mature trees
+a sow: sow seeds
+t trays: seed trays
+a pot: pot seedlings
+sow > trays
+sow >> pot
+## Nurturing | Cares for young plants until they reach maturity.
+t nursery: plant nursery
+a water: water plants
+a fertilize: fertilize plants
+water > nursery
+fertilize > nursery
+## Inventory | Tracks the number of trees and their species.
+t ledger: inventory ledger
+a count: count trees
+a species: record species
+count > ledger
+species > ledger
+## Sales | Sells trees to customers.
+t catalog: sales catalog
+a order: process orders
+a deliver: deliver trees
+order > catalog
+order >> deliver
+## Maintenance | Ensures the nursery is clean and organized.
+t tools: maintenance tools
+a clean: clean nursery
+a organize: organize space
+clean > tools
+organize > tools
+## cross
+propagation.pot > nurturing.nursery
+nurturing.water > inventory.ledger
+nurturing.fertilize >> sales.order
+inventory.count > sales.catalog
+maintenance.clean >> propagation.trays
+maintenance.organize > sales.deliver

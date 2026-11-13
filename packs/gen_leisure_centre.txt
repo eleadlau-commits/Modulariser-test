@@ -1,0 +1,38 @@
+# leisure centre
+people: Laura, Mark, Sam, Emily, Tom
+## Booking | Manages membership and class bookings.
+t calendar: booking calendar
+a register: register new members
+a book: book classes
+register > calendar
+book > calendar
+## Training | Organises and conducts training sessions.
+t schedule: training schedule
+a train: conduct training sessions
+a update: update training materials
+train > schedule
+update > schedule
+## Maintenance | Ensures facilities and equipment are in good condition.
+t checklist: maintenance checklist
+a inspect: inspect facilities
+a repair: repair equipment
+inspect > checklist
+repair > checklist
+## Cleaning | Schedules and conducts cleaning activities.
+t roster: cleaning roster
+a clean: perform cleaning
+a schedule: schedule cleaning times
+clean > roster
+schedule > roster
+## Safety | Ensures all safety protocols are followed.
+t health: health and safety manual
+a inspect: inspect safety equipment
+a train: train staff on safety protocols
+inspect > health
+train > health
+## cross
+booking.register > maintenance.inspect
+training.update >> booking.calendar
+maintenance.inspect >> cleaning.schedule
+cleaning.clean >> safety.inspect
+safety.train >> training.train

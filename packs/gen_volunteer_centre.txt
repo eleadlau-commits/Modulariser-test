@@ -1,0 +1,38 @@
+# volunteer centre
+people: Sarah, David, Lisa, Tom, Robert
+## Recruitment | Finds and interviews potential volunteers.
+a advertise: post job ads for volunteers
+a interview: conduct interviews
+t candidates: list of candidates
+advertise >> interview
+interview > candidates
+## Onboarding | Welcomes new volunteers and trains them.
+a welcome: welcome volunteers
+a train: train volunteers
+t manual: training manual
+welcome >> train
+train > manual
+## Scheduling | Matches volunteers to shifts and sends reminders.
+a match: match volunteers to shifts
+a remind: send reminders
+t roster: schedule roster
+match >> remind
+match > roster
+## Feedback | Collects and reviews feedback from volunteers and beneficiaries.
+a collect: collect feedback forms
+a review: review feedback
+t feedback: feedback summary
+collect >> review
+review > feedback
+## Support | Provides ongoing support to volunteers.
+a assist: assist volunteers with issues
+a mentor: mentor volunteers
+t contact: contact list
+assist > contact
+mentor > contact
+## cross
+recruitment.candidates > onboarding.welcome
+onboarding.train > scheduling.match
+scheduling.roster > support.assist
+feedback.review > recruitment.advertise
+feedback.review >> support.mentor

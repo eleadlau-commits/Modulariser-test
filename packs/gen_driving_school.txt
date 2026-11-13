@@ -1,0 +1,41 @@
+# driving school
+people: Sarah, Mike, Lisa, Ryan, John
+## Registration | Manages student enrollments and records. | why: students need to be registered to take lessons
+t form: registration form
+a verify: verify student IDs
+a record: record student details
+verify > form
+record > form
+## Training | Schedules and conducts driving lessons.
+t schedule: lesson schedule
+a teach: teach driving techniques
+a practice: practice driving maneuvers
+teach > schedule
+practice > schedule
+## Assessment | Evaluates student driving skills and readiness.
+t checklist: assessment checklist
+a test: conduct the driving test
+a evaluate: evaluate student performance
+test > checklist
+evaluate > checklist
+## Administration | Handles paperwork and compliance requirements.
+t certification: driving certification form
+a process: process student paperwork
+a comply: ensure compliance with regulations
+process > certification
+comply > certification
+## Coordination | Coordinates vehicles, instructors, and students.
+t roster: instructor roster
+a assign: assign instructors to students
+a allocate: allocate vehicles
+assign > roster
+allocate > roster
+## cross
+registration.record > training.schedule
+registration.record > assessment.test
+training.teach >> assessment.evaluate
+training.practice >> assessment.evaluate
+administration.process > registration.form
+administration.comply > registration.form
+coordination.assign > training.teach
+coordination.allocate > training.practice

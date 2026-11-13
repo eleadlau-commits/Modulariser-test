@@ -1,0 +1,34 @@
+# street lighting maintenance
+people: Alice, Bob, Carlos, Dana
+## Inspection | Inspects lights and reports issues.
+a check: visually check lights
+t issues: issue report
+a measure: measure brightness levels
+check >> issues
+measure >> issues
+## Planning | Schedules maintenance based on inspection reports.
+t schedule: maintenance schedule
+a prioritize: prioritize issues
+t resources: available resources
+prioritize > schedule
+prioritize > resources
+## Repairs | Fixes the reported issues.
+a replace: replace faulty bulbs
+t parts: spare parts inventory
+a tighten: tighten connections
+replace > parts
+tighten > parts
+## Testing | Ensures the lights meet standards post-repair.
+a test: test repaired lights
+t standards: lighting standards
+test > standards
+## Reporting | Documents the maintenance work done.
+t report: maintenance report
+a document: document repairs made
+document > report
+## cross
+inspection.check > planning.schedule
+inspection.measure > planning.schedule
+repairs.replace > testing.test
+repairs.tighten > testing.test
+testing.test >> reporting.document

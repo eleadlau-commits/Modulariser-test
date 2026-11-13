@@ -1,0 +1,39 @@
+# game server operations
+people: Alex, Jamie, Casey, Morgan, Taylor
+## Monitoring | Tracks server health and performance. | why: servers need to be monitored for health and performance issues
+a track: track health and performance
+t dashboard: monitoring dashboard
+a alert: trigger alerts on issues
+track >> dashboard
+alert > dashboard
+## Patching | Updates game servers with new patches. | why: servers must be updated to keep the game running smoothly
+a download: download patches
+a install: install patches
+t schedule: patching schedule
+download >> install
+download > schedule
+## Scaling | Adjusts server capacity based on load. | why: ensures optimal performance based on player demand
+a scale: scale server capacity
+t config: scaling configuration
+a monitor: monitor load
+monitor > config
+scale > config
+## Backups | Creates and manages game data backups. | why: data must be backed up to prevent loss
+a create: create backups
+a store: store backups
+t retention: backup retention policy
+create >> store
+create > retention
+## Restore | Recovers game data from backups in case of data loss. | why: provides a way to recover from data loss
+a select: select backup to restore
+a restore: restore game data
+t history: restoration history
+select >> restore
+select > history
+## cross
+monitoring.track > scaling.monitor
+monitoring.alert >> patching.download
+scaling.scale >> monitoring.track
+patching.install >> backups.create
+backups.store >> restore.restore
+restore.restore > backups.retention

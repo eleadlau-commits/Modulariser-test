@@ -1,0 +1,38 @@
+# refugee resettlement charity
+people: Sara, John, Lisa, Mark, Emma
+## Initial Assessment | Evaluates the needs and background of incoming refugees.
+a interview: conduct initial interviews
+t file: case file
+a assess: assess needs
+interview >> assess
+assess > file
+## Legal Support | Provides legal resources and guidance for immigration.
+t lawyer: legal counsel
+a consult: consult with lawyer
+a apply: apply for legal documents
+consult > lawyer
+consult >> apply
+## Housing | Secures and prepares living spaces for incoming refugees.
+t lease: housing lease
+a inspect: inspect living space
+a prepare: prepare living space
+inspect >> prepare
+prepare > lease
+## Education | Identifies educational needs and connects refugees to resources.
+t plan: education plan
+a enroll: enroll in schools
+a tutor: provide tutoring
+enroll > plan
+tutor > plan
+## Employment | Assists refugees in finding job opportunities and training.
+t resume: employment resume
+a train: provide job training
+a place: job placement
+train >> place
+place > resume
+## cross
+initial.assess > legal.apply
+housing.prepare > initial.file
+education.enroll >> employment.train
+employment.place >> education.plan
+legal.apply > employment.resume

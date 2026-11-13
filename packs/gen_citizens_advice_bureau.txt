@@ -1,0 +1,39 @@
+# citizens advice bureau
+people: Sarah, Mark, Lisa, David, Elizabeth
+## Intake | Gathers initial information from visitors. | why: to understand the visitor's issue and direct them appropriately.
+a greet: greet visitors
+a assess: assess issues
+t form: intake form
+greet >> assess
+assess > form
+## Case Management | Manages the case from start to finish. | why: to ensure the visitor's issue is properly addressed.
+t file: case file
+a track: track case progress
+a update: update file
+track >> update
+update > file
+## Legal Research | Searches for relevant laws and advice. | why: to provide accurate and up-to-date advice to the visitor.
+t books: legal reference books
+a search: search databases
+a consult: consult legal experts
+search > books
+consult >> search
+## Advocacy | Represents the visitor in disputes or negotiations. | why: to have a strong advocate on the visitor's side.
+t letter: advocacy letter
+a represent: represent in meetings
+a negotiate: negotiate on behalf
+represent > letter
+negotiate >> represent
+## Community Outreach | Engages with the community to raise awareness. | why: to reach more potential visitors and educate them.
+t flyer: outreach flyer
+a speak: speak at events
+a distribute: distribute materials
+speak > flyer
+distribute > flyer
+## cross
+intake.assess > case.file
+case.track > legal.search
+case.update > advocacy.represent
+advocacy.represent >> case.update
+community.speak >> intake.greet
+community.distribute >> intake.greet

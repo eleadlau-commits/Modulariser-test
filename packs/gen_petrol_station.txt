@@ -1,0 +1,39 @@
+# petrol station
+people: Sam, Lisa, Jack, Maria, David
+## Fueling | Provides fuel to customers. | why: essential service for vehicle operation
+a pump: dispense fuel
+t pumps: fuel pumps
+a clean: maintain fuel pumps
+pump > pumps
+clean > pumps
+## Payments | Manages customer payments and cash handling.
+a swipe: process card payments
+a cash: handle cash transactions
+t register: cash register
+swipe >> cash
+cash > register
+## Maintenance | Ensures the station is clean and safe.
+a sweep: sweep the forecourt
+a check: check fuel levels
+t tools: maintenance tools
+sweep > tools
+check > tools
+## Store | Sells convenience items to customers.
+t inventory: store inventory
+a stock: restock shelves
+a serve: serve customers
+stock > inventory
+serve > inventory
+## Security | Protects the station and its assets.
+a patrol: patrol the station
+a alarm: set and reset the alarm
+t cameras: security cameras
+patrol > cameras
+alarm > cameras
+## cross
+fueling.pump > payments.swipe
+fueling.pump > payments.cash
+maintenance.sweep >> fueling.clean
+maintenance.check > store.stock
+security.alarm >> payments.register
+store.serve >> payments.swipe

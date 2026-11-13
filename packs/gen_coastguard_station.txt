@@ -1,0 +1,38 @@
+# coastguard station
+people: Beth, Carlos, Dave, Emily
+## Watch | Monitors the海域情况并记录船只活动。| why: 必须有人实时监控海域
+a monitor: 监控雷达
+a log: 记录船只活动
+a alert: 发出紧急警报
+monitor >> log
+monitor >> alert
+## Rescue | 计划并执行海上救援行动。
+a plan: 制定救援计划
+a launch: 启动救援船只
+t gear: 救援装备
+launch > gear
+## Communications | 协调内部和外部的通信。
+a contact: 联系其他海岸警卫队
+a notify: 通知相关机构
+t radio: 无线电设备
+contact > radio
+notify > radio
+## Weather | 监测并报告天气状况。
+a observe: 监测天气
+a report: 报告天气
+t forecast: 天气预报
+observe >> report
+report > forecast
+## Logistics | 管理物资和设备。
+a inventory: 管理库存
+a maintain: 维护设备
+t supplies: 物资清单
+inventory > supplies
+maintain > supplies
+## cross
+watch.monitor > rescue.plan
+watch.alert > communications.notify
+rescue.launch >> logistics.maintain
+weather.report > logistics.inventory
+communications.contact > watch.log
+logistics.supplies > rescue.gear

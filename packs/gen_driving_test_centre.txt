@@ -1,0 +1,38 @@
+# driving test centre
+people: Lisa, Mark, Anna, Carlos, David
+## Registration | Manages the registration process for candidates.
+t forms: registration forms
+a verify: verify candidate information
+a schedule: schedule the test
+verify > forms
+schedule > forms
+## Theory Test | Conducts the theory test, evaluates the candidate's knowledge.
+a administer: administer the theory test
+t questions: question bank
+a evaluate: evaluate the answers
+administer > questions
+administer >> evaluate
+## Practical Test | Conducts the practical driving test.
+a inspect: inspect the vehicle
+a drive: drive with the candidate
+t checklist: driving checklist
+inspect >> drive
+drive > checklist
+## Assessment | Compiles the assessment results and issues the driving license.
+a compile: compile the assessment
+t license: driving license
+a issue: issue the driving license
+compile >> issue
+issue > license
+## Records | Maintains the records of all candidates and their test results.
+t database: candidate database
+a log: log test results
+a update: update the records
+log > database
+update > database
+## cross
+registration.schedule > theory.administer
+theory.evaluate > practical.inspect
+practical.drive > assessment.compile
+assessment.issue > records.log
+records.update > registration.forms

@@ -1,0 +1,38 @@
+# antiques dealer
+people: Sarah, John, Emily, Michael
+## Sourcing | Finds and acquires antiques for the store.
+a scout: scout for antiques
+t inventory: list of items
+a negotiate: negotiate prices
+scout > inventory
+scout >> negotiate
+## Authentication | Verifies the authenticity and provenance of items.
+a research: research provenance
+a authenticate: authenticate item
+t report: authentication report
+research >> authenticate
+authenticate > report
+## Valuation | Determines the monetary value of antiques.
+a appraise: appraise items
+t appraisal: valuation report
+a compare: compare market value
+appraise >> compare
+appraise > appraisal
+## Display | Organizes and presents the antiques for retail.
+t layout: display layout
+a arrange: arrange items
+a label: label items
+arrange > layout
+arrange >> label
+## Sales | Sells antiques to customers.
+a sell: sell items
+t ledger: sales ledger
+a record: record sale
+sell >> record
+record > ledger
+## cross
+sourcing.inventory > authentication.authenticate
+authentication.report > valuation.appraise
+valuation.appraise > display.arrange
+display.arrange > sales.sell
+valuation.appraise > sales.sell

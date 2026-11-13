@@ -1,0 +1,38 @@
+# helicopter charter
+people: Alex, Jamie, Sam, Casey
+## Booking | Processes and confirms client bookings.
+t reservation: reservation form
+a confirm: confirm booking details
+a schedule: schedule the flight
+confirm > reservation
+schedule > reservation
+## Maintenance | Ensures the helicopter is airworthy.
+t checklist: maintenance checklist
+a inspect: conduct pre-flight inspection
+t logbook: maintenance logbook
+inspect > checklist
+inspect > logbook
+## Flight | Prepares and conducts the helicopter flight.
+t itinerary: flight itinerary
+a brief: brief the crew
+a fly: conduct the flight
+brief > itinerary
+brief >> fly
+## Billing | Calculates and processes client payments.
+t invoice: billing invoice
+a calculate: calculate total cost
+a charge: charge the client
+calculate > invoice
+charge > invoice
+## Support | Handles client queries and problems.
+t contact: contact log
+a assist: assist with client queries
+a report: report any issues
+assist > contact
+report > contact
+## cross
+booking.schedule > flight.itinerary
+maintenance.inspect >> flight.brief
+billing.calculate > booking.confirm
+support.report >> maintenance.logbook
+flight.fly >> billing.charge

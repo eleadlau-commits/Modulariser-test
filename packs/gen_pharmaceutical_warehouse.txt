@@ -1,0 +1,38 @@
+# pharmaceutical warehouse
+people: Emma, Jack, Lisa, David, Olivia
+## Receiving | Checks and logs incoming shipments. | why: ensures quality and traceability
+a inspect: inspect incoming shipments
+t manifest: shipment manifest
+a log: log receipt in system
+inspect > manifest
+inspect >> log
+## Storage | Stores raw materials and products safely.
+t racks: storage racks
+a place: place items in racks
+t labels: storage labels
+place > labels
+## Inventory | Tracks inventory levels and expiry dates.
+t inventory: inventory records
+a count: count stock monthly
+a check: check expiry dates
+count > inventory
+check > inventory
+## Packing | Prepares orders for shipment.
+t pallets: warehouse pallets
+a pack: pack orders
+t boxes: packing boxes
+pack > boxes
+pack > pallets
+## Shipping | Prepares and sends out orders.
+a load: load pallets
+a seal: seal shipments
+t manifest: shipping manifest
+load > manifest
+seal > manifest
+## cross
+receiving.log > inventory.inventory
+storage.place > inventory.inventory
+inventory.count >> packing.pack
+inventory.check >> packing.pack
+packing.pack >> shipping.load
+packing.pallets > shipping.load

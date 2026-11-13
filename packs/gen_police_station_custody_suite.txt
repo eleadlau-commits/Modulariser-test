@@ -1,0 +1,38 @@
+# police station custody suite
+people: Alex, Maria, John, Lisa, Carlos
+## Intake | Processes individuals brought into custody.
+a intake: intake new detainees
+t forms: intake forms
+a screen: screen for health and safety concerns
+intake >> screen
+intake > forms
+## Holding | Monitors individuals in temporary custody.
+t cells: holding cells
+a monitor: monitor detainee behavior
+a log: log detainee movements
+monitor > log
+log > cells
+## Medical | Provides health care and support for detainees.
+t infirmary: infirmary
+a triage: triage medical issues
+t supplies: medical supplies
+triage > supplies
+triage > infirmary
+## Legal | Facilitates detainee communication with legal representatives.
+t phones: legal phones
+a contact: arrange legal contact
+t access: legal access log
+contact > access
+contact > phones
+## Release | Prepares detainees for release or transfer.
+a prep: prepare release paperwork
+t roster: release roster
+a escort: escort detainee out
+prep >> escort
+prep > roster
+## cross
+intake.forms > holding.cells
+intake.screen > medical.triage
+holding.log > release.roster
+legal.contact > release.roster
+medical.supplies > legal.phones

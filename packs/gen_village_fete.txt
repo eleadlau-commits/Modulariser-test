@@ -1,0 +1,41 @@
+# village fete
+people: Lisa, Mark, Emma, David, Kate
+## Planning | Coordinates activities and timelines. | why: ensures the event is organized
+t schedule: event schedule
+a assign: assign roles and responsibilities
+t budget: event budget
+assign > schedule
+assign > budget
+## Fundraising | Organizes and manages the fundraising activities.
+t raffle: raffle tickets
+a sell: sell raffle tickets
+t donations: donation collection
+sell > raffle
+sell > donations
+## Entertainment | Sets up and manages entertainment activities.
+t stage: main stage
+a organize: organize performances
+t games: game booths
+organize > stage
+organize > games
+## Food | Prepares and serves food and beverages.
+t menu: food menu
+a cook: prepare food
+t setup: food setup
+cook > menu
+cook > setup
+## Administration | Manages the administrative tasks.
+t registration: registration desk
+a manage: manage registration
+t supplies: supply inventory
+manage > registration
+manage > supplies
+## cross
+planning.assign > fundraising.sell
+planning.schedule > entertainment.organize
+planning.assign > entertainment.organize
+planning.schedule > food.cook
+planning.assign > food.cook
+fundraising.donations > administration.supplies
+entertainment.organize > food.setup
+food.setup > administration.registration

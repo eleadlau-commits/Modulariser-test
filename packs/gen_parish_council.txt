@@ -1,0 +1,50 @@
+# parish council
+people: Sarah, Mike, Lisa, John
+## Meetings | Organizes and conducts regular meetings.
+t agenda: meeting agenda
+a call: call to order
+a discuss: discuss items
+a adjourn: adjourn meeting
+call > agenda
+call >> discuss
+discuss >> adjourn
+## Finances | Manages the financial operations and budget.
+t budget: annual budget
+a collect: collect payments
+a disburse: disburse funds
+a audit: perform internal audits
+collect >> budget
+disburse > budget
+audit > budget
+## Community Projects | Initiates and oversees local projects.
+t proposals: project proposals
+a review: review proposals
+a implement: implement projects
+a report: report progress
+review > proposals
+implement > proposals
+report > implement
+## Communications | Manages communications with the community.
+t newsletter: parish newsletter
+a publicize: publicize events
+a respond: respond to inquiries
+a update: update the parish website
+publicize > newsletter
+respond > newsletter
+update > newsletter
+## Planning | Plans for future needs and improvements.
+t plans: development plans
+a consult: consult with stakeholders
+a draft: draft plans
+a approve: approve plans
+consult > plans
+draft > plans
+draft >> approve
+## cross
+meetings.agenda > finances.budget
+meetings.agenda > community.proposals
+meetings.agenda > planning.plans
+communications.publicize > community.implement
+community.report > meetings.adjourn
+finances.collect > community.implement
+planning.consult >> meetings.call

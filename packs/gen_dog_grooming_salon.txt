@@ -1,0 +1,41 @@
+# dog grooming salon
+people: Mia, Jake, Zoe, Sam, Olivia
+## Reception | Manages client check-ins and check-outs.
+t schedule: grooming schedule
+a book: book appointments
+a check: check in dogs
+book > schedule
+check > schedule
+## Grooming | Provides the grooming services to dogs.
+t tools: grooming tools
+a wash: wash the dog
+a dry: dry the dog
+a trim: trim hair
+wash >> dry
+dry >> trim
+trim > tools
+## Sales | Sells products like shampoos and brushes to clients.
+t inventory: product inventory
+a sell: sell grooming products
+a recommend: recommend products
+sell > inventory
+recommend > inventory
+## Aftercare | Provides advice and care instructions post-grooming.
+t instructions: aftercare instructions
+a advise: advise on aftercare
+a handover: handover the dog to the client
+advise > instructions
+handover > instructions
+handover >> advise
+## Cleaning | Cleans the salon and equipment post-grooming.
+t equipment: grooming equipment
+a clean: clean the salon
+a disinfect: disinfect equipment
+clean > equipment
+disinfect > equipment
+## cross
+reception.book > grooming.wash
+grooming.trim >> aftercare.handover
+sales.recommend >> grooming.wash
+aftercare.handover >> cleaning.clean
+grooming.trim > cleaning.disinfect

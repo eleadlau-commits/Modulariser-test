@@ -1,0 +1,32 @@
+# council licensing office
+people: Emily, John, Sarah, Michael, David
+## Application Processing | Reviews and processes licensing applications.
+t application: licensing application
+a review: review application completeness
+a validate: validate application details
+review >> validate
+## Site Inspection | Conducts inspections on premises to ensure compliance.
+a inspect: conduct site inspection
+t report: inspection report
+inspect >> report
+## Compliance Review | Assesses compliance with regulations and standards.
+a check: check compliance with regulations
+t checklist: compliance checklist
+check >> checklist
+## Issuance | Issues licenses and communicates with applicants.
+a issue: issue license
+t license: license document
+a notify: notify applicant of decision
+issue >> license
+issue >> notify
+## Enforcement | Enforces regulations and takes action against non-compliance.
+a investigate: investigate violations
+t notice: enforcement notice
+investigate >> notice
+## cross
+application.review > compliance.check
+site.inspect > compliance.check
+site.report > issuance.notify
+issuance.issue > enforcement.investigate
+compliance.check >> issuance.notify
+enforcement.notice >> application.review

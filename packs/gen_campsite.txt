@@ -1,0 +1,48 @@
+# campsite
+people: Mike, Sarah, Tom, Lisa
+## Planning | Coordinates the schedule and logistics of the campsite activities. | why: ensures activities happen as planned
+t calendar: activity calendar
+a schedule: schedule activities
+t resources: resource allocation
+schedule > calendar
+schedule > resources
+## Setup | Prepares the campsite for guests. | why: ensures the campsite is ready for guests
+a clean: clean campsite areas
+a set: set up campsite facilities
+t supplies: supply inventory
+clean >> set
+set > supplies
+## Activities | Organizes and leads the activities for guests. 
+t list: activity list
+a lead: lead activities
+a assist: assist in activities
+lead > list
+lead >> assist
+## Catering | Prepares and serves meals to guests. | why: ensures guests are fed
+t menu: meal menu
+a prep: prepare meals
+a serve: serve meals
+prep >> serve
+serve > menu
+## Maintenance | Checks and maintains the campsite facilities. 
+a inspect: inspect facilities
+a repair: repair facilities
+t log: maintenance log
+inspect >> repair
+inspect > log
+## Security | Ensures the safety and security of guests. 
+a patrol: patrol campsite areas
+t emergency: emergency contact list
+a respond: respond to incidents
+patrol >> respond
+respond > emergency
+## cross
+setup.set > activities.assist
+setup.set > catering.menu
+planning.calendar > activities.list
+planning.calendar > maintenance.inspect
+security.patrol > maintenance.log
+activities.lead >> catering.serve
+maintenance.repair > setup.supplies
+catering.serve > maintenance.inspect
+setup.clean > planning.resources

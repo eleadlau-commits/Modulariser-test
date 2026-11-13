@@ -1,0 +1,37 @@
+# cocktail bar
+people: Lily, Max, Zoe, Sam, Finn
+## Purchasing | Acquires ingredients and supplies. | why: necessary for cocktail preparation
+a order: order ingredients
+t suppliers: supplier list
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Stock | Manages inventory of ingredients and supplies.
+t sheet: stock sheet
+a count: count stock weekly
+count > sheet
+## Mixing | Prepares cocktails and garnishes. | why: core service of the bar
+t recipe: cocktail recipe
+a mix: mix cocktails
+t garnish: garnish ingredients
+mix > recipe
+mix > garnish
+## Serving | Serves cocktails and interacts with guests.
+t menu: menu
+a pour: pour cocktails
+a serve: serve guests
+pour > menu
+serve > menu
+## Cleaning | Cleans and prepares equipment and areas.
+t checklist: cleaning checklist
+a clean: clean equipment
+t area: bar area
+clean > checklist
+clean > area
+## cross
+mixing.mix >> serving.pour
+mixing.garnish > serving.serve
+purchasing.receive > stock.sheet
+stock.sheet > mixing.recipe
+stock.sheet > cleaning.checklist
+stock.sheet > serving.menu

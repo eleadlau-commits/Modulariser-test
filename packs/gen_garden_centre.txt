@@ -1,0 +1,45 @@
+# garden centre
+people: Sarah, Mark, Lisa, John, Emma
+
+## Stock Management | Tracks the inventory and ensures availability of plants and supplies. | why: keeps track of what's available to sell
+t sheet: stock sheet
+a count: count stock weekly
+a reorder: reorder when stock is low
+count > sheet
+reorder > sheet
+
+## Purchasing | Orders new stock and checks deliveries. | why: ensures new stock arrives
+t suppliers: supplier list
+a order: order new stock
+a receive: receive deliveries
+order > suppliers
+order >> receive
+
+## Nursery | Grows and maintains plants for sale.
+t plants: plant list
+a grow: grow plants
+a care: care for plants
+grow >> care
+care > plants
+
+## Sales | Handles customer transactions and maintains records. | why: ensures customers can purchase
+t receipts: sales receipts
+a sell: sell plants and supplies
+a record: record sales
+sell >> record
+record > receipts
+
+## Display | Sets up and maintains plant displays. | why: attracts customers and showcases products
+t display: display plan
+a arrange: arrange displays
+a maintain: maintain displays
+arrange > display
+arrange >> maintain
+
+## cross
+stock.sheet > purchasing.suppliers
+purchasing.receive > stock.sheet
+nursery.care > stock.sheet
+sales.sell > stock.sheet
+display.arrange > nursery.plants
+display.maintain > sales.sell

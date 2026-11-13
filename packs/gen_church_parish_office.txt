@@ -1,0 +1,49 @@
+# church parish office
+people: John, Mary, Peter, Susan
+## Administration | Manages parish records and day-to-day operations. | why: essential for keeping track of parish activities and members
+t records: parishioner records
+a update: update records
+a schedule: schedule meetings
+a communicate: communicate with parishioners
+update > records
+schedule > records
+communicate > records
+## Finance | Handles donations, expenses, and budgeting. | why: necessary for managing financial resources
+t ledger: financial ledger
+a record: record donations
+a pay: pay expenses
+a budget: create budget
+record > ledger
+pay > ledger
+budget > ledger
+## Events | Organizes church events and services. | why: important for community building and worship
+t calendar: events calendar
+a plan: plan events
+a promote: promote events
+a organize: organize service logistics
+plan > calendar
+promote > calendar
+organize > calendar
+## Communications | Sends out newsletters and handles media relations. | why: crucial for informing the community and public
+t newsletter: parish newsletter
+a write: write articles
+a distribute: distribute newsletter
+a respond: respond to media inquiries
+write > newsletter
+distribute > newsletter
+respond > newsletter
+## Facilities | Manages the upkeep and maintenance of church properties. | why: important for ensuring safety and comfort
+t maintenance: maintenance schedule
+a check: conduct safety checks
+a repair: carry out repairs
+a clean: perform cleaning
+check > maintenance
+repair > maintenance
+clean > maintenance
+## cross
+administration.records > events.calendar
+administration.records > communications.newsletter
+finance.ledger > administration.update
+events.calendar > facilities.check
+communications.distribute > administration.communicate
+facilities.clean > events.organize

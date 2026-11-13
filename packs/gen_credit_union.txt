@@ -1,0 +1,41 @@
+# credit union
+people: Emily, Jack, Sarah, David, Michael
+## Loan Processing | Approves and disburses loans to members.
+t application: loan application
+a assess: assess creditworthiness
+a approve: approve loan
+a disburse: disburse funds
+assess >> approve
+approve >> disburse
+disburse > application
+## Deposit Services | Manages member deposits and savings accounts.
+t account: deposit account
+a open: open new accounts
+a update: update account balances
+open >> update
+update > account
+## Financial Planning | Advises on investment and savings plans for members.
+t plan: financial plan
+a consult: consult with members
+a recommend: recommend investment options
+consult >> recommend
+recommend > plan
+## Compliance | Ensures operations comply with financial regulations.
+t audit: compliance audit
+a review: review operations
+a report: report findings
+review >> report
+report > audit
+## Customer Service | Handles inquiries and transactions for members.
+t inquiry: customer inquiry
+a respond: respond to inquiries
+a process: process transactions
+respond > inquiry
+process >> respond
+## cross
+loan.assess > compliance.audit
+loan.disburse > deposit.account
+deposit.update > financial.plan
+financial.recommend >> customer.respond
+compliance.report > loan.application
+compliance.report > deposit.account

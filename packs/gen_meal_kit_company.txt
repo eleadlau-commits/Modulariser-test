@@ -1,0 +1,39 @@
+# meal kit company
+people: Lily, Sam, Emma, Jake
+## Sourcing | Selects and orders ingredients from suppliers. | why: Ingredients are the core of the meal kit.
+a select: select ingredients
+t suppliers: supplier list
+a order: place orders
+select >> order
+order > suppliers
+## Preparation | Preps ingredients and assembles meal kits. | why: Makes the meal kit ready for delivery.
+t prep: prep list
+a prep: prepare ingredients
+t kit: meal kit
+prep > kit
+prep > prep
+## Quality | Ensures the quality of the meal kit. | why: Quality control is essential for customer satisfaction.
+a inspect: inspect meal kits
+a test: taste test meal kits
+t checklist: quality checklist
+inspect > checklist
+test > checklist
+## Packaging | Packages the meal kits for delivery. | why: Proper packaging ensures the meal kit arrives in good condition.
+t box: packaging box
+a pack: pack meal kit
+a seal: seal box
+pack > box
+pack >> seal
+## Delivery | Coordinates the delivery of the meal kits. | why: Ensures the meal kit reaches the customer.
+t schedule: delivery schedule
+a deliver: deliver meal kit
+a track: track delivery
+deliver > track
+deliver > schedule
+## cross
+sourcing.order > preparation.prep
+preparation.kit > quality.inspect
+quality.checklist >> packaging.pack
+packaging.seal > delivery.deliver
+sourcing.suppliers > preparation.prep
+preparation.prep >> quality.test

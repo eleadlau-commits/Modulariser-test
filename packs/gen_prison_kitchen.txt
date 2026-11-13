@@ -1,0 +1,42 @@
+# prison kitchen
+people: Ana, Raj, Mei, Tom
+## Planning | Plans meals and schedules for the week. | why: meals need to be organized and scheduled
+t menu: weekly menu
+a schedule: create meal schedule
+t ingredients: ingredient list
+schedule > menu
+schedule > ingredients
+## Procurement | Orders and receives food supplies. | why: food needs to be ordered
+a order: place order for ingredients
+t suppliers: supplier list
+a receive: check deliveries
+order > suppliers
+order >> receive
+## Inventory | Manages the storage and stock of food items.
+t stock: inventory list
+a count: count stock monthly
+count > stock
+## Preparation | Prepares ingredients and portions meals. 
+t prep: prep list
+a prep: portion ingredients
+a cook: cook meals
+prep > prep
+cook > prep
+## Distribution | Distributes meals to different units and inmates.
+t schedule: distribution schedule
+a distribute: distribute meals
+distribute > schedule
+## Cleaning | Cleans kitchen equipment and prepares for next use.
+t checklist: cleaning checklist
+a clean: clean equipment
+a sanitize: sanitize surfaces
+clean > checklist
+sanitize > checklist
+## cross
+planning.ingredients > procurement.order
+planning.menu > preparation.cook
+procurement.receive > inventory.stock
+inventory.stock > preparation.prep
+preparation.cook >> distribution.distribute
+distribution.schedule > cleaning.clean
+preparation.cook >> cleaning.clean

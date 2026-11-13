@@ -1,0 +1,39 @@
+# concert promoter
+people: Alex, Bella, Carlos, Dana
+## Booking | Secures the acts for the event. | why: talent is essential to draw crowds
+a scout: identify potential acts
+t roster: current roster
+a negotiate: negotiate contract terms
+scout >> negotiate
+negotiate > roster
+## Venue | Finds and secures a suitable venue.
+a scout: scout potential venues
+t venue: venue contract
+a negotiate: negotiate venue terms
+scout >> negotiate
+negotiate > venue
+## Marketing | Promotes the event to attract attendees.
+t ad: social media ad
+a launch: launch promotional campaign
+t tickets: ticket sale links
+launch > ad
+launch > tickets
+## Ticketing | Manages ticket sales and distribution.
+a setup: set up ticketing system
+t tickets: ticket sale links
+a track: track ticket sales
+setup > tickets
+setup >> track
+## Logistics | Handles the physical aspects of the event.
+t schedule: event schedule
+a setup: setup stage and equipment
+a manage: manage on-site staff
+setup > schedule
+setup >> manage
+## cross
+booking.roster > marketing.ad
+booking.roster > ticketing.tickets
+venue.venue > logistics.schedule
+marketing.launch > ticketing.setup
+ticketing.tickets > logistics.manage
+logistics.setup > venue.venue

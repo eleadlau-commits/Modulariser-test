@@ -1,0 +1,39 @@
+# maternity unit
+people: Sarah, Linda, Emily, John, Michael
+## Admission | Prepares the patient for labor and delivery. | why: necessary for patient safety and organization
+a register: register patient
+t records: patient records
+a assess: conduct initial assessment
+register > records
+assess > records
+## Labor | Manages the progress of labor until delivery. | why: ensures safe delivery
+a monitor: monitor labor progress
+t toc: tocometer
+a assist: assist in labor
+monitor > toc
+assist > monitor
+## Delivery | Assists in the actual birth of the baby. | why: essential for newborn delivery
+a deliver: deliver baby
+t instruments: delivery instruments
+a evaluate: evaluate newborn health
+deliver > instruments
+evaluate > deliver
+## Postpartum | Cares for the mother and newborn after birth. | why: necessary for recovery and health
+a care: provide postpartum care
+t vitals: maternal vitals
+a bond: facilitate mother-newborn bonding
+care > vitals
+bond > care
+## Discharge | Prepares the mother and baby for home. | why: ensures a safe transition
+a prepare: prepare discharge paperwork
+t guidelines: discharge guidelines
+a instruct: instruct on home care
+prepare > guidelines
+instruct > prepare
+## cross
+admission.register > postpartum.care
+admission.assess > labor.monitor
+labor.assist >> delivery.deliver
+delivery.evaluate >> postpartum.bond
+postpartum.care >> discharge.instruct
+discharge.prepare > postpartum.vitals

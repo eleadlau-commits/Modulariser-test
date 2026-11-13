@@ -1,0 +1,38 @@
+# school library
+people: Emma, Liam, Olivia, Noah
+## Cataloging | Adds and updates records in the library catalog.
+t database: library database
+a scan: scan book barcodes
+a update: update catalog records
+scan > database
+update > database
+## Circulation | Manages lending and returning of books.
+t checkout: checkout records
+a lend: lend books to students
+a return: accept book returns
+lend > checkout
+return > checkout
+## Shelving | Ensures books are correctly placed on the shelves.
+t location: shelf locations
+a sort: sort books by category
+a place: place books on shelves
+sort > location
+place > location
+## Acquisitions | Orders new books and materials for the library.
+t order: purchase orders
+a select: select new books
+a order: place orders with suppliers
+select > order
+order > order
+## Maintenance | Performs regular maintenance and repairs on books.
+t inventory: maintenance inventory
+a inspect: inspect books for damage
+a repair: repair damaged books
+inspect > inventory
+repair > inventory
+## cross
+cataloging.update > shelving.sort
+circulation.return > shelving.place
+acquisitions.order > cataloging.scan
+maintenance.inspect > cataloging.update
+shelving.place > circulation.checkout

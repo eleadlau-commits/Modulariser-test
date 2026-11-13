@@ -1,0 +1,38 @@
+# pub
+people: Emma, Liam, Olivia, Noah, Isabella
+## Stock | Tracks and manages the inventory of drinks and supplies.
+t sheet: stock sheet
+a count: count inventory weekly
+a order: place orders for stock
+count > sheet
+order > sheet
+## Bar | Prepares and serves drinks to customers.
+t menu: drink menu
+a mix: mix drinks
+a serve: serve drinks
+mix > menu
+serve > mix
+## Front | Welcomes guests, takes bookings, and manages the seating area.
+t bookings: booking book
+a seat: seat guests
+a greet: greet customers
+seat > bookings
+greet >> seat
+## Billing | Handles payment and maintains the till.
+a pay: take payment
+t till: till report
+a close: close the till
+pay >> close
+close > till
+## Cleaning | Cleans the pub after hours and maintains hygiene.
+t schedule: cleaning schedule
+a sweep: sweep floors
+a wipe: wipe surfaces
+sweep > schedule
+wipe > schedule
+## cross
+bar.mix > stock.sheet
+front.seat > bar.serve
+billing.pay > front.greet
+stock.order > cleaning.schedule
+cleaning.sweep > front.seat

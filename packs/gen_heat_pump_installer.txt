@@ -1,0 +1,38 @@
+# heat pump installer
+people: Mike, Lisa, Tom, Sarah, John
+## Survey | Evaluates the property and determines the system needs. | why: accurate assessment is crucial for system suitability
+a assess: assess property
+t notes: survey notes
+a recommend: recommend system type
+assess >> notes
+notes >> recommend
+## Design | Creates the design and layout for the heat pump system. | why: precise design ensures efficient installation
+t layout: system layout
+a plan: plan installation
+t materials: material list
+plan >> layout
+plan >> materials
+## Installation | Sets up and installs the heat pump system. | why: necessary to bring the design to life
+t parts: system parts
+a install: install system components
+t tools: installation tools
+install > parts
+install > tools
+## Testing | Verifies that the system is working correctly. | why: ensures the system functions as expected
+a check: check system performance
+t logs: system logs
+a adjust: adjust settings
+check > logs
+check >> adjust
+## Commissioning | Hands over the system to the customer, providing training and documentation. | why: ensures customer satisfaction and proper system use
+t manual: user manual
+a train: train customer
+t warranty: warranty information
+train > manual
+train > warranty
+## cross
+survey.assess > design.plan
+design.layout > installation.install
+installation.install >> testing.check
+testing.adjust > commissioning.train
+testing.logs >> commissioning.train

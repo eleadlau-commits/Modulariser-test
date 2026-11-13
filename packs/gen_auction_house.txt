@@ -1,0 +1,37 @@
+# auction house
+people: Emma, Liam, Olivia, Noah, Ava
+## Cataloging | Records detailed information about each item.
+t description: item description
+a photograph: take photographs
+t provenance: item provenance
+photograph > description
+description > provenance
+## Valuation | Estimates the value of each item.
+a research: research market value
+t estimate: value estimate
+research >> estimate
+## Marketing | Promotes the auction and attracts bidders.
+t brochure: auction brochure
+a advertise: place online and print ads
+t schedule: auction schedule
+advertise > brochure
+advertise > schedule
+## Auction | Conducts the sale of the items.
+t lot: auction lot
+a call: call the auction
+t hammer: auction hammer
+call > lot
+call > hammer
+## Settlement | Handles payments and transfers of ownership.
+a collect: collect payment
+t receipt: payment receipt
+a transfer: transfer legal title
+collect >> receipt
+transfer > receipt
+## cross
+cataloging.description > valuation.estimate
+valuation.estimate > marketing.brochure
+marketing.schedule > auction.call
+cataloging.description > auction.lot
+settlement.collect > auction.hammer
+settlement.transfer > valuation.estimate

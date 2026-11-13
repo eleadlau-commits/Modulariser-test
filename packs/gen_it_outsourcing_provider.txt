@@ -1,0 +1,39 @@
+# it outsourcing provider
+people: John, Lisa, Carlos, Emily, David
+## Project Management | Coordinates client demands and internal resources. | why: ensures clients' needs are met
+t timeline: project timeline
+a assign: assign tasks to team members
+t requirements: client requirements document
+assign > requirements
+assign > timeline
+## Resource Allocation | Allocates team members to projects based on skills and availability.
+t skills: team member skills database
+a schedule: schedule team members
+t availability: team member availability
+schedule > skills
+schedule > availability
+## Quality Assurance | Ensures the project meets the agreed standards.
+a audit: perform quality audits
+t standards: quality standards document
+a review: review deliverables
+review > standards
+audit > review
+## Client Service | Manages client communication and satisfaction.
+t feedback: client feedback log
+a communicate: communicate with the client
+t report: project status report
+communicate > feedback
+communicate > report
+## Technical Support | Provides ongoing technical assistance to clients.
+a troubleshoot: troubleshoot issues
+t faq: frequently asked questions
+a document: document solutions
+document > faq
+troubleshoot >> document
+## cross
+project.assign > resource.skills
+project.assign > resource.availability
+quality.review > client.report
+technical.troubleshoot >> quality.audit
+client.communicate >> technical.troubleshoot
+project.timeline > client.report

@@ -1,0 +1,37 @@
+# vintage clothing store
+people: Lily, Ethan, Olivia, Noah, Mia
+## Sourcing | Finds and selects vintage clothing items. | why: stock has to be sourced from somewhere
+a scout: scout for clothing items
+t vendors: vendor list
+a purchase: purchase selected items
+scout > vendors
+scout >> purchase
+## Inventory | Tracks and manages the stock of clothing items.
+t ledger: inventory ledger
+a count: count inventory monthly
+count > ledger
+## Cleaning | Cleans and prepares the items for display. | why: clothing must be clean and presentable
+t supplies: cleaning supplies
+a wash: wash clothing items
+a dry: dry clothing items
+wash >> dry
+wash > supplies
+## Display | Arranges items in the store and online. | why: items need to be visible to customers
+t tags: price tags
+a arrange: arrange items in store
+a list: list items online
+list > tags
+arrange > tags
+## Sales | Handles customer transactions and maintains records. | why: sales need to be recorded and customers served
+a serve: serve customers
+t receipts: sales receipts
+a record: record sales
+serve >> record
+record > receipts
+## cross
+sourcing.purchase > inventory.ledger
+inventory.count > sourcing.scout
+cleaning.wash > display.arrange
+cleaning.wash > display.list
+sales.serve >> inventory.ledger
+sales.record > inventory.ledger

@@ -1,0 +1,36 @@
+# hospital kitchen
+people: Ana, Raj, Mei, Tom
+## Menu Planning | Plans daily and weekly menus to meet dietary needs. | why: to ensure meals meet health requirements
+t diet: dietary guidelines
+a plan: plan daily menu
+t schedule: weekly schedule
+plan > diet
+plan > schedule
+## Procurement | Orders and receives food supplies for the kitchen. | why: to ensure the kitchen is supplied
+a order: order food
+t suppliers: supplier list
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Preparation | Prepares food according to the planned menu. 
+t prep: prep list
+a cook: cook dishes
+a portion: portion food
+cook > prep
+cook >> portion
+## Distribution | Packages and distributes meals to patients and staff.
+t packaging: food packaging
+a deliver: deliver meals
+t schedule: delivery schedule
+deliver > packaging
+deliver > schedule
+## Cleaning | Cleans kitchen equipment and facilities to maintain hygiene.
+a clean: clean equipment
+t schedule: cleaning schedule
+clean > schedule
+## cross
+menu.plan > preparation.cook
+procurement.receive > preparation.cook
+procurement.receive > cleaning.clean
+preparation.portion > distribution.deliver
+distribution.deliver > cleaning.clean

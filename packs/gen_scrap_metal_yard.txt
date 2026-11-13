@@ -1,0 +1,40 @@
+# scrap metal yard
+people: Mike, Sarah, Tom, Lisa, John
+## Receiving | Inspects and logs incoming scrap loads.
+t manifest: scrap manifest
+a inspect: inspect scrap quality
+a log: log scrap details
+inspect >> log
+log > manifest
+## Sorting | Separates scrap into different categories.
+t categories: category bins
+a sort: sort scrap
+a weigh: weigh sorted scrap
+sort >> weigh
+weigh > categories
+## Processing | Prepares scrap for sale by cutting or baling.
+t cutting: cutting machine
+t baling: baling machine
+a cut: cut scrap
+a bale: bale scrap
+cut > cutting
+bale > baling
+## Sales | Arranges the sale of processed scrap.
+t bids: sales bids
+a bid: evaluate sales bids
+a sell: arrange sale
+bid > bids
+bid >> sell
+## Transport | Organizes transportation for outgoing scrap.
+t trucks: transport trucks
+a load: load trucks
+a deliver: deliver scrap
+load > trucks
+load >> deliver
+## cross
+receiving.manifest > sorting.categories
+receiving.log > processing.cut
+receiving.log > processing.bale
+sorting.sort > processing.cut
+sales.bid > transport.load
+sales.sell > transport.deliver

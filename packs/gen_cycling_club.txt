@@ -1,0 +1,38 @@
+# cycling club
+people: Max, Zoe, Liam, Olivia, Noah
+## Membership | Manages new and existing members.
+t roster: member roster
+a register: register new members
+t dues: membership dues
+register > roster
+register >> dues
+## Training | Organizes weekly training rides.
+t schedule: training schedule
+a lead: lead training rides
+a track: track rider progress
+lead > schedule
+lead >> track
+## Events | Coordinates club participation in races and tours.
+t calendar: event calendar
+a recruit: recruit riders for events
+a enter: enter events officially
+recruit > calendar
+enter > calendar
+## Sponsorship | Secures and manages financial support.
+t sponsors: sponsor list
+a negotiate: negotiate sponsorship deals
+t budget: sponsorship budget
+negotiate > sponsors
+negotiate >> budget
+## Social | Organizes social gatherings and club nights.
+t agenda: social agenda
+a organize: organize social events
+a invite: invite members to events
+organize > agenda
+invite > agenda
+## cross
+membership.roster > training.schedule
+membership.dues > sponsorship.budget
+events.calendar >> training.track
+sponsorship.budget >> social.agenda
+social.invite > membership.roster

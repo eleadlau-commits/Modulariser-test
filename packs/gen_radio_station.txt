@@ -1,0 +1,38 @@
+# radio station
+people: Linda, Sam, Mia, Alex, Ben
+## Programming | Creates and schedules the daily radio content. | why: content must be organized and scheduled
+t playlist: daily playlist
+a schedule: schedule shows and advertisements
+t log: program log
+schedule > playlist
+schedule > log
+## Production | Produces live and recorded content. 
+a record: record voiceovers and interviews
+a live: conduct live broadcasts
+t studio: recording studio
+record > studio
+live > studio
+## Advertising | Sells and places advertisements. | why: stations need revenue
+t adlist: advertisement list
+a sell: sell advertising slots
+a place: place ads in the schedule
+sell >> adlist
+place > adlist
+## Technical Operations | Supports the transmission and technical aspects of broadcasting. 
+a monitor: monitor transmission quality
+a maintain: maintain equipment
+t transmitter: main transmitter
+monitor >> transmitter
+maintain > transmitter
+## Promotion | Manages social media and community relations. 
+t posts: social media posts
+a post: publish posts
+a engage: engage with community
+post > posts
+engage > posts
+## cross
+programming.log > technical.transmitter
+programming.schedule > production.live
+production.record > programming.playlist
+advertising.adlist > programming.schedule
+promotion.post >> programming.log

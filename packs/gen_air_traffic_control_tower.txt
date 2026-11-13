@@ -1,0 +1,39 @@
+# air traffic control tower
+people: Alex, Priya, Ben, Mei, Tom
+## Coordination | Manages the flow of aircraft into and out of the airspace.
+a schedule: schedule takeoffs and landings
+t flightplan: flight plan list
+a communicate: communicate with pilots and ground staff
+schedule > flightplan
+communicate >> schedule
+## Monitoring | Tracks the position and status of aircraft in real-time.
+t radar: radar display
+a track: track aircraft movements
+t log: flight log
+track > radar
+track >> log
+## Communication | Ensures clear and consistent communication with aircraft.
+a transmit: transmit instructions to aircraft
+t frequency: communication frequency list
+a receive: receive messages from aircraft
+transmit > frequency
+receive > frequency
+## Safety | Ensures all safety protocols are followed and enforced.
+t checklist: safety checklist
+a verify: verify aircraft adherence to rules
+a alert: alert in case of emergency
+verify > checklist
+alert >> verify
+## Navigation | Provides navigational guidance to aircraft.
+a guide: provide navigational guidance
+t route: flight route map
+a update: update aircraft on position
+guide > route
+update > route
+## cross
+coordination.schedule > monitoring.track
+coordination.communicate > communication.transmit
+monitoring.track >> safety.verify
+navigation.guide > communication.transmit
+navigation.update > communication.receive
+safety.alert >> navigation.guide

@@ -1,0 +1,38 @@
+# butcher shop
+people: Mike, Sarah, Tom, Laura, David
+## Sourcing | Procures meat and supplies from suppliers. | why: meat has to be sourced from somewhere
+a order: order meat supplies
+t suppliers: supplier list
+a receive: receive deliveries
+order > suppliers
+order >> receive
+## Butchery | Cuts meat into various portions and types.
+t cuts: cut list
+a cut: cut meat
+a wrap: wrap meat portions
+cut >> wrap
+cut > cuts
+## Display | Sets up meat for sale and maintains freshness.
+t display: meat display
+a prep: prepare display
+a rotate: rotate inventory
+prep > display
+rotate > display
+## Sales | Manages customer transactions and orders.
+t register: cash register
+a serve: serve customers
+a record: record sales
+serve >> record
+serve > register
+## Inventory | Tracks stock levels and orders restocks.
+t stock: stock levels
+a count: count stock daily
+a reorder: reorder stock
+count > stock
+count >> reorder
+## cross
+sourcing.order > inventory.stock
+sourcing.receive > inventory.stock
+butchery.cut > display.display
+butchery.wrap > sales.serve
+sales.serve >> inventory.count
