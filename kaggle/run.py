@@ -74,9 +74,11 @@ def train(base, adapter_dir):
     from trl import SFTConfig, SFTTrainer
 
     rows = load_jsonl(f"{WORK}/data/synth_train.jsonl")
-    extra = f"{WORK}/repo/data/extra_train.jsonl"
-    if os.path.exists(extra):
-        rows += load_jsonl(extra)
+    import glob
+    for extra in sorted(glob.glob(f"{WORK}/repo/data/*_train.jsonl")):
+        more = load_jsonl(extra)
+        log("extra training file", extra, len(more))
+        rows += more
     ds = Dataset.from_list([{"messages": r["messages"]} for r in rows]).shuffle(seed=0)
     tok = AutoTokenizer.from_pretrained(base)
     model = AutoModelForCausalLM.from_pretrained(
@@ -533,6 +535,42 @@ def write_packs():
     log(f"packs: {good} of {len(domains)} domains")
 
 
+# ---------------------------------------------------------------- teacher (natural rewrites of synthetic mess)
+
+PARA_PROMPT = """Rewrite the following notes so they read like something a real person wrote about their work: natural wording, varied sentences, some informality. Keep every activity, thing, person and relationship in it, and keep which step comes before which. You may reword names of activities and things slightly. Do not add new steps or facts. Output only the rewritten text.
+
+NOTES:
+{text}"""
+
+
+def paraphrase():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.data.build import TEST_DOMAINS
+    from modulariser.data.pack import load_all
+    from modulariser.data.synth import generate
+    from modulariser.prompt import messages
+
+    packs = [p for n, p in load_all().items() if n not in TEST_DOMAINS]
+    rows = [r for r in generate(packs, CONFIG.get("n_para", 1500), 991, "para") if r[1]["status"] != "refuse"]
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    sp = SamplingParams(temperature=0.8, max_tokens=1200)
+    outs = llm.chat([[{"role": "user", "content": PARA_PROMPT.format(text=it["input"])}] for it, _ in rows], sp, use_tqdm=False)
+    kept = 0
+    with open(os.path.join(OUT, "para_train.jsonl"), "w") as f:
+        for (it, tg), o in zip(rows, outs):
+            text = o.outputs[0].text.strip()
+            low = text.lower()
+            hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in tg["elements"])
+            if not text or hits < 0.8 * len(tg["elements"]):
+                continue
+            kept += 1
+            f.write(json.dumps({"id": it["id"], "source": {"kind": "synthetic", "origin": it["source"]["origin"] + "+paraphrase", "licence": "CC0"},
+                                "domain": it["domain"], "messages": messages(text, tg)}) + "\n")
+    log(f"paraphrase: kept {kept} of {len(rows)}")
+
+
 def subrun(task):
     """Run this script again as a fresh process with another task."""
     cfg = dict(CONFIG, task=task)
@@ -548,7 +586,7 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval", "teacher", "evaladapter", "packs"):
+    if task in ("train", "eval", "teacher", "evaladapter", "packs", "paraphrase"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
@@ -579,6 +617,8 @@ def main():
         export()
     elif task == "packs":
         write_packs()
+    elif task == "paraphrase":
+        paraphrase()
     else:
         for m in CONFIG["models"]:
             subrun_cfg = dict(CONFIG, one=m)
@@ -587,7 +627,7 @@ def main():
     if task in ("train", "eval", "evaladapter") and CONFIG.get("judge", True):
         subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
-    if task in ("train", "eval", "teacher", "evaladapter", "export", "packs"):
+    if task in ("train", "eval", "teacher", "evaladapter", "export", "packs", "paraphrase"):
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
