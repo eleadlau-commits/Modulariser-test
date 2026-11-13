@@ -1,0 +1,271 @@
+{
+ "id": "x54-mobilesupport",
+ "domain": "mobile app customer support",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "support for our app. users contact us from the in-app help button, which creates a ticket in the helpdesk with device info attached. tier 1 answers from the help centre articles (macros). if it's a bug, tier 1 reproduces it and files an issue in the engineering tracker with the ticket link. engineering fixes go out in the next app release; release notes list fixed issues. when an issue is closed the helpdesk integration reopens linked tickets so tier 1 can tell the user. refunds are via the app stores, we only send the user the link. CSAT survey after a ticket closes, scores go to the support dashboard.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "in-app help button"
+  },
+  {
+   "id": "g2",
+   "text": "helpdesk tickets"
+  },
+  {
+   "id": "g3",
+   "text": "help centre articles"
+  },
+  {
+   "id": "g4",
+   "text": "tier 1 answers"
+  },
+  {
+   "id": "g5",
+   "text": "reproduce the bug"
+  },
+  {
+   "id": "g6",
+   "text": "engineering tracker"
+  },
+  {
+   "id": "g7",
+   "text": "fix the bug"
+  },
+  {
+   "id": "g8",
+   "text": "app release"
+  },
+  {
+   "id": "g9",
+   "text": "release notes"
+  },
+  {
+   "id": "g10",
+   "text": "reopen linked tickets"
+  },
+  {
+   "id": "g11",
+   "text": "send refund link"
+  },
+  {
+   "id": "g12",
+   "text": "CSAT survey"
+  },
+  {
+   "id": "g13",
+   "text": "support dashboard"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g7",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What creates a ticket?",
+   "a": "the in-app help button",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "q": "How does a bug reach engineering?",
+   "a": "tier 1 reproduces it and files it in the tracker",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How is the user told about a fix?",
+   "a": "closing the issue reopens linked tickets",
+   "needs": [
+    "g10",
+    "g6",
+    "g2"
+   ]
+  },
+  {
+   "q": "What do release notes list?",
+   "a": "fixed issues from the tracker",
+   "needs": [
+    "g9",
+    "g6"
+   ]
+  },
+  {
+   "q": "Where do CSAT scores go?",
+   "a": "the support dashboard",
+   "needs": [
+    "g12",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new helpdesk tool",
+   "touches": [
+    "g2",
+    "g1",
+    "g10",
+    "g12"
+   ]
+  },
+  {
+   "name": "weekly releases",
+   "touches": [
+    "g8",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Intake",
+     "owns": [
+      "g1",
+      "g2"
+     ]
+    },
+    {
+     "name": "Tier 1",
+     "owns": [
+      "g3",
+      "g4",
+      "g5",
+      "g11"
+     ]
+    },
+    {
+     "name": "Engineering",
+     "owns": [
+      "g6",
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Integration",
+     "owns": [
+      "g10"
+     ]
+    },
+    {
+     "name": "Quality",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Support",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g5",
+      "g11",
+      "g10"
+     ]
+    },
+    {
+     "name": "Engineering",
+     "owns": [
+      "g6",
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Quality",
+     "owns": [
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

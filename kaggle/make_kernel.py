@@ -28,13 +28,13 @@ meta = {
     "language": "python",
     "kernel_type": "script",
     "is_private": True,
-    "enable_gpu": True,
+    "enable_gpu": a.task != "export",
     "enable_tpu": False,
     "enable_internet": True,
     "machine_shape": "NvidiaTeslaT4",
     "dataset_sources": [],
     "competition_sources": [],
-    "kernel_sources": [],
+    "kernel_sources": [f"{os.environ['KAGGLE_USERNAME']}/{k}" for k in cfg.get("kernel_sources", [])],
     "model_sources": [],
 }
 (out / "kernel-metadata.json").write_text(json.dumps(meta, indent=2))

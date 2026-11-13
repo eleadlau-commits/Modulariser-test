@@ -1,0 +1,236 @@
+{
+ "id": "x53-tattoo",
+ "domain": "tattoo studio",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "tattoo studio run-down. clients DM on instagram, artist replies and does a consultation (design idea, placement, size). booking goes in the studio diary with a non-refundable deposit. artist draws the design before the day. on the day: consent form and ID check (18+), aftercare sheet given at the end. sterilisation: single-use needles, autoclave for grips, autoclave log kept. council licence inspection yearly, they look at the autoclave log and consent forms. the deposit money is argued over: the artists say deposits are theirs (they did the drawing), the studio owner says deposits go to the studio till. not resolved.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "Instagram DMs"
+  },
+  {
+   "id": "g2",
+   "text": "consultation"
+  },
+  {
+   "id": "g3",
+   "text": "studio diary"
+  },
+  {
+   "id": "g4",
+   "text": "deposits"
+  },
+  {
+   "id": "g5",
+   "text": "draw the design"
+  },
+  {
+   "id": "g6",
+   "text": "consent form"
+  },
+  {
+   "id": "g7",
+   "text": "ID check"
+  },
+  {
+   "id": "g8",
+   "text": "aftercare sheet"
+  },
+  {
+   "id": "g9",
+   "text": "autoclave grips"
+  },
+  {
+   "id": "g10",
+   "text": "autoclave log"
+  },
+  {
+   "id": "g11",
+   "text": "council inspection"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g8",
+   "kind": "order"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g6",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What happens before the design is drawn?",
+   "a": "a consultation",
+   "needs": [
+    "g2",
+    "g5"
+   ]
+  },
+  {
+   "q": "What is checked on the day?",
+   "a": "ID and consent form",
+   "needs": [
+    "g7",
+    "g6"
+   ]
+  },
+  {
+   "q": "What does the council inspect?",
+   "a": "the autoclave log and consent forms",
+   "needs": [
+    "g11",
+    "g10",
+    "g6"
+   ]
+  },
+  {
+   "q": "Who owns deposits?",
+   "a": "disputed between artists and the studio",
+   "needs": [
+    "g4"
+   ]
+  },
+  {
+   "q": "Where are bookings recorded?",
+   "a": "the studio diary",
+   "needs": [
+    "g3"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new booking app",
+   "touches": [
+    "g3",
+    "g1"
+   ]
+  },
+  {
+   "name": "new licence conditions",
+   "touches": [
+    "g11",
+    "g6",
+    "g10"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Artist",
+     "owns": [
+      "g1",
+      "g2",
+      "g5"
+     ]
+    },
+    {
+     "name": "Front desk",
+     "owns": [
+      "g3",
+      "g4",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Hygiene",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Compliance",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts alt",
+   "parts": [
+    {
+     "name": "Artist",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g4"
+     ]
+    },
+    {
+     "name": "Front desk",
+     "owns": [
+      "g3",
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Hygiene",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Compliance",
+     "owns": [
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

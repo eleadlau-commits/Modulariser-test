@@ -1,0 +1,286 @@
+{
+ "id": "x40-funeral",
+ "domain": "funeral directors",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "how we arrange a funeral. family call, we collect the deceased (24/7 on-call team) and log them in the mortuary register. arrangement meeting with the family: date, burial or cremation, service details, all on the arrangement form. doctor's certificate and the registrar's green form needed before cremation paperwork goes to the crematorium. book the crematorium or cemetery and the celebrant around the family's date. hearse and limousines allocated from the fleet diary. order of service printed from the arrangement form. invoice the family; disbursements (crematorium fee, celebrant) paid by us first.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "collect the deceased"
+  },
+  {
+   "id": "g2",
+   "text": "on-call team"
+  },
+  {
+   "id": "g3",
+   "text": "mortuary register"
+  },
+  {
+   "id": "g4",
+   "text": "arrangement meeting"
+  },
+  {
+   "id": "g5",
+   "text": "arrangement form"
+  },
+  {
+   "id": "g6",
+   "text": "doctor's certificate"
+  },
+  {
+   "id": "g7",
+   "text": "registrar's green form"
+  },
+  {
+   "id": "g8",
+   "text": "cremation paperwork"
+  },
+  {
+   "id": "g9",
+   "text": "book crematorium or cemetery"
+  },
+  {
+   "id": "g10",
+   "text": "book the celebrant"
+  },
+  {
+   "id": "g11",
+   "text": "fleet diary"
+  },
+  {
+   "id": "g12",
+   "text": "order of service"
+  },
+  {
+   "id": "g13",
+   "text": "invoice the family"
+  },
+  {
+   "id": "g14",
+   "text": "pay disbursements"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g14",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is needed before cremation paperwork?",
+   "a": "the doctor's certificate and the green form",
+   "needs": [
+    "g8",
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "Where are service details recorded?",
+   "a": "the arrangement form",
+   "needs": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "How are vehicles allocated?",
+   "a": "from the fleet diary",
+   "needs": [
+    "g11"
+   ]
+  },
+  {
+   "q": "What are disbursements?",
+   "a": "crematorium and celebrant fees paid first by the firm",
+   "needs": [
+    "g14",
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "Who collects the deceased?",
+   "a": "the on-call team",
+   "needs": [
+    "g1",
+    "g2"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new crematorium paperwork rules",
+   "touches": [
+    "g8",
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "name": "new printer for orders of service",
+   "touches": [
+    "g12"
+   ]
+  },
+  {
+   "name": "change fleet",
+   "touches": [
+    "g11"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Collection",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Arrangement",
+     "owns": [
+      "g4",
+      "g5",
+      "g12"
+     ]
+    },
+    {
+     "name": "Paperwork",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Bookings",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Accounts",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Collection",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Arrangement",
+     "owns": [
+      "g4",
+      "g5",
+      "g12",
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Paperwork",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Accounts",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  }
+ ]
+}

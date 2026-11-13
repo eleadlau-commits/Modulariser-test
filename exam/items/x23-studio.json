@@ -1,0 +1,278 @@
+{
+ "id": "x23-studio",
+ "domain": "recording studio",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "- bands book sessions through the booking calendar, deposit taken at booking\n- engineer preps the live room from the session sheet (instruments, mic list)\n- tracking day: record to the DAW project, engineer keeps the take log\n- comping and edits after, from the take log\n- mixing uses the DAW project too, mix notes from the band come by email\n- mastering is outsourced, we send the final mix files\n- invoice balance before files are released, Kim does invoicing\n- backups of every DAW project to the NAS nightly",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "book sessions"
+  },
+  {
+   "id": "g2",
+   "text": "booking calendar"
+  },
+  {
+   "id": "g3",
+   "text": "take the deposit"
+  },
+  {
+   "id": "g4",
+   "text": "prep the live room"
+  },
+  {
+   "id": "g5",
+   "text": "session sheet"
+  },
+  {
+   "id": "g6",
+   "text": "record the tracks"
+  },
+  {
+   "id": "g7",
+   "text": "DAW project"
+  },
+  {
+   "id": "g8",
+   "text": "take log"
+  },
+  {
+   "id": "g9",
+   "text": "comp and edit"
+  },
+  {
+   "id": "g10",
+   "text": "mix the song"
+  },
+  {
+   "id": "g11",
+   "text": "mix notes"
+  },
+  {
+   "id": "g12",
+   "text": "send for mastering"
+  },
+  {
+   "id": "g13",
+   "text": "invoice the balance"
+  },
+  {
+   "id": "g14",
+   "text": "nightly backups"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g14",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What does the engineer prep the room from?",
+   "a": "the session sheet",
+   "needs": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "What are edits based on?",
+   "a": "the take log",
+   "needs": [
+    "g9",
+    "g8"
+   ]
+  },
+  {
+   "q": "When are files released?",
+   "a": "after the balance is invoiced and paid",
+   "needs": [
+    "g13",
+    "g12"
+   ]
+  },
+  {
+   "q": "Where do mix notes come from?",
+   "a": "the band, by email",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "What is backed up?",
+   "a": "DAW projects, nightly to the NAS",
+   "needs": [
+    "g14",
+    "g7"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "move to a new DAW",
+   "touches": [
+    "g7",
+    "g6",
+    "g9",
+    "g10",
+    "g14"
+   ]
+  },
+  {
+   "name": "change deposit policy",
+   "touches": [
+    "g3",
+    "g13"
+   ]
+  },
+  {
+   "name": "bring mastering in-house",
+   "touches": [
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g13"
+     ]
+    },
+    {
+     "name": "Recording",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g8"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g7",
+      "g9",
+      "g10",
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "IT",
+     "owns": [
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Bookings",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g13"
+     ]
+    },
+    {
+     "name": "Recording",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g7",
+      "g10",
+      "g11",
+      "g12",
+      "g14"
+     ]
+    }
+   ]
+  }
+ ]
+}

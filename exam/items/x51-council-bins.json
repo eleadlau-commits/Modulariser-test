@@ -1,0 +1,291 @@
+{
+ "id": "x51-council-bins",
+ "domain": "council waste collection",
+ "source": {
+  "kind": "real",
+  "origin": "https://www.gov.uk/rubbish-collection-day",
+  "licence": "OGL v3 (paraphrased)"
+ },
+ "input": "how bin collections work at the council (from the ops team). rounds are planned in the routing software using the property gazetteer (every address with its bin types). crews get their round on the in-cab tablet, which also records missed bins and contaminated recycling (they tag the bin and photo it). residents report missed bins online, reports go into the CRM and cross-check against the tablet records before a return visit is booked. garden waste is a paid subscription, subscriber list comes from the payments system into the gazetteer flags. trucks are maintained at the depot workshop, vehicle checks done daily by drivers on the tablet. tonnages from the weighbridge go to the recycling performance return each quarter.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "plan rounds"
+  },
+  {
+   "id": "g2",
+   "text": "routing software"
+  },
+  {
+   "id": "g3",
+   "text": "property gazetteer"
+  },
+  {
+   "id": "g4",
+   "text": "in-cab tablet"
+  },
+  {
+   "id": "g5",
+   "text": "tag contaminated recycling"
+  },
+  {
+   "id": "g6",
+   "text": "report a missed bin"
+  },
+  {
+   "id": "g7",
+   "text": "CRM"
+  },
+  {
+   "id": "g8",
+   "text": "book a return visit"
+  },
+  {
+   "id": "g9",
+   "text": "garden waste subscriptions"
+  },
+  {
+   "id": "g10",
+   "text": "payments system"
+  },
+  {
+   "id": "g11",
+   "text": "depot workshop"
+  },
+  {
+   "id": "g12",
+   "text": "daily vehicle checks"
+  },
+  {
+   "id": "g13",
+   "text": "weighbridge tonnages"
+  },
+  {
+   "id": "g14",
+   "text": "performance return"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g12",
+   "kind": "uses"
+  },
+  {
+   "from": "g14",
+   "to": "g13",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What are rounds planned from?",
+   "a": "the property gazetteer in the routing software",
+   "needs": [
+    "g1",
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "How are missed-bin reports checked?",
+   "a": "against tablet records before a return visit",
+   "needs": [
+    "g8",
+    "g7",
+    "g4"
+   ]
+  },
+  {
+   "q": "How does the gazetteer know who has garden waste?",
+   "a": "the subscriber list from payments",
+   "needs": [
+    "g3",
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "How is contaminated recycling recorded?",
+   "a": "tagged and photographed on the tablet",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "What feeds the performance return?",
+   "a": "weighbridge tonnages",
+   "needs": [
+    "g14",
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new routing software",
+   "touches": [
+    "g2",
+    "g1",
+    "g4"
+   ]
+  },
+  {
+   "name": "garden waste price change",
+   "touches": [
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "name": "new CRM",
+   "touches": [
+    "g7",
+    "g6",
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Crews",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Customer service",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Subscriptions",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Fleet",
+     "owns": [
+      "g11",
+      "g12"
+     ]
+    },
+    {
+     "name": "Reporting",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Crews",
+     "owns": [
+      "g4",
+      "g5",
+      "g12",
+      "g11"
+     ]
+    },
+    {
+     "name": "Customer service",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Reporting",
+     "owns": [
+      "g13",
+      "g14"
+     ]
+    }
+   ]
+  }
+ ]
+}

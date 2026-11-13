@@ -1,0 +1,232 @@
+{
+ "id": "x58-apprentice",
+ "domain": "engineering apprenticeship scheme",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "apprentice scheme at the factory. HR advertises and runs assessment days, offers made with the training provider agreeing. each apprentice has a training plan agreed with the college, off-the-job hours logged in the e-portfolio. workplace mentor signs off competencies in the e-portfolio. levy funding drawn down monthly by finance from the apprenticeship service account. end-point assessment booked by the training provider when the mentor and college say ready. the e-portfolio itself is a problem, HR say they own it because it's about staff, the college say it's their learning record. nobody's settled it.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "advertise apprenticeships"
+  },
+  {
+   "id": "g2",
+   "text": "assessment days"
+  },
+  {
+   "id": "g3",
+   "text": "make offers"
+  },
+  {
+   "id": "g4",
+   "text": "training plan"
+  },
+  {
+   "id": "g5",
+   "text": "college sessions"
+  },
+  {
+   "id": "g6",
+   "text": "e-portfolio"
+  },
+  {
+   "id": "g7",
+   "text": "mentor sign-off"
+  },
+  {
+   "id": "g8",
+   "text": "levy drawdown"
+  },
+  {
+   "id": "g9",
+   "text": "apprenticeship service account"
+  },
+  {
+   "id": "g10",
+   "text": "end-point assessment"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "order"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g3",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "Where are off-the-job hours logged?",
+   "a": "the e-portfolio",
+   "needs": [
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "How is levy funding drawn?",
+   "a": "monthly by finance from the service account",
+   "needs": [
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "When is end-point assessment booked?",
+   "a": "when mentor and college say ready",
+   "needs": [
+    "g10",
+    "g7",
+    "g5"
+   ]
+  },
+  {
+   "q": "Who owns the e-portfolio?",
+   "a": "disputed between HR and the college",
+   "needs": [
+    "g6"
+   ]
+  },
+  {
+   "q": "What precedes offers?",
+   "a": "advertising and assessment days",
+   "needs": [
+    "g1",
+    "g2",
+    "g3"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new college",
+   "touches": [
+    "g5",
+    "g4",
+    "g10"
+   ]
+  },
+  {
+   "name": "levy rule change",
+   "touches": [
+    "g8",
+    "g9"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Recruitment",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Training",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Workplace",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Funding",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts alt",
+   "parts": [
+    {
+     "name": "Recruitment",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g6"
+     ]
+    },
+    {
+     "name": "Training",
+     "owns": [
+      "g4",
+      "g5",
+      "g10"
+     ]
+    },
+    {
+     "name": "Workplace",
+     "owns": [
+      "g7"
+     ]
+    },
+    {
+     "name": "Funding",
+     "owns": [
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

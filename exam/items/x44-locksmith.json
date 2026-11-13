@@ -1,0 +1,215 @@
+{
+ "id": "x44-locksmith",
+ "domain": "locksmith business",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "I'm a one-man locksmith. emergency calls come to my mobile, non-urgent jobs through the website form into my job calendar. for lockouts I check ID and proof of address before opening (log it in the ID log for insurance). key cutting at the van with blanks from the blanks box, I reorder blanks from the wholesaler monthly. invoices made on my phone app, card reader linked to it. quarterly I do VAT from the app records.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "emergency calls"
+  },
+  {
+   "id": "g2",
+   "text": "website form"
+  },
+  {
+   "id": "g3",
+   "text": "job calendar"
+  },
+  {
+   "id": "g4",
+   "text": "check ID before opening"
+  },
+  {
+   "id": "g5",
+   "text": "ID log"
+  },
+  {
+   "id": "g6",
+   "text": "cut keys"
+  },
+  {
+   "id": "g7",
+   "text": "blanks box"
+  },
+  {
+   "id": "g8",
+   "text": "reorder blanks"
+  },
+  {
+   "id": "g9",
+   "text": "invoice in the app"
+  },
+  {
+   "id": "g10",
+   "text": "card reader"
+  },
+  {
+   "id": "g11",
+   "text": "quarterly VAT"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is checked before a lockout?",
+   "a": "ID and proof of address, logged",
+   "needs": [
+    "g4",
+    "g5"
+   ]
+  },
+  {
+   "q": "Where do non-urgent jobs go?",
+   "a": "the job calendar",
+   "needs": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "q": "What is VAT worked out from?",
+   "a": "the invoicing app records",
+   "needs": [
+    "g11",
+    "g9"
+   ]
+  },
+  {
+   "q": "Where do key blanks come from?",
+   "a": "the blanks box, reordered monthly",
+   "needs": [
+    "g6",
+    "g7",
+    "g8"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new invoicing app",
+   "touches": [
+    "g9",
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "name": "new insurer rules",
+   "touches": [
+    "g4",
+    "g5"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Jobs",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Security",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Keys",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Money",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Jobs",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Keys",
+     "owns": [
+      "g6",
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Money",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

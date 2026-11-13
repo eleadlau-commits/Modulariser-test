@@ -29,7 +29,7 @@ from modulariser.check import validate_item  # noqa: E402
 def parse_block(block: str) -> dict:
     head, rest = block.split("\n", 1)
     iid, domain, kind, origin, licence, status = [x.strip() for x in head.split("|")]
-    text, spec = rest.split("\n---\n", 1)
+    text, spec = (rest + "\n").split("\n---\n", 1)
     keys, elements, edges, qs, changes, cuts = {}, [], [], [], [], []
 
     def g(k):

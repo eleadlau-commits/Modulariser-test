@@ -1,0 +1,254 @@
+{
+ "id": "x37-garden",
+ "domain": "community garden",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "community garden committee notes. plots allocated from the waiting list at the AGM, plot holders pay rent which the treasurer records in the accounts. shared tools in the shed, borrowed using the sign-out book. watering rota on the noticeboard in summer, water butts filled from the mains tap (metered, bill goes to treasurer). seed swap in spring. compost bays managed by volunteers, compost rules on the noticeboard. grants applied for by the secretary, grant spend tracked in the accounts. landlord is the council, lease renewal every 5 years by the secretary.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "plot waiting list"
+  },
+  {
+   "id": "g2",
+   "text": "allocate plots"
+  },
+  {
+   "id": "g3",
+   "text": "collect plot rent"
+  },
+  {
+   "id": "g4",
+   "text": "accounts"
+  },
+  {
+   "id": "g5",
+   "text": "tool shed"
+  },
+  {
+   "id": "g6",
+   "text": "sign-out book"
+  },
+  {
+   "id": "g7",
+   "text": "watering rota"
+  },
+  {
+   "id": "g8",
+   "text": "noticeboard"
+  },
+  {
+   "id": "g9",
+   "text": "water bill"
+  },
+  {
+   "id": "g10",
+   "text": "seed swap"
+  },
+  {
+   "id": "g11",
+   "text": "compost bays"
+  },
+  {
+   "id": "g12",
+   "text": "apply for grants"
+  },
+  {
+   "id": "g13",
+   "text": "lease renewal"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How are plots allocated?",
+   "a": "from the waiting list at the AGM",
+   "needs": [
+    "g2",
+    "g1"
+   ]
+  },
+  {
+   "q": "Where is rent recorded?",
+   "a": "in the accounts, by the treasurer",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "How are tools borrowed?",
+   "a": "the sign-out book",
+   "needs": [
+    "g6",
+    "g5"
+   ]
+  },
+  {
+   "q": "Where is the watering rota?",
+   "a": "on the noticeboard",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "q": "Who renews the lease?",
+   "a": "the secretary, every five years",
+   "needs": [
+    "g13"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "online plot waiting list",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "name": "new grant",
+   "touches": [
+    "g12",
+    "g4"
+   ]
+  },
+  {
+   "name": "new compost rules",
+   "touches": [
+    "g11",
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Plots",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g4",
+      "g9",
+      "g12"
+     ]
+    },
+    {
+     "name": "Shared resources",
+     "owns": [
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Site",
+     "owns": [
+      "g7",
+      "g8",
+      "g11"
+     ]
+    },
+    {
+     "name": "Governance",
+     "owns": [
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Plots",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g4",
+      "g9",
+      "g12",
+      "g13"
+     ]
+    },
+    {
+     "name": "Shared resources",
+     "owns": [
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Site",
+     "owns": [
+      "g7",
+      "g8",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}

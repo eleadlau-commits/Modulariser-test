@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "eval or train"
+        description: "eval, train, teacher, or collect-<task> to fetch a kernel still running"
         default: eval
       models:
         description: "comma-separated Hugging Face model ids"
@@ -16,6 +16,8 @@ on:
       ref:
         description: "git ref the kernel checks out (default: this commit)"
         default: ""
+permissions:
+  contents: write
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -32,13 +34,17 @@ jobs:
           python-version: "3.11"
       - name: Install kaggle CLI
         run: |
-          pip install -q -U kaggle huggingface_hub
+          pip install -q -U kaggle huggingface_hub six
           if [ -z "$KAGGLE_USERNAME" ]; then echo "::error::KAGGLE_USERNAME secret is missing"; exit 1; fi
           kaggle --version
           kaggle kernels list --mine --page-size 1 || echo "::warning::kaggle auth check failed"
       - name: Build kernel
         id: build
         run: |
+          if [[ "${{ inputs.task }}" == collect-* ]]; then
+            echo "slug=$KAGGLE_USERNAME/modulariser-${{ inputs.task }}" | sed 's/modulariser-collect-/modulariser-/' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           python kaggle/make_kernel.py \
             --task "${{ inputs.task }}" --models "${{ inputs.models }}" \
             --options '${{ inputs.options }}' --ref "${{ inputs.ref || github.sha }}" \
@@ -46,6 +52,7 @@ jobs:
           cat kernel/kernel-metadata.json
           echo "slug=$(python -c "import json;print(json.load(open('kernel/kernel-metadata.json'))['id'])")" >> "$GITHUB_OUTPUT"
       - name: Push kernel
+        if: ${{ !startsWith(inputs.task, 'collect-') }}
         run: |
           kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel
       - name: Wait for kernel
@@ -58,9 +65,23 @@ jobs:
           ls -la result result/out || true
           cat result/out/summary.json || true
           tail -50 result/out/log.txt || true
+      - name: Save results to a branch
+        if: always()
+        run: |
+          mkdir -p /tmp/res && cp result/out/*.json result/out/*.jsonl result/out/log.txt /tmp/res/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan "results/${{ github.run_id }}"
+          git rm -rfq . && git clean -fdq -e result
+          cp /tmp/res/* . 2>/dev/null || echo "no results" > EMPTY
+          printf '%s\n' "${{ inputs.task }} ${{ inputs.models }} ${{ inputs.options }}" > RUN.txt
+          git add -A ':!result' && git commit -qm "results of run ${{ github.run_id }}" && git push -q origin "results/${{ github.run_id }}"
       - name: Publish adapter to Hugging Face
-        if: inputs.task == 'train' && env.HF_TOKEN != ''
+        if: (inputs.task == 'train' || inputs.task == 'collect-train') && env.HF_TOKEN != ''
         run: python kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"
+      - name: Deploy demo Space
+        if: (inputs.task == 'export' || inputs.task == 'collect-export') && env.HF_TOKEN != ''
+        run: python kaggle/deploy_space.py result/out/model-q4_k_m.gguf --run-id "${{ github.run_id }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

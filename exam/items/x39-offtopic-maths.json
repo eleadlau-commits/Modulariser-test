@@ -1,0 +1,16 @@
+{
+ "id": "x39-offtopic-maths",
+ "domain": "off-topic",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "If a train leaves London at 9am travelling at 120 km/h and another leaves Edinburgh at 10am travelling at 150 km/h, and the distance is 650 km, when do they meet?",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

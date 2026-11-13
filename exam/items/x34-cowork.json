@@ -1,0 +1,261 @@
+{
+ "id": "x34-cowork",
+ "domain": "coworking space",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "coworking ops. members sign up on the membership platform, plan gives them a door fob, fobs are programmed in the access system. meeting rooms booked in the platform too, credits per plan. community manager runs events and the newsletter. cleaning contractor comes nightly with a checklist. invoices from the platform monthly, failed payments disable the fob automatically. the front desk vs facilities thing: lost-and-found and parcel handling, front desk says facilities should own parcels because of the storage room, facilities says it's a member service so front desk. still undecided, parcels just pile up.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "sign up members"
+  },
+  {
+   "id": "g2",
+   "text": "membership platform"
+  },
+  {
+   "id": "g3",
+   "text": "issue door fobs"
+  },
+  {
+   "id": "g4",
+   "text": "access system"
+  },
+  {
+   "id": "g5",
+   "text": "book meeting rooms"
+  },
+  {
+   "id": "g6",
+   "text": "room credits"
+  },
+  {
+   "id": "g7",
+   "text": "run events"
+  },
+  {
+   "id": "g8",
+   "text": "newsletter"
+  },
+  {
+   "id": "g9",
+   "text": "nightly cleaning"
+  },
+  {
+   "id": "g10",
+   "text": "cleaning checklist"
+  },
+  {
+   "id": "g11",
+   "text": "monthly invoices"
+  },
+  {
+   "id": "g12",
+   "text": "disable fob on failed payment"
+  },
+  {
+   "id": "g13",
+   "text": "parcel handling"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g12",
+   "kind": "order"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How do members get in?",
+   "a": "door fobs programmed in the access system",
+   "needs": [
+    "g3",
+    "g4"
+   ]
+  },
+  {
+   "q": "What happens on a failed payment?",
+   "a": "the fob is disabled",
+   "needs": [
+    "g12",
+    "g11",
+    "g4"
+   ]
+  },
+  {
+   "q": "How are rooms booked?",
+   "a": "in the membership platform using plan credits",
+   "needs": [
+    "g5",
+    "g2",
+    "g6"
+   ]
+  },
+  {
+   "q": "Who owns parcel handling?",
+   "a": "disputed between front desk and facilities",
+   "needs": [
+    "g13"
+   ]
+  },
+  {
+   "q": "What does the cleaner follow?",
+   "a": "the cleaning checklist",
+   "needs": [
+    "g9",
+    "g10"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new access system",
+   "touches": [
+    "g4",
+    "g3",
+    "g12"
+   ]
+  },
+  {
+   "name": "change plan credits",
+   "touches": [
+    "g6"
+   ]
+  },
+  {
+   "name": "new cleaning contractor",
+   "touches": [
+    "g9",
+    "g10"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Membership",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g6",
+      "g11"
+     ]
+    },
+    {
+     "name": "Access",
+     "owns": [
+      "g3",
+      "g4",
+      "g12"
+     ]
+    },
+    {
+     "name": "Community",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Facilities",
+     "owns": [
+      "g9",
+      "g10",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts alt",
+   "parts": [
+    {
+     "name": "Membership",
+     "owns": [
+      "g1",
+      "g2",
+      "g5",
+      "g6",
+      "g11",
+      "g13"
+     ]
+    },
+    {
+     "name": "Access",
+     "owns": [
+      "g3",
+      "g4",
+      "g12"
+     ]
+    },
+    {
+     "name": "Community",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    },
+    {
+     "name": "Facilities",
+     "owns": [
+      "g9",
+      "g10"
+     ]
+    }
+   ]
+  }
+ ]
+}

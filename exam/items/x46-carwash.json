@@ -1,0 +1,241 @@
+{
+ "id": "x46-carwash",
+ "domain": "hand car wash",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "car wash. customer picks a package from the menu board, cashier takes payment and gives a coloured tag for the package. washer team works by tag colour: pre-rinse, snow foam, hand wash, dry. valet packages go to the valet bay after. chemicals mixed from the dilution chart, stock in the chemical store, reordered by the supervisor. pressure washers serviced monthly per the service log. staff rota done by the supervisor weekly.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "menu board"
+  },
+  {
+   "id": "g2",
+   "text": "take payment"
+  },
+  {
+   "id": "g3",
+   "text": "package tag"
+  },
+  {
+   "id": "g4",
+   "text": "wash the car"
+  },
+  {
+   "id": "g5",
+   "text": "valet bay"
+  },
+  {
+   "id": "g6",
+   "text": "mix chemicals"
+  },
+  {
+   "id": "g7",
+   "text": "dilution chart"
+  },
+  {
+   "id": "g8",
+   "text": "chemical store"
+  },
+  {
+   "id": "g9",
+   "text": "reorder chemicals"
+  },
+  {
+   "id": "g10",
+   "text": "service pressure washers"
+  },
+  {
+   "id": "g11",
+   "text": "service log"
+  },
+  {
+   "id": "g12",
+   "text": "staff rota"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How do washers know which package?",
+   "a": "the coloured tag",
+   "needs": [
+    "g4",
+    "g3"
+   ]
+  },
+  {
+   "q": "How are chemicals mixed?",
+   "a": "using the dilution chart, from the store",
+   "needs": [
+    "g6",
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "q": "When does a car go to the valet bay?",
+   "a": "for valet packages, after washing",
+   "needs": [
+    "g5",
+    "g4"
+   ]
+  },
+  {
+   "q": "How often are washers serviced?",
+   "a": "monthly, per the service log",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new packages",
+   "touches": [
+    "g1",
+    "g3"
+   ]
+  },
+  {
+   "name": "new chemicals",
+   "touches": [
+    "g7",
+    "g8",
+    "g6"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Sales",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Washing",
+     "owns": [
+      "g4",
+      "g5"
+     ]
+    },
+    {
+     "name": "Chemicals",
+     "owns": [
+      "g6",
+      "g7",
+      "g8",
+      "g9"
+     ]
+    },
+    {
+     "name": "Equipment",
+     "owns": [
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Staffing",
+     "owns": [
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "three parts",
+   "parts": [
+    {
+     "name": "Sales",
+     "owns": [
+      "g1",
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Washing",
+     "owns": [
+      "g4",
+      "g5",
+      "g6",
+      "g7"
+     ]
+    },
+    {
+     "name": "Supervisor",
+     "owns": [
+      "g8",
+      "g9",
+      "g10",
+      "g11",
+      "g12"
+     ]
+    }
+   ]
+  }
+ ]
+}

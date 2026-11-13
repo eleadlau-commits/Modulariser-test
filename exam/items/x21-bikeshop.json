@@ -1,0 +1,258 @@
+{
+ "id": "x21-bikeshop",
+ "domain": "bike repair shop",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "bike shop, how things flow. customers drop bikes off at the counter, we fill a job ticket (bike, fault, phone number) and hang it on the bike. mechanic picks the next ticket off the rail in order of promised date. if parts are needed they check the parts drawer first then order from the distributor portal, which shows when stuff arrives. once fixed, mechanic does the safety check (brakes, bolts, tyres) and signs the ticket. counter staff text the customer from the ticket, take payment on the till when they collect. Ellie does the distributor orders on Fridays for stock, mechanics only order urgent bits. sales floor is separate, new bikes are assembled by mechanics when there's no repair queue.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "drop-off at the counter"
+  },
+  {
+   "id": "g2",
+   "text": "job ticket"
+  },
+  {
+   "id": "g3",
+   "text": "ticket rail"
+  },
+  {
+   "id": "g4",
+   "text": "repair the bike"
+  },
+  {
+   "id": "g5",
+   "text": "parts drawer"
+  },
+  {
+   "id": "g6",
+   "text": "distributor portal"
+  },
+  {
+   "id": "g7",
+   "text": "weekly stock order"
+  },
+  {
+   "id": "g8",
+   "text": "safety check"
+  },
+  {
+   "id": "g9",
+   "text": "text the customer"
+  },
+  {
+   "id": "g10",
+   "text": "take payment"
+  },
+  {
+   "id": "g11",
+   "text": "assemble new bikes"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "order"
+  },
+  {
+   "from": "g8",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g9",
+   "to": "g10",
+   "kind": "order"
+  },
+  {
+   "from": "g11",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g8",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How does a mechanic pick the next job?",
+   "a": "the ticket rail, by promised date",
+   "needs": [
+    "g4",
+    "g3"
+   ]
+  },
+  {
+   "q": "Where do parts come from?",
+   "a": "the parts drawer, else the distributor portal",
+   "needs": [
+    "g4",
+    "g5",
+    "g6"
+   ]
+  },
+  {
+   "q": "When is the customer contacted?",
+   "a": "after the safety check, by text from the ticket",
+   "needs": [
+    "g8",
+    "g9",
+    "g2"
+   ]
+  },
+  {
+   "q": "Who orders stock?",
+   "a": "Ellie, weekly on Fridays",
+   "needs": [
+    "g7"
+   ]
+  },
+  {
+   "q": "When are new bikes assembled?",
+   "a": "when there is no repair queue",
+   "needs": [
+    "g11",
+    "g3"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new distributor",
+   "touches": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "name": "online booking",
+   "touches": [
+    "g1",
+    "g2"
+   ]
+  },
+  {
+   "name": "stricter safety check",
+   "touches": [
+    "g8"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Counter",
+     "owns": [
+      "g1",
+      "g2",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Workshop",
+     "owns": [
+      "g3",
+      "g4",
+      "g8",
+      "g11"
+     ]
+    },
+    {
+     "name": "Parts",
+     "owns": [
+      "g5",
+      "g6",
+      "g7"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts b",
+   "parts": [
+    {
+     "name": "Counter",
+     "owns": [
+      "g1",
+      "g9",
+      "g10"
+     ]
+    },
+    {
+     "name": "Jobs",
+     "owns": [
+      "g2",
+      "g3"
+     ]
+    },
+    {
+     "name": "Workshop",
+     "owns": [
+      "g4",
+      "g8",
+      "g11"
+     ]
+    },
+    {
+     "name": "Parts",
+     "owns": [
+      "g5",
+      "g6",
+      "g7"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,283 @@
+{
+ "id": "x36-bus",
+ "domain": "bus depot",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "depot notes. timetable from the council contract sets the services. scheduler builds the duty board (which driver on which run) from the timetable and the driver availability sheet. drivers sign on at the depot window, do a walkround check on their bus and report defects on the defect sheet. engineers fix defects from the sheet overnight; a bus with a dangerous defect is VOR (off road) on the fleet board and the allocator swaps in a spare from the fleet board. ticket machine data is uploaded at sign-off and revenue reconciled next day against the waybills. fuel is logged at the pumps each night by the shunters.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "council contract"
+  },
+  {
+   "id": "g2",
+   "text": "timetable"
+  },
+  {
+   "id": "g3",
+   "text": "duty board"
+  },
+  {
+   "id": "g4",
+   "text": "driver availability sheet"
+  },
+  {
+   "id": "g5",
+   "text": "driver sign-on"
+  },
+  {
+   "id": "g6",
+   "text": "walkround check"
+  },
+  {
+   "id": "g7",
+   "text": "defect sheet"
+  },
+  {
+   "id": "g8",
+   "text": "fix defects overnight"
+  },
+  {
+   "id": "g9",
+   "text": "fleet board"
+  },
+  {
+   "id": "g10",
+   "text": "allocate buses"
+  },
+  {
+   "id": "g11",
+   "text": "upload ticket machine data"
+  },
+  {
+   "id": "g12",
+   "text": "reconcile revenue"
+  },
+  {
+   "id": "g13",
+   "text": "waybills"
+  },
+  {
+   "id": "g14",
+   "text": "log fuel"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g5",
+   "to": "g6",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g7",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g13",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g5",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What is the duty board built from?",
+   "a": "the timetable and driver availability",
+   "needs": [
+    "g3",
+    "g2",
+    "g4"
+   ]
+  },
+  {
+   "q": "Where are defects reported?",
+   "a": "the defect sheet",
+   "needs": [
+    "g6",
+    "g7"
+   ]
+  },
+  {
+   "q": "How is a spare bus chosen?",
+   "a": "the allocator uses the fleet board",
+   "needs": [
+    "g10",
+    "g9"
+   ]
+  },
+  {
+   "q": "What is revenue reconciled against?",
+   "a": "waybills, using ticket machine data",
+   "needs": [
+    "g12",
+    "g11",
+    "g13"
+   ]
+  },
+  {
+   "q": "Who logs fuel?",
+   "a": "the shunters, nightly",
+   "needs": [
+    "g14"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new timetable",
+   "touches": [
+    "g2",
+    "g3"
+   ]
+  },
+  {
+   "name": "digital defect reporting",
+   "touches": [
+    "g7",
+    "g6",
+    "g8"
+   ]
+  },
+  {
+   "name": "contactless only",
+   "touches": [
+    "g11",
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Operations",
+     "owns": [
+      "g5",
+      "g6",
+      "g10"
+     ]
+    },
+    {
+     "name": "Engineering",
+     "owns": [
+      "g7",
+      "g8",
+      "g9",
+      "g14"
+     ]
+    },
+    {
+     "name": "Revenue",
+     "owns": [
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Planning",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Operations",
+     "owns": [
+      "g5",
+      "g6",
+      "g10",
+      "g9"
+     ]
+    },
+    {
+     "name": "Engineering",
+     "owns": [
+      "g7",
+      "g8",
+      "g14"
+     ]
+    },
+    {
+     "name": "Revenue",
+     "owns": [
+      "g11",
+      "g12",
+      "g13"
+     ]
+    }
+   ]
+  }
+ ]
+}

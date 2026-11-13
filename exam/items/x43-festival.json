@@ -1,0 +1,241 @@
+{
+ "id": "x43-festival",
+ "domain": "music festival stage",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "stage notes for the festival. booker confirms acts and their tech riders go to the production manager. stage manager builds the running order with changeover times. sound and lights crews prep from the riders. artist liaison handles arrivals, dressing rooms, and the hospitality rider. security does the pit and backstage passes, accreditation office prints the passes from the artist guest list. the curfew is 11pm, licence conditions from the council, stage manager enforces it. the guest list itself is a fight: artist liaison says it's theirs because artists send it to them, accreditation says they must own it because they print from it. nobody's decided.",
+ "expect_status": "partial",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "confirm acts"
+  },
+  {
+   "id": "g2",
+   "text": "tech riders"
+  },
+  {
+   "id": "g3",
+   "text": "running order"
+  },
+  {
+   "id": "g4",
+   "text": "prep sound and lights"
+  },
+  {
+   "id": "g5",
+   "text": "artist arrivals"
+  },
+  {
+   "id": "g6",
+   "text": "hospitality rider"
+  },
+  {
+   "id": "g7",
+   "text": "pit security"
+  },
+  {
+   "id": "g8",
+   "text": "print passes"
+  },
+  {
+   "id": "g9",
+   "text": "artist guest list"
+  },
+  {
+   "id": "g10",
+   "text": "enforce the curfew"
+  },
+  {
+   "id": "g11",
+   "text": "licence conditions"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g1",
+   "to": "g2",
+   "kind": "order"
+  },
+  {
+   "from": "g3",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g2",
+   "kind": "uses"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g8",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g11",
+   "kind": "uses"
+  },
+  {
+   "from": "g10",
+   "to": "g3",
+   "kind": "uses"
+  }
+ ],
+ "questions": [
+  {
+   "q": "What do the crews prep from?",
+   "a": "the tech riders",
+   "needs": [
+    "g4",
+    "g2"
+   ]
+  },
+  {
+   "q": "Who enforces the curfew and why?",
+   "a": "the stage manager, from licence conditions",
+   "needs": [
+    "g10",
+    "g11"
+   ]
+  },
+  {
+   "q": "Where are passes printed from?",
+   "a": "the artist guest list",
+   "needs": [
+    "g8",
+    "g9"
+   ]
+  },
+  {
+   "q": "Who owns the guest list?",
+   "a": "disputed between artist liaison and accreditation",
+   "needs": [
+    "g9"
+   ]
+  },
+  {
+   "q": "What does the running order include?",
+   "a": "acts and changeover times",
+   "needs": [
+    "g3",
+    "g1"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new curfew",
+   "touches": [
+    "g10",
+    "g11",
+    "g3"
+   ]
+  },
+  {
+   "name": "new pass system",
+   "touches": [
+    "g8",
+    "g7"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1"
+     ]
+    },
+    {
+     "name": "Stage",
+     "owns": [
+      "g3",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g2",
+      "g4"
+     ]
+    },
+    {
+     "name": "Artists",
+     "owns": [
+      "g5",
+      "g6",
+      "g9"
+     ]
+    },
+    {
+     "name": "Security",
+     "owns": [
+      "g7",
+      "g8"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "five parts alt",
+   "parts": [
+    {
+     "name": "Booking",
+     "owns": [
+      "g1"
+     ]
+    },
+    {
+     "name": "Stage",
+     "owns": [
+      "g3",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Production",
+     "owns": [
+      "g2",
+      "g4"
+     ]
+    },
+    {
+     "name": "Artists",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Security",
+     "owns": [
+      "g7",
+      "g8",
+      "g9"
+     ]
+    }
+   ]
+  }
+ ]
+}

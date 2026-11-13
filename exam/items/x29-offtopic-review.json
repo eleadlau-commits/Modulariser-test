@@ -1,0 +1,16 @@
+{
+ "id": "x29-offtopic-review",
+ "domain": "off-topic",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "Just finished the new season. The writing was sharper than last year and the lead actor was brilliant, though the finale dragged a bit. Seven out of ten, would watch again.",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

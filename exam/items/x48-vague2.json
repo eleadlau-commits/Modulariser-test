@@ -1,0 +1,16 @@
+{
+ "id": "x48-vague2",
+ "domain": "vague",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "basically we do the normal things a company does and want it organised better. thoughts?",
+ "expect_status": "refuse",
+ "elements": [],
+ "edges": [],
+ "questions": [],
+ "changes": [],
+ "cuts": []
+}

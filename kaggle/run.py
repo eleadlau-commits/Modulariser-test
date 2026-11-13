@@ -119,7 +119,8 @@ def evaluate(models):
     synth = [r["item"] for r in load_jsonl(f"{WORK}/data/synth_test.jsonl")][: CONFIG.get("n_test", 100)]
     exam = exam_items()
     sets = {"synth_test": synth, "exam": exam}
-    summary = {}
+    sp = os.path.join(OUT, "summary.json")
+    summary = json.load(open(sp)) if os.path.exists(sp) else {}
     for spec in models:
         res = eval_one(spec, sets, CUT_SCHEMA.schema, check, cut_for, strip_meta)
         summary[spec["name"]] = res
@@ -203,29 +204,272 @@ def eval_one(spec, sets, schema, check, cut_for, strip_meta):
     return out
 
 
+# ---------------------------------------------------------------- judge
+
+JUDGE_MODEL = "Qwen/Qwen2.5-14B-Instruct-AWQ"
+JUDGE_PROMPT = """You are testing whether a summary of a process kept what matters.
+Below is a blurred view of a process: only its parts, what each part owns, and the links between parts.
+Using ONLY this view (no outside knowledge about this particular process), could someone answer the question with the expected answer?
+Reply with exactly one word: yes or no.
+
+VIEW:
+{view}
+
+QUESTION: {q}
+EXPECTED ANSWER: {a}"""
+
+
+def blur_view(cut):
+    el = {e["id"]: e["text"] for e in cut.get("elements", [])}
+    pn = {p["id"]: p["name"] for p in cut.get("parts", [])}
+    lines = []
+    for p in cut.get("parts", []):
+        owns = "; ".join(el.get(e, e) for e in p["owns"])
+        lines.append(f"- {p['name']}: {p['summary']} Owns: {owns}")
+    for l in cut.get("links", []):
+        a, b = pn.get(l["from"], l["from"]), pn.get(l["to"], l["to"])
+        if l["kind"] == "order":
+            lines.append(f"- {a} must happen before {b}")
+        else:
+            lines.append(f"- {a} uses '{el.get(l['uses'], l['uses'])}' from {b}")
+    if cut.get("unresolved"):
+        lines.append("- Unresolved: " + "; ".join(el.get(e, e) for e in cut["unresolved"]))
+    return "\n".join(lines)
+
+
+def judge():
+    """Blur test on every result file in OUT; adds blur_score to summary.json."""
+    import glob
+
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+
+    items = {r["item"]["id"]: r["item"] for r in load_jsonl(f"{WORK}/data/synth_test.jsonl")}
+    items.update({it["id"]: it for it in exam_items()})
+    llm = LLM(model=CONFIG.get("judge_model", JUDGE_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.9, enforce_eager=True)
+    sp = SamplingParams(temperature=0.0, max_tokens=3)
+    summary = json.load(open(os.path.join(OUT, "summary.json")))
+    for f in sorted(glob.glob(os.path.join(OUT, "*__*.jsonl"))):
+        name, set_name = os.path.basename(f)[:-6].split("__")
+        rows = load_jsonl(f)
+        prompts, index = [], []
+        for ri, r in enumerate(rows):
+            it = items.get(r["id"])
+            if not it or it["expect_status"] == "refuse" or r["status"] == "refuse" or r["hard_fail"]:
+                continue
+            view = blur_view(r["cut"])
+            for q in it["questions"]:
+                prompts.append([{"role": "user", "content": JUDGE_PROMPT.format(view=view, q=q["q"], a=q["a"])}])
+                index.append(ri)
+        outs = llm.chat(prompts, sp, use_tqdm=False) if prompts else []
+        per = {}
+        for ri, o in zip(index, outs):
+            per.setdefault(ri, []).append(o.outputs[0].text.strip().lower().startswith("yes"))
+        cut_items = [r for r in rows if items.get(r["id"]) and items[r["id"]]["expect_status"] != "refuse"]
+        for ri, r in enumerate(rows):
+            r["blur_score"] = sum(per[ri]) / len(per[ri]) if ri in per else 0.0
+        with open(f, "w") as fh:
+            for r in rows:
+                fh.write(json.dumps(r) + "\n")
+        blur = sum(r["blur_score"] for r in cut_items) / max(1, len(cut_items))
+        summary.setdefault(name, {}).setdefault(set_name, {})["blur_score"] = round(blur, 4)
+        # Final score per the design: code checks and blur test, equal weight, on cut items.
+        cs = summary[name][set_name].get("code_score_cut_items", 0)
+        summary[name][set_name]["final_score"] = round((cs + blur) / 2, 4)
+        log(name, set_name, "blur", round(blur, 4))
+    json.dump(summary, open(os.path.join(OUT, "summary.json"), "w"), indent=2)
+
+
+# ---------------------------------------------------------------- teacher (real data)
+
+TEACHER_MODEL = "Qwen/Qwen2.5-32B-Instruct-AWQ"
+MESSY_PROMPT = """Below is official guidance describing a process. Rewrite it as the messy, informal notes a staff member might jot down for a new colleague: out of order in places, chatty, with some abbreviations, maybe a side remark. Keep every activity, document, system and dependency that matters. Do not add new steps. Output only the notes.
+
+GUIDANCE:
+{text}"""
+
+
+def fetch_govuk(n):
+    """Process-like GOV.UK guides (Open Government Licence v3)."""
+    import html
+    import re
+    import urllib.request
+
+    def get(url):
+        req = urllib.request.Request(url, headers={"User-Agent": "modulariser-research"})
+        return json.load(urllib.request.urlopen(req, timeout=30))
+
+    links, start = [], 0
+    while len(links) < n * 2 and start < 4000:
+        res = get(f"https://www.gov.uk/api/search.json?filter_format=guide&count=500&start={start}&fields=link,title")
+        if not res.get("results"):
+            break
+        links += [r["link"] for r in res["results"]]
+        start += 500
+    docs = []
+    for link in links:
+        if len(docs) >= n:
+            break
+        try:
+            c = get("https://www.gov.uk/api/content" + link)
+        except Exception:
+            continue
+        parts = c.get("details", {}).get("parts") or []
+        body = " ".join(p.get("body", "") for p in parts) or c.get("details", {}).get("body", "")
+        text = html.unescape(re.sub(r"<[^>]+>", " ", body))
+        text = re.sub(r"\s+", " ", text).strip()
+        if 800 <= len(text):
+            docs.append({"url": "https://www.gov.uk" + link, "title": c.get("title", ""), "text": text[:3500]})
+    log("fetched", len(docs), "gov.uk guides")
+    return docs
+
+
+def teacher():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.check import CUT_SCHEMA, _pair_f1, hard_checks
+    from modulariser.align import align
+    from modulariser.prompt import messages
+
+    docs = fetch_govuk(CONFIG.get("n_docs", 1200))
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=6144,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    plain = SamplingParams(temperature=0.8, max_tokens=1200)
+
+    def guided(temp):
+        try:
+            from vllm.sampling_params import StructuredOutputsParams
+            return SamplingParams(temperature=temp, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
+        except ImportError:
+            from vllm.sampling_params import GuidedDecodingParams
+            return SamplingParams(temperature=temp, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+
+    out_path = os.path.join(OUT, "real_train.jsonl")
+    kept = 0
+    deadline = time.time() + CONFIG.get("hours", 7) * 3600
+    for i in range(0, len(docs), 100):
+        if time.time() > deadline:
+            log("time budget reached")
+            break
+        batch = docs[i:i + 100]
+        messy = [o.outputs[0].text.strip() for o in llm.chat(
+            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d in batch], plain, use_tqdm=False)]
+        # The cut is made from the clean guidance (more reliable), twice, and kept only if both agree.
+        convs = [messages(d["text"]) for d in batch]
+        a = llm.chat(convs, guided(0.0), use_tqdm=False)
+        b = llm.chat(convs, guided(0.7), use_tqdm=False)
+        with open(out_path, "a") as f:
+            for d, m, oa, ob in zip(batch, messy, a, b):
+                try:
+                    ca, cb = json.loads(oa.outputs[0].text), json.loads(ob.outputs[0].text)
+                except Exception:
+                    continue
+                if hard_checks(ca) or hard_checks(cb) or ca["status"] != cb["status"]:
+                    continue
+                if ca["status"] == "ok":
+                    if not (2 <= len(ca["parts"]) <= 9 and 5 <= len(ca["elements"]) <= 40 and ca["links"]):
+                        continue
+                    g = [{"id": e["id"].replace("e", "g"), "text": e["text"]} for e in ca["elements"]]
+                    m_ = align(cb["elements"], g)
+                    pa = {e.replace("e", "g"): p["id"] for p in ca["parts"] for e in p["owns"]}
+                    pb = {e: p["id"] for p in cb["parts"] for e in p["owns"]}
+                    common = [gid for gid, eid in m_.items() if gid in pa and eid in pb]
+                    if len(common) < 0.7 * len(g):
+                        continue
+                    agree = _pair_f1({k: pa[k] for k in common}, {k: pb[m_[k]] for k in common}, common)
+                    if agree < CONFIG.get("min_agree", 0.5):
+                        continue
+                    # The messy rewrite must still mention most elements.
+                    low = m.lower()
+                    hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in ca["elements"])
+                    if hits < 0.8 * len(ca["elements"]):
+                        continue
+                item_id = f"govuk-{i + batch.index(d):05d}"
+                f.write(json.dumps({"id": item_id, "source": {"kind": "real", "origin": d["url"], "licence": "OGL-UK-3.0"},
+                                    "domain": "govuk:" + d["title"][:60], "messages": messages(m, ca)}) + "\n")
+                kept += 1
+        log(f"teacher: {i + len(batch)} docs seen, {kept} kept")
+
+
+# ---------------------------------------------------------------- export (GGUF for the demo)
+
+
+def export():
+    """Merge the adapter from the train kernel into the base and write a Q4_K_M GGUF."""
+    import glob
+
+    src = CONFIG.get("adapter_dir") or next(iter(glob.glob("/kaggle/input/*/out/adapter")), None)
+    if not src:
+        raise SystemExit("no adapter found under /kaggle/input")
+    log("adapter", src)
+    sh("pip install -q -U peft 'transformers>=4.45' accelerate sentencepiece gguf")
+    import torch
+    from peft import PeftModel
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    base = CONFIG["models"][0]
+    model = AutoModelForCausalLM.from_pretrained(base, torch_dtype=torch.float16, device_map="cpu")
+    model = PeftModel.from_pretrained(model, src).merge_and_unload()
+    merged = f"{WORK}/merged"
+    model.save_pretrained(merged, safe_serialization=True)
+    AutoTokenizer.from_pretrained(base).save_pretrained(merged)
+    del model
+    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
+    sh(f"pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt", check=False)
+    sh(f"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
+    sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
+    sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
+    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp", check=False)
+    log("gguf size MB", os.path.getsize(f"{OUT}/model-q4_k_m.gguf") // 2**20)
+
+
+def subrun(task):
+    """Run this script again as a fresh process with another task."""
+    cfg = dict(CONFIG, task=task)
+    src = open(f"{WORK}/repo/kaggle/run.py").read()
+    path = f"{WORK}/{task}.py"
+    with open(path, "w") as f:
+        f.write(f"CONFIG = {cfg!r}\n" + src)
+    r = subprocess.run([sys.executable, path])
+    log(task, "exit code", r.returncode)
+
+
 def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
-    sh("nvidia-smi", check=False)
-    setup()
     task = CONFIG["task"]
+    if task in ("train", "eval", "teacher"):
+        sh("nvidia-smi", check=False)
+    setup()
     base = CONFIG["models"][0]
     adapter = os.path.join(OUT, "adapter")
     if task == "train":
         train(base, adapter)
-        # Eval in a fresh process: installing vLLM swaps packages under a live torch.
-        cfg = dict(CONFIG, task="eval_tuned")
-        src = open(f"{WORK}/repo/kaggle/run.py").read()
-        with open(f"{WORK}/eval_tuned.py", "w") as f:
-            f.write(f"CONFIG = {cfg!r}\n" + src)
-        r = subprocess.run([sys.executable, f"{WORK}/eval_tuned.py"])
-        log("eval exit code", r.returncode)
+        # Fresh processes: installing vLLM swaps packages under a live torch,
+        # and vLLM does not reliably free the GPU between models.
+        subrun("eval_tuned")
     elif task == "eval_tuned":
         evaluate([{"base": base, "adapter": adapter, "name": "tuned"}])
+    elif task == "eval_one":
+        m = CONFIG["one"]
+        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1]}])
+    elif task == "judge":
+        judge()
+    elif task == "teacher":
+        teacher()
+    elif task == "export":
+        export()
     else:
-        specs = [{"base": m, "adapter": None, "name": m.split("/")[-1]} for m in CONFIG["models"]]
-        evaluate(specs)
+        for m in CONFIG["models"]:
+            subrun_cfg = dict(CONFIG, one=m)
+            CONFIG.update(subrun_cfg)
+            subrun("eval_one")
+    if task in ("train", "eval") and CONFIG.get("judge", True):
+        subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
+    if task in ("train", "eval", "teacher"):
+        sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
 main()

@@ -1,0 +1,279 @@
+{
+ "id": "x31-nursery",
+ "domain": "childcare nursery",
+ "source": {
+  "kind": "synthetic",
+  "origin": "hand-written",
+  "licence": "CC0"
+ },
+ "input": "Priya: so parents register on the waiting list form and we offer places by date order when a room has space.\nJon: and the room ratios decide space, the manager keeps the ratio sheet.\nPriya: yes. once they accept, they sign the contract and we collect the funding forms for the free hours, those go to the council for the funding claim each term.\nJon: daily stuff: key workers write the daily diary in the parent app, nappies and meals and naps.\nPriya: allergies are on the child profile and the cook checks them against the menu every day.\nJon: invoices go monthly, minus funded hours from the funding claim.\nPriya: oh and learning journals, key workers log observations against the EYFS goals.",
+ "expect_status": "ok",
+ "elements": [
+  {
+   "id": "g1",
+   "text": "waiting list"
+  },
+  {
+   "id": "g2",
+   "text": "offer places"
+  },
+  {
+   "id": "g3",
+   "text": "ratio sheet"
+  },
+  {
+   "id": "g4",
+   "text": "sign the contract"
+  },
+  {
+   "id": "g5",
+   "text": "funding forms"
+  },
+  {
+   "id": "g6",
+   "text": "council funding claim"
+  },
+  {
+   "id": "g7",
+   "text": "daily diary"
+  },
+  {
+   "id": "g8",
+   "text": "parent app"
+  },
+  {
+   "id": "g9",
+   "text": "child profile"
+  },
+  {
+   "id": "g10",
+   "text": "menu"
+  },
+  {
+   "id": "g11",
+   "text": "cook checks allergies"
+  },
+  {
+   "id": "g12",
+   "text": "monthly invoices"
+  },
+  {
+   "id": "g13",
+   "text": "learning journal"
+  },
+  {
+   "id": "g14",
+   "text": "EYFS goals"
+  }
+ ],
+ "edges": [
+  {
+   "from": "g2",
+   "to": "g1",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "kind": "uses"
+  },
+  {
+   "from": "g2",
+   "to": "g4",
+   "kind": "order"
+  },
+  {
+   "from": "g6",
+   "to": "g5",
+   "kind": "uses"
+  },
+  {
+   "from": "g7",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g9",
+   "kind": "uses"
+  },
+  {
+   "from": "g11",
+   "to": "g10",
+   "kind": "uses"
+  },
+  {
+   "from": "g12",
+   "to": "g6",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g14",
+   "kind": "uses"
+  },
+  {
+   "from": "g13",
+   "to": "g8",
+   "kind": "uses"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "kind": "order"
+  }
+ ],
+ "questions": [
+  {
+   "q": "How are places offered?",
+   "a": "by waiting list date when ratios allow",
+   "needs": [
+    "g2",
+    "g1",
+    "g3"
+   ]
+  },
+  {
+   "q": "What does the cook check?",
+   "a": "allergies on the child profile against the menu",
+   "needs": [
+    "g11",
+    "g9",
+    "g10"
+   ]
+  },
+  {
+   "q": "How are funded hours reflected in invoices?",
+   "a": "deducted using the funding claim",
+   "needs": [
+    "g12",
+    "g6"
+   ]
+  },
+  {
+   "q": "Where is the daily diary written?",
+   "a": "the parent app",
+   "needs": [
+    "g7",
+    "g8"
+   ]
+  },
+  {
+   "q": "What are observations logged against?",
+   "a": "EYFS goals",
+   "needs": [
+    "g13",
+    "g14"
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "name": "new parent app",
+   "touches": [
+    "g8",
+    "g7",
+    "g13"
+   ]
+  },
+  {
+   "name": "change ratio rules",
+   "touches": [
+    "g3",
+    "g2"
+   ]
+  },
+  {
+   "name": "funding rate change",
+   "touches": [
+    "g6",
+    "g12"
+   ]
+  }
+ ],
+ "cuts": [
+  {
+   "name": "five parts",
+   "parts": [
+    {
+     "name": "Admissions",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Funding",
+     "owns": [
+      "g5",
+      "g6"
+     ]
+    },
+    {
+     "name": "Care",
+     "owns": [
+      "g7",
+      "g8",
+      "g13",
+      "g14"
+     ]
+    },
+    {
+     "name": "Kitchen",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    },
+    {
+     "name": "Billing",
+     "owns": [
+      "g12"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "four parts",
+   "parts": [
+    {
+     "name": "Admissions",
+     "owns": [
+      "g1",
+      "g2",
+      "g3",
+      "g4"
+     ]
+    },
+    {
+     "name": "Finance",
+     "owns": [
+      "g5",
+      "g6",
+      "g12"
+     ]
+    },
+    {
+     "name": "Care",
+     "owns": [
+      "g7",
+      "g8",
+      "g13",
+      "g14"
+     ]
+    },
+    {
+     "name": "Kitchen",
+     "owns": [
+      "g9",
+      "g10",
+      "g11"
+     ]
+    }
+   ]
+  }
+ ]
+}
