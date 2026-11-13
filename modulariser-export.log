@@ -1,0 +1,32 @@
+[{"stream_name":"stdout","time":1.351448742,"data":"config {\"task\": \"export\", \"ref\": \"bd6ecba9aec6b5d4750c7faa332950303c069886\", \"models\": [\"Qwen/Qwen2.5-3B-Instruct\"], \"kernel_sources\": [\"modulariser-train\"], \"n_train\": 10}\n"}
+,{"stream_name":"stdout","time":1.352696752,"data":"$ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo \u0026\u0026 cd /kaggle/working/repo \u0026\u0026 git checkout -q bd6ecba9aec6b5d4750c7faa332950303c069886\n"}
+,{"stream_name":"stdout","time":3.113757832,"data":"$ pip install -q -e /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":13.369343604,"data":"$ cd /kaggle/working/repo \u0026\u0026 python -m modulariser.data.build --out /kaggle/working/data --n 10\n"}
+,{"stream_name":"stdout","time":13.851563913,"data":"adapter /kaggle/input/modulariser-train/out/adapter\n"}
+,{"stream_name":"stdout","time":13.851602333,"data":"$ pip uninstall -y -q torchao\n"}
+,{"stream_name":"stdout","time":15.061897032,"data":"$ pip install -q sentencepiece gguf\n"}
+,{"stream_name":"stderr","time":57.228711661,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":57.448343401,"data":"[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n"}
+,{"stream_name":"stderr","time":95.003538315,"data":"\rFetching 2 files:   0%|          | 0/2 [00:00\u003c?, ?it/s]\rFetching 2 files:  50%|█████     | 1/2 [00:36\u003c00:36, 36.92s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:36\u003c00:00, 18.46s/it]\n"}
+,{"stream_name":"stderr","time":114.201362577,"data":"\rLoading weights:   0%|          | 0/434 [00:00\u003c?, ?it/s]\rLoading weights:   0%|          | 1/434 [00:08\u003c1:00:08,  8.33s/it]\rLoading weights:  45%|████▌     | 196/434 [00:08\u003c00:07, 32.95it/s]\rLoading weights:  70%|███████   | 305/434 [00:11\u003c00:04, 31.98it/s]\rLoading weights:  84%|████████▍ | 366/434 [00:15\u003c00:02, 26.67it/s]\rLoading weights:  93%|█████████▎| 404/434 [00:17\u003c00:01, 24.11it/s]\rLoading weights:  99%|█████████▉| 429/434 [00:18\u003c00:00, 23.44it/s]\rLoading weights: 100%|██████████| 434/434 [00:18\u003c00:00, 23.09it/s]\n"}
+,{"stream_name":"stderr","time":159.40602652,"data":"\rWriting model shards:   0%|          | 0/1 [00:00\u003c?, ?it/s]\rWriting model shards: 100%|██████████| 1/1 [00:15\u003c00:00, 15.56s/it]\rWriting model shards: 100%|██████████| 1/1 [00:15\u003c00:00, 15.56s/it]\n"}
+,{"stream_name":"stdout","time":159.990535419,"data":"$ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /tmp/exp/merged/\n"}
+,{"stream_name":"stderr","time":159.990532739,"data":"\rFetching 5 files:   0%|          | 0/5 [00:00\u003c?, ?it/s]\rFetching 5 files:  40%|████      | 2/5 [00:00\u003c00:00,  7.63it/s]\rFetching 5 files: 100%|██████████| 5/5 [00:00\u003c00:00, 13.83it/s]\n"}
+,{"stream_name":"stdout","time":196.127386143,"data":"$ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /tmp/exp/llama.cpp\n"}
+,{"stream_name":"stdout","time":206.93970685,"data":"$ pip install -q uv \u0026\u0026 cd /tmp/exp \u0026\u0026 uv venv -q --python 3.12 cv \u0026\u0026 uv pip install -q --python /tmp/exp/cv/bin/python --index-strategy unsafe-best-match -r /tmp/exp/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stdout","time":215.902230576,"data":"$ /tmp/exp/cv/bin/python /tmp/exp/llama.cpp/convert_hf_to_gguf.py /tmp/exp/merged --outtype f16 --outfile /tmp/exp/model-f16.gguf\n"}
+,{"stream_name":"stdout","time":271.295737607,"data":"$ rm -rf /tmp/exp/merged /tmp/exp/cv\n"}
+,{"stream_name":"stdout","time":271.847666215,"data":"$ df -h /tmp /kaggle/working | tail -2\n"}
+,{"stream_name":"stdout","time":271.859267113,"data":"$ cd /tmp/exp/llama.cpp \u0026\u0026 cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF \u003e /dev/null \u0026\u0026 cmake --build build --target llama-quantize -j 4 \u003e /dev/null\n"}
+,{"stream_name":"stdout","time":485.566133526,"data":"$ /tmp/exp/llama.cpp/build/bin/llama-quantize /tmp/exp/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M\n"}
+,{"stream_name":"stdout","time":583.425939248,"data":"$ rm -rf /tmp/exp/merged /tmp/exp/model-f16.gguf /tmp/exp/llama.cpp /tmp/exp/cv\n"}
+,{"stream_name":"stdout","time":583.990633212,"data":"gguf size MB 1840\n"}
+,{"stream_name":"stdout","time":583.990665882,"data":"all done in 9.7 min\n"}
+,{"stream_name":"stdout","time":583.990671352,"data":"$ rm -rf /kaggle/working/repo /kaggle/working/data /kaggle/working/ckpt\n"}
+,{"stream_name":"stderr","time":588.8892589,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":588.8892906,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":589.737612256,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":589.737654046,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":590.526676949,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":592.058009654,"data":"[NbConvertApp] Writing 421166 bytes to __results__.html\n"}
+]
