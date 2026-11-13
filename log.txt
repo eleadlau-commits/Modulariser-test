@@ -1,0 +1,27 @@
+05:15:41 config {"task": "export", "ref": "425dbcfabac866f8e65571edf640a0c2344b2d53", "models": ["Qwen/Qwen2.5-3B-Instruct"], "kernel_sources": ["modulariser-train"], "n_train": 10}
+05:15:41 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q 425dbcfabac866f8e65571edf640a0c2344b2d53
+05:15:42 $ pip install -q -e /kaggle/working/repo
+05:15:53 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 10
+train 10, val 0, test 200 (28 train domains, 6 test domains)
+05:15:53 adapter /kaggle/input/modulariser-train/out/adapter
+05:15:53 $ pip uninstall -y -q torchao
+05:15:55 $ pip install -q sentencepiece gguf
+05:18:25 $ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /kaggle/working/merged/
+05:18:49 $ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp
+05:19:10 $ python -m venv /kaggle/working/cv && /kaggle/working/cv/bin/pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt
+05:19:10 Error: Command '['/kaggle/working/cv/bin/python3', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.
+
+05:19:10 CRASH Traceback (most recent call last):
+  File "/kaggle/src/script.py", line 547, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/src/script.py", line 531, in main
+    export()
+    ~~~~~~^^
+  File "/kaggle/src/script.py", line 432, in export
+    sh(f"python -m venv {WORK}/cv && {WORK}/cv/bin/pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
+    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/src/script.py", line 39, in sh
+    raise SystemExit(f"failed: {cmd}")
+SystemExit: failed: python -m venv /kaggle/working/cv && /kaggle/working/cv/bin/pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt
+

@@ -1,0 +1,40 @@
+[{"stream_name":"stdout","time":1.189458781,"data":"config {\"task\": \"export\", \"ref\": \"425dbcfabac866f8e65571edf640a0c2344b2d53\", \"models\": [\"Qwen/Qwen2.5-3B-Instruct\"], \"kernel_sources\": [\"modulariser-train\"], \"n_train\": 10}\n"}
+,{"stream_name":"stdout","time":1.191189071,"data":"$ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo \u0026\u0026 cd /kaggle/working/repo \u0026\u0026 git checkout -q 425dbcfabac866f8e65571edf640a0c2344b2d53\n"}
+,{"stream_name":"stdout","time":2.279676931,"data":"$ pip install -q -e /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":13.508338246,"data":"$ cd /kaggle/working/repo \u0026\u0026 python -m modulariser.data.build --out /kaggle/working/data --n 10\n"}
+,{"stream_name":"stdout","time":13.901319614,"data":"adapter /kaggle/input/modulariser-train/out/adapter\n"}
+,{"stream_name":"stdout","time":13.90135238,"data":"$ pip uninstall -y -q torchao\n"}
+,{"stream_name":"stdout","time":15.233438806,"data":"$ pip install -q sentencepiece gguf\n"}
+,{"stream_name":"stderr","time":61.022913119,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":61.110417708,"data":"[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n"}
+,{"stream_name":"stderr","time":96.687809195,"data":"\rFetching 2 files:   0%|          | 0/2 [00:00\u003c?, ?it/s]\rFetching 2 files:  50%|█████     | 1/2 [00:21\u003c00:21, 21.28s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:35\u003c00:00, 17.06s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:35\u003c00:00, 17.69s/it]\n"}
+,{"stream_name":"stderr","time":100.668646215,"data":"\rLoading weights:   0%|          | 0/434 [00:00\u003c?, ?it/s]\rLoading weights:   0%|          | 1/434 [00:00\u003c07:06,  1.02it/s]\rLoading weights:  26%|██▌       | 111/434 [00:01\u003c00:02, 133.93it/s]\rLoading weights:  37%|███▋      | 159/434 [00:01\u003c00:02, 134.28it/s]\rLoading weights:  44%|████▍     | 191/434 [00:01\u003c00:01, 139.11it/s]\rLoading weights:  50%|█████     | 217/434 [00:01\u003c00:01, 142.70it/s]\rLoading weights:  55%|█████▌    | 239/434 [00:02\u003c00:01, 132.86it/s]\rLoading weights:  59%|█████▉    | 258/434 [00:02\u003c00:01, 123.14it/s]\rLoading weights:  63%|██████▎   | 274/434 [00:02\u003c00:01, 126.87it/s]\rLoading weights:  67%|██████▋   | 291/434 [00:02\u003c00:01, 124.63it/s]\rLoading weights:  71%|███████   | 306/434 [00:02\u003c00:00, 129.18it/s]\rLoading weights:  75%|███████▌  | 327/434 [00:02\u003c00:00, 135.69it/s]\rLoading weights:  79%|███████▉  | 342/434 [00:02\u003c00:00, 134.97it/s]\rLoading weights:  82%|████████▏ | 357/434 [00:02\u003c00:00, 137.73it/s]\rLoading weights:  86%|████████▌ | 372/434 [00:03\u003c00:00, 138.70it/s]\rLoading weights:  89%|████████▉ | 387/434 [00:03\u003c00:00, 126.44it/s]\rLoading weights:  92%|█████████▏| 401/434 [00:03\u003c00:00, 123.61it/s]\rLoading weights:  97%|█████████▋| 423/434 [00:03\u003c00:00, 136.08it/s]\rLoading weights: 100%|██████████| 434/434 [00:03\u003c00:00, 123.93it/s]\n"}
+,{"stream_name":"stderr","time":165.502991586,"data":"\rWriting model shards:   0%|          | 0/1 [00:00\u003c?, ?it/s]\rWriting model shards: 100%|██████████| 1/1 [00:12\u003c00:00, 12.02s/it]\rWriting model shards: 100%|██████████| 1/1 [00:12\u003c00:00, 12.02s/it]\n"}
+,{"stream_name":"stdout","time":165.882156982,"data":"$ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /kaggle/working/merged/\n"}
+,{"stream_name":"stderr","time":165.882261612,"data":"\rFetching 5 files:   0%|          | 0/5 [00:00\u003c?, ?it/s]\rFetching 5 files:  40%|████      | 2/5 [00:00\u003c00:00, 14.10it/s]\rFetching 5 files:  80%|████████  | 4/5 [00:00\u003c00:00, 15.72it/s]\rFetching 5 files: 100%|██████████| 5/5 [00:00\u003c00:00, 18.93it/s]\n"}
+,{"stream_name":"stdout","time":189.047945598,"data":"$ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp\n"}
+,{"stream_name":"stdout","time":210.271067477,"data":"$ python -m venv /kaggle/working/cv \u0026\u0026 /kaggle/working/cv/bin/pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stdout","time":210.7695733,"data":"Error: Command '['/kaggle/working/cv/bin/python3', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.\n"}
+,{"stream_name":"stdout","time":210.769616876,"data":"\n"}
+,{"stream_name":"stdout","time":210.770470556,"data":"CRASH Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":210.770518423,"data":"  File \"/kaggle/src/script.py\", line 547, in \u003cmodule\u003e\n"}
+,{"stream_name":"stdout","time":210.770527308,"data":"    main()\n"}
+,{"stream_name":"stdout","time":210.770532198,"data":"    ~~~~^^\n"}
+,{"stream_name":"stdout","time":210.770537017,"data":"  File \"/kaggle/src/script.py\", line 531, in main\n"}
+,{"stream_name":"stdout","time":210.770542081,"data":"    export()\n"}
+,{"stream_name":"stdout","time":210.77054682,"data":"    ~~~~~~^^\n"}
+,{"stream_name":"stdout","time":210.77055153,"data":"  File \"/kaggle/src/script.py\", line 432, in export\n"}
+,{"stream_name":"stdout","time":210.77055696,"data":"    sh(f\"python -m venv {WORK}/cv \u0026\u0026 {WORK}/cv/bin/pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\")\n"}
+,{"stream_name":"stdout","time":210.770562829,"data":"    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":210.770568229,"data":"  File \"/kaggle/src/script.py\", line 39, in sh\n"}
+,{"stream_name":"stdout","time":210.770573205,"data":"    raise SystemExit(f\"failed: {cmd}\")\n"}
+,{"stream_name":"stdout","time":210.770597102,"data":"SystemExit: failed: python -m venv /kaggle/working/cv \u0026\u0026 /kaggle/working/cv/bin/pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stdout","time":210.770602314,"data":"\n"}
+,{"stream_name":"stderr","time":210.773536651,"data":"failed: python -m venv /kaggle/working/cv \u0026\u0026 /kaggle/working/cv/bin/pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stderr","time":216.508607493,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":216.50864998,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":217.074031248,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":217.074073391,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":218.501813155,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":220.398028623,"data":"[NbConvertApp] Writing 410699 bytes to __results__.html\n"}
+]
