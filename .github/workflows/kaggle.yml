@@ -68,7 +68,7 @@ jobs:
       - name: Save results to a branch
         if: always()
         run: |
-          mkdir -p /tmp/res && cp result/out/*.json result/out/*.jsonl result/out/log.txt /tmp/res/ 2>/dev/null || true
+          mkdir -p /tmp/res && cp result/out/*.json result/out/*.jsonl result/out/log.txt result/*.log /tmp/res/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan "results/${{ github.run_id }}"

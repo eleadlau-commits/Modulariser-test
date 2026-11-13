@@ -63,7 +63,8 @@ def exam_items():
 
 
 def train(base, adapter_dir):
-    sh("pip install -q -U 'trl>=0.12' 'peft>=0.13' bitsandbytes accelerate")
+    sh("pip install -q 'trl>=0.12,<0.24' 'peft>=0.13' 'bitsandbytes>=0.45' accelerate datasets")
+    sh("pip list 2>/dev/null | grep -iE '^(torch|transformers|trl|peft|bitsandbytes|accelerate) '", check=False)
     import torch
     from datasets import Dataset
     from peft import LoraConfig
@@ -85,13 +86,16 @@ def train(base, adapter_dir):
     lora = LoraConfig(r=CONFIG.get("rank", 32), lora_alpha=CONFIG.get("rank", 32) * 2, lora_dropout=0.05,
                       target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
                       task_type="CAUSAL_LM")
-    args = SFTConfig(
+    import inspect
+    want = dict(
         output_dir=f"{WORK}/ckpt", num_train_epochs=CONFIG.get("epochs", 1),
         per_device_train_batch_size=4, gradient_accumulation_steps=4, learning_rate=CONFIG.get("lr", 2e-4),
         lr_scheduler_type="cosine", warmup_ratio=0.03, logging_steps=10, save_strategy="no",
-        fp16=True, gradient_checkpointing=True, max_length=2048, assistant_only_loss=False,
+        fp16=True, gradient_checkpointing=True, max_length=2048, max_seq_length=2048,
         report_to=[], optim="paged_adamw_8bit",
     )
+    ok = set(inspect.signature(SFTConfig.__init__).parameters)
+    args = SFTConfig(**{k: v for k, v in want.items() if k in ok})
     try:
         trainer = SFTTrainer(model=model, args=args, train_dataset=ds, processing_class=tok, peft_config=lora)
     except TypeError:
@@ -472,4 +476,9 @@ def main():
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
-main()
+try:
+    main()
+except BaseException:
+    import traceback
+    log("CRASH", traceback.format_exc())
+    raise
