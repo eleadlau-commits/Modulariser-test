@@ -1,0 +1,1 @@
+teacher Qwen/Qwen2.5-32B-Instruct-AWQ {n_docs:1500, hours:5, n_train:10}
