@@ -445,16 +445,23 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval", "teacher"):
+    if task in ("train", "eval", "teacher", "evaladapter"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
     adapter = os.path.join(OUT, "adapter")
     if task == "train":
-        train(base, adapter)
-        # Fresh processes: installing vLLM swaps packages under a live torch,
-        # and vLLM does not reliably free the GPU between models.
+        # Fresh processes for every GPU stage: a parent that has touched CUDA keeps
+        # memory that vLLM then cannot get, and installing vLLM swaps packages.
+        subrun("train_only")
         subrun("eval_tuned")
+    elif task == "train_only":
+        train(base, adapter)
+    elif task == "evaladapter":
+        import glob
+        src = next(iter(glob.glob("/kaggle/input/*/out/adapter") + glob.glob("/kaggle/input/**/adapter", recursive=True)), None)
+        log("adapter from", src)
+        evaluate([{"base": base, "adapter": src, "name": "tuned"}])
     elif task == "eval_tuned":
         evaluate([{"base": base, "adapter": adapter, "name": "tuned"}])
     elif task == "eval_one":
@@ -471,10 +478,10 @@ def main():
             subrun_cfg = dict(CONFIG, one=m)
             CONFIG.update(subrun_cfg)
             subrun("eval_one")
-    if task in ("train", "eval") and CONFIG.get("judge", True):
+    if task in ("train", "eval", "evaladapter") and CONFIG.get("judge", True):
         subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
-    if task in ("train", "eval", "teacher"):
+    if task in ("train", "eval", "teacher", "evaladapter", "export"):
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
