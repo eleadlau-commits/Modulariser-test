@@ -6,6 +6,8 @@
 #   eval   score base models and/or adapters on the synthetic test set and exam
 #   train  QLoRA fine-tune one base model, save the adapter, then eval it
 import json
+import os as _os
+_os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 import os
 import subprocess
 import sys
@@ -89,7 +91,7 @@ def train(base, adapter_dir):
     import inspect
     want = dict(
         output_dir=f"{WORK}/ckpt", num_train_epochs=CONFIG.get("epochs", 1),
-        per_device_train_batch_size=4, gradient_accumulation_steps=4, learning_rate=CONFIG.get("lr", 2e-4),
+        per_device_train_batch_size=1, gradient_accumulation_steps=16, learning_rate=CONFIG.get("lr", 2e-4),
         lr_scheduler_type="cosine", warmup_ratio=0.03, logging_steps=10, save_strategy="no",
         fp16=True, gradient_checkpointing=True, max_length=2048, max_seq_length=2048,
         report_to=[], optim="paged_adamw_8bit",
