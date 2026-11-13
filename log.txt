@@ -1,0 +1,25 @@
+07:54:17 config {"task": "export", "ref": "bd6ecba9aec6b5d4750c7faa332950303c069886", "models": ["Qwen/Qwen2.5-3B-Instruct"], "kernel_sources": ["modulariser-train"], "n_train": 10}
+07:54:17 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q bd6ecba9aec6b5d4750c7faa332950303c069886
+07:54:19 $ pip install -q -e /kaggle/working/repo
+07:54:29 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 10
+train 10, val 0, test 200 (206 train domains, 6 test domains)
+07:54:30 adapter /kaggle/input/modulariser-train/out/adapter
+07:54:30 $ pip uninstall -y -q torchao
+07:54:31 $ pip install -q sentencepiece gguf
+07:56:56 $ cp /root/.cache/huggingface/hub/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1/* /tmp/exp/merged/
+07:57:32 $ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /tmp/exp/llama.cpp
+07:57:43 $ pip install -q uv && cd /tmp/exp && uv venv -q --python 3.12 cv && uv pip install -q --python /tmp/exp/cv/bin/python --index-strategy unsafe-best-match -r /tmp/exp/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt
+07:57:52 $ /tmp/exp/cv/bin/python /tmp/exp/llama.cpp/convert_hf_to_gguf.py /tmp/exp/merged --outtype f16 --outfile /tmp/exp/model-f16.gguf
+07:58:47 $ rm -rf /tmp/exp/merged /tmp/exp/cv
+07:58:48 $ df -h /tmp /kaggle/working | tail -2
+overlay         8.0T  7.1T  955G  89% /
+/dev/loop2       20G  3.5M   20G   1% /kaggle/working
+07:58:48 $ cd /tmp/exp/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null
+08:02:21 $ /tmp/exp/llama.cpp/build/bin/llama-quantize /tmp/exp/model-f16.gguf /kaggle/working/out/model-q4_k_m.gguf Q4_K_M
+
+llama_quantize: quantize time = 97832.56 ms
+llama_quantize:    total time = 97832.56 ms
+08:03:59 $ rm -rf /tmp/exp/merged /tmp/exp/model-f16.gguf /tmp/exp/llama.cpp /tmp/exp/cv
+08:04:00 gguf size MB 1840
+08:04:00 all done in 9.7 min
+08:04:00 $ rm -rf /kaggle/working/repo /kaggle/working/data /kaggle/working/ckpt
