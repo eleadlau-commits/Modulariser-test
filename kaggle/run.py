@@ -198,6 +198,7 @@ def eval_one(spec, sets, schema, check, cut_for, strip_meta):
             "status_acc": round(sum(r["status"] == r["expect"] for r in rows) / n, 4),
             "first_try_pass": round(sum(r["meta"]["attempts"] == 1 for r in rows) / n, 4),
             "wrapper_refused": sum(bool(r["meta"].get("wrapper_refused")) for r in rows),
+            "repaired": sum(bool(r["meta"].get("repaired")) for r in rows),
             "secs_per_item": round(secs / n, 2),
         }
         for k in ["coverage", "element_precision", "no_ghosts", "relations_kept", "modularity_rel", "change_locality", "agreement"]:
@@ -420,15 +421,68 @@ def export():
     model = PeftModel.from_pretrained(model, src).merge_and_unload()
     merged = f"{WORK}/merged"
     model.save_pretrained(merged, safe_serialization=True)
-    AutoTokenizer.from_pretrained(base).save_pretrained(merged)
+    # Original tokenizer files (newer transformers saves them in a form the converter misreads).
+    from huggingface_hub import snapshot_download
+    tok_dir = snapshot_download(base, allow_patterns=["tokenizer*", "vocab.json", "merges.txt", "generation_config.json"])
+    sh(f"cp {tok_dir}/* {merged}/")
     del model
     sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
-    sh(f"pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt", check=False)
-    sh(f"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
+    # The converter gets its own venv with the library versions it pins.
+    sh(f"python -m venv {WORK}/cv && {WORK}/cv/bin/pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
+    sh(f"{WORK}/cv/bin/python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
     sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
     sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
-    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp", check=False)
+    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp {WORK}/cv", check=False)
     log("gguf size MB", os.path.getsize(f"{OUT}/model-q4_k_m.gguf") // 2**20)
+
+
+# ---------------------------------------------------------------- teacher (new domain packs)
+
+PACK_PROMPT = """You write "domain packs": a small text format describing how one kind of organisation's process splits into modules.
+Rules:
+- First line "# <domain>", then "people: " with 4 first names or roles.
+- 4 to 6 modules. Each starts "## Name | one-sentence summary" and may add " | why: <reason it is usually needed>" when the module is essential.
+- Each module has 2 to 4 element lines: "a key: activity as a short verb phrase" or "t key: thing as a short noun phrase". Keys are lowercase single words, unique within the module.
+- Inside a module, edges between its own keys: "a > b" means a uses b, "a >> b" means a happens before b.
+- Then "## cross" with 4 to 8 edges between modules written "module.key > module.key" (or >>), where module is the lowercased first word of the module name.
+- Elements must be concrete and specific to this domain. No comments, no blank modules.
+
+EXAMPLE:
+{ex1}
+
+EXAMPLE:
+{ex2}
+
+Now write the pack for: {domain}"""
+
+
+def write_packs():
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+    from modulariser.data.pack import parse
+
+    ex = [open(f"{WORK}/repo/modulariser/data/packs/{n}.txt").read().strip() for n in ("restaurant", "release")]
+    domains = [l.strip() for l in open(f"{WORK}/repo/kaggle/domains.txt") if l.strip() and not l.startswith("#")]
+    llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
+    sp = SamplingParams(temperature=0.7, max_tokens=900, n=CONFIG.get("tries", 2))
+    outs = llm.chat([[{"role": "user", "content": PACK_PROMPT.format(ex1=ex[0], ex2=ex[1], domain=d)}] for d in domains], sp, use_tqdm=False)
+    os.makedirs(os.path.join(OUT, "packs"), exist_ok=True)
+    good = 0
+    for d, o in zip(domains, outs):
+        for cand in o.outputs:
+            text = cand.text.strip().strip("`").strip()
+            try:
+                p = parse(text)
+            except Exception as e:
+                continue
+            if not (4 <= len(p.modules) <= 7 and all(len(m.elements) >= 2 for m in p.modules.values()) and len(p.cross) >= 3):
+                continue
+            slug = "".join(ch if ch.isalnum() else "_" for ch in d.lower())[:40]
+            open(os.path.join(OUT, "packs", f"gen_{slug}.txt"), "w").write(text + "\n")
+            good += 1
+            break
+    log(f"packs: {good} of {len(domains)} domains")
 
 
 def subrun(task):
@@ -446,7 +500,7 @@ def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
     task = CONFIG["task"]
-    if task in ("train", "eval", "teacher", "evaladapter"):
+    if task in ("train", "eval", "teacher", "evaladapter", "packs"):
         sh("nvidia-smi", check=False)
     setup()
     base = CONFIG["models"][0]
@@ -474,6 +528,8 @@ def main():
         teacher()
     elif task == "export":
         export()
+    elif task == "packs":
+        write_packs()
     else:
         for m in CONFIG["models"]:
             subrun_cfg = dict(CONFIG, one=m)
@@ -482,7 +538,7 @@ def main():
     if task in ("train", "eval", "evaladapter") and CONFIG.get("judge", True):
         subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
-    if task in ("train", "eval", "teacher", "evaladapter", "export"):
+    if task in ("train", "eval", "teacher", "evaladapter", "export", "packs"):
         sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 

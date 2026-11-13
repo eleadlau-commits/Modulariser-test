@@ -1,0 +1,248 @@
+# Domains for teacher-written packs. Kept clear of exam and test-pack domains.
+pizza delivery shop
+coffee roastery
+food truck
+catering company
+vineyard tasting room
+cheese maker
+butcher shop
+fishmonger
+greengrocer
+organic veg box scheme
+farmers market
+school canteen
+hospital kitchen
+airline catering
+cinema
+concert promoter
+orchestra
+dance school
+music lessons studio
+art gallery
+photography studio
+graphic design agency
+architecture practice
+interior design studio
+web development agency
+mobile game studio
+esports team
+radio station
+local newspaper
+book publisher
+magazine
+TV news desk
+documentary production
+advertising agency
+PR agency
+market research firm
+call centre
+debt collection agency
+bank branch
+mortgage broker
+credit union
+payroll bureau
+accountancy practice
+tax advisory firm
+law firm conveyancing team
+law firm litigation team
+immigration advice service
+notary office
+patent attorney office
+court listing office
+probation service
+police station custody suite
+fire station
+ambulance dispatch
+coastguard station
+mountain rescue team
+lifeguard service
+prison kitchen
+council housing repairs
+council parking enforcement
+council planning enforcement
+council licensing office
+road gritting service
+street lighting maintenance
+park ranger service
+cemetery management
+public swimming pool
+leisure centre
+golf club
+tennis club
+sailing club
+rowing club
+climbing wall
+yoga studio
+martial arts school
+riding stables
+kennel and cattery
+dog grooming salon
+pet shop
+zoo
+aquarium
+wildlife rescue centre
+animal feed mill
+poultry farm
+sheep farm
+arable farm
+tree nursery
+garden centre
+landscaping company
+tree surgeon
+window cleaning round
+pest control company
+security guard company
+facilities management firm
+office cleaning contractor
+removals company
+self storage facility
+skip hire company
+scrap metal yard
+recycling centre
+water treatment works
+electricity substation maintenance
+solar panel installer
+heat pump installer
+electrician business
+roofing contractor
+scaffolding firm
+kitchen fitter
+carpet shop
+furniture maker
+upholstery workshop
+picture framing shop
+jewellery maker
+watch repair shop
+shoe repair shop
+dry cleaner
+tailor
+bridal shop
+charity shop
+vintage clothing store
+department store
+supermarket store operations
+convenience store
+petrol station
+car dealership
+motorbike dealer
+used car auction
+taxi firm
+minicab dispatch
+driving school
+bus manufacturer
+car parts factory
+food processing plant
+bottling plant
+paper mill
+steel fabrication shop
+3D printing bureau
+electronics repair shop
+phone repair kiosk
+computer shop
+data centre operations
+cybersecurity incident response
+IT outsourcing provider
+SaaS customer onboarding
+software QA team
+DevOps on-call rotation
+machine learning team
+API platform team
+mobile app release team
+game server operations
+open data portal
+university admissions office
+student union
+school trip organising
+school library
+sixth form college timetabling
+adult education centre
+language school
+driving test centre
+care home
+home care agency
+hospice
+optician
+physiotherapy clinic
+chiropractor
+hearing aid clinic
+mental health charity helpline
+sexual health clinic
+vaccination centre
+NHS 111 call handling
+hospital outpatients
+hospital radiology
+hospital pathology lab
+hospital porters
+operating theatre scheduling
+maternity unit
+dialysis unit
+medical device manufacturer
+pharmaceutical warehouse
+clinical research organisation
+biotech startup lab
+university research grant office
+science museum outreach
+planetarium
+observatory
+weather forecasting office
+geological survey team
+archaeological dig
+heritage railway
+canal boat hire
+ferry operator
+port authority
+freight forwarder
+customs broker
+shipping container depot
+airport ground handling
+air traffic control tower
+helicopter charter
+travel agency
+tour operator
+youth hostel
+campsite
+caravan park
+holiday cottage agency
+wedding venue
+conference centre
+exhibition hall
+trade show organiser
+nightclub
+pub
+cocktail bar
+gin distillery
+tea room
+ice cream parlour
+chocolate shop
+sweet factory
+cake decorating business
+meal kit company
+dark kitchen
+grocery delivery app
+homeless shelter
+refugee resettlement charity
+volunteer centre
+citizens advice bureau
+housing association lettings
+student accommodation
+auction house
+antiques dealer
+coin and stamp dealer
+church parish office
+mosque community centre
+synagogue events
+scout group
+girlguiding unit
+youth football league
+cricket club
+athletics club
+cycling club
+village fete
+Christmas market
+fireworks display
+local election campaign
+trade union branch
+residents association
+neighbourhood watch
+parish council
+town council events
