@@ -409,7 +409,8 @@ def export():
     if not src:
         raise SystemExit("no adapter found under /kaggle/input")
     log("adapter", src)
-    sh("pip install -q -U peft 'transformers>=4.45' accelerate sentencepiece gguf")
+    sh("pip uninstall -y -q torchao", check=False)  # an old torchao breaks peft's import
+    sh("pip install -q sentencepiece gguf")
     import torch
     from peft import PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
