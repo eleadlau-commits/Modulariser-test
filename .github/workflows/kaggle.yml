@@ -79,6 +79,9 @@ jobs:
       - name: Publish adapter to Hugging Face
         if: (inputs.task == 'train' || inputs.task == 'collect-train') && env.HF_TOKEN != ''
         run: python kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"
+      - name: Deploy demo Space
+        if: (inputs.task == 'export' || inputs.task == 'collect-export') && env.HF_TOKEN != ''
+        run: python kaggle/deploy_space.py result/out/model-q4_k_m.gguf --run-id "${{ github.run_id }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

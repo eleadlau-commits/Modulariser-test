@@ -392,6 +392,38 @@ def teacher():
         log(f"teacher: {i + len(batch)} docs seen, {kept} kept")
 
 
+# ---------------------------------------------------------------- export (GGUF for the demo)
+
+
+def export():
+    """Merge the adapter from the train kernel into the base and write a Q4_K_M GGUF."""
+    import glob
+
+    src = CONFIG.get("adapter_dir") or next(iter(glob.glob("/kaggle/input/*/out/adapter")), None)
+    if not src:
+        raise SystemExit("no adapter found under /kaggle/input")
+    log("adapter", src)
+    sh("pip install -q -U peft 'transformers>=4.45' accelerate sentencepiece gguf")
+    import torch
+    from peft import PeftModel
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    base = CONFIG["models"][0]
+    model = AutoModelForCausalLM.from_pretrained(base, torch_dtype=torch.float16, device_map="cpu")
+    model = PeftModel.from_pretrained(model, src).merge_and_unload()
+    merged = f"{WORK}/merged"
+    model.save_pretrained(merged, safe_serialization=True)
+    AutoTokenizer.from_pretrained(base).save_pretrained(merged)
+    del model
+    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
+    sh(f"pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt", check=False)
+    sh(f"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
+    sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
+    sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
+    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp", check=False)
+    log("gguf size MB", os.path.getsize(f"{OUT}/model-q4_k_m.gguf") // 2**20)
+
+
 def subrun(task):
     """Run this script again as a fresh process with another task."""
     cfg = dict(CONFIG, task=task)
@@ -426,6 +458,8 @@ def main():
         judge()
     elif task == "teacher":
         teacher()
+    elif task == "export":
+        export()
     else:
         for m in CONFIG["models"]:
             subrun_cfg = dict(CONFIG, one=m)
