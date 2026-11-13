@@ -1,0 +1,103 @@
+04:46:21 config {"task": "export", "ref": "80530023945a268120c41251aaac67ab0b2517a2", "models": ["Qwen/Qwen2.5-3B-Instruct"], "kernel_sources": ["modulariser-train"], "n_train": 10}
+04:46:21 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q 80530023945a268120c41251aaac67ab0b2517a2
+04:46:22 $ pip install -q -e /kaggle/working/repo
+04:46:32 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 10
+train 10, val 0, test 200 (28 train domains, 6 test domains)
+04:46:33 adapter /kaggle/input/modulariser-train/out/adapter
+04:46:33 $ pip uninstall -y -q torchao
+04:46:34 $ pip install -q sentencepiece gguf
+04:48:51 $ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp
+04:49:05 $ pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt
+04:49:32 $ python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf
+04:49:45 default
+INFO:hf-to-gguf:gguf: rope scaling type = NONE
+INFO:hf-to-gguf:gguf: rope theta = 1000000.0
+INFO:hf-to-gguf:gguf: rms norm epsilon = 1e-06
+INFO:hf-to-gguf:gguf: file type = 1
+INFO:hf-to-gguf:Set model quantization version
+INFO:hf-to-gguf:Set model tokenizer
+INFO:numexpr.utils:NumExpr defaulting to 4 threads.
+Traceback (most recent call last):
+  File "/kaggle/working/llama.cpp/conversion/qwen.py", line 67, in set_vocab
+    self._set_vocab_sentencepiece()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 2603, in _set_vocab_sentencepiece
+    tokens, scores, toktypes = self._create_vocab_sentencepiece()
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 2620, in _create_vocab_sentencepiece
+    raise FileNotFoundError(f"File not found: {tokenizer_path}")
+FileNotFoundError: File not found: /kaggle/working/merged/tokenizer.model
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/kaggle/working/llama.cpp/convert_hf_to_gguf.py", line 339, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/llama.cpp/convert_hf_to_gguf.py", line 333, in main
+    model_instance.write()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 1697, in write
+    self.prepare_metadata(vocab_only=False)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 1901, in prepare_metadata
+    self.set_vocab()
+    ~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/qwen.py", line 69, in set_vocab
+    self._set_vocab_gpt2()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 2461, in _set_vocab_gpt2
+    tokens, toktypes, tokpre = self.get_vocab_base()
+                               ~~~~~~~~~~~~~~~~~~~^^
+  File "/kaggle/working/llama.cpp/conversion/base.py", line 2057, in get_vocab_base
+    tokenizer = AutoTokenizer.from_pretrained(self.dir_model)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/auto/tokenization_auto.py", line 1156, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 2113, in from_pretrained
+    return cls._from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~^
+        resolved_vocab_files,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 2359, in _from_pretrained
+    tokenizer = cls(*init_inputs, **init_kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/qwen2/tokenization_qwen2_fast.py", line 120, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        vocab_file=vocab_file,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_fast.py", line 178, in __init__
+    super().__init__(**kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 1472, in __init__
+    self._set_model_specific_special_tokens(special_tokens=self.extra_special_tokens)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 1210, in _set_model_specific_special_tokens
+    self.SPECIAL_TOKENS_ATTRIBUTES = self.SPECIAL_TOKENS_ATTRIBUTES + list(special_tokens.keys())
+                                                                           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'keys'
+
+04:49:45 CRASH Traceback (most recent call last):
+  File "/kaggle/src/script.py", line 491, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/src/script.py", line 477, in main
+    export()
+    ~~~~~~^^
+  File "/kaggle/src/script.py", line 428, in export
+    sh(f"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
+    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/src/script.py", line 39, in sh
+    raise SystemExit(f"failed: {cmd}")
+SystemExit: failed: python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf
+

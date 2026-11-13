@@ -1,0 +1,115 @@
+[{"stream_name":"stdout","time":1.219989343,"data":"config {\"task\": \"export\", \"ref\": \"80530023945a268120c41251aaac67ab0b2517a2\", \"models\": [\"Qwen/Qwen2.5-3B-Instruct\"], \"kernel_sources\": [\"modulariser-train\"], \"n_train\": 10}\n"}
+,{"stream_name":"stdout","time":1.221901229,"data":"$ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo \u0026\u0026 cd /kaggle/working/repo \u0026\u0026 git checkout -q 80530023945a268120c41251aaac67ab0b2517a2\n"}
+,{"stream_name":"stdout","time":2.275015409,"data":"$ pip install -q -e /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":12.650737148,"data":"$ cd /kaggle/working/repo \u0026\u0026 python -m modulariser.data.build --out /kaggle/working/data --n 10\n"}
+,{"stream_name":"stdout","time":13.018713223,"data":"adapter /kaggle/input/modulariser-train/out/adapter\n"}
+,{"stream_name":"stdout","time":13.018744266,"data":"$ pip uninstall -y -q torchao\n"}
+,{"stream_name":"stdout","time":14.244501971,"data":"$ pip install -q sentencepiece gguf\n"}
+,{"stream_name":"stderr","time":57.60229427,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":57.722637119,"data":"[transformers] `torch_dtype` is deprecated! Use `dtype` instead!\n"}
+,{"stream_name":"stderr","time":96.162646712,"data":"\rFetching 2 files:   0%|          | 0/2 [00:00\u003c?, ?it/s]\rFetching 2 files:  50%|█████     | 1/2 [00:21\u003c00:21, 21.95s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:38\u003c00:00, 18.56s/it]\rFetching 2 files: 100%|██████████| 2/2 [00:38\u003c00:00, 19.07s/it]\n"}
+,{"stream_name":"stderr","time":100.377940712,"data":"\rLoading weights:   0%|          | 0/434 [00:00\u003c?, ?it/s]\rLoading weights:   0%|          | 1/434 [00:00\u003c06:31,  1.11it/s]\rLoading weights:  23%|██▎       | 99/434 [00:01\u003c00:02, 120.97it/s]\rLoading weights:  30%|███       | 131/434 [00:01\u003c00:02, 124.01it/s]\rLoading weights:  36%|███▌      | 155/434 [00:01\u003c00:02, 128.59it/s]\rLoading weights:  40%|████      | 175/434 [00:01\u003c00:02, 117.81it/s]\rLoading weights:  45%|████▍     | 195/434 [00:01\u003c00:02, 117.31it/s]\rLoading weights:  48%|████▊     | 210/434 [00:02\u003c00:01, 118.03it/s]\rLoading weights:  53%|█████▎    | 231/434 [00:02\u003c00:01, 122.92it/s]\rLoading weights:  56%|█████▋    | 245/434 [00:02\u003c00:01, 118.88it/s]\rLoading weights:  59%|█████▉    | 258/434 [00:02\u003c00:01, 120.00it/s]\rLoading weights:  64%|██████▍   | 279/434 [00:02\u003c00:01, 121.27it/s]\rLoading weights:  67%|██████▋   | 292/434 [00:02\u003c00:01, 118.83it/s]\rLoading weights:  70%|███████   | 305/434 [00:02\u003c00:01, 119.19it/s]\rLoading weights:  75%|███████▌  | 327/434 [00:02\u003c00:00, 122.04it/s]\rLoading weights:  78%|███████▊  | 340/434 [00:03\u003c00:00, 120.87it/s]\rLoading weights:  81%|████████▏ | 353/434 [00:03\u003c00:00, 119.57it/s]\rLoading weights:  86%|████████▋ | 375/434 [00:03\u003c00:00, 125.62it/s]\rLoading weights:  89%|████████▉ | 388/434 [00:03\u003c00:00, 126.29it/s]\rLoading weights:  92%|█████████▏| 401/434 [00:03\u003c00:00, 112.50it/s]\rLoading weights:  97%|█████████▋| 423/434 [00:03\u003c00:00, 122.30it/s]\rLoading weights: 100%|██████████| 434/434 [00:03\u003c00:00, 115.37it/s]\n"}
+,{"stream_name":"stderr","time":142.636120652,"data":"\rWriting model shards:   0%|          | 0/1 [00:00\u003c?, ?it/s]\rWriting model shards: 100%|██████████| 1/1 [00:04\u003c00:00,  4.38s/it]\rWriting model shards: 100%|██████████| 1/1 [00:04\u003c00:00,  4.38s/it]\n"}
+,{"stream_name":"stdout","time":151.560577309,"data":"$ git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /kaggle/working/llama.cpp\n"}
+,{"stream_name":"stdout","time":165.646820745,"data":"$ pip install -q -r /kaggle/working/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt\n"}
+,{"stream_name":"stdout","time":191.945761241,"data":"$ python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf\n"}
+,{"stream_name":"stdout","time":205.182648993,"data":"default\n"}
+,{"stream_name":"stdout","time":205.182679568,"data":"INFO:hf-to-gguf:gguf: rope scaling type = NONE\n"}
+,{"stream_name":"stdout","time":205.182685779,"data":"INFO:hf-to-gguf:gguf: rope theta = 1000000.0\n"}
+,{"stream_name":"stdout","time":205.182691438,"data":"INFO:hf-to-gguf:gguf: rms norm epsilon = 1e-06\n"}
+,{"stream_name":"stdout","time":205.18269674,"data":"INFO:hf-to-gguf:gguf: file type = 1\n"}
+,{"stream_name":"stdout","time":205.18270158,"data":"INFO:hf-to-gguf:Set model quantization version\n"}
+,{"stream_name":"stdout","time":205.182706176,"data":"INFO:hf-to-gguf:Set model tokenizer\n"}
+,{"stream_name":"stdout","time":205.182710935,"data":"INFO:numexpr.utils:NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stdout","time":205.182715752,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":205.182721163,"data":"  File \"/kaggle/working/llama.cpp/conversion/qwen.py\", line 67, in set_vocab\n"}
+,{"stream_name":"stdout","time":205.182726457,"data":"    self._set_vocab_sentencepiece()\n"}
+,{"stream_name":"stdout","time":205.18273157,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182736649,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 2603, in _set_vocab_sentencepiece\n"}
+,{"stream_name":"stdout","time":205.18274215,"data":"    tokens, scores, toktypes = self._create_vocab_sentencepiece()\n"}
+,{"stream_name":"stdout","time":205.182747345,"data":"                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182752576,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 2620, in _create_vocab_sentencepiece\n"}
+,{"stream_name":"stdout","time":205.18275798,"data":"    raise FileNotFoundError(f\"File not found: {tokenizer_path}\")\n"}
+,{"stream_name":"stdout","time":205.182763245,"data":"FileNotFoundError: File not found: /kaggle/working/merged/tokenizer.model\n"}
+,{"stream_name":"stdout","time":205.182768434,"data":"\n"}
+,{"stream_name":"stdout","time":205.182773353,"data":"During handling of the above exception, another exception occurred:\n"}
+,{"stream_name":"stdout","time":205.182778549,"data":"\n"}
+,{"stream_name":"stdout","time":205.182783444,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":205.18278843,"data":"  File \"/kaggle/working/llama.cpp/convert_hf_to_gguf.py\", line 339, in \u003cmodule\u003e\n"}
+,{"stream_name":"stdout","time":205.182794314,"data":"    main()\n"}
+,{"stream_name":"stdout","time":205.182799253,"data":"    ~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182804235,"data":"  File \"/kaggle/working/llama.cpp/convert_hf_to_gguf.py\", line 333, in main\n"}
+,{"stream_name":"stdout","time":205.182809556,"data":"    model_instance.write()\n"}
+,{"stream_name":"stdout","time":205.182814558,"data":"    ~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182819599,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 1697, in write\n"}
+,{"stream_name":"stdout","time":205.18282467,"data":"    self.prepare_metadata(vocab_only=False)\n"}
+,{"stream_name":"stdout","time":205.182842074,"data":"    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.182846352,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 1901, in prepare_metadata\n"}
+,{"stream_name":"stdout","time":205.182850601,"data":"    self.set_vocab()\n"}
+,{"stream_name":"stdout","time":205.18285449,"data":"    ~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182858453,"data":"  File \"/kaggle/working/llama.cpp/conversion/qwen.py\", line 69, in set_vocab\n"}
+,{"stream_name":"stdout","time":205.18286286,"data":"    self._set_vocab_gpt2()\n"}
+,{"stream_name":"stdout","time":205.182866818,"data":"    ~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.18287078,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 2461, in _set_vocab_gpt2\n"}
+,{"stream_name":"stdout","time":205.182875261,"data":"    tokens, toktypes, tokpre = self.get_vocab_base()\n"}
+,{"stream_name":"stdout","time":205.182879438,"data":"                               ~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.182883233,"data":"  File \"/kaggle/working/llama.cpp/conversion/base.py\", line 2057, in get_vocab_base\n"}
+,{"stream_name":"stdout","time":205.182889147,"data":"    tokenizer = AutoTokenizer.from_pretrained(self.dir_model)\n"}
+,{"stream_name":"stdout","time":205.182894132,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/models/auto/tokenization_auto.py\", line 1156, in from_pretrained\n"}
+,{"stream_name":"stdout","time":205.182898526,"data":"    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)\n"}
+,{"stream_name":"stdout","time":205.182902836,"data":"           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.182907099,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py\", line 2113, in from_pretrained\n"}
+,{"stream_name":"stdout","time":205.182911523,"data":"    return cls._from_pretrained(\n"}
+,{"stream_name":"stdout","time":205.182915935,"data":"           ~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":205.182919871,"data":"        resolved_vocab_files,\n"}
+,{"stream_name":"stdout","time":205.182923838,"data":"        ^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.182927766,"data":"    ...\u003c9 lines\u003e...\n"}
+,{"stream_name":"stdout","time":205.18293189,"data":"        **kwargs,\n"}
+,{"stream_name":"stdout","time":205.182935801,"data":"        ^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.182939756,"data":"    )\n"}
+,{"stream_name":"stdout","time":205.182943638,"data":"    ^\n"}
+,{"stream_name":"stdout","time":205.182947582,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py\", line 2359, in _from_pretrained\n"}
+,{"stream_name":"stdout","time":205.182952102,"data":"    tokenizer = cls(*init_inputs, **init_kwargs)\n"}
+,{"stream_name":"stdout","time":205.182965289,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/models/qwen2/tokenization_qwen2_fast.py\", line 120, in __init__\n"}
+,{"stream_name":"stdout","time":205.182969939,"data":"    super().__init__(\n"}
+,{"stream_name":"stdout","time":205.182973998,"data":"    ~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stdout","time":205.182977893,"data":"        vocab_file=vocab_file,\n"}
+,{"stream_name":"stdout","time":205.18298189,"data":"        ^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.182985844,"data":"    ...\u003c6 lines\u003e...\n"}
+,{"stream_name":"stdout","time":205.182989929,"data":"        **kwargs,\n"}
+,{"stream_name":"stdout","time":205.182998215,"data":"        ^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.183002631,"data":"    )\n"}
+,{"stream_name":"stdout","time":205.183006422,"data":"    ^\n"}
+,{"stream_name":"stdout","time":205.183010312,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_fast.py\", line 178, in __init__\n"}
+,{"stream_name":"stdout","time":205.183014635,"data":"    super().__init__(**kwargs)\n"}
+,{"stream_name":"stdout","time":205.183018603,"data":"    ~~~~~~~~~~~~~~~~^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.18302249,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py\", line 1472, in __init__\n"}
+,{"stream_name":"stdout","time":205.183027212,"data":"    self._set_model_specific_special_tokens(special_tokens=self.extra_special_tokens)\n"}
+,{"stream_name":"stdout","time":205.183031291,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.18303568,"data":"  File \"/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py\", line 1210, in _set_model_specific_special_tokens\n"}
+,{"stream_name":"stdout","time":205.183040249,"data":"    self.SPECIAL_TOKENS_ATTRIBUTES = self.SPECIAL_TOKENS_ATTRIBUTES + list(special_tokens.keys())\n"}
+,{"stream_name":"stdout","time":205.183044573,"data":"                                                                           ^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.183048817,"data":"AttributeError: 'list' object has no attribute 'keys'\n"}
+,{"stream_name":"stdout","time":205.183052907,"data":"\n"}
+,{"stream_name":"stdout","time":205.184527071,"data":"CRASH Traceback (most recent call last):\n"}
+,{"stream_name":"stdout","time":205.18454788,"data":"  File \"/kaggle/src/script.py\", line 491, in \u003cmodule\u003e\n"}
+,{"stream_name":"stdout","time":205.184553395,"data":"    main()\n"}
+,{"stream_name":"stdout","time":205.184557771,"data":"    ~~~~^^\n"}
+,{"stream_name":"stdout","time":205.18456162,"data":"  File \"/kaggle/src/script.py\", line 477, in main\n"}
+,{"stream_name":"stdout","time":205.184565722,"data":"    export()\n"}
+,{"stream_name":"stdout","time":205.184569239,"data":"    ~~~~~~^^\n"}
+,{"stream_name":"stdout","time":205.184573041,"data":"  File \"/kaggle/src/script.py\", line 428, in export\n"}
+,{"stream_name":"stdout","time":205.184577166,"data":"    sh(f\"python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf\")\n"}
+,{"stream_name":"stdout","time":205.184581447,"data":"    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stdout","time":205.184585786,"data":"  File \"/kaggle/src/script.py\", line 39, in sh\n"}
+,{"stream_name":"stdout","time":205.184590038,"data":"    raise SystemExit(f\"failed: {cmd}\")\n"}
+,{"stream_name":"stdout","time":205.184595014,"data":"SystemExit: failed: python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf\n"}
+,{"stream_name":"stdout","time":205.184599359,"data":"\n"}
+,{"stream_name":"stderr","time":205.184890444,"data":"failed: python /kaggle/working/llama.cpp/convert_hf_to_gguf.py /kaggle/working/merged --outtype f16 --outfile /kaggle/working/model-f16.gguf\n"}
+,{"stream_name":"stderr","time":209.47781855,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":209.477863851,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":209.887315877,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":209.887347204,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":210.912875477,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":212.646435527,"data":"[NbConvertApp] Writing 396673 bytes to __results__.html\n"}
+]
