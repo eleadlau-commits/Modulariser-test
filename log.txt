@@ -1,0 +1,41 @@
+03:43:35 config {"task": "evaladapter", "ref": "b646664fea4e105c189e62e53d2d1b96c26c98df", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_test": 60, "kernel_sources": ["modulariser-train"]}
+03:43:35 $ nvidia-smi
+Fri Nov 13 03:43:35 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   49C    P8             11W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   49C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+03:43:35 $ git clone -q https://github.com/eleadlau-commits/Modulariser-test /kaggle/working/repo && cd /kaggle/working/repo && git checkout -q b646664fea4e105c189e62e53d2d1b96c26c98df
+03:43:36 $ pip install -q -e /kaggle/working/repo
+03:43:43 $ cd /kaggle/working/repo && python -m modulariser.data.build --out /kaggle/working/data --n 4000
+train 4000, val 200, test 200 (28 train domains, 6 test domains)
+03:43:45 adapter from /kaggle/input/notebooks/eleadlau/modulariser-train/out/adapter
+03:43:45 $ pip install -q vllm
+05:03:16 tuned {"synth_test": {"n": 60, "code_score": 0.5539, "code_score_cut_items": 0.5043, "status_acc": 0.6667, "first_try_pass": 0.4833, "wrapper_refused": 19, "secs_per_item": 21.68, "coverage": 0.9869, "element_precision": 0.9959, "no_ghosts": 1.0, "relations_kept": 0.6171, "modularity_rel": 0.5445, "change_locality": 0.7905, "agreement": 0.5115}, "exam": {"n": 60, "code_score": 0.1977, "code_score_cut_items": 0.0917, "status_acc": 0.2167, "first_try_pass": 0.1833, "wrapper_refused": 45, "secs_per_item": 50.88, "coverage": 0.8296, "element_precision": 0.6519, "no_ghosts": 0.855, "relations_kept": 0.3962, "modularity_rel": 0.2182, "change_locality": 0.8611, "agreement": 0.4403}}
+05:03:16 config {"task": "judge", "ref": "b646664fea4e105c189e62e53d2d1b96c26c98df", "models": ["Qwen/Qwen2.5-3B-Instruct"], "n_test": 60, "kernel_sources": ["modulariser-train"]}
+05:03:16 $ pip install -q vllm
+05:05:37 tuned exam blur 0.0465
+05:05:59 tuned synth_test blur 0.1773
+05:06:01 all done in 2.8 min
+05:06:05 judge exit code 0
+05:06:05 all done in 82.5 min
+05:06:05 $ rm -rf /kaggle/working/repo /kaggle/working/data /kaggle/working/ckpt

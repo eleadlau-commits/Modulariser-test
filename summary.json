@@ -1,0 +1,40 @@
+{
+  "tuned": {
+    "synth_test": {
+      "n": 60,
+      "code_score": 0.5539,
+      "code_score_cut_items": 0.5043,
+      "status_acc": 0.6667,
+      "first_try_pass": 0.4833,
+      "wrapper_refused": 19,
+      "secs_per_item": 21.68,
+      "coverage": 0.9869,
+      "element_precision": 0.9959,
+      "no_ghosts": 1.0,
+      "relations_kept": 0.6171,
+      "modularity_rel": 0.5445,
+      "change_locality": 0.7905,
+      "agreement": 0.5115,
+      "blur_score": 0.1773,
+      "final_score": 0.3408
+    },
+    "exam": {
+      "n": 60,
+      "code_score": 0.1977,
+      "code_score_cut_items": 0.0917,
+      "status_acc": 0.2167,
+      "first_try_pass": 0.1833,
+      "wrapper_refused": 45,
+      "secs_per_item": 50.88,
+      "coverage": 0.8296,
+      "element_precision": 0.6519,
+      "no_ghosts": 0.855,
+      "relations_kept": 0.3962,
+      "modularity_rel": 0.2182,
+      "change_locality": 0.8611,
+      "agreement": 0.4403,
+      "blur_score": 0.0465,
+      "final_score": 0.0691
+    }
+  }
+}

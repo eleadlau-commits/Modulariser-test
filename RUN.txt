@@ -1,0 +1,1 @@
+evaladapter Qwen/Qwen2.5-3B-Instruct {n_test:60, kernel_sources:[modulariser-train]}
