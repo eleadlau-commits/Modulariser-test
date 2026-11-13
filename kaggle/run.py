@@ -428,7 +428,7 @@ def export():
     del model
     sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
     # The converter gets its own venv with the library versions it pins.
-    sh(f"python -m venv {WORK}/cv && {WORK}/cv/bin/pip install -q -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
+    sh(f"pip install -q uv && cd {WORK} && uv venv -q --python 3.12 cv && uv pip install -q --python {WORK}/cv/bin/python --index-strategy unsafe-best-match -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
     sh(f"{WORK}/cv/bin/python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
     sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
     sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
