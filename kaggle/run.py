@@ -569,7 +569,8 @@ def main():
         evaluate([{"base": base, "adapter": adapter, "name": "tuned"}])
     elif task == "eval_one":
         m = CONFIG["one"]
-        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1]}])
+        tp = 2 if any(x in m for x in ("14B", "32B", "70B")) else 1
+        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1], "tp": tp}])
     elif task == "judge":
         judge()
     elif task == "teacher":
