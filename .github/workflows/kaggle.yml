@@ -16,6 +16,8 @@ on:
       ref:
         description: "git ref the kernel checks out (default: this commit)"
         default: ""
+permissions:
+  contents: write
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -58,6 +60,17 @@ jobs:
           ls -la result result/out || true
           cat result/out/summary.json || true
           tail -50 result/out/log.txt || true
+      - name: Save results to a branch
+        if: always()
+        run: |
+          mkdir -p /tmp/res && cp result/out/*.json result/out/*.jsonl result/out/log.txt /tmp/res/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan "results/${{ github.run_id }}"
+          git rm -rfq . && git clean -fdq -e result
+          cp /tmp/res/* . 2>/dev/null || echo "no results" > EMPTY
+          printf '%s\n' "${{ inputs.task }} ${{ inputs.models }} ${{ inputs.options }}" > RUN.txt
+          git add -A ':!result' && git commit -qm "results of run ${{ github.run_id }}" && git push -q origin "results/${{ github.run_id }}"
       - name: Publish adapter to Hugging Face
         if: inputs.task == 'train' && env.HF_TOKEN != ''
         run: python kaggle/publish.py result/out/adapter --run-id "${{ github.run_id }}" --models "${{ inputs.models }}"

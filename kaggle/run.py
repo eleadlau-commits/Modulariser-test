@@ -119,7 +119,8 @@ def evaluate(models):
     synth = [r["item"] for r in load_jsonl(f"{WORK}/data/synth_test.jsonl")][: CONFIG.get("n_test", 100)]
     exam = exam_items()
     sets = {"synth_test": synth, "exam": exam}
-    summary = {}
+    sp = os.path.join(OUT, "summary.json")
+    summary = json.load(open(sp)) if os.path.exists(sp) else {}
     for spec in models:
         res = eval_one(spec, sets, CUT_SCHEMA.schema, check, cut_for, strip_meta)
         summary[spec["name"]] = res
@@ -203,29 +204,125 @@ def eval_one(spec, sets, schema, check, cut_for, strip_meta):
     return out
 
 
+# ---------------------------------------------------------------- judge
+
+JUDGE_MODEL = "Qwen/Qwen2.5-14B-Instruct-AWQ"
+JUDGE_PROMPT = """You are testing whether a summary of a process kept what matters.
+Below is a blurred view of a process: only its parts, what each part owns, and the links between parts.
+Using ONLY this view (no outside knowledge about this particular process), could someone answer the question with the expected answer?
+Reply with exactly one word: yes or no.
+
+VIEW:
+{view}
+
+QUESTION: {q}
+EXPECTED ANSWER: {a}"""
+
+
+def blur_view(cut):
+    el = {e["id"]: e["text"] for e in cut.get("elements", [])}
+    pn = {p["id"]: p["name"] for p in cut.get("parts", [])}
+    lines = []
+    for p in cut.get("parts", []):
+        owns = "; ".join(el.get(e, e) for e in p["owns"])
+        lines.append(f"- {p['name']}: {p['summary']} Owns: {owns}")
+    for l in cut.get("links", []):
+        a, b = pn.get(l["from"], l["from"]), pn.get(l["to"], l["to"])
+        if l["kind"] == "order":
+            lines.append(f"- {a} must happen before {b}")
+        else:
+            lines.append(f"- {a} uses '{el.get(l['uses'], l['uses'])}' from {b}")
+    if cut.get("unresolved"):
+        lines.append("- Unresolved: " + "; ".join(el.get(e, e) for e in cut["unresolved"]))
+    return "\n".join(lines)
+
+
+def judge():
+    """Blur test on every result file in OUT; adds blur_score to summary.json."""
+    import glob
+
+    sh("pip install -q vllm", check=True)
+    from vllm import LLM, SamplingParams
+
+    items = {r["item"]["id"]: r["item"] for r in load_jsonl(f"{WORK}/data/synth_test.jsonl")}
+    items.update({it["id"]: it for it in exam_items()})
+    llm = LLM(model=CONFIG.get("judge_model", JUDGE_MODEL), dtype="half", max_model_len=4096,
+              gpu_memory_utilization=0.9, enforce_eager=True)
+    sp = SamplingParams(temperature=0.0, max_tokens=3)
+    summary = json.load(open(os.path.join(OUT, "summary.json")))
+    for f in sorted(glob.glob(os.path.join(OUT, "*__*.jsonl"))):
+        name, set_name = os.path.basename(f)[:-6].split("__")
+        rows = load_jsonl(f)
+        prompts, index = [], []
+        for ri, r in enumerate(rows):
+            it = items.get(r["id"])
+            if not it or it["expect_status"] == "refuse" or r["status"] == "refuse" or r["hard_fail"]:
+                continue
+            view = blur_view(r["cut"])
+            for q in it["questions"]:
+                prompts.append([{"role": "user", "content": JUDGE_PROMPT.format(view=view, q=q["q"], a=q["a"])}])
+                index.append(ri)
+        outs = llm.chat(prompts, sp, use_tqdm=False) if prompts else []
+        per = {}
+        for ri, o in zip(index, outs):
+            per.setdefault(ri, []).append(o.outputs[0].text.strip().lower().startswith("yes"))
+        cut_items = [r for r in rows if items.get(r["id"]) and items[r["id"]]["expect_status"] != "refuse"]
+        for ri, r in enumerate(rows):
+            r["blur_score"] = sum(per[ri]) / len(per[ri]) if ri in per else 0.0
+        with open(f, "w") as fh:
+            for r in rows:
+                fh.write(json.dumps(r) + "\n")
+        blur = sum(r["blur_score"] for r in cut_items) / max(1, len(cut_items))
+        summary.setdefault(name, {}).setdefault(set_name, {})["blur_score"] = round(blur, 4)
+        # Final score per the design: code checks and blur test, equal weight, on cut items.
+        cs = summary[name][set_name].get("code_score_cut_items", 0)
+        summary[name][set_name]["final_score"] = round((cs + blur) / 2, 4)
+        log(name, set_name, "blur", round(blur, 4))
+    json.dump(summary, open(os.path.join(OUT, "summary.json"), "w"), indent=2)
+
+
+def subrun(task):
+    """Run this script again as a fresh process with another task."""
+    cfg = dict(CONFIG, task=task)
+    src = open(f"{WORK}/repo/kaggle/run.py").read()
+    path = f"{WORK}/{task}.py"
+    with open(path, "w") as f:
+        f.write(f"CONFIG = {cfg!r}\n" + src)
+    r = subprocess.run([sys.executable, path])
+    log(task, "exit code", r.returncode)
+
+
 def main():
     t0 = time.time()
     log("config", json.dumps(CONFIG))
-    sh("nvidia-smi", check=False)
-    setup()
     task = CONFIG["task"]
+    if task in ("train", "eval"):
+        sh("nvidia-smi", check=False)
+    setup()
     base = CONFIG["models"][0]
     adapter = os.path.join(OUT, "adapter")
     if task == "train":
         train(base, adapter)
-        # Eval in a fresh process: installing vLLM swaps packages under a live torch.
-        cfg = dict(CONFIG, task="eval_tuned")
-        src = open(f"{WORK}/repo/kaggle/run.py").read()
-        with open(f"{WORK}/eval_tuned.py", "w") as f:
-            f.write(f"CONFIG = {cfg!r}\n" + src)
-        r = subprocess.run([sys.executable, f"{WORK}/eval_tuned.py"])
-        log("eval exit code", r.returncode)
+        # Fresh processes: installing vLLM swaps packages under a live torch,
+        # and vLLM does not reliably free the GPU between models.
+        subrun("eval_tuned")
     elif task == "eval_tuned":
         evaluate([{"base": base, "adapter": adapter, "name": "tuned"}])
+    elif task == "eval_one":
+        m = CONFIG["one"]
+        evaluate([{"base": m, "adapter": None, "name": m.split("/")[-1]}])
+    elif task == "judge":
+        judge()
     else:
-        specs = [{"base": m, "adapter": None, "name": m.split("/")[-1]} for m in CONFIG["models"]]
-        evaluate(specs)
+        for m in CONFIG["models"]:
+            subrun_cfg = dict(CONFIG, one=m)
+            CONFIG.update(subrun_cfg)
+            subrun("eval_one")
+    if task in ("train", "eval") and CONFIG.get("judge", True):
+        subrun("judge")
     log(f"all done in {(time.time() - t0) / 60:.1f} min")
+    if task in ("train", "eval"):
+        sh(f"rm -rf {WORK}/repo {WORK}/data {WORK}/ckpt", check=False)  # keep the output small
 
 
 main()
