@@ -462,22 +462,25 @@ def export():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     base = CONFIG["models"][0]
+    os.makedirs("/tmp/exp", exist_ok=True)
     model = AutoModelForCausalLM.from_pretrained(base, torch_dtype=torch.float16, device_map="cpu")
     model = PeftModel.from_pretrained(model, src).merge_and_unload()
-    merged = f"{WORK}/merged"
+    merged = "/tmp/exp/merged"  # /tmp has more room than /kaggle/working
     model.save_pretrained(merged, safe_serialization=True)
     # Original tokenizer files (newer transformers saves them in a form the converter misreads).
     from huggingface_hub import snapshot_download
     tok_dir = snapshot_download(base, allow_patterns=["tokenizer*", "vocab.json", "merges.txt", "generation_config.json"])
     sh(f"cp {tok_dir}/* {merged}/")
     del model
-    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp {WORK}/llama.cpp")
+    sh(f"git clone -q --depth 1 https://github.com/ggml-org/llama.cpp /tmp/exp/llama.cpp")
     # The converter gets its own venv with the library versions it pins.
-    sh(f"pip install -q uv && cd {WORK} && uv venv -q --python 3.12 cv && uv pip install -q --python {WORK}/cv/bin/python --index-strategy unsafe-best-match -r {WORK}/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
-    sh(f"{WORK}/cv/bin/python {WORK}/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile {WORK}/model-f16.gguf")
-    sh(f"cd {WORK}/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
-    sh(f"{WORK}/llama.cpp/build/bin/llama-quantize {WORK}/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
-    sh(f"rm -rf {merged} {WORK}/model-f16.gguf {WORK}/llama.cpp {WORK}/cv", check=False)
+    sh(f"pip install -q uv && cd /tmp/exp && uv venv -q --python 3.12 cv && uv pip install -q --python /tmp/exp/cv/bin/python --index-strategy unsafe-best-match -r /tmp/exp/llama.cpp/requirements/requirements-convert_hf_to_gguf.txt")
+    sh(f"/tmp/exp/cv/bin/python /tmp/exp/llama.cpp/convert_hf_to_gguf.py {merged} --outtype f16 --outfile /tmp/exp/model-f16.gguf")
+    sh(f"rm -rf {merged} /tmp/exp/cv", check=False)
+    sh("df -h /tmp /kaggle/working | tail -2", check=False)
+    sh(f"cd /tmp/exp/llama.cpp && cmake -B build -DGGML_CUDA=OFF -DLLAMA_CURL=OFF > /dev/null && cmake --build build --target llama-quantize -j 4 > /dev/null")
+    sh(f"/tmp/exp/llama.cpp/build/bin/llama-quantize /tmp/exp/model-f16.gguf {OUT}/model-q4_k_m.gguf Q4_K_M")
+    sh(f"rm -rf {merged} /tmp/exp/model-f16.gguf /tmp/exp/llama.cpp /tmp/exp/cv", check=False)
     log("gguf size MB", os.path.getsize(f"{OUT}/model-q4_k_m.gguf") // 2**20)
 
 
