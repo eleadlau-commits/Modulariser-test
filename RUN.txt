@@ -1,0 +1,1 @@
+eval Qwen/Qwen2.5-7B-Instruct-AWQ,Qwen/Qwen2.5-32B-Instruct-AWQ {n_test:60, n_train:10}
