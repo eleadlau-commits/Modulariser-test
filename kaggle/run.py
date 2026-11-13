@@ -332,72 +332,117 @@ def fetch_govuk(n):
     return docs
 
 
+def fetch_github(n):
+    """Process docs (contributing, release, governance) from popular public repos."""
+    import re
+    import urllib.request
+
+    def get(url, js=True):
+        req = urllib.request.Request(url, headers={"User-Agent": "modulariser-research"})
+        data = urllib.request.urlopen(req, timeout=20).read()
+        return json.loads(data) if js else data.decode("utf-8", "replace")
+
+    repos = []
+    for lang in ["python", "javascript", "typescript", "go", "rust", "java", "c++", "ruby", "php", "c#", "kotlin", "swift"]:
+        for page in (1, 2):
+            try:
+                res = get(f"https://api.github.com/search/repositories?q=stars:>2000+language:{lang}&sort=stars&per_page=100&page={page}")
+                repos += [(r["full_name"], r["default_branch"], (r.get("license") or {}).get("spdx_id") or "unknown") for r in res.get("items", [])]
+            except Exception as e:
+                log("search failed", lang, e)
+            time.sleep(7)  # unauthenticated search: 10 requests a minute
+    log("repos", len(repos))
+    names = ["RELEASING.md", "RELEASE.md", "docs/RELEASING.md", "docs/release.md", "GOVERNANCE.md", "CONTRIBUTING.md",
+             ".github/CONTRIBUTING.md", "docs/CONTRIBUTING.md", "MAINTAINING.md", "docs/process.md"]
+    docs = []
+    for full, branch, lic in repos:
+        if len(docs) >= n:
+            break
+        for name in names:
+            try:
+                text = get(f"https://raw.githubusercontent.com/{full}/{branch}/{name}", js=False)
+            except Exception:
+                continue
+            text = re.sub(r"```.*?```", " ", text, flags=re.S)
+            text = re.sub(r"<[^>]+>|!\[[^\]]*\]\([^)]*\)", " ", text)
+            text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+            text = re.sub(r"[ \t]+", " ", text).strip()
+            if len(text) >= 1200:
+                docs.append({"url": f"https://github.com/{full}/blob/{branch}/{name}", "title": f"{full} {name}",
+                             "text": text[:4000], "licence": lic})
+                break
+    log("fetched", len(docs), "github process docs")
+    return docs
+
+
 def teacher():
     sh("pip install -q vllm", check=True)
+    from collections import Counter
     from vllm import LLM, SamplingParams
-    from modulariser.check import CUT_SCHEMA, _pair_f1, hard_checks
-    from modulariser.align import align
+    from modulariser.check import CUT_SCHEMA, hard_checks
     from modulariser.prompt import messages
 
-    docs = fetch_govuk(CONFIG.get("n_docs", 1200))
+    src = CONFIG.get("source", "github")
+    docs = fetch_github(CONFIG.get("n_docs", 1200)) if src == "github" else fetch_govuk(CONFIG.get("n_docs", 1200))
+    for d in docs:
+        d.setdefault("licence", "OGL-UK-3.0")
     llm = LLM(model=CONFIG.get("teacher_model", TEACHER_MODEL), dtype="half", max_model_len=6144,
               gpu_memory_utilization=0.92, enforce_eager=True, tensor_parallel_size=CONFIG.get("tp", 2))
     plain = SamplingParams(temperature=0.8, max_tokens=1200)
-
-    def guided(temp):
-        try:
-            from vllm.sampling_params import StructuredOutputsParams
-            return SamplingParams(temperature=temp, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
-        except ImportError:
-            from vllm.sampling_params import GuidedDecodingParams
-            return SamplingParams(temperature=temp, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+    try:
+        from vllm.sampling_params import StructuredOutputsParams
+        guided = SamplingParams(temperature=0.0, max_tokens=2000, structured_outputs=StructuredOutputsParams(json=CUT_SCHEMA.schema))
+    except ImportError:
+        from vllm.sampling_params import GuidedDecodingParams
+        guided = SamplingParams(temperature=0.0, max_tokens=2000, guided_decoding=GuidedDecodingParams(json=CUT_SCHEMA.schema))
+    from modulariser.infer import repair
 
     out_path = os.path.join(OUT, "real_train.jsonl")
-    kept = 0
-    deadline = time.time() + CONFIG.get("hours", 7) * 3600
+    why = Counter()
+    deadline = time.time() + CONFIG.get("hours", 5) * 3600
     for i in range(0, len(docs), 100):
         if time.time() > deadline:
             log("time budget reached")
             break
         batch = docs[i:i + 100]
+        # Cut first (from the clean doc); only ok/partial cuts get a messy rewrite.
+        cuts = llm.chat([messages(d["text"]) for d in batch], guided, use_tqdm=False)
+        keep = []
+        for d, o in zip(batch, cuts):
+            try:
+                c = json.loads(o.outputs[0].text)
+            except Exception:
+                why["json"] += 1
+                continue
+            if hard_checks(c):
+                c = repair(c)
+                if c is None or hard_checks(c):
+                    why["hard"] += 1
+                    continue
+                why["repaired"] += 1
+            if c["status"] == "refuse":
+                why["refuse:" + str(c["reason"])] += 1
+                continue
+            if not (2 <= len(c["parts"]) <= 10 and 5 <= len(c["elements"]) <= 45 and c["links"]):
+                why["size"] += 1
+                continue
+            keep.append((d, c))
+        if not keep:
+            continue
         messy = [o.outputs[0].text.strip() for o in llm.chat(
-            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d in batch], plain, use_tqdm=False)]
-        # The cut is made from the clean guidance (more reliable), twice, and kept only if both agree.
-        convs = [messages(d["text"]) for d in batch]
-        a = llm.chat(convs, guided(0.0), use_tqdm=False)
-        b = llm.chat(convs, guided(0.7), use_tqdm=False)
+            [[{"role": "user", "content": MESSY_PROMPT.format(text=d["text"])}] for d, _ in keep], plain, use_tqdm=False)]
         with open(out_path, "a") as f:
-            for d, m, oa, ob in zip(batch, messy, a, b):
-                try:
-                    ca, cb = json.loads(oa.outputs[0].text), json.loads(ob.outputs[0].text)
-                except Exception:
+            for (d, c), m in zip(keep, messy):
+                low = m.lower()
+                hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in c["elements"])
+                if hits < 0.6 * len(c["elements"]):
+                    why["mess_lost"] += 1
                     continue
-                if hard_checks(ca) or hard_checks(cb) or ca["status"] != cb["status"]:
-                    continue
-                if ca["status"] == "ok":
-                    if not (2 <= len(ca["parts"]) <= 9 and 5 <= len(ca["elements"]) <= 40 and ca["links"]):
-                        continue
-                    g = [{"id": e["id"].replace("e", "g"), "text": e["text"]} for e in ca["elements"]]
-                    m_ = align(cb["elements"], g)
-                    pa = {e.replace("e", "g"): p["id"] for p in ca["parts"] for e in p["owns"]}
-                    pb = {e: p["id"] for p in cb["parts"] for e in p["owns"]}
-                    common = [gid for gid, eid in m_.items() if gid in pa and eid in pb]
-                    if len(common) < 0.7 * len(g):
-                        continue
-                    agree = _pair_f1({k: pa[k] for k in common}, {k: pb[m_[k]] for k in common}, common)
-                    if agree < CONFIG.get("min_agree", 0.5):
-                        continue
-                    # The messy rewrite must still mention most elements.
-                    low = m.lower()
-                    hits = sum(any(w in low for w in e["text"].lower().split() if len(w) > 3) for e in ca["elements"])
-                    if hits < 0.8 * len(ca["elements"]):
-                        continue
-                item_id = f"govuk-{i + batch.index(d):05d}"
-                f.write(json.dumps({"id": item_id, "source": {"kind": "real", "origin": d["url"], "licence": "OGL-UK-3.0"},
-                                    "domain": "govuk:" + d["title"][:60], "messages": messages(m, ca)}) + "\n")
-                kept += 1
-        log(f"teacher: {i + len(batch)} docs seen, {kept} kept")
-
+                why["kept"] += 1
+                f.write(json.dumps({"id": f"{src}-{i + batch.index(d):05d}",
+                                    "source": {"kind": "real", "origin": d["url"], "licence": d["licence"]},
+                                    "domain": f"{src}:" + d["title"][:60], "messages": messages(m, c)}) + "\n")
+        log(f"teacher: {i + len(batch)} docs seen", dict(why))
 
 # ---------------------------------------------------------------- export (GGUF for the demo)
 
