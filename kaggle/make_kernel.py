@@ -31,7 +31,7 @@ meta = {
     "enable_gpu": a.task != "export",
     "enable_tpu": False,
     "enable_internet": True,
-    "machine_shape": "NvidiaTeslaT4",
+    **({} if a.task == "export" else {"machine_shape": "NvidiaTeslaT4"}),
     "dataset_sources": [],
     "competition_sources": [],
     "kernel_sources": [f"{os.environ['KAGGLE_USERNAME']}/{k}" for k in cfg.get("kernel_sources", [])],

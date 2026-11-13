@@ -54,7 +54,8 @@ jobs:
       - name: Push kernel
         if: ${{ !startsWith(inputs.task, 'collect-') }}
         run: |
-          kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel
+          if [ "${{ inputs.task }}" = "export" ]; then kaggle kernels push -p kernel; else
+            kaggle kernels push -p kernel --accelerator NvidiaTeslaT4 || kaggle kernels push -p kernel; fi
       - name: Wait for kernel
         run: python kaggle/wait.py "${{ steps.build.outputs.slug }}" --minutes 340
       - name: Collect output
