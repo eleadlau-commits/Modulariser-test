@@ -117,15 +117,22 @@ class App:
             self.say("JSON copied.")
 
 
-def selftest():
-    from llama_cpp import LlamaGrammar
-    LlamaGrammar.from_json_schema(json.dumps(CUT_SCHEMA.schema), verbose=False)
-    print("selftest ok")
+def selftest(path):
+    """Used by CI: load llama.cpp and build the grammar, write the outcome to a file, never show a window."""
+    import traceback
+    try:
+        from llama_cpp import LlamaGrammar
+        LlamaGrammar.from_json_schema(json.dumps(CUT_SCHEMA.schema), verbose=False)
+        Path(path).write_text("selftest ok\n")
+        return 0
+    except BaseException:  # noqa: BLE001
+        Path(path).write_text(traceback.format_exc())
+        return 1
 
 
 if __name__ == "__main__":
     if "--selftest" in sys.argv:
-        selftest()
+        sys.exit(selftest(sys.argv[-1]))
     else:
         root = tk.Tk()
         App(root)
