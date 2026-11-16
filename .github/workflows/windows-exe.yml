@@ -18,7 +18,7 @@ jobs:
           python-version: "3.11"
       - name: Install
         run: |
-          pip install -e .
+          pip install .
           pip install pyinstaller llama-cpp-python --prefer-binary --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
       - name: Build exe
         run: pyinstaller --onefile --noconsole --name Modulariser --collect-all llama_cpp --collect-data modulariser --hidden-import modulariser.check --hidden-import modulariser.infer local/app_gui.py
