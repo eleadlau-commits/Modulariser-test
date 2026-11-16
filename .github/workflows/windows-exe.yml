@@ -1,0 +1,36 @@
+name: windows-exe
+# Builds Modulariser.exe (offline desktop app) and attaches it to a GitHub release.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["local/**", "modulariser/**", ".github/workflows/windows-exe.yml"]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          pip install -e .
+          pip install pyinstaller llama-cpp-python --prefer-binary --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+      - name: Build exe
+        run: pyinstaller --onefile --noconsole --name Modulariser --collect-all llama_cpp --collect-data modulariser --hidden-import modulariser.check --hidden-import modulariser.infer local/app_gui.py
+      - name: Smoke test
+        shell: pwsh
+        run: |
+          $p = Start-Process dist\Modulariser.exe -ArgumentList '--selftest' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { exit 1 }
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release delete latest-exe --yes --cleanup-tag || true
+          gh release create latest-exe dist/Modulariser.exe --title "Modulariser for Windows" \
+            --notes "Download Modulariser.exe and double-click it. First run downloads the model (1.9 GB) once; after that it works offline on the CPU. Built from ${GITHUB_SHA::7}."
